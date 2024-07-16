@@ -1,0 +1,10 @@
+AuthName "Restricted Access"
+AuthType Basic
+AuthUserFile /home/gwfz4nvm4iz5/public_html/frontend.bindle.co.uk/.htpasswd
+Require valid-user
+
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+RewriteRule ^ index.html [L]
