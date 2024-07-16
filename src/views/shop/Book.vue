@@ -9,6 +9,9 @@ import Bundle from "@/views/shared/Bundle.vue";
 import Accordion from "@/components/Accordion.vue";
 import ChevronIcon from "@/components/icons/ChevronIcon.vue";
 
+import { toast } from "vue3-toastify";
+import AddToCartNotification from "./components/AddToCartNotification.vue";
+
 const bindleApiStore = useBindleApiStore();
 const route = useRoute();
 const book = ref(null);
@@ -54,7 +57,8 @@ const getTypesList = computed(()=> {
 });
 
 const addToBasket = (()=> {
-    alert("todo: add to basket functionality");
+    toast(AddToCartNotification);
+    // alert("todo: add to basket functionality");
 });
 
 onMounted(async () => {

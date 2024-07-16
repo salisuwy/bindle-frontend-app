@@ -9,6 +9,12 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@heroicons/vue": "^2.1.5",
+    "axios": "^1.7.2",
+    "@tanstack/vue-query": "^5.51.1",
+    "@tanstack/vue-query-devtools": "^5.51.1",
+    "vue3-toastify": "^0.2.2",
+    "uniqid": "^5.4.0",
     "@vueuse/core": "^10.9.0",
     "pinia": "^2.1.7",
     "vue": "^3.3.11",
