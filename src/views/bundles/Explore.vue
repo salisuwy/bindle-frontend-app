@@ -396,7 +396,7 @@ const paginationNavigation = () => {
                 </div>
                 <div class="products md:col-start-2 md:col-span-3 row-start-3 text-wrap flex flex-row flex-wrap">
                     <div v-for="bundle in paginatedBundles" class="w-full sm:w-1/2 xl:w-1/4 px-2">
-                        <bundle :bundle="bundle" full-width-button mobile-flex-row />
+                        <bundle :bundle="bundle" mobile-flex-row />
                     </div>
                 </div>
                 <pagination

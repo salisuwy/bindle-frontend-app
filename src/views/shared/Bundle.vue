@@ -6,7 +6,7 @@ import {useBindleApiStore} from "@/store/bindle-api.js";
 
 const props = defineProps({
   bundle: { type:Object },
-  fullWidthButton: { type:Boolean, default:false },
+  fullWidthButton: { type:Boolean, default:true },
   useRowLayout: { type:Boolean, default:false }
 });
 const bindleApiStore = useBindleApiStore();

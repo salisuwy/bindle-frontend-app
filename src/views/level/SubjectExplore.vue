@@ -485,8 +485,8 @@ const paginationNavigation = () => {
                         There are no resources for the selected filters.
                     </div>
                     <div v-else v-for="product in paginatedProducts" class="w-full sm:w-1/2 xl:w-1/4 px-2">
-                        <bundle v-if="'books' in product" :bundle="product" full-width-button mobile-flex-row/>
-                        <book v-else-if="!bundleOnlyFilter.value" :product="product" full-width-button mobile-flex-row/>
+                        <bundle v-if="'books' in product" :bundle="product" mobile-flex-row/>
+                        <book v-else-if="!bundleOnlyFilter" :product="product" mobile-flex-row/>
                     </div>
                 </div>
                 <pagination

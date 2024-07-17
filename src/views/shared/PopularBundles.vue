@@ -61,9 +61,9 @@ const itemsToShow = computed(()=> {
                 </navigation>
             </template>
         </carousel>
-        <div v-else  class="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-4 gap-4 px-8 max-w-screen-xl mx-auto">
-            <div v-for="(bundle, index) in bundles" :key="index" class="bg-theme-pale">
-                <bundle :bundle="bundle" class="max-w-full"/>
+        <div v-else  class="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-4 gap-4 px-8 max-w-screen-xl mx-auto h-fit">
+            <div v-for="(bundle, index) in bundles" :key="index">
+                <bundle :bundle="bundle" class="max-w-full" />
             </div>
         </div>
     </div>

@@ -5,6 +5,7 @@ import 'vue3-carousel/dist/carousel.css'
 import {Carousel, Slide, Navigation } from 'vue3-carousel'
 import Book from "@/views/shared/Book.vue";
 import {useWindowSize} from "@vueuse/core";
+import Bundle from "@/views/shared/Bundle.vue";
 
 
 const props = defineProps({
@@ -65,7 +66,7 @@ const itemsToShow = computed(()=> {
         </carousel>
         <div v-else class="grid grid-cols-2 lg:grid-cols-4 gap-4 px-8 max-w-screen-xl mx-auto">
             <div v-for="(product, index) in products" :key="index" class="bg-theme-white">
-                <book :product="product"/>
+                <book :product="product" />
             </div>
         </div>
     </div>

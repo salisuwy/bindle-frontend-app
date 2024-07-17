@@ -513,8 +513,8 @@ const getTitle = (()=> {
 
                 <div :class="'products md:col-start-2 md:col-span-3 row-start-3 text-wrap flex flex-row flex-wrap'">
                     <div v-if="paginatedProducts.length>0" v-for="product in paginatedProducts" class="w-full sm:w-1/2 xl:w-1/4 px-2">
-                        <bundle v-if="'book_ids' in product" :bundle="product" full-width-button mobile-flex-row/>
-                        <book v-else-if="!bundleOnlyFilter" :product="product" full-width-button mobile-flex-row/>
+                        <bundle v-if="'book_ids' in product" :bundle="product" mobile-flex-row />
+                        <book v-else-if="!bundleOnlyFilter" :product="product" mobile-flex-row />
                     </div>
                     <div v-else-if="filtersLoaded">No results</div>
                 </div>
