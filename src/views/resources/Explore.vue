@@ -18,10 +18,11 @@ const bindleApiStore = useBindleApiStore();
 
 const subjects = ref('all');
 const levels = ref('all');
-const types = ref([]);
-const examboards = ref([]);
-const books = ref([]);
-const bundles = ref([]);
+const types = ref({});
+const trueTypeSlugs = ref([]);
+const examboards = ref({});
+const books = ref({});
+const bundles = ref({});
 
 const itemsPerPage = ref(16);
 
@@ -29,6 +30,9 @@ const filtersLoaded = ref(false)
 const filtersRef = ref(null)
 
 const exploreRef = ref(null)
+
+// special case just to make things tricky
+const bundleType = {id:4, name:"Bundles", slug:'bundles'};
 
 const filterSubject = computed({
     get: () => route.query.subject || 'all',
@@ -52,7 +56,6 @@ const filterSubjectId = computed(()=>{
 
 const filterLevel = computed({
     get: () => {
-        console.log(route.query.level);
         return route.query.level ? route.query.level.split(',') : [];
     },
     set: (newValue) => {
@@ -105,13 +108,28 @@ const filterTypeIds = computed(()=>{
     if (!filterType.value) {
         return null;
     }
-    const filterTypeIds = [];
+    const buildFilterTypeIds = [];
     Object.values(types.value).forEach((type) => {
         if (filterType.value.includes(type.slug)) {
-            filterTypeIds.push(type.id)
+            buildFilterTypeIds.push(type.id)
         }
     });
-    return filterTypeIds;
+    return buildFilterTypeIds;
+});
+const hasOneTrueFilterType = computed(()=> {
+    let count=0;
+    trueTypeSlugs.value.forEach((slug) => {
+        if (filterType.value.includes(slug)) {
+            count+=1;
+        }
+    })
+    return count>0;
+});
+const trueFilterTypeIds = computed(()=> {
+  return filterTypeIds.value.filter((typeId) => typeId !== bundleType.id);
+});
+const bundleOnlyFilter = computed(()=> {
+  return filterTypeIds.value.includes(bundleType.id);
 });
 
 const filterExamboard = computed({
@@ -137,13 +155,13 @@ const filterExamboardIds = computed(()=>{
     if (!filterExamboard.value) {
         return null;
     }
-    const filterExamboardIds = [];
+    const buildFilterExamboardIds = [];
     Object.values(examboards.value).forEach((examboard) => {
         if (filterExamboard.value.includes(examboard.slug)) {
-            filterExamboardIds.push(examboard.id)
+            buildFilterExamboardIds.push(examboard.id)
         }
     });
-    return filterExamboardIds;
+    return buildFilterExamboardIds;
 });
 
 const pageIdx = computed({
@@ -159,7 +177,7 @@ const pageIdx = computed({
 });
 
 const filteredProducts = computed(()=> {
-    const filteredProducts = [];
+    let buildFilteredProducts = [];
     if (bundles.value && books.value) {
         let filteredBundles = Object.values(bundles.value).filter((bundle) => {
             if (bundle.book_ids.length===0) {
@@ -185,12 +203,11 @@ const filteredProducts = computed(()=> {
                 return false;
             }
             // resource type
+
             if (
-                filterType.value.length>0
+                hasOneTrueFilterType.value
                 &&
-                filterType.value.length < Object.keys(types.value).length
-                &&
-                !bundleBooks.some((book) => filterTypeIds.value.includes(book.type_id))
+                !bundleBooks.some((book) => trueFilterTypeIds.value.includes(book.type_id))
             ) {
                 return false;
             }
@@ -211,9 +228,9 @@ const filteredProducts = computed(()=> {
             }
             return true;
         });
-        filteredProducts.push(...filteredBundles);
+        buildFilteredProducts.push(...filteredBundles);
     }
-    if (books.value) {
+    if (books.value && !bundleOnlyFilter.value) {
         let filteredBooks = Object.values(books.value).filter((book) => {
             // subject
             if (filterSubject.value !== 'all') {
@@ -233,11 +250,9 @@ const filteredProducts = computed(()=> {
             }
             // resource type
             if (
-                filterType.value.length > 0
+                hasOneTrueFilterType.value
                 &&
-                filterType.value.length < Object.keys(types.value).length
-                &&
-                !filterTypeIds.value.includes(book.type_id)
+                !trueFilterTypeIds.value.includes(book.type_id)
             ) {
                 return false;
             }
@@ -258,9 +273,9 @@ const filteredProducts = computed(()=> {
             }
             return true;
         });
-        filteredProducts.push(...filteredBooks);
+        buildFilteredProducts.push(...filteredBooks);
     }
-    return filteredProducts;
+    return buildFilteredProducts;
 });
 
 const paginatedProducts = computed(() => {
@@ -327,38 +342,29 @@ const resizeWindow = () => {
 
 onMounted(async () => {
     window.addEventListener('resize', resizeWindow);
+
     await bindleApiStore.getSubjects();
     subjects.value = bindleApiStore.subjects;
+
     await bindleApiStore.getLevels();
     levels.value = bindleApiStore.levels;
+
     await bindleApiStore.getTypes();
+    Object.keys(bindleApiStore.types).forEach((key) => {
+        trueTypeSlugs.value.push(bindleApiStore.types[key].slug);
+    });
     types.value = bindleApiStore.types;
+    types.value[bundleType.id] = bundleType;
+
     await bindleApiStore.getExamboards();
     examboards.value = bindleApiStore.examboards;
     filtersLoaded.value = true;
 
     await bindleApiStore.getBooks();
     books.value = bindleApiStore.books;
+
     await bindleApiStore.getBundles()
     bundles.value = bindleApiStore.bundles;
-
-    //const setParams = {}
-    // if (!route.query.subject) {
-    //     setParams['subject']='all';
-    // }
-    // if (!route.query.level) {
-    //     setParams['level']='all';
-    // }
-    // if (Object.keys(setParams).length>0) {
-    //     await router.replace({query: {...route.query, ...setParams}});
-    //     if (filterSubject.value==='') {
-    //         filterSubject.value='all'
-    //     }
-    //     if (filterLevel.value==='') {
-    //         filterLevel.value='all'
-    //     }
-    // }
-
 
     if ('subject' in route.query && route.query.subject!=='all') {
         await nextTick();
@@ -506,9 +512,9 @@ const getTitle = (()=> {
                 </div>
 
                 <div :class="'products md:col-start-2 md:col-span-3 row-start-3 text-wrap flex flex-row flex-wrap'">
-                    <div v-if="paginatedProducts.length>0" v-for="product in paginatedProducts" class="w-full md:w-1/2 xl:w-1/4 px-2">
+                    <div v-if="paginatedProducts.length>0" v-for="product in paginatedProducts" class="w-full sm:w-1/2 xl:w-1/4 px-2">
                         <bundle v-if="'book_ids' in product" :bundle="product" full-width-button mobile-flex-row/>
-                        <book v-else :product="product" full-width-button mobile-flex-row/>
+                        <book v-else-if="!bundleOnlyFilter" :product="product" full-width-button mobile-flex-row/>
                     </div>
                     <div v-else-if="filtersLoaded">No results</div>
                 </div>

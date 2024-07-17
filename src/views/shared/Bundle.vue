@@ -42,7 +42,7 @@ const getBundleType = computed(()=> {
 const getImagesClass = (book_ids)=> {
     if (book_ids.length===3) {
         const type = 1+((book_ids[0]+book_ids[1]+book_ids[2]) % 3);
-        return "three-images-"+type
+        return "three-images three-images-"+type
     }
     else {
         return "images";
@@ -141,7 +141,6 @@ const getImagesClass = (book_ids)=> {
     width:fit-content;
     top:30%;
     z-index:100;
-    transform: scale(1.2);
 }
 .three-images-3 img:nth-child(3) {
     transform: scale(0.8);
@@ -154,8 +153,8 @@ const getImagesClass = (book_ids)=> {
   top:0;
   left:5%
 }
-.images img:hover {
-  z-index:100
+.images img:hover, .three-images img:hover {
+  z-index:101
 }
 .images img:nth-child(1) {
   top:20px;

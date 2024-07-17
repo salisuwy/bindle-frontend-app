@@ -17,10 +17,11 @@ const bindleApiStore = useBindleApiStore();
 
 const subjects = ref(null);
 const levels = ref(null);
-const types = ref([]);
-const examboards = ref([]);
-const bundles = ref([]);
-const books = ref([]);
+const types = ref({});
+const trueTypeSlugs = ref([]);
+const examboards = ref({});
+const bundles = ref({});
+const books = ref({});
 
 const subject = ref(null);
 const level = ref(null);
@@ -31,6 +32,9 @@ const filtersLoaded = ref(false)
 const filtersRef = ref(null)
 
 const pageTitle = ref('');
+
+// special case just to make things difficult
+const bundleType = {id:4, name:"Bundles", slug:'bundles'};
 
 const filterSubject = computed(() => {
     return subject.value.slug;
@@ -95,13 +99,28 @@ const filterTypeIds = computed(() => {
     if (!filterType.value) {
         return null;
     }
-    const filterTypeIds = [];
+    const buildFilterTypeIds = [];
     Object.values(types.value).forEach((type) => {
         if (filterType.value.includes(type.slug)) {
-            filterTypeIds.push(type.id)
+            buildFilterTypeIds.push(type.id)
         }
     });
-    return filterTypeIds;
+    return buildFilterTypeIds;
+});
+const hasOneTrueFilterType = computed(()=> {
+    let count=0;
+    trueTypeSlugs.value.forEach((slug) => {
+        if (filterType.value.includes(slug)) {
+            count+=1;
+        }
+    });
+    return count>0;
+});
+const trueFilterTypeIds = computed(()=> {
+    return filterTypeIds.value.filter((typeId) => typeId !== bundleType.id);
+});
+const bundleOnlyFilter = computed(()=> {
+    return filterTypeIds.value.includes(bundleType.id);
 });
 
 const filterExamboard = computed({
@@ -149,7 +168,7 @@ const pageIdx = computed({
 });
 
 const filteredProducts = computed(() => {
-    const filteredProducts = [];
+    let buildFilteredProducts = [];
     if (bundles.value && books.value) {
         let filteredBundles = Object.values(bundles.value).filter((bundle) => {
             const bundleBooks = Object.values(books.value).filter((bundleBook) => bundle.book_ids.includes(bundleBook.id));
@@ -174,11 +193,9 @@ const filteredProducts = computed(() => {
             }
             // resource type
             if (
-                filterType.value.length > 0
+                hasOneTrueFilterType.value
                 &&
-                filterType.value.length < Object.keys(types.value).length
-                &&
-                !bundleBooks.some((book) => filterTypeIds.value.includes(book.type_id))
+                !bundleBooks.some((book) => trueFilterTypeIds.value.includes(book.type_id))
             ) {
                 return false;
             }
@@ -194,9 +211,9 @@ const filteredProducts = computed(() => {
             }
             return true;
         });
-        filteredProducts.push(...filteredBundles);
+        buildFilteredProducts.push(...filteredBundles);
     }
-    if (books.value) {
+    if (books.value  && !bundleOnlyFilter.value) {
         let filteredBooks = Object.values(books.value).filter((book) => {
             // subject
             if (filterSubject.value !== 'all') {
@@ -216,11 +233,9 @@ const filteredProducts = computed(() => {
             }
             // resource type
             if (
-                filterType.value.length > 0
+                hasOneTrueFilterType.value
                 &&
-                filterType.value.length < Object.keys(types.value).length
-                &&
-                !filterTypeIds.value.includes(book.type_id)
+                !trueFilterTypeIds.value.includes(book.type_id)
             ) {
                 return false;
             }
@@ -236,9 +251,9 @@ const filteredProducts = computed(() => {
             }
             return true;
         });
-        filteredProducts.push(...filteredBooks);
+        buildFilteredProducts.push(...filteredBooks);
     }
-    return filteredProducts;
+    return buildFilteredProducts;
 });
 
 const paginatedProducts = computed(() => {
@@ -291,7 +306,7 @@ const updateSubject = async (subjectSlug) => {
             pageTitle.value = subject.value['name'];
         }
     }
-    router.push({path: newUrl, query: route.query});
+    await router.push({path: newUrl, query: route.query});
 }
 
 watch(
@@ -309,14 +324,22 @@ watch(
 )
 onMounted(async () => {
     window.addEventListener('resize', resizeWindow);
+
     await bindleApiStore.getSubjects();
     subjects.value = bindleApiStore.subjects
     subject.value = Object.values(subjects.value).find((checkSubject) => checkSubject['slug'] === route.params.subject);
+
     await bindleApiStore.getLevels();
     levels.value = bindleApiStore.levels;
     level.value = Object.values(levels.value).find((checkLevel) => checkLevel['slug'] === route.params.level);
+
     await bindleApiStore.getTypes();
+    Object.keys(bindleApiStore.types).forEach((key) => {
+        trueTypeSlugs.value.push(bindleApiStore.types[key].slug);
+    });
     types.value = bindleApiStore.types;
+    types.value[bundleType.id] = bundleType;
+
     await bindleApiStore.getExamboards();
     examboards.value = bindleApiStore.examboards;
     filtersLoaded.value = true
@@ -333,17 +356,6 @@ onMounted(async () => {
     books.value = bindleApiStore.books;
     await bindleApiStore.getBundles()
     bundles.value = bindleApiStore.bundles;
-
-    // const setParams = {}
-    // if (!route.query.level) {
-    //     setParams['level'] = 'all';
-    // }
-    // if (Object.keys(setParams).length > 0) {
-    //     await router.replace({query: {...route.query, ...setParams}});
-    //     if (filterLevel.value === '') {
-    //         filterLevel.value = 'all'
-    //     }
-    // }
 
     await nextTick();
     filterSubjectAccordionRef.value.open();
@@ -440,7 +452,7 @@ const paginationNavigation = () => {
                         <hr class="hidden md:block w-full my-4"/>
                         <label v-if="filtersLoaded" v-for="(type) in types" :key="type['slug']"
                                class="bindle-checkbox cursor-pointer mr-auto">
-                            <input v-model="filterSubject" type="checkbox" :value="type['slug']"/>
+                            <input v-model="filterType" type="checkbox" :value="type['slug']"/>
                             {{ type['name'] }}
                         </label>
                     </accordion>
@@ -474,7 +486,7 @@ const paginationNavigation = () => {
                     </div>
                     <div v-else v-for="product in paginatedProducts" class="w-full sm:w-1/2 xl:w-1/4 px-2">
                         <bundle v-if="'books' in product" :bundle="product" full-width-button mobile-flex-row/>
-                        <book v-else :product="product" full-width-button mobile-flex-row/>
+                        <book v-else-if="!bundleOnlyFilter.value" :product="product" full-width-button mobile-flex-row/>
                     </div>
                 </div>
                 <pagination

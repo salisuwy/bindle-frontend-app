@@ -8,12 +8,7 @@ import {Util} from "@/components/helpers/Util.js";
  */
 export const useBindleApiStore = defineStore('bindleApi', () => {
 
-    // const API_ENDPOINT = window.location.hostname = 'localhost'
-    //   ? window.location.protocol + "//" + window.location.host + "/"
-    //   : "https://stage.bindle.co.uk/api/"
-    
-    const API_ENDPOINT = "https://bindle-backend.test/api/";
-    // const API_ENDPOINT = "https://stage.bindle.co.uk/api/"
+    const API_ENDPOINT = import.meta.env.VITE_API_ENDPOINT || "https://bindle-backend.test/api/";
 
     const OBTAIN_BOOKS_FROM_LEVELS = true;
     const SIMULATE_HOMEPAGE_API = true;

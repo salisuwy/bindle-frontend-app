@@ -63,7 +63,7 @@ const itemsToShow = computed(()=> {
                 </navigation>
             </template>
         </carousel>
-        <div v-else class="grid grid-cols-2 lg:grid-cols-4 gap-4 px-4">
+        <div v-else class="grid grid-cols-2 lg:grid-cols-4 gap-4 px-8 max-w-screen-xl mx-auto">
             <div v-for="(product, index) in products" :key="index" class="bg-theme-white">
                 <book :product="product"/>
             </div>
