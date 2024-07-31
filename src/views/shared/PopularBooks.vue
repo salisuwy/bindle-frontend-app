@@ -13,7 +13,7 @@ const props = defineProps({
     count: {type:Number,default:8},
     level_id: {type: String, default: null},
     subject_id: {type: String, default: null},
-    use_carousel: {type: Boolean, default: false},
+    use_carousel: {type: Boolean, default: true},
 })
 
 const loaded = ref(false);
@@ -47,9 +47,9 @@ const itemsToShow = computed(()=> {
 
 </script>
 <template>
-    <div class="py-4" v-if="products.length>0">
+    <div class="py-4 max-w-8xl mx-auto" v-if="products.length>0">
         <h2 class="text-4xl my-4">{{ props.title }}</h2>
-        <carousel v-if="props.use_carousel" class="py-2"  :transition="1000" :wrap-around="true" :autoplay="6000" :items-to-show="itemsToShow">
+        <carousel v-if="props.use_carousel" class="py-2"  :transition="1000" :wrap-around="true" :items-to-show="itemsToShow">
             <slide v-for="(product, index) in products" :key="index" class="bg-theme-white">
                 <book :product="product"/>
             </slide>

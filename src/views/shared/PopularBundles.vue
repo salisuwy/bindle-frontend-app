@@ -11,7 +11,7 @@ const props = defineProps({
     count: {type: Number, default: 8 },
     level_id: {type: String, default: null},
     subject_id: {type: String, default: null},
-    use_carousel: {type: Boolean, default: false},
+    use_carousel: {type: Boolean, default: true},
 });
 
 const loaded = ref(false);
@@ -44,8 +44,8 @@ const itemsToShow = computed(()=> {
 
 </script>
 <template>
-    <div class="py-4" v-if="bundles.length>0">
-        <h2 class="text-4xl my-4">{{props.title}}</h2>
+    <div class="py-4 max-w-8xl mx-auto" v-if="bundles.length>0">
+        <h2 class="text-4xl my-4 max-w-8xl mx-auto">{{props.title}}</h2>
         <carousel v-if="props.use_carousel" class="py-2" :transition="1000" :wrap-around="true" :autoplay="6000" :items-to-show="itemsToShow">
             <slide v-for="(bundle, index) in bundles" :key="index" class="bg-theme-pale">
                 <bundle :bundle="bundle" class="max-w-full"/>

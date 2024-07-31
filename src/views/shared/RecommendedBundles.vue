@@ -53,7 +53,7 @@ const itemsToShow = computed(()=> {
 
 </script>
 <template>
-    <div class="recommended-bundles" v-if="popularBundles.length>0">
+    <div class="recommended-bundles max-w-8xl mx-auto" v-if="popularBundles.length>0">
         <h2>Recommended {{ levelName }} Bundles</h2>
         <carousel  class="py-2"  :transition="1000" :wrap-around="true" :autoplay="6000" :items-to-show="itemsToShow">
             <slide v-for="(bundle,idx) in getPopularBundles" :key="idx">

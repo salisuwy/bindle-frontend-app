@@ -30,7 +30,7 @@ onMounted(async () => {
                 </div>
             </div>
             <div class="bg-theme-white py-10">
-                <div class="flex flex-col sm:flex-row w-full px-10 gap-6 pt-10 pb-20">
+                <div class="max-w-8xl mx-auto flex flex-col sm:flex-row w-full gap-6 pt-10 pb-20">
                     <div class="w-full flex flex-col">
                         <img src="/assets/bundles/core-bundles.png" alt="core bundles image" class="w-full"/>
                         <div class="w-full bg-theme-teal text-white px-6 pt-6 pb-20  grow text-left relative">

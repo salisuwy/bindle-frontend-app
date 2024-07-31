@@ -37,7 +37,7 @@ onMounted(async () => {
 })
 </script>
 <template>
-    <div class="mt-10 mb-2"  v-if="bundles.length>0">
+    <div class="mt-10 mb-2 max-w-8xl mx-auto"  v-if="bundles.length>0">
         <div class="flex flex-row mx-4">
             <div class="text-left flex-1"><h2 >Best-Selling {{ level.name }} Bundles</h2></div>
             <router-link :to="'/bundles/explore?level='+level.slug" class="text-theme-teal">Shop all {{level.name}} Bundles <chevron-icon right width="16px" height="16px" class="inline" /></router-link>

@@ -50,7 +50,7 @@ const getBookImgUrl = (type, idx) => {
 }
 </script>
 <template>
-    <div class="bundle-types flex flex-col mt-12">
+    <div class="bundle-types max-w-8xl mx-auto flex flex-col mt-12">
         <div ref="topNavRef" class="nav-container flex flex-row gap-0 py-4 px-4 w-full">
             <button :class="'py-4 w-1/2 rounded-none'+(selected==='core' ? ' selected' :'')"
                     @click="selectPane('core')">Core Bundle

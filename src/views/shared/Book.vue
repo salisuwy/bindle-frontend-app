@@ -39,7 +39,7 @@ onMounted(async () => {
 </script>
 <template>
     <div v-if="props.product" class="bindle w-full h-full flex flex-col overflow-hidden">
-        <div class="image relative bg-theme-pale px-4 pt-10 h-72">
+        <div class="image relative bg-theme-pale px-4 py-6 h-72">
             <img draggable="false" :src="Util.ensureSsl(props.product['image_url'])" :alt="props.product['title']" class="max-h-full max-w-3/4 w-auto h-auto mx-auto"/>
         </div>
         <div class="text-theme-navyblue font-bold text-left pt-4 pb-2 h-12">

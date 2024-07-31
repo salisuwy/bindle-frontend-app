@@ -131,7 +131,7 @@ const getImagesClass = (book_ids)=> {
 }
 .three-images-3 img:nth-child(1) {
     transform: scale(0.8);
-    left:0;
+    left:-10%;
     top:30%;
 }
 .three-images-3 img:nth-child(2) {
@@ -144,7 +144,7 @@ const getImagesClass = (book_ids)=> {
 }
 .three-images-3 img:nth-child(3) {
     transform: scale(0.8);
-    right:0;
+    right:-10%;
     top:30%;
 }
 
