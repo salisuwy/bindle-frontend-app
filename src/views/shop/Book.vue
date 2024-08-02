@@ -11,6 +11,8 @@ import ChevronIcon from "@/components/icons/ChevronIcon.vue";
 
 import { toast } from "vue3-toastify";
 import AddToCartNotification from "./components/AddToCartNotification.vue";
+import PopularBooks from "@/views/shared/PopularBooks.vue";
+import RecommendedBundles from "@/views/shared/RecommendedBundles.vue";
 
 const bindleApiStore = useBindleApiStore();
 const route = useRoute();
@@ -150,8 +152,9 @@ onMounted(async () => {
                             </accordion>
                         </div>
                     </div>
-
                 </div>
+                <popular-books title="You may also like" />
+                <recommended-bundles title="Recommended Bundles" />
             </div>
         </div>
     </layout>
