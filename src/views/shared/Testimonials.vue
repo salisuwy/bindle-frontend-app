@@ -2,7 +2,7 @@
 import QuoteIcon from "@/components/icons/QuoteIcon.vue";
 </script>
 <template>
-  <div class="bg-white max-w-8xl mx-auto w-full px-5 md:px-10 py-10">
+  <div class="bg-white max-w-8xl mx-auto w-full px-6 py-10">
     <div class="flex flex-col md:flex-row gap-4 lg:max-w-8xl mx-auto items-left justify-left text-left bg-theme-verylightteal pt-6 pb-12 px-10">
       <div class="testimonial  md:w-1/3">
         <quote-icon class="w-10 h-10" />
