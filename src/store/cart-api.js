@@ -1,7 +1,9 @@
 import axios from "axios";
 import uniqid from "uniqid";
 
-const API_ENDPOINT = "http://bindle-backend.test/api";
+// const API_ENDPOINT = "http://bindle-backend.test/api";
+const API_ENDPOINT =
+  import.meta.env.VITE_API_ENDPOINT || "https://stage.bindle.co.uk/api/";
 
 export function getAnonId() {
   let anonId = localStorage.getItem("anonid");
@@ -42,7 +44,7 @@ export async function addToCart(data) {
 
   console.log("addToCart", data);
 
-  return axios.post(`${API_ENDPOINT}/orders/cart/add`, newData, {
+  return axios.post(`${API_ENDPOINT}orders/cart/add`, newData, {
     headers: {
       "Content-Type": "application/json",
     },
@@ -57,7 +59,7 @@ export async function removeFromCart(data) {
 
   console.log("removeFromCart", data);
 
-  return axios.post(`${API_ENDPOINT}/orders/cart/remove`, newData, {
+  return axios.post(`${API_ENDPOINT}orders/cart/remove`, newData, {
     headers: {
       "Content-Type": "application/json",
     },
@@ -70,8 +72,7 @@ export async function getOrderCart() {
 
   console.log("getOrderCart", data);
 
-
-  const resp = await axios.get(`${API_ENDPOINT}/orders/cart?${urlParams}`);
+  const resp = await axios.get(`${API_ENDPOINT}orders/cart?${urlParams}`);
   return resp.data;
 }
 
@@ -81,7 +82,9 @@ export async function getOrderCompleted(uuid) {
   console.log("getOrderCompleted: " + uuid + " : ", data);
 
   const urlParams = new URLSearchParams(data);
-  const resp = await axios.get(`${API_ENDPOINT}/orders/cart/completed?${urlParams}`);
+  const resp = await axios.get(
+    `${API_ENDPOINT}orders/cart/completed?${urlParams}`
+  );
   return resp.data;
 }
 
@@ -92,7 +95,7 @@ export async function getOrderInvoice(uuid) {
 
   const urlParams = new URLSearchParams(data);
   const resp = await axios.get(
-    `${API_ENDPOINT}/orders/cart/completed/invoice?${urlParams}`
+    `${API_ENDPOINT}orders/cart/completed/invoice?${urlParams}`
   );
   return resp.data;
 }
@@ -105,15 +108,12 @@ export async function setOrderAddress(data) {
 
   console.log("setOrderAddress", data);
 
-  return axios.post(`${API_ENDPOINT}/orders/cart/address`, newData, {
+  return axios.post(`${API_ENDPOINT}orders/cart/address`, newData, {
     headers: {
       "Content-Type": "application/json",
     },
   });
 }
-
-
-
 
 export async function createPaymentIntent(data) {
   const newData = {
@@ -123,14 +123,12 @@ export async function createPaymentIntent(data) {
 
   console.log("createPaymentIntent", data);
 
-  return axios.post(`${API_ENDPOINT}/orders/cart/payment`, newData, {
+  return axios.post(`${API_ENDPOINT}orders/cart/payment`, newData, {
     headers: {
       "Content-Type": "application/json",
     },
   });
 }
-
-
 
 export async function addCoupon(data) {
   const newData = {
@@ -140,7 +138,7 @@ export async function addCoupon(data) {
 
   console.log("addCoupon", data);
 
-  return axios.post(`${API_ENDPOINT}/orders/coupon/add`, newData, {
+  return axios.post(`${API_ENDPOINT}orders/coupon/add`, newData, {
     headers: {
       "Content-Type": "application/json",
     },
@@ -155,10 +153,9 @@ export async function removeCoupon(data) {
 
   console.log("removeCoupon", data);
 
-  return axios.post(`${API_ENDPOINT}/orders/coupon/remove`, newData, {
+  return axios.post(`${API_ENDPOINT}orders/coupon/remove`, newData, {
     headers: {
       "Content-Type": "application/json",
     },
   });
 }
-
