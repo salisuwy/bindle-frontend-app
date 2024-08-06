@@ -9,7 +9,7 @@ import FormPayment from "./components/FormPayment.vue";
 import FormAddressConfirmation from "./components/FormAddressConfirmation.vue";
 import { useQueryClient, useQuery } from "@tanstack/vue-query";
 import { getOrderCart } from "@/store/cart-api";
-import { computed, ref, watch } from "vue";
+import { computed, onMounted, ref, watch } from "vue";
 import { setUuid } from "../../store/cart-api";
 import SpinnerIcon from "../../components/icons/SpinnerIcon.vue";
 import { useRouter } from "vue-router";
@@ -27,7 +27,7 @@ const stagesRoute = ["/checkout", "/checkout-address", "/checkout-payment"];
 const stagesButtonText = ["Proceed to Checkout", "Continue", "Place Order"];
 
 const isGuest = ref(false);
-const currentStage = ref(0);
+const currentStage = ref(2);
 const transition = ref("");
 const isTransitioning = ref(false);
 
@@ -81,6 +81,13 @@ function setCurrentStage(stage) {
   }
   //currentStage.value = stage;
 }
+
+onMounted(() => {
+  // scroll to bottom
+  window.scrollTo(0, document.body.scrollHeight);
+});
+
+
 </script>
 <template>
   <layout>

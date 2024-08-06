@@ -16,152 +16,192 @@ import PageNotFound from "@/views/PageNotFound.vue"
 import Tokens from "@/views/Tokens.vue"
 import Test from "@/views/Test.vue";
 import Checkout from "@/views/shop/Checkout.vue";
+import CheckoutAddress from "@/views/shop/CheckoutAddress.vue";
+import CheckoutPayment from "@/views/shop/CheckoutPayment.vue";
+import Invoice from "@/views/shop/Invoice.vue";
 
 const routes = [
-    {
-        name: 'index',
-        path: '/',
-        component: Index,
-        meta: { breadcrumb: "Home"}
+  {
+    name: "index",
+    path: "/",
+    component: Index,
+    meta: { breadcrumb: "Home" },
+  },
+  {
+    name: "explore-resources",
+    path: "/resources/explore",
+    component: Explore,
+    meta: { breadcrumb: "Explore" },
+  },
+  {
+    name: "resources",
+    path: "/resources",
+    component: Resources,
+    meta: { breadcrumb: "Resources" },
+  },
+  {
+    name: "bundles",
+    path: "/bundles",
+    component: Bundles,
+    meta: {
+      breadcrumb: "Bundles",
     },
-    {
-        name: 'explore-resources',
-        path: '/resources/explore',
-        component: Explore,
-        meta: { breadcrumb: "Explore" }
+  },
+  {
+    name: "explore-bundles",
+    path: "/bundles/explore",
+    component: ExploreBundles,
+    meta: {
+      breadcrumb: "ExploreBundles",
     },
-    {
-        name: 'resources',
-        path: '/resources',
-        component: Resources,
-        meta: { breadcrumb: "Resources" },
+  },
+  {
+    name: "bundle",
+    path: "/bundles/:bundle",
+    component: Bundle,
+    meta: {
+      breadcrumb: (route) => Util.humaniseSnakeCase(route.params.bundle),
     },
-    {
-        name: "bundles",
-        path: "/bundles",
-        component: Bundles,
-        meta: {
-            breadcrumb: "Bundles"
-        }
-    },
-    {
-        name: "explore-bundles",
-        path: "/bundles/explore",
-        component: ExploreBundles,
-        meta: {
-            breadcrumb: "ExploreBundles"
-        }
-    },
-    {
-        name: "bundle",
-        path: "/bundles/:bundle",
-        component: Bundle,
-        meta: {
-            breadcrumb: (route) => Util.humaniseSnakeCase(route.params.bundle),
-        },
-    },
-    {
-        name: 'checkout',
-        path: '/checkout',
-        component: Checkout,
-        meta: { breadcrumb: "Checkout" },
-    },
+  },
+  {
+    name: "checkout",
+    path: "/checkout",
+    component: Checkout,
+    meta: { breadcrumb: "Checkout" },
+  },
+  {
+    name: "checkout-address",
+    path: "/checkout-address",
+    component: CheckoutAddress,
+    meta: { breadcrumb: "Checkout" },
+  },
+  {
+    name: "checkout-payment",
+    path: "/checkout-payment",
+    component: CheckoutPayment,
+    meta: { breadcrumb: "Checkout" },
+  },
 
-    {
-        name: 'gcse',
-        path: '/gcse',
-        component: GCSE,
-        meta: {
-            breadcrumb: "GCSE",
-        },
+  {
+    name: "invoice",
+    path: "/invoice/:orderId",
+    component: Invoice,
+    meta: { breadcrumb: "Invoice" },
+  },
+  {
+    name: "gcse",
+    path: "/gcse",
+    component: GCSE,
+    meta: {
+      breadcrumb: "GCSE",
     },
-    {
-        name: "a-level",
-        path: "/a-level",
-        component: ALevel,
-        meta: {
-            breadcrumb: "A-Level"
-        }
+  },
+  {
+    name: "a-level",
+    path: "/a-level",
+    component: ALevel,
+    meta: {
+      breadcrumb: "A-Level",
     },
-    {
-        name: 'book',
-        path: '/:level/:subject/:book',
-        component: Book,
-        meta: {
-            breadcrumb: (route) => Util.humaniseSnakeCase(route.params.book),
-        },
-        beforeEnter: async (to, from, next) => {
-            const bindleStore = useBindleApiStore();
-            await bindleStore.getLevels()
-            await bindleStore.getSubjects()
-            await bindleStore.getBooks()
-            if (!Object.values(bindleStore.levels).some((level) => level['slug'] === to.params.level)) {
-                bindleStore.routingFailed = true
-            }
-            if (to.params.subject!=='mixed' && !Object.values(bindleStore.subjects).some((subject) => subject['slug'] === to.params.subject)) {
-                bindleStore.routingFailed = true
-            }
-            if (!Object.values(bindleStore.books).some((book) => book['slug'] === to.params.book)) {
-                bindleStore.routingFailed = true
-            }
-            next();
-        }
+  },
+  {
+    name: "book",
+    path: "/:level/:subject/:book",
+    component: Book,
+    meta: {
+      breadcrumb: (route) => Util.humaniseSnakeCase(route.params.book),
     },
-    {
-        name: 'subject',
-        path: '/:level/:subject',
-        component: SubjectExplore,
-        meta: {
-            breadcrumb: (route) => Util.humaniseSnakeCase(route.params.subject),
-            preventScrollBehaviour: (to, from, savedPosition) => to.name===from.name
-        } ,
-        beforeEnter: async (to, from, next) => {
-            const bindleStore = useBindleApiStore();
-            await bindleStore.getLevels();
-            await bindleStore.getSubjects();
-            if (
-              !Object.values(bindleStore.levels).some((level) => level['slug']===to.params.level)
-              ||
-              !Object.values(bindleStore.subjects).some((subject) => subject['slug']===to.params.subject)
-            ) {
-                useBindleApiStore().routingFailed = true
-            }
-            next();
-        }
+    beforeEnter: async (to, from, next) => {
+      const bindleStore = useBindleApiStore();
+      await bindleStore.getLevels();
+      await bindleStore.getSubjects();
+      await bindleStore.getBooks();
+      if (
+        !Object.values(bindleStore.levels).some(
+          (level) => level["slug"] === to.params.level
+        )
+      ) {
+        bindleStore.routingFailed = true;
+      }
+      if (
+        to.params.subject !== "mixed" &&
+        !Object.values(bindleStore.subjects).some(
+          (subject) => subject["slug"] === to.params.subject
+        )
+      ) {
+        bindleStore.routingFailed = true;
+      }
+      if (
+        !Object.values(bindleStore.books).some(
+          (book) => book["slug"] === to.params.book
+        )
+      ) {
+        bindleStore.routingFailed = true;
+      }
+      next();
     },
-    {
-        name: 'tokens',
-        path: '/tokens',
-        component: Tokens
+  },
+  {
+    name: "subject",
+    path: "/:level/:subject",
+    component: SubjectExplore,
+    meta: {
+      breadcrumb: (route) => Util.humaniseSnakeCase(route.params.subject),
+      preventScrollBehaviour: (to, from, savedPosition) =>
+        to.name === from.name,
     },
-    {
-        name: 'test',
-        path: '/test',
-        component: Test
+    beforeEnter: async (to, from, next) => {
+      const bindleStore = useBindleApiStore();
+      await bindleStore.getLevels();
+      await bindleStore.getSubjects();
+      if (
+        !Object.values(bindleStore.levels).some(
+          (level) => level["slug"] === to.params.level
+        ) ||
+        !Object.values(bindleStore.subjects).some(
+          (subject) => subject["slug"] === to.params.subject
+        )
+      ) {
+        useBindleApiStore().routingFailed = true;
+      }
+      next();
     },
-    {
-        name: 'generic-level',
-        path: '/:level',
-        component: GenericLevel,
-        meta: {
-            breadcrumb: (route) => Util.humaniseSnakeCase(route.params.level),
-        },
-        beforeEnter: async (to, from, next) => {
-            const bindleStore = useBindleApiStore();
-            await bindleStore.getLevels();
-            if (
-                !Object.values(bindleStore.levels).some((level) => level['slug']===to.params.level)
-            ) {
-                useBindleApiStore().routingFailed = true
-            }
-        }
+  },
+  {
+    name: "tokens",
+    path: "/tokens",
+    component: Tokens,
+  },
+  {
+    name: "test",
+    path: "/test",
+    component: Test,
+  },
+  {
+    name: "generic-level",
+    path: "/:level",
+    component: GenericLevel,
+    meta: {
+      breadcrumb: (route) => Util.humaniseSnakeCase(route.params.level),
     },
-    {
-        name: 'page-not-found',
-        path: '/:pathMatch(.*)*',
-        component: PageNotFound
-    }
-]
+    beforeEnter: async (to, from, next) => {
+      const bindleStore = useBindleApiStore();
+      await bindleStore.getLevels();
+      if (
+        !Object.values(bindleStore.levels).some(
+          (level) => level["slug"] === to.params.level
+        )
+      ) {
+        useBindleApiStore().routingFailed = true;
+      }
+    },
+  },
+  {
+    name: "page-not-found",
+    path: "/:pathMatch(.*)*",
+    component: PageNotFound,
+  },
+];
 
 // Create the router
 const router = createRouter({

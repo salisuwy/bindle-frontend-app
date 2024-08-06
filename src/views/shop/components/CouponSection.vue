@@ -13,12 +13,16 @@
     </div>
     <hr class="border border-zinc-200 my-1.5" />
   </section>
-  <CouponsOffer v-show="showCoupon" @hide="hide" />
+  <CouponsOffer v-if="showCoupon" @hide="hide" :coupons="coupons" />
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, defineProps } from "vue";
 import CouponsOffer from "./CouponsOffer.vue";
+
+const props = defineProps({
+  coupons: Array,
+});
 
 const showCoupon = ref(false);
 

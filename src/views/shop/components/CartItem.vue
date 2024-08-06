@@ -4,102 +4,183 @@
   >
     <div class="flex gap-4 max-md:flex-wrap">
       <img
-        :src="item.image"
+        :src="item.images[0]"
         :alt="item.title"
-        class="shrink-0 w-full object-cover object-right-top sm:aspect-[0.72] sm:w-[78px]"
-        :class="{ 'opacity-75 mix-blend-multiply': item.availableStock === 0 }"
+        class="shrink-0 w-[55%] object-cover object-right-top sm:aspect-[0.72] sm:w-[78px]"
+        :class="{
+          'opacity-75 mix-blend-multiply': itemsInStock === 0,
+        }"
       />
       <div class="flex flex-col justify-between max-md:max-w-full">
         <span
           class="text-xs font-bold text-cyan-800 uppercase max-md:max-w-full"
-          :class="{ 'text-gray-500': item.availableStock === 0 }"
+          :class="{ 'text-gray-500': itemsInStock === 0 }"
         >
-          revision guide
+          {{ item.type ? item.type : "MIXED" }}
         </span>
         <h2
           class="mt-2 text-base text-zinc-950 max-md:max-w-full"
-          :class="{ 'text-gray-500': item.availableStock === 0 }"
+          :class="{ 'text-gray-500': itemsInStock === 0 }"
         >
+          <!-- <router-link :to="'/bundles/'+item.slug" > -->
           {{ item.title }}
+          <span class="text-red-600">({{ item.quantity_in_stock }} / ^{{itemsInStock}})</span>
+          <!-- </router-link> -->
         </h2>
         <div class="flex gap-2 items-center">
           <span
-            class="justify-center self-start px-2.5 py-2 mt-2 text-xs text-gray-600 whitespace-nowrap bg-gray-200 rounded-sm"
-            :class="{ 'text-gray-500': item.availableStock === 0 }"
+            class="justify-center self-start px-2.5 py-2 mt-2 text-xs text-gray-600 whitespace-nowrap bg-gray-200 rounded-sm uppercase"
+            :class="{ 'text-gray-500': itemsInStock === 0 }"
           >
-            {{ item.type }}
+            {{ item.item_type }}
           </span>
           <span
-            v-show="item.availableStock === 0"
+            v-show="itemsInStock === 0 && editable"
             class="py-1 my-2 font-medium leading-6 text-rose-500"
             >Out of stock</span
           >
         </div>
-        <div
-          class="flex gap-4 self-start mt-1.5 font-medium"
-          v-show="item.availableStock > 0"
-        >
-          <div class="flex gap-2 text-xl leading-7">
-            <span class="text-zinc-950">{{ item.price }}</span>
+        <div class="flex gap-4 self-start mt-1.5 font-medium">
+          <div class="flex gap-2 text-xl leading-7 justify-start items-center">
+            <span v-if="!editable" class="text-zinc-95 text-[16px] mr-5"
+              >Quantity: {{ item.quantity }}</span
+            >
+            <span class="text-zinc-950">&#163;{{ item.discounted_price }}</span>
             <span
-              v-if="item.price !== item.originalPrice"
+              v-if="item.price !== item.discounted_price && editable"
               class="text-zinc-400 line-through"
-              >{{ item.originalPrice }}</span
+              >&#163;{{ item.price }}</span
             >
           </div>
-          <span class="text-lg leading-6 text-rose-500">{{
-            item.discount
-          }}</span>
+          <span
+            v-if="item.discount > 0 && editable"
+            class="text-lg leading-6 text-rose-500"
+          >
+            ({{ Math.floor(item.discount) }}% OFF)
+          </span>
         </div>
       </div>
     </div>
     <div
-      v-if="item.availableStock > 0"
+      v-if="editable"
       class="flex gap-1.5 justify-center self-start text-base font-medium whitespace-nowrap rounded-sm border-2 border-solid bg-stone-100 border-zinc-200 border-opacity-0 text-zinc-950"
     >
-      <span
-        @click="decreaseQuantity"
-        class="cursor-pointer py-1.5 px-3 hover:bg-stone-200" :class="{ 'cursor-not-allowed text-gray-400': quantity === 0 }"
+      <button
+        type="submit"
+        :disabled="item.quantity === 0 || isPending"
+        @click.prevent="decreaseQuantity"
+        class="cursor-pointer py-1.5 px-3 text-gray-700 disabled:text-gray-400 disabled:cursor-not-allowed"
         aria-label="Decrease quantity"
-        >-</span
       >
-      <span class="py-1.5">{{ quantity }}</span>
-      <span
+        -
+      </button>
+
+      <span v-if="isPending" class="flex justify-center items-center">
+        <SpinnerIcon class="w-6 h-6" />
+      </span>
+      <span v-if="!isPending" class="py-1.5">{{ item.quantity }}</span>
+      <button
+        type="submit"
+        :disabled="itemsInStock === 0 || isPending"
         @click="increaseQuantity"
-        class="cursor-pointer py-1.5 px-3 hover:bg-stone-200" :class="{ 'cursor-not-allowed text-gray-400': quantity === item.availableStock }"
+        class="cursor-pointer py-1.5 px-3 text-gray-700 disabled:text-gray-400 disabled:cursor-not-allowed"
         aria-label="Increase quantity"
-        >+</span
       >
+        +
+      </button>
     </div>
   </div>
 </template>
 
 <script setup>
-import { defineProps, ref } from "vue";
-import {toast} from "vue3-toastify";
+import { defineProps, ref, toRefs, computed } from "vue";
+import { toast } from "vue3-toastify";
 import AddToCartNotification from "./AddToCartNotification.vue";
-const { item } = defineProps({
+import AddToCartErrorNotification from "./AddToCartErrorNotification.vue";
+import SpinnerIcon from "../../../components/icons/SpinnerIcon.vue";
+import { addToCart, removeFromCart, setUuid } from "@/store/cart-api";
+import { useMutation, useQueryClient } from "@tanstack/vue-query";
+
+const queryClient = useQueryClient();
+
+const props = defineProps({
   item: {
     type: Object,
     required: true,
   },
+  bookStock: {
+    type: Object,
+    default: {},
+  },
+  bundleStock: {
+    type: Object,
+    default: {},
+  },
+  editable: {
+    type: Boolean,
+    default: false,
+  },
 });
 
-const quantity = ref(1);
+const { item } = toRefs(props);
+
+const itemsInStock = computed(() => {
+  let count = 0;
+  if (item.value.item_type === "book") {
+    count =
+      item.value.item_id in props.bookStock
+        ? props.bookStock[item.value.item_id]
+        : 0;
+  } else {
+    count =
+      item.value.item_id in props.bundleStock
+        ? props.bundleStock[item.value.item_id]
+        : 0;
+  }
+  return count;
+});
+
+const { isPending, mutate } = useMutation({
+  mutationFn: (args) =>
+    args.operation === "add" ? addToCart(args) : removeFromCart(args),
+  onMutate: (args) => {
+    
+  },
+  onError: (error) => {
+    console.error("mutation error", error);
+    toast(AddToCartErrorNotification);
+  },
+  onSuccess: ({ data }) => {
+    console.log("mutation success", data);
+    setUuid(data?.order?.uuid);
+    // toast(AddToCartNotification);
+  },
+  onSettled: () => {
+    queryClient.invalidateQueries(["cartItems"]);
+  },
+});
 
 function increaseQuantity() {
-  if (item.availableStock > quantity.value) {
-    quantity.value++;
+  if (itemsInStock.value > 0) {
+    // optimistic update
+    item.value.quantity = item.value.quantity + 1;
+    mutate({
+      operation: "add",
+      item_type: item.value.item_type,
+      item_id: item.value.item_id,
+    });
   }
 }
 
 function decreaseQuantity() {
-  if (quantity.value > 0) {
-    quantity.value--;
+  if (item.value.quantity > 0) {
+    // optimistic update
+    item.value.quantity = item.value.quantity - 1;
+    mutate({
+      operation: "remove",
+      item_type: item.value.item_type,
+      item_id: item.value.item_id,
+    });
   }
-}
-
-function showToast() {
-  toast(AddToCartNotification);
 }
 </script>

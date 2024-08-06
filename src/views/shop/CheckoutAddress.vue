@@ -27,7 +27,7 @@ const stagesRoute = ["/checkout", "/checkout-address", "/checkout-payment"];
 const stagesButtonText = ["Proceed to Checkout", "Continue", "Place Order"];
 
 const isGuest = ref(false);
-const currentStage = ref(0);
+const currentStage = ref(1);
 const transition = ref("");
 const isTransitioning = ref(false);
 

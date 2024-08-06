@@ -2,14 +2,16 @@ import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import App from './App.vue'
 import router from './routes.js'
+import "vue3-toastify/dist/index.css";
+
 import './style.css'
 import './font-awesome.css'
 
 import { VueQueryPlugin, QueryClient } from "@tanstack/vue-query";
 import Vue3Toasity from "vue3-toastify";
-import "vue3-toastify/dist/index.css";
 
-// const queryClient = new QueryClient({
+const queryClient = new QueryClient()
+// {
   // defaultOptions: {
   //   queries: {
   //     staleTime: 1000 * 60 * 5,
@@ -21,7 +23,6 @@ const toastifyOptions = {
   closeOnClick: false,
   hideProgressBar: true,
   autoClose: 1500,
-  theme: "light",
   position: "bottom-center",
 };
 
@@ -29,8 +30,10 @@ const toastifyOptions = {
 const pinia = createPinia();
 
 const app = createApp(App);
-app.use(VueQueryPlugin);
-app.use(Vue3Toasity, toastifyOptions);
 app.use(pinia);
 app.use(router);
+
+app.use(VueQueryPlugin, queryClient);
+app.use(Vue3Toasity, toastifyOptions);
+
 app.mount('#app');

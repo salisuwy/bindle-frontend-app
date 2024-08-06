@@ -15,16 +15,27 @@ import FeaturedBooks from "@/views/shared/FeaturedBooks.vue";
 
 import { toast } from "vue3-toastify";
 import AddToCartNotification from "./components/AddToCartNotification.vue";
-import { useCart } from "./composables/useCart";
+import AddToCartErrorNotification from "./components/AddToCartErrorNotification.vue";
+import SpinnerIcon from "../../components/icons/SpinnerIcon.vue";
+import { useMutation, useQueryClient, useQuery } from "@tanstack/vue-query";
+import { addToCart, setUuid, getOrderCart } from "@/store/cart-api";
+
+const queryClient = useQueryClient();
+
+const { data: order } = useQuery({
+  queryKey: ["cartItems"],
+  queryFn: getOrderCart,
+});
+
+const bundleStock = computed(() => {
+  return data.value?.order?.bundle_stock ?? {};
+});
 
 const route = useRoute();
 const bindleApiStore = useBindleApiStore();
 
 const bundle = ref(null);
 const books = ref([]);
-
-const cart = useCart();
-const isAdding = ref(false);
 
 const getTags = computed(() => {
   if (
@@ -151,19 +162,32 @@ const bundleImages = computed(() => {
   }
 });
 
-const addToBasket = () => {
-  // alert("todo: add to basket functionality");
-  isAdding.value = true;
-  setTimeout(() => {
-    isAdding.value = false;
-    cart.addToCart({
-      item_type: "bundle",
-      item_id: bundle.value?.id,
-      anonid: localStorage.getItem("anonid"),
-    });
-
+const { isPending, mutate } = useMutation({
+  mutationFn: addToCart,
+  onMutate: () => {
+    console.log("mutating");
+  },
+  onError: (error) => {
+    console.error("mutation error", error);
+    toast(AddToCartErrorNotification);
+  },
+  onSuccess: ({data}) => {
+    console.log("mutation success", data);
+    setUuid(data?.order?.uuid);
     toast(AddToCartNotification);
-  }, 2000);
+  },
+  onSettled: () => {
+    queryClient.invalidateQueries(["cartItems"]);
+  },
+});
+
+const addToBasket = () => {
+  mutate({
+    item_type: "bundle",
+    item_id: bundle.value?.id,
+    anonid: localStorage.getItem("anonid"),
+    uuid: localStorage.getItem("uuid"),
+  });
 };
 
 onMounted(async () => {
@@ -254,13 +278,24 @@ onMounted(async () => {
               <bundle-book :book="book" />
             </div>
             <div class="mb-8">
-              <button
+
+
+
+            <button
                 class="bg-theme-teal w-full rounded"
                 @click="addToBasket()"
+                :disabled="isPending || bundle.quantity_in_stock === 0"
               >
-                Add to basket - &pound;{{
-                  Util.toFixedDisplay(bundle.price_amount, 2)
-                }}
+                <span v-if="!isPending && bundle.quantity_in_stock > 0">
+                  Add to basket - &pound;{{ Util.toFixedDisplay(bundle.price_amount, 2) }}
+                </span>
+                <span v-if="!isPending && bundle.quantity_in_stock <= 0">
+                  Out of stock
+                </span>
+                <span v-if="isPending" class="flex gap-4 justify-center items-center">
+                  <SpinnerIcon class="w-5 h-5 text-white" />
+                  Adding to basket...
+                </span>
               </button>
             </div>
 

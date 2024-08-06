@@ -10,16 +10,19 @@
   },
   "dependencies": {
     "@heroicons/vue": "^2.1.5",
-    "axios": "^1.7.2",
+    "@stripe/stripe-js": "^4.1.0",
     "@tanstack/vue-query": "^5.51.1",
     "@tanstack/vue-query-devtools": "^5.51.1",
-    "vue3-toastify": "^0.2.2",
-    "uniqid": "^5.4.0",
     "@vueuse/core": "^10.9.0",
+    "axios": "^1.7.2",
     "pinia": "^2.1.7",
+    "uniqid": "^5.4.0",
+    "vee-validate": "^4.13.2",
     "vue": "^3.3.11",
     "vue-router": "^4.2.5",
-    "vue3-carousel": "^0.3.3"
+    "vue3-carousel": "^0.3.3",
+    "vue3-toastify": "^0.2.2",
+    "yup": "^1.4.0"
   },
   "devDependencies": {
     "@vitejs/plugin-basic-ssl": "^1.1.0",
