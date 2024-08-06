@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onMounted, ref } from "vue";
+import { computed, onMounted, ref, watch } from "vue";
 import { useRoute } from "vue-router";
 import { useBindleApiStore } from "@/store/bindle-api.js";
 import { Util } from "@/components/helpers/Util.js";
@@ -190,10 +190,14 @@ const addToBasket = () => {
   });
 };
 
-onMounted(async () => {
-  await bindleApiStore.getBundles();
+const getBundle = (async ()=> {
   const slug = route.path.split("/").slice(-1)[0];
   bundle.value = await bindleApiStore.getBundleBySlug(slug);
+})
+
+onMounted(async () => {
+  await bindleApiStore.getBundles();
+  await getBundle();
   await bindleApiStore.getExamboards();
   await bindleApiStore.getLevels();
   await bindleApiStore.getSubjects();
@@ -205,6 +209,8 @@ onMounted(async () => {
     books.value[idx].url = await bindleApiStore.getBookUrl(books.value[idx].id);
   }
 });
+
+watch(()=> route.path, ()=> { getBundle() })
 </script>
 <template>
   <layout>
