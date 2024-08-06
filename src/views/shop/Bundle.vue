@@ -28,8 +28,9 @@ const { data: order } = useQuery({
 });
 
 const bundleStock = computed(() => {
-  return data.value?.order?.bundle_stock ?? {};
+  return order.value?.order?.bundle_stock ?? {};
 });
+
 
 const route = useRoute();
 const bindleApiStore = useBindleApiStore();
@@ -210,6 +211,21 @@ onMounted(async () => {
   }
 });
 
+
+const itemsInStock = computed(() => {
+  if(!bundle.value === null || bundleStock.value === null) {
+    return 0;
+  }
+  
+  if(bundle.value.id in bundleStock.value) {
+    return bundleStock.value[bundle.value.id];
+  }
+  return bundle.value.quantity_in_stock;
+});
+
+
+
+
 watch(()=> route.path, ()=> { getBundle() })
 </script>
 <template>
@@ -290,12 +306,14 @@ watch(()=> route.path, ()=> { getBundle() })
             <button
                 class="bg-theme-teal w-full rounded"
                 @click="addToBasket()"
-                :disabled="isPending || bundle.quantity_in_stock === 0"
+                :disabled="isPending || itemsInStock <= 0"
               >
-                <span v-if="!isPending && bundle.quantity_in_stock > 0">
+                <!-- {{ itemsInStock }} - {{ bundle.quantity_in_stock }} -->
+
+                <span v-if="!isPending && itemsInStock > 0">
                   Add to basket - &pound;{{ Util.toFixedDisplay(bundle.price_amount, 2) }}
                 </span>
-                <span v-if="!isPending && bundle.quantity_in_stock <= 0">
+                <span v-if="!isPending && itemsInStock <= 0">
                   Out of stock
                 </span>
                 <span v-if="isPending" class="flex gap-4 justify-center items-center">

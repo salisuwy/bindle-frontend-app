@@ -13,12 +13,22 @@ import { toast } from "vue3-toastify";
 import AddToCartNotification from "./components/AddToCartNotification.vue";
 import PopularBooks from "@/views/shared/PopularBooks.vue";
 import RecommendedBundles from "@/views/shared/RecommendedBundles.vue";
-import { useMutation, useQueryClient } from "@tanstack/vue-query";
-import { addToCart, setUuid } from "@/store/cart-api";
+import { useMutation, useQueryClient, useQuery } from "@tanstack/vue-query";
+import { addToCart, setUuid, getOrderCart } from "@/store/cart-api";
 import SpinnerIcon from "../../components/icons/SpinnerIcon.vue";
 import AddToCartErrorNotification from "./components/AddToCartErrorNotification.vue";
 
 const queryClient = useQueryClient();
+
+const { data: order } = useQuery({
+  queryKey: ["cartItems"],
+  queryFn: getOrderCart,
+});
+
+const bookStock = computed(() => {
+  return order.value?.order?.book_stock ?? {};
+});
+
 const bindleApiStore = useBindleApiStore();
 const route = useRoute();
 const book = ref(null);
@@ -67,7 +77,6 @@ const getTypesList = computed(() => {
   return types.value ? Util.column(types.value, "name").join(", ") : "";
 });
 
-
 const { isPending, mutate } = useMutation({
   mutationFn: addToCart,
   onMutate: () => {
@@ -77,7 +86,7 @@ const { isPending, mutate } = useMutation({
     console.error("mutation error", error);
     toast(AddToCartErrorNotification);
   },
-  onSuccess: ({data}) => {
+  onSuccess: ({ data }) => {
     console.log("mutation success", data);
     setUuid(data?.order?.uuid);
     toast(AddToCartNotification);
@@ -107,6 +116,17 @@ onMounted(async () => {
   );
   types.value = await bindleApiStore.getTypesById(book.value.type_ids);
   bundle.value = await await bindleApiStore.getRandomBundles(1)[0];
+});
+
+const itemsInStock = computed(() => {
+  if (!book.value === null || bookStock.value === null) {
+    return 0;
+  }
+
+  if (book.value.id in bookStock.value) {
+    return bookStock.value[book.value.id];
+  }
+  return book.value.quantity_in_stock;
 });
 </script>
 <template>
@@ -181,15 +201,20 @@ onMounted(async () => {
               <button
                 class="bg-theme-teal w-full rounded"
                 @click="addToBasket()"
-                :disabled="isPending || book.quantity_in_stock === 0"
+                :disabled="isPending || itemsInStock <= 0"
               >
-                <span v-if="!isPending && book.quantity_in_stock > 0">
+                <!-- {{ itemsInStock }} - {{ book.quantity_in_stock }} -->
+
+                <span v-if="!isPending && itemsInStock > 0">
                   Add to basket - &pound;{{ getPrice }}
                 </span>
-                <span v-if="!isPending && book.quantity_in_stock <= 0">
+                <span v-if="!isPending && itemsInStock <= 0">
                   Out of stock
                 </span>
-                <span v-if="isPending" class="flex gap-4 justify-center items-center">
+                <span
+                  v-if="isPending"
+                  class="flex gap-4 justify-center items-center"
+                >
                   <SpinnerIcon class="w-5 h-5 text-white" />
                   Adding to basket...
                 </span>

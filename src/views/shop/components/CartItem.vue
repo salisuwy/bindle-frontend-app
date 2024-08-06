@@ -24,7 +24,7 @@
         >
           <!-- <router-link :to="'/bundles/'+item.slug" > -->
           {{ item.title }}
-          <span class="text-red-600">({{ item.quantity_in_stock }} / ^{{itemsInStock}})</span>
+          <!-- <span class="text-red-600">({{ item.quantity_in_stock }} / ^{{itemsInStock}})</span> -->
           <!-- </router-link> -->
         </h2>
         <div class="flex gap-2 items-center">
