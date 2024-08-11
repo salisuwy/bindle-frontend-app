@@ -1,9 +1,8 @@
 import axios from "axios";
 import uniqid from "uniqid";
 
-// const API_ENDPOINT = "http://bindle-backend.test/api";
 const API_ENDPOINT =
-  import.meta.env.VITE_API_ENDPOINT || "https://stage.bindle.co.uk/api/";
+  import.meta.env.VITE_API_ENDPOINT || "https://service.bindle.co.uk/api/";
 
 export function getAnonId() {
   let anonId = localStorage.getItem("anonid");
