@@ -6,12 +6,12 @@
       <img
         :src="item.images[0]"
         :alt="item.title"
-        class="shrink-0 w-[55%] object-cover object-right-top sm:aspect-[0.72] sm:w-[78px]"
+        class="shrink-0 w-[55%] object-contain object-center sm:aspect-[0.72] sm:w-[78px]"
         :class="{
           'opacity-75 mix-blend-multiply': itemsInStock === 0,
         }"
       />
-      <div class="flex flex-col justify-between max-md:max-w-full">
+      <div class="flex flex-col justify-start max-md:max-w-full">
         <span
           class="text-xs font-bold text-cyan-800 uppercase max-md:max-w-full"
           :class="{ 'text-gray-500': itemsInStock === 0 }"

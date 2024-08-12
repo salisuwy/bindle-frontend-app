@@ -6,7 +6,7 @@
       <img
         :src="item.images[0]"
         :alt="item.title"
-        class="shrink-0 object-cover object-right-top aspect-[0.72] w-[78px]"
+        class="shrink-0 object-contain object-center aspect-[0.72] w-[78px]"
         :class="{
           'opacity-75 mix-blend-multiply': item.quantity_in_stock === 0,
         }"
