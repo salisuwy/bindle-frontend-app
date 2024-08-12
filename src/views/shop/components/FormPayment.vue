@@ -5,6 +5,7 @@ import { preConfirmPayment, createPaymentIntent } from "@/store/cart-api";
 import { useRouter } from "vue-router";
 import { loadStripe } from "@stripe/stripe-js";
 import SpinnerIcon from "@/components/icons/SpinnerIcon.vue";
+import { getAnonIdAndUuid } from "../../../store/cart-api";
 
 const router = useRouter();
 const props = defineProps({
@@ -195,11 +196,22 @@ async function makePayment() {
       if (!payConfirm) {
         throw new Error("An error is encountered while confirming payment");
       }
-      console.log("next page is: /invoice/", localStorage.getItem("uuid"));
+
+      const anonUuid = { ...getAnonIdAndUuid() };
+      console.log("anonUuid", anonUuid);
+
+      console.log("next page is: /invoice");
       localStorage.removeItem("uuid");
       queryClient.setQueryData(["cartItems"], {});
       queryClient.invalidateQueries(["cartItems"]);
-      router.push(`/invoice/${order.value?.uuid}`);
+
+      // js redirect with query params
+      // const queryString = Object.keys(anonUuid)
+      //   .map((key) => key + "=" + anonUuid[key])
+      //   .join("&");
+      // window.location.href = `/invoice?${queryString}`;
+
+      router.push(`/invoice/${anonUuid.anonid}/${anonUuid.uuid}`);
     }
   } catch (error) {
     console.log("[Catch] error", error);

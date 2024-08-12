@@ -75,10 +75,10 @@ export async function getOrderCart() {
   return resp.data;
 }
 
-export async function getOrderCompleted(uuid) {
-  const data = { ...getAnonIdAndUuid(), uuid };
+export async function getOrderCompleted(anonid, uuid) {
+  const data = { ...getAnonIdAndUuid(), anonid, uuid };
 
-  console.log("getOrderCompleted: " + uuid + " : ", data);
+  console.log("getOrderCompleted: ", data);
 
   const urlParams = new URLSearchParams(data);
   const resp = await axios.get(
@@ -87,10 +87,10 @@ export async function getOrderCompleted(uuid) {
   return resp.data;
 }
 
-export async function getOrderInvoice(uuid) {
-  const data = { ...getAnonIdAndUuid(), uuid };
+export async function getOrderInvoice(anonid, uuid) {
+  const data = { ...getAnonIdAndUuid(), anonid, uuid };
 
-  console.log("getOrderInvoice: " + uuid + " : ", data);
+  console.log("getOrderInvoice: ", data);
 
   const urlParams = new URLSearchParams(data);
   const resp = await axios.get(

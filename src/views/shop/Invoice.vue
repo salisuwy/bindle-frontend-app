@@ -21,7 +21,9 @@ const breadcrumbs = ref([
 
 const queryClient = useQueryClient();
 const route = useRoute();
+const anonId = route.path.split("/").slice(-2)[0];
 const orderId = route.path.split("/").slice(-1)[0];
+console.log("Anon:", anonId);
 console.log("Invoice:", orderId);
 const isGuest = ref(false);
 const processing = ref(false);
@@ -29,7 +31,7 @@ const transition = new Date().getTime().toString();
 
 const { data, isLoading, isPending, error } = useQuery({
   queryKey: ["order", orderId],
-  queryFn: () => getOrderCompleted(orderId),
+  queryFn: () => getOrderCompleted(anonId, orderId),
 });
 
 const cartItems = computed(() => {
@@ -52,7 +54,7 @@ onBeforeMount(() => {
 async function downloadInvoice() {
   processing.value = true;
   try {
-    const url = await getOrderInvoice(orderId);
+    const url = await getOrderInvoice(anonId, orderId);
     // open new tab with url.url
     window.open(url.url, "_blank");
     

@@ -108,6 +108,7 @@ watch(transition, async (_) => {
       </div>
     </div>
     <article
+      v-if="order?.payment_last4"
       class="flex flex-col justify-center items-start px-6 mt-6 text-base font-medium bg-white rounded-md text-zinc-900 max-md:px-5 max-md:max-w-full"
     >
       <div class="flex flex-col bg-white rounded-md">
@@ -122,7 +123,7 @@ watch(transition, async (_) => {
         <p class="mt-4">
           <span class="text-zinc-500">Expiration Date: </span>
           {{ order?.payment_expiry_month }}/{{
-            order?.payment_expiry_year.toString().slice(-2)
+            order?.payment_expiry_year?.toString().slice(-2)
           }}
         </p>
       </div>

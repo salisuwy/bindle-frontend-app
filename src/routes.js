@@ -84,7 +84,7 @@ const routes = [
 
   {
     name: "invoice",
-    path: "/invoice/:orderId",
+    path: "/invoice/:anonId/:orderId",
     component: Invoice,
     meta: { breadcrumb: "Invoice" },
   },
