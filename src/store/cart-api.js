@@ -129,6 +129,21 @@ export async function createPaymentIntent(data) {
   });
 }
 
+export async function preConfirmPayment(data) {
+  const newData = {
+    ...data,
+    ...getAnonIdAndUuid(),
+  };
+
+  console.log("preConfirmPayment", data);
+
+  return axios.post(`${API_ENDPOINT}orders/cart/payment/pre-confirm`, newData, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+}
+
 export async function addCoupon(data) {
   const newData = {
     ...data,

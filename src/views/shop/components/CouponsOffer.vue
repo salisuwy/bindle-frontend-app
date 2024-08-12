@@ -125,8 +125,8 @@ const { isPending, mutate } = useMutation({
         <template v-for="coupon in coupons">
           <CouponItem
             :code="coupon.coupon_code"
-            :savings="'£' + coupon.coupon_amount"
-            :description="'£' + coupon.coupon_amount + ' off your purchase'"
+            :savings="coupon.coupon_amount + '%'"
+            :description="coupon.coupon_amount + '% off your purchase'"
             :isPending="isPending"
             isRemoveCouponError="isRemoveCouponError"
             isApplied

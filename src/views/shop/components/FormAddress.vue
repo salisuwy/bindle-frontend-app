@@ -103,7 +103,7 @@ const { handleSubmit, values, setFieldValue, setFieldError, errors } = useForm({
   },
 });
 
-const sharedAddress = ref(false);
+const sharedAddress = ref(true);
 watch(sharedAddress, async (value) => {
   if (value) {
     copyDeliveryAddressToBilling();

@@ -1,13 +1,10 @@
 <script setup>
 import { ref, watch, computed, defineProps, defineEmits, onMounted } from "vue";
 import { useMutation, useQueryClient } from "@tanstack/vue-query";
-import {
-  setOrderAddress,
-  setUuid,
-  createPaymentIntent,
-} from "@/store/cart-api";
+import { preConfirmPayment, createPaymentIntent } from "@/store/cart-api";
 import { useRouter } from "vue-router";
 import { loadStripe } from "@stripe/stripe-js";
+import SpinnerIcon from "@/components/icons/SpinnerIcon.vue";
 
 const router = useRouter();
 const props = defineProps({
@@ -17,8 +14,9 @@ const props = defineProps({
   },
   transition: String,
   currentStage: Number,
+  isTransitioning: Boolean,
 });
-const emit = defineEmits(["setCurrentStage"]);
+const emit = defineEmits(["setCurrentStage", "performTransition"]);
 
 const queryClient = useQueryClient();
 
@@ -37,18 +35,16 @@ const fullName = computed(() => {
   return `${order?.value?.billing_first_name} ${order?.value?.billing_last_name}`;
 });
 
-
 let cardHolderName = ref("");
-let cardHolderNameError = ref("")
+let cardHolderNameError = ref("");
 
 watch(cardHolderName, (newVal) => {
-  if(!newVal?.trim()) {
+  if (!newVal?.trim()) {
     cardHolderNameError.value = "Please enter card holder name";
   } else {
-  cardHolderNameError.value = "";
+    cardHolderNameError.value = "";
   }
 });
-
 
 let cardDetailsError = ref("");
 
@@ -73,17 +69,30 @@ const style = {
   },
 };
 
+const performTransition = () => {
+  emit("performTransition");
+};
+
+async function handlePaymentPreConfirm(paymentIntent) {
+  try {
+    await preConfirmPayment({ payment_intent: paymentIntent });
+    return true;
+  } catch (error) {
+    console.log("Error encountered while pre-confirming payment", error);
+    return false;
+  }
+}
 
 watch(transition, async (_) => {
   if (props.currentStage === 2) {
     console.log("starting payment");
-    if(!cardHolderName.value) {
+    if (!cardHolderName.value) {
       emit("setCurrentStage", 2);
       cardHolderNameError.value = "Please enter card holder name";
       return;
     }
 
-    if(cardDetailsError.value) {
+    if (cardDetailsError.value) {
       emit("setCurrentStage", 2);
       return;
     }
@@ -153,22 +162,27 @@ async function makePayment() {
 
     const secret = response?.data?.client_secret;
 
-    const { paymentMethod, error: paymentMethodError } = await stripe.createPaymentMethod({
-      type: "card",
-      card: cardElement,
-      billing_details: billingDetails,
-    });
+    const { paymentMethod, error: paymentMethodError } =
+      await stripe.createPaymentMethod({
+        type: "card",
+        card: cardElement,
+        billing_details: billingDetails,
+      });
 
     if (paymentMethodError) {
       throw new Error("Error encountered while validating card information");
     }
 
-    const { paymentIntent, error: paymentIntentError } = await stripe.confirmCardPayment(secret, {
-      payment_method: paymentMethod.id,
-    });
+    const { paymentIntent, error: paymentIntentError } =
+      await stripe.confirmCardPayment(secret, {
+        payment_method: paymentMethod.id,
+      });
 
     if (paymentIntentError) {
-      if (paymentIntentError.type === "card_error" || paymentIntentError.type === "validation_error") {
+      if (
+        paymentIntentError.type === "card_error" ||
+        paymentIntentError.type === "validation_error"
+      ) {
         throw new Error("An error is encountered while making payment");
       } else {
         throw new Error(
@@ -177,13 +191,15 @@ async function makePayment() {
       }
     } else {
       console.log("success payment", paymentIntent);
+      const payConfirm = await handlePaymentPreConfirm(paymentIntent);
+      if (!payConfirm) {
+        throw new Error("An error is encountered while confirming payment");
+      }
       console.log("next page is: /invoice/", localStorage.getItem("uuid"));
       localStorage.removeItem("uuid");
       queryClient.setQueryData(["cartItems"], {});
       queryClient.invalidateQueries(["cartItems"]);
-      // queryClient.removeQueries(["cartItems"]);
       router.push(`/invoice/${order.value?.uuid}`);
-      //emit("setCurrentStage", 4);
     }
   } catch (error) {
     console.log("[Catch] error", error);
@@ -207,7 +223,7 @@ async function makePayment() {
       class="mt-6 font-medium tracking-tighter text-neutral-600 max-md:max-w-full"
     >
       <div
-        class="mb-6 font-medium tracking-tighter text-neutral-600 max-md:max-w-full"
+        class="mb-2 font-medium tracking-tighter text-neutral-600 max-md:max-w-full"
       >
         <label for="cardDetails">Card details *</label>
       </div>
@@ -233,6 +249,20 @@ async function makePayment() {
       <span v-if="cardHolderNameError" class="text-red-500 text-sm mt-1">{{
         cardHolderNameError
       }}</span>
+    </div>
+
+    <div class="flex justify-start items-center">
+      <button
+        class="flex justify-center items-center px-3.5 py-2.5 mt-8 text-sm font-semibold text-white bg-teal-500 rounded-sm max-md:px-5 w-1/3"
+        @click="performTransition"
+        :disabled="props.isTransitioning"
+      >
+        <SpinnerIcon
+          v-if="props.isTransitioning"
+          class="w-5 h-5 mr-2 animate-spin"
+        />
+        <span v-if="!props.isTransitioning"> Place Order </span>
+      </button>
     </div>
   </div>
 </template>

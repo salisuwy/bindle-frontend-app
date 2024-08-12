@@ -164,8 +164,10 @@ onMounted(() => {
               v-if="currentStage === 2"
               :order="order"
               :transition="transition"
+              :isTransitioning="isTransitioning"
               :currentStage="currentStage"
               @setCurrentStage="setCurrentStage"
+              @performTransition="performTransition"
             />
           </section>
 
