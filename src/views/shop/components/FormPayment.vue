@@ -265,7 +265,7 @@ async function makePayment() {
 
     <div class="flex justify-start items-center">
       <button
-        class="flex justify-center items-center px-3.5 py-2.5 mt-8 text-sm font-semibold text-white bg-teal-500 rounded-sm max-md:px-5 w-1/3"
+        class="flex justify-center items-center px-3.5 py-2.5 mt-8 text-sm font-semibold text-white bg-teal-500 rounded-sm max-md:px-5 w-full md:w-1/3"
         @click="performTransition"
         :disabled="props.isTransitioning"
       >
