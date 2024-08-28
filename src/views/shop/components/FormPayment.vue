@@ -5,7 +5,7 @@ import { preConfirmPayment, createPaymentIntent } from "@/store/cart-api";
 import { useRouter } from "vue-router";
 import { loadStripe } from "@stripe/stripe-js";
 import SpinnerIcon from "@/components/icons/SpinnerIcon.vue";
-import { getAnonIdAndUuid } from "../../../store/cart-api";
+import { getAnonIdAndUuid, STRIPE_PUBLIC_KEY } from "../../../store/cart-api";
 
 const router = useRouter();
 const props = defineProps({
@@ -35,6 +35,8 @@ const order = computed(() => {
 const fullName = computed(() => {
   return `${order?.value?.billing_first_name} ${order?.value?.billing_last_name}`;
 });
+
+let otherErrors = ref("");
 
 let cardHolderName = ref("");
 let cardHolderNameError = ref("");
@@ -87,6 +89,9 @@ async function handlePaymentPreConfirm(paymentIntent) {
 watch(transition, async (_) => {
   if (props.currentStage === 2) {
     console.log("starting payment");
+
+    otherErrors.value = "";   // reset the other error
+
     if (!cardHolderName.value) {
       emit("setCurrentStage", 2);
       cardHolderNameError.value = "Please enter card holder name";
@@ -106,10 +111,7 @@ watch(transition, async (_) => {
 
 onMounted(async () => {
   console.log("mounted");
-
-  stripe = await loadStripe(
-    "pk_test_51LlArcBasD2xizKYlH8SLE274JDiDfn8OJYOi5yoPWQ1sypLol1AN0UbqsIYCG9HPt2vu9fx9TGP3PltbQrgXfID008qdlrto0"
-  );
+  stripe = await loadStripe(STRIPE_PUBLIC_KEY);
 
   elements = stripe.elements();
   const element = elements.create("card", {
@@ -171,7 +173,8 @@ async function makePayment() {
       });
 
     if (paymentMethodError) {
-      throw new Error("Error encountered while validating card information");
+      const errMsg = paymentMethodError?.message || "An error is encountered while validating card information";
+      throw new Error(errMsg);
     }
 
     const { paymentIntent, error: paymentIntentError } =
@@ -184,7 +187,8 @@ async function makePayment() {
         paymentIntentError.type === "card_error" ||
         paymentIntentError.type === "validation_error"
       ) {
-        throw new Error("An error is encountered while making payment");
+        const errMsg = paymentIntentError?.message || "An error is encountered while making payment";
+        throw new Error(errMsg);
       } else {
         throw new Error(
           "An unexpected error is encountered while making payment"
@@ -204,17 +208,12 @@ async function makePayment() {
       localStorage.removeItem("uuid");
       queryClient.setQueryData(["cartItems"], {});
       queryClient.invalidateQueries(["cartItems"]);
-
-      // js redirect with query params
-      // const queryString = Object.keys(anonUuid)
-      //   .map((key) => key + "=" + anonUuid[key])
-      //   .join("&");
-      // window.location.href = `/invoice?${queryString}`;
-
       router.push(`/invoice/${anonUuid.anonid}/${anonUuid.uuid}`);
     }
   } catch (error) {
-    console.log("[Catch] error", error);
+    const errMsg = error?.message || "An error is encountered while processing payment. Please try again";
+    console.log("[Catch] error", errMsg);
+    otherErrors.value = errMsg
     emit("setCurrentStage", 2);
   }
 }
@@ -229,7 +228,14 @@ async function makePayment() {
     >
       <h1 class="grow text-xl leading-7 text-gray-700">Payment Details</h1>
     </header>
-    <hr class="mt-4 h-px border border-zinc-200" />
+    <hr class="my-4 h-px border border-zinc-200" />
+
+    <div
+        v-if="otherErrors"
+        class="justify-end items-start px-6 pt-5 pb-6 text-base font-light tracking-normal leading-4 text-red-500 bg-red-50 rounded-md max-md:px-5 max-md:max-w-full"
+      >
+        {{ otherErrors }}
+      </div>
 
     <div
       class="mt-6 font-medium tracking-tighter text-neutral-600 max-md:max-w-full"

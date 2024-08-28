@@ -49,7 +49,8 @@ const schema = yup.object({
   delivery_email: yup
     .string()
     .email("Email is invalid")
-    .required("Email is required"),
+    .required("Email is required")
+    .matches(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/, 'Invalid email format'),
   delivery_address1: yup.string().required("Address line 1 is required"),
   delivery_city: yup.string().required("Town/City is required"),
   delivery_zip: yup.string().required("ZIP/Postal code is required"),
@@ -60,7 +61,8 @@ const schema = yup.object({
   billing_email: yup
     .string()
     .email("Email is invalid")
-    .required("Email is required"),
+    .required("Email is required")
+    .matches(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/, 'Invalid email format'),
   billing_address1: yup.string().required("Address line 1 is required"),
   billing_city: yup.string().required("Town/City is required"),
   billing_zip: yup.string().required("ZIP/Postal code is required"),

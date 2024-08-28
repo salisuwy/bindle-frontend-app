@@ -4,6 +4,8 @@ import uniqid from "uniqid";
 const API_ENDPOINT =
   import.meta.env.VITE_API_ENDPOINT || "https://service.bindle.co.uk/api/";
 
+export const STRIPE_PUBLIC_KEY = import.meta.env.VITE_STRIPE_PUBLIC_KEY || "";
+
 export function getAnonId() {
   let anonId = localStorage.getItem("anonid");
   if (!anonId) {
