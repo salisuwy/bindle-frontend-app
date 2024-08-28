@@ -38,6 +38,9 @@ const bindleApiStore = useBindleApiStore();
 const bundle = ref(null);
 const books = ref([]);
 
+const ebookSelected = ref(bundle.value && bundle.value.is_ebook);
+
+
 const getTags = computed(() => {
   if (
     bundle.value === null ||
@@ -295,6 +298,42 @@ watch(()=> route.path, ()=> { getBundle() })
                 </div>
               </div>
             </div>
+
+            <hr />
+            <div class="flex flex-row gap-4 my-8">
+              <div
+                v-if="bundle.is_ebook"
+                @click="ebookSelected = true"
+                :class="
+                  'format-selector text-center cursor-pointer w-36 border-2 rounded px-8 py-2 ' +
+                  (ebookSelected
+                    ? 'selected bg-theme-pale border-theme-teal'
+                    : '')
+                "
+              >
+                <div>E-book</div>
+                <div>
+                  &pound; {{ Util.toFixedDisplay(bundle.price_ebook, 2) }}
+                </div>
+              </div>
+              <div
+                @click="ebookSelected = false"
+                :class="
+                  'format-selector text-center cursor-pointer w-36 border-2 rounded px-8 py-2 ' +
+                  (ebookSelected
+                    ? ''
+                    : 'selected bg-theme-pale border-theme-teal')
+                "
+              >
+                <div>Paperback</div>
+                <div>
+                  &pound; {{ Util.toFixedDisplay(bundle.price_amount, 2) }}
+                </div>
+              </div>
+              
+            </div>
+
+
             <div v-for="book in books" class="my-12">
               <hr />
               <bundle-book :book="book" />

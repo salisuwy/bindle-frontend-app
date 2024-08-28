@@ -42,7 +42,7 @@ const bookImage = computed(() => {
     ? Util.getPlaceholderBookImage(1)
     : Util.ensureSsl(book.value.image_url);
 });
-const ebookSelected = ref(false);
+const ebookSelected = ref(book.value && book.value.is_ebook);
 
 const getTags = computed(() => {
   if (
@@ -65,7 +65,7 @@ const getTags = computed(() => {
 const getPrice = computed(() => {
   if (book.value === null) return "";
   return ebookSelected.value
-    ? Util.toFixedDisplay(book.value.gardners_price_amount, 2)
+    ? Util.toFixedDisplay(book.value.price_ebook, 2)
     : Util.toFixedDisplay(book.value.price_amount, 2);
 });
 
@@ -100,6 +100,7 @@ const addToBasket = () => {
   mutate({
     item_type: "book",
     item_id: book.value?.id,
+    is_ebook: ebookSelected.value,
     anonid: localStorage.getItem("anonid"),
     uuid: localStorage.getItem("uuid"),
   });
@@ -108,7 +109,7 @@ const addToBasket = () => {
 onMounted(async () => {
   const slug = route.path.split("/").slice(-1)[0];
   book.value = await bindleApiStore.fetchBookBySlug(slug);
-  //book.value.is_ebook = true;// for testing since none are yet
+  ebookSelected.value = book.value && book.value.is_ebook;// for testing since none are yet
   level.value = await bindleApiStore.getLevelById(book.value.level_id);
   subjects.value = await bindleApiStore.getSubjectsById(book.value.subject_ids);
   examboard.value = await bindleApiStore.getExamboardById(
@@ -168,6 +169,21 @@ const itemsInStock = computed(() => {
             <hr />
             <div class="flex flex-row gap-4 my-8">
               <div
+                v-if="book.is_ebook"
+                @click="ebookSelected = true"
+                :class="
+                  'format-selector text-center cursor-pointer w-36 border-2 rounded px-8 py-2 ' +
+                  (ebookSelected
+                    ? 'selected bg-theme-pale border-theme-teal'
+                    : '')
+                "
+              >
+                <div>E-book</div>
+                <div>
+                  &pound; {{ Util.toFixedDisplay(book.price_ebook, 2) }}
+                </div>
+              </div>
+              <div
                 @click="ebookSelected = false"
                 :class="
                   'format-selector text-center cursor-pointer w-36 border-2 rounded px-8 py-2 ' +
@@ -181,21 +197,7 @@ const itemsInStock = computed(() => {
                   &pound; {{ Util.toFixedDisplay(book.price_amount, 2) }}
                 </div>
               </div>
-              <div
-                v-if="book.is_ebook"
-                @click="ebookSelected = true"
-                :class="
-                  'format-selector text-center cursor-pointer w-36 border-2 rounded px-8 py-2 ' +
-                  (ebookSelected
-                    ? 'selected bg-theme-pale border-theme-teal'
-                    : '')
-                "
-              >
-                <div>E-book</div>
-                <div>
-                  &pound; {{ Util.toFixedDisplay(book.price_amount, 2) }}
-                </div>
-              </div>
+              
             </div>
             <div class="mb-8">
               <button
@@ -223,7 +225,6 @@ const itemsInStock = computed(() => {
 
             <div v-if="bundle">
               <h2>Get this in a bundle and save money</h2>
-              <pre>{{ bundle }}</pre>
             </div>
 
             <div class="my-6" v-if="book">
