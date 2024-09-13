@@ -167,7 +167,7 @@ const cartItemsCount = computed(() => {
 
 <template>
   <div
-    class="flex flex-row gap-6 lg:gap-10 whitespace-nowrap mt-8 max-w-full overflow-hidden"
+    class="flex flex-row gap-6 lg:gap-10 whitespace-nowrap mt-8 max-w-8xl overflow-hidden"
   >
     <div class="flex-1 text-left ml-8 mb-8">
       <router-link to="/">

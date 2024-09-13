@@ -16,7 +16,8 @@
           class="text-xs font-bold text-cyan-800 uppercase max-md:max-w-full"
           :class="{ 'text-gray-500': itemsInStock === 0 }"
         >
-          {{ item.type ? item.type : "MIXED" }}
+          <!-- {{ item.type ? item.type : "MIXED" }} -->
+          {{ item.item_type }}
         </span>
         <h2
           class="mt-2 text-base text-zinc-950 max-md:max-w-full"
@@ -32,10 +33,11 @@
             class="justify-center self-start px-2.5 py-2 mt-2 text-xs text-gray-600 whitespace-nowrap bg-gray-200 rounded-sm uppercase"
             :class="{ 'text-gray-500': itemsInStock === 0 }"
           >
-            {{ item.item_type }}
+            <!-- {{ item.item_type }} -->
+            {{ item.is_ebook ? "E-BOOK" : "PAPERBACK" }}
           </span>
           <span
-            v-show="itemsInStock === 0 && editable"
+            v-show="!item.is_ebook && itemsInStock === 0 && editable"
             class="py-1 my-2 font-medium leading-6 text-rose-500"
             >Out of stock</span
           >
@@ -81,7 +83,7 @@
       <span v-if="!isPending" class="py-1.5">{{ item.quantity }}</span>
       <button
         type="submit"
-        :disabled="itemsInStock === 0 || isPending"
+        :disabled="itemsInStock === 0 || isPending || item.is_ebook"
         @click="increaseQuantity"
         class="cursor-pointer py-1.5 px-3 text-gray-700 disabled:text-gray-400 disabled:cursor-not-allowed"
         aria-label="Increase quantity"
@@ -143,9 +145,7 @@ const itemsInStock = computed(() => {
 const { isPending, mutate } = useMutation({
   mutationFn: (args) =>
     args.operation === "add" ? addToCart(args) : removeFromCart(args),
-  onMutate: (args) => {
-    
-  },
+  onMutate: (args) => {},
   onError: (error) => {
     console.error("mutation error", error);
     toast(AddToCartErrorNotification);
@@ -168,6 +168,7 @@ function increaseQuantity() {
       operation: "add",
       item_type: item.value.item_type,
       item_id: item.value.item_id,
+      is_ebook: item.value.is_ebook
     });
   }
 }
@@ -180,6 +181,7 @@ function decreaseQuantity() {
       operation: "remove",
       item_type: item.value.item_type,
       item_id: item.value.item_id,
+      is_ebook: item.value.is_ebook
     });
   }
 }

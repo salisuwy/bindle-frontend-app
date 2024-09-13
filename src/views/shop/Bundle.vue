@@ -31,7 +31,6 @@ const bundleStock = computed(() => {
   return order.value?.order?.bundle_stock ?? {};
 });
 
-
 const route = useRoute();
 const bindleApiStore = useBindleApiStore();
 
@@ -39,7 +38,6 @@ const bundle = ref(null);
 const books = ref([]);
 
 const ebookSelected = ref(bundle.value && bundle.value.is_ebook);
-
 
 const getTags = computed(() => {
   if (
@@ -135,6 +133,20 @@ const getBookTypes = (bookIdx) => {
   return types;
 };
 
+const getBundlePrice = computed(() => {
+  if (bundle.value === null) return "";
+  return ebookSelected.value
+    ? Util.toFixedDisplay(bundle.value.price_ebook, 2)
+    : Util.toFixedDisplay(bundle.value.price_amount, 2);
+});
+
+const getBundlePriceTotalBooks = computed(() => {
+  if (bundle.value === null) return "";
+  return ebookSelected.value
+    ? Util.toFixedDisplay(bundle.value.price_ebook_total_of_books, 2)
+    : Util.toFixedDisplay(bundle.value.price_total_of_books, 2);
+});
+
 const getBookUrl = (bookIdx) => {
   const level_id = bundle.value.books[idx].level_id;
   const level = bindleApiStore.levels[level_id];
@@ -175,7 +187,7 @@ const { isPending, mutate } = useMutation({
     console.error("mutation error", error);
     toast(AddToCartErrorNotification);
   },
-  onSuccess: ({data}) => {
+  onSuccess: ({ data }) => {
     console.log("mutation success", data);
     setUuid(data?.order?.uuid);
     toast(AddToCartNotification);
@@ -189,15 +201,16 @@ const addToBasket = () => {
   mutate({
     item_type: "bundle",
     item_id: bundle.value?.id,
+    is_ebook: ebookSelected.value,
     anonid: localStorage.getItem("anonid"),
     uuid: localStorage.getItem("uuid"),
   });
 };
 
-const getBundle = (async ()=> {
+const getBundle = async () => {
   const slug = route.path.split("/").slice(-1)[0];
   bundle.value = await bindleApiStore.getBundleBySlug(slug);
-})
+};
 
 onMounted(async () => {
   await bindleApiStore.getBundles();
@@ -206,6 +219,7 @@ onMounted(async () => {
   await bindleApiStore.getLevels();
   await bindleApiStore.getSubjects();
   await bindleApiStore.getTypes();
+  ebookSelected.value = bundle.value && bundle.value.is_ebook;
   books.value = Object.values(
     await bindleApiStore.getBooksById(bundle.value.book_ids)
   );
@@ -214,22 +228,23 @@ onMounted(async () => {
   }
 });
 
-
 const itemsInStock = computed(() => {
-  if(!bundle.value === null || bundleStock.value === null) {
+  if (!bundle.value === null || bundleStock.value === null) {
     return 0;
   }
-  
-  if(bundle.value.id in bundleStock.value) {
+
+  if (bundle.value.id in bundleStock.value) {
     return bundleStock.value[bundle.value.id];
   }
   return bundle.value.quantity_in_stock;
 });
 
-
-
-
-watch(()=> route.path, ()=> { getBundle() })
+watch(
+  () => route.path,
+  () => {
+    getBundle();
+  }
+);
 </script>
 <template>
   <layout>
@@ -280,14 +295,14 @@ watch(()=> route.path, ()=> { getBundle() })
             <h1>{{ bundle.title }}</h1>
             <div class="text-theme-darkgray mb-4">Bindle Experts</div>
             <div
-              v-if="bundle.price_amount < bundle.price_total_of_books"
+              v-if="getBundlePrice < getBundlePriceTotalBooks"
               class="text-theme-darkgray line-through"
             >
-              &pound;{{ Util.toFixedDisplay(bundle.price_total_of_books, 2) }}
+              &pound;{{ getBundlePriceTotalBooks }}
             </div>
             <div class="flex flex-row gap-2 my-4 items-end">
               <div class="text-3xl font-semibold">
-                &pound;{{ Util.toFixedDisplay(bundle.price_amount, 2) }}
+                &pound;{{ getBundlePrice }}
               </div>
               <div v-if="'active_discount' in bundle && bundle.active_discount">
                 <div
@@ -330,32 +345,32 @@ watch(()=> route.path, ()=> { getBundle() })
                   &pound; {{ Util.toFixedDisplay(bundle.price_amount, 2) }}
                 </div>
               </div>
-              
             </div>
-
 
             <div v-for="book in books" class="my-12">
               <hr />
-              <bundle-book :book="book" />
+              <bundle-book :book="book" :ebookSelected="ebookSelected" />
             </div>
             <div class="mb-8">
-
-
-
-            <button
+              <button
                 class="bg-theme-teal w-full rounded"
                 @click="addToBasket()"
-                :disabled="isPending || itemsInStock <= 0"
+                :disabled="isPending || (!ebookSelected && itemsInStock <= 0)"
               >
                 <!-- {{ itemsInStock }} - {{ bundle.quantity_in_stock }} -->
 
-                <span v-if="!isPending && itemsInStock > 0">
-                  Add to basket - &pound;{{ Util.toFixedDisplay(bundle.price_amount, 2) }}
+                <span v-if="!isPending && (ebookSelected || itemsInStock > 0)">
+                  Add to basket - &pound;{{
+                    getBundlePrice
+                  }}
                 </span>
-                <span v-if="!isPending && itemsInStock <= 0">
+                <span v-if="!isPending && (!ebookSelected && itemsInStock <= 0)">
                   Out of stock
                 </span>
-                <span v-if="isPending" class="flex gap-4 justify-center items-center">
+                <span
+                  v-if="isPending"
+                  class="flex gap-4 justify-center items-center"
+                >
                   <SpinnerIcon class="w-5 h-5 text-white" />
                   Adding to basket...
                 </span>

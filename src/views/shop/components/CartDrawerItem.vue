@@ -16,7 +16,8 @@
           class="text-xs font-bold text-cyan-800 uppercase max-md:max-w-full"
           :class="{ 'text-gray-500': item.quantity_in_stock === 0 }"
         >
-            {{ item.type ? item.type : "MIXED" }}
+            <!-- {{ item.type ? item.type : "MIXED" }} -->
+            {{ item.item_type }}
         </span>
         <h2
           class="mt-2 text-sm sm:text-base text-zinc-950 max-w-full text-wrap text-left"
@@ -31,13 +32,14 @@
             class="justify-center self-start px-2.5 py-2 mt-2 text-xs text-gray-600 whitespace-nowrap bg-gray-200 rounded-sm uppercase"
             :class="{ 'text-gray-500': item.quantity_in_stock === 0 }"
           >
-            {{ item.item_type }}
+            <!-- {{ item.item_type }} -->
+            {{ item.is_ebook ? 'E-BOOK' : "PAPERBACK" }}
           </span>
           <span class="text-zinc-95 text-[16px] ml-5"
               >Quantity: {{ item.quantity }}</span
             >
           <span
-            v-show="item.quantity_in_stock === 0"
+            v-show="!item.is_ebook && item.quantity_in_stock === 0"
             class="py-1 my-2 font-medium leading-6 text-rose-500"
             >Out of stock</span
           >

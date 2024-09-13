@@ -109,7 +109,7 @@ const addToBasket = () => {
 onMounted(async () => {
   const slug = route.path.split("/").slice(-1)[0];
   book.value = await bindleApiStore.fetchBookBySlug(slug);
-  ebookSelected.value = book.value && book.value.is_ebook;// for testing since none are yet
+  ebookSelected.value = book.value && book.value.is_ebook;
   level.value = await bindleApiStore.getLevelById(book.value.level_id);
   subjects.value = await bindleApiStore.getSubjectsById(book.value.subject_ids);
   examboard.value = await bindleApiStore.getExamboardById(
@@ -197,20 +197,19 @@ const itemsInStock = computed(() => {
                   &pound; {{ Util.toFixedDisplay(book.price_amount, 2) }}
                 </div>
               </div>
-              
             </div>
             <div class="mb-8">
               <button
                 class="bg-theme-teal w-full rounded"
                 @click="addToBasket()"
-                :disabled="isPending || itemsInStock <= 0"
+                :disabled="isPending || (!ebookSelected && itemsInStock <= 0)"
               >
                 <!-- {{ itemsInStock }} - {{ book.quantity_in_stock }} -->
 
-                <span v-if="!isPending && itemsInStock > 0">
+                <span v-if="!isPending && (ebookSelected || itemsInStock > 0)">
                   Add to basket - &pound;{{ getPrice }}
                 </span>
-                <span v-if="!isPending && itemsInStock <= 0">
+                <span v-if="!isPending && !ebookSelected && itemsInStock <= 0">
                   Out of stock
                 </span>
                 <span

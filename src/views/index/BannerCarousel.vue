@@ -73,7 +73,7 @@ const bookUrl = (level, idx) => {
         <slide class="w-full" style="background:url('/assets/slide2bg.png') no-repeat center center fixed; background-size:cover">
             <div class="carousel-content w-full">
                 <h2 class="max-w-sm sm:max-w-md xl:max-w-2xl px-4 mx-auto text-2xl md:text-4xl lg:text-5xl xl:text-6xl mt-12 leading-6 text-theme-white">
-                    Smart savings with <span style="white-space: nowrap">e-friendly</span> <span
+                    Smart savings with <span style="white-space: nowrap">eco-friendly</span> <span
                     style="white-space: nowrap">E-books</span>
                 </h2>
                 <p class="max-w-sm sm:max-w-md  xl:max-w-2xl  mx-auto pointer-none mt-4 md:mt-10 text-sm md:text-xl leading-4 2xs:leading-5 text-theme-white grow">
