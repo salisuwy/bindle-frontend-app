@@ -2,7 +2,7 @@
 import slide2bg from '/assets/slide2bg.png';
 </script>
 <template>
-  <div :style="{ backgroundImage: 'url(' + slide2bg + ')', objectFit:'cover' }" class="bg-no-repeat bg-cover w-full h-full object-cover min-h-screen text-left py-20 px-10 lg:px-16 xl:px-20 2xl:px-26 text-theme-white">
+  <div :style="{ backgroundImage: 'url(' + slide2bg + ')', objectFit:'cover' }" class="bg-no-repeat bg-cover w-full h-full object-cover md:min-h-[500px] text-left py-20 px-10 lg:px-16 xl:px-20 2xl:px-26 text-theme-white">
       <div class="max-w-8xl flex flex-col mx-auto">
         <div class="grow">&nbsp;</div>
         <p class="lg:hidden text-theme-white text-xs font-semibold">EBOOKS</p>
