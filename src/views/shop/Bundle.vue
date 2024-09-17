@@ -393,9 +393,9 @@ watch(
                   ><chevron-icon down class="inline-block"
                 /></template>
                 <div>
-                  {{ bundle.description }}
-                  Currently the bundle descriptions from the database/api are
-                  all null.
+                  {{ bundle.description ?? "" }}
+                  <!-- Currently the bundle descriptions from the database/api are
+                  all null. -->
                 </div>
               </accordion>
             </div>
@@ -437,7 +437,7 @@ watch(
               </accordion>
             </div>
 
-            <hr />
+            <!-- <hr />
 
             <div class="my-6">
               <accordion
@@ -455,7 +455,7 @@ watch(
                 /></template>
                 <div>Shipping and returns info placeholder</div>
               </accordion>
-            </div>
+            </div> -->
           </div>
         </div>
         <div v-if="bundle" class="w-full text-center my-8">

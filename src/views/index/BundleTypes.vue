@@ -11,6 +11,9 @@ const placeholderImages = [
     Util.getPlaceholderBookImage(0),
     Util.getPlaceholderBookImage(1),
     Util.getPlaceholderBookImage(2),
+    Util.getPlaceholderBookImage(3),
+    Util.getPlaceholderBookImage(4),
+    Util.getPlaceholderBookImage(5),
 ];
 const coreBundleBookImages = ref([]);
 const workbookBundleBookImages = ref([]);
@@ -36,6 +39,13 @@ const selectPane = (paneId, scrollToTopNav = false) => {
     }
 }
 const getBookImgUrl = (type, idx) => {
+    if(type === 'core') {
+        return placeholderImages[idx];
+    }
+    else {
+       return placeholderImages[3+idx];
+    }
+
     idx = idx % 3;
     if (coreBundle.value === null || workbookBundle.value === null) {
         return placeholderImages[idx];

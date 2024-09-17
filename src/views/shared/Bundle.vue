@@ -78,7 +78,9 @@ const getImagesClass = (book_ids) => {
         class="text-2xl text-left font-normal h-16 md:line-clamp-2"
         :title="props.bundle['name']"
       >
-        {{ props.bundle["title"] }}
+        <router-link :to="'/bundles/' + slug">
+          {{ props.bundle["title"] }}
+        </router-link>
       </h3>
 
       <div class="flex justify-start items-center gap-2">
@@ -107,14 +109,16 @@ const getImagesClass = (book_ids) => {
           "
         >
           <div class="text-3xl">
-            £{{
-              Util.toFixedDisplay(
-                props.bundle["is_ebook"]
-                  ? props.bundle["price_ebook"]
-                  : props.bundle["price_amount"],
-                2
-              )
-            }}
+            <router-link :to="'/bundles/' + slug">
+              £{{
+                Util.toFixedDisplay(
+                  props.bundle["is_ebook"]
+                    ? props.bundle["price_ebook"]
+                    : props.bundle["price_amount"],
+                  2
+                )
+              }}
+            </router-link>
           </div>
           <div class="line-through text-theme-darkgray">
             £{{

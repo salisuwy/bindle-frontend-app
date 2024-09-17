@@ -13,6 +13,7 @@ import { toast } from "vue3-toastify";
 import AddToCartNotification from "./components/AddToCartNotification.vue";
 import PopularBooks from "@/views/shared/PopularBooks.vue";
 import RecommendedBundles from "@/views/shared/RecommendedBundles.vue";
+import FeaturedBooks from "@/views/shared/FeaturedBooks.vue";
 import { useMutation, useQueryClient, useQuery } from "@tanstack/vue-query";
 import { addToCart, setUuid, getOrderCart } from "@/store/cart-api";
 import SpinnerIcon from "../../components/icons/SpinnerIcon.vue";
@@ -242,7 +243,7 @@ const itemsInStock = computed(() => {
                   ><chevron-icon down class="inline-block"
                 /></template>
                 <div>
-                  {{ book.description }}
+                  {{ book.description ?? "" }}
                 </div>
               </accordion>
             </div>
@@ -284,7 +285,7 @@ const itemsInStock = computed(() => {
               </accordion>
             </div>
 
-            <hr />
+            <!-- <hr />
 
             <div class="my-6">
               <accordion
@@ -302,9 +303,12 @@ const itemsInStock = computed(() => {
                 /></template>
                 <div>Shipping and returns info placeholder</div>
               </accordion>
-            </div>
+            </div> -->
           </div>
         </div>
+
+        <featured-books title="Recommended Resources" />
+
       </div>
     </div>
   </layout>

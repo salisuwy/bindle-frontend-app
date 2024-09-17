@@ -53,7 +53,7 @@ onMounted(async () => {
                                 collections that does beyond the basics.
                             </div>
                             <div class="absolute bottom-6 left-0 right-0 px-6 text-left">
-                                <a href="/bundles/explore" class="px-5 py-2.5 bg-white text-black">Shop Workbook Bundles</a>
+                                <a href="/bundles/explore?subject=all&type=workbook" class="px-5 py-2.5 bg-white text-black">Shop Workbook Bundles</a>
                             </div>
                         </div>
                     </div>

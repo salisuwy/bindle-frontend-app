@@ -56,7 +56,9 @@ onMounted(async () => {
       class="text-2xl text-left font-normal h-16 line-clamp-2"
       :title="props.product['title']"
     >
-      {{ props.product["title"] }}
+      <router-link :to="product.product_url">
+        {{ props.product["title"] }}
+      </router-link>
     </h3>
 
     <div class="flex justify-start items-center gap-2">
@@ -77,14 +79,16 @@ onMounted(async () => {
     <div class="text-left text-theme-darkgray">From:</div>
     <div class="flex flex-row items-end gap-4">
       <div class="text-3xl">
-        £{{
-          Util.toFixedDisplay(
-            props.product["is_ebook"]
-              ? props.product["price_ebook"]
-              : props.product["price_amount"],
-            2
-          )
-        }}
+        <router-link :to="product.product_url">
+          £{{
+            Util.toFixedDisplay(
+              props.product["is_ebook"]
+                ? props.product["price_ebook"]
+                : props.product["price_amount"],
+              2
+            )
+          }}
+        </router-link>
       </div>
       <div v-if="!props.fullWidthButton" class="text-right grow">
         <router-link

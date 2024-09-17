@@ -8,9 +8,9 @@ const bookUrls = ref([
   Util.getPlaceholderBookImage(0),
   Util.getPlaceholderBookImage(1),
   Util.getPlaceholderBookImage(2),
-  Util.getPlaceholderBookImage(0),
-  Util.getPlaceholderBookImage(1),
-  Util.getPlaceholderBookImage(2),
+  Util.getPlaceholderBookImage(3),
+  Util.getPlaceholderBookImage(4),
+  Util.getPlaceholderBookImage(5),
 ]);
 onBeforeMount(() => {
   bindleApiStore.getBooks().then(() => {
@@ -18,12 +18,12 @@ onBeforeMount(() => {
     bindleApiStore.getPopularBundles(2).then((bundles) => {
       const book1_ids = bundles[0]['book_ids'];
       const book2_ids = bundles[1]['book_ids'];
-      if (book1_ids[0] && (book1_ids[0] in books)) bookUrls.value[0] = Util.ensureSsl(books[book1_ids[0]]['image_url']);
-      if (book1_ids[1] && (book1_ids[1] in books)) bookUrls.value[1] = Util.ensureSsl(books[book1_ids[1]]['image_url']);
-      if (book1_ids[2] && (book1_ids[2] in books)) bookUrls.value[2] = Util.ensureSsl(books[book1_ids[2]]['image_url']);
-      if (book2_ids[0] && (book2_ids[0] in books)) bookUrls.value[3] = Util.ensureSsl(books[book2_ids[0]]['image_url']);
-      if (book2_ids[1] && (book2_ids[1] in books)) bookUrls.value[4] = Util.ensureSsl(books[book2_ids[1]]['image_url']);
-      if (book2_ids[2] && (book2_ids[2] in books)) bookUrls.value[5] = Util.ensureSsl(books[book2_ids[2]]['image_url']);
+      // if (book1_ids[0] && (book1_ids[0] in books)) bookUrls.value[0] = Util.ensureSsl(books[book1_ids[0]]['image_url']);
+      // if (book1_ids[1] && (book1_ids[1] in books)) bookUrls.value[1] = Util.ensureSsl(books[book1_ids[1]]['image_url']);
+      // if (book1_ids[2] && (book1_ids[2] in books)) bookUrls.value[2] = Util.ensureSsl(books[book1_ids[2]]['image_url']);
+      // if (book2_ids[0] && (book2_ids[0] in books)) bookUrls.value[3] = Util.ensureSsl(books[book2_ids[0]]['image_url']);
+      // if (book2_ids[1] && (book2_ids[1] in books)) bookUrls.value[4] = Util.ensureSsl(books[book2_ids[1]]['image_url']);
+      // if (book2_ids[2] && (book2_ids[2] in books)) bookUrls.value[5] = Util.ensureSsl(books[book2_ids[2]]['image_url']);
     });
   });
 })
