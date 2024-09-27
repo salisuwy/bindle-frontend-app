@@ -19,6 +19,7 @@ const bindleApiStore = useBindleApiStore();
 const subjects = ref('all');
 const levels = ref('all');
 const types = ref({});
+const formats = ref([])
 const trueTypeSlugs = ref([]);
 const examboards = ref({});
 const books = ref({});
@@ -184,6 +185,21 @@ const filteredProducts = computed(()=> {
                 return false;
             }
             const bundleBooks = Object.values(books.value).filter((bundleBook) => bundle.book_ids.includes(bundleBook.id));
+
+            // format type ebook and paperback
+            if(formats.value.length>0) 
+            {
+                if(formats.value.includes("ebook") && formats.value.includes("paperback")) {}
+                else if(formats.value.includes("ebook") && (!bundle.is_ebook)) 
+                {
+                    return false;
+                }
+                else if(formats.value.includes("paperback") && bundle.is_ebook)
+                {
+                    return false;
+                }
+            }
+
             // subjects
             if (
                 (filterSubject.value!=='all')
@@ -232,6 +248,21 @@ const filteredProducts = computed(()=> {
     }
     if (books.value && !bundleOnlyFilter.value) {
         let filteredBooks = Object.values(books.value).filter((book) => {
+
+            // format type ebook and paperback
+            if(formats.value.length>0) 
+            {
+                if(formats.value.includes("ebook") && formats.value.includes("paperback")) {}
+                else if(formats.value.includes("ebook") && (!book.is_ebook)) 
+                {
+                    return false;
+                }
+                else if(formats.value.includes("paperback") && book.is_ebook)
+                {
+                    return false;
+                }
+            }
+
             // subject
             if (filterSubject.value !== 'all') {
                 if (!book.subject_ids.includes(filterSubjectId.value)) {
@@ -449,6 +480,22 @@ const getTitle = (()=> {
                                 <label :for="'filter-subject-'+subject['slug']" class="cursor-pointer mr-auto" >{{ subject['name'] }}</label>
                             </div>
                         </div>
+                    </accordion>
+
+                    <hr class="mb-2"/>
+
+                    <accordion ref="filterTypeAccordionRef" content-class="filter-level flex flex-col" title-class="md:text-sm lg:text-base cursor-pointer linklike" indicator-class="float-right">
+                        <template #title><h3 class="inline-block">RESOURCE FORMAT</h3></template>
+                        <template #indicator><chevron-icon down class="inline-block" /></template>
+                        <hr class="hidden md:block w-full my-4"/>
+                        <label v-if="filtersLoaded" class="bindle-checkbox cursor-pointer mr-auto">
+                            <input v-model="formats" type="checkbox" value="ebook" />
+                            E-Book
+                        </label>
+                        <label v-if="filtersLoaded" class="bindle-checkbox cursor-pointer mr-auto">
+                            <input v-model="formats" type="checkbox" value="paperback" />
+                            Paperback
+                        </label>
                     </accordion>
 
                     <hr class="mb-2"/>
