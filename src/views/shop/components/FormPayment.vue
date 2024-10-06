@@ -5,7 +5,7 @@ import { preConfirmPayment, createPaymentIntent } from "@/store/cart-api";
 import { useRouter } from "vue-router";
 import { loadStripe } from "@stripe/stripe-js";
 import SpinnerIcon from "@/components/icons/SpinnerIcon.vue";
-import { getAnonIdAndUuid, STRIPE_PUBLIC_KEY } from "../../../store/cart-api";
+import { getAnonIdAndUuid, getOrderMode, STRIPE_PUBLIC_KEY, STRIPE_PUBLIC_KEY_LIVE, STRIPE_PUBLIC_KEY_TEST } from "../../../store/cart-api";
 
 const router = useRouter();
 const props = defineProps({
@@ -109,9 +109,17 @@ watch(transition, async (_) => {
   }
 });
 
+
 onMounted(async () => {
   console.log("mounted");
-  stripe = await loadStripe(STRIPE_PUBLIC_KEY);
+    
+  const ORDER_MODE = await getOrderMode();
+  const SELECTED_STRIPE_KEY = ORDER_MODE === 'test' ? STRIPE_PUBLIC_KEY_TEST : STRIPE_PUBLIC_KEY_LIVE; 
+
+  const TEN_CHARS = (SELECTED_STRIPE_KEY ? String(SELECTED_STRIPE_KEY) : '').substring(0, 15);
+  console.log(`>>> STRIPE - mode: ${ORDER_MODE} | pk: ${TEN_CHARS}`);
+
+  stripe = await loadStripe(SELECTED_STRIPE_KEY);
 
   elements = stripe.elements();
   const element = elements.create("card", {
