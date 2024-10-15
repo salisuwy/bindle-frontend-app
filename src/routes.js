@@ -1,10 +1,13 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import {useBindleApiStore} from "@/store/bindle-api.js";
-import {Util} from "@/components/helpers/Util.js";
-import Index from "@/views/index/Index.vue"
-import Resources from "@/views/resources/Resources.vue"
-import SubjectExplore from "@/views/level/SubjectExplore.vue"
-import Book from "@/views/shop/Book.vue"
+import { createRouter, createWebHistory } from "vue-router";
+import { useBindleApiStore } from "@/store/bindle-api.js";
+import { Util } from "@/components/helpers/Util.js";
+import Index from "@/views/index/Index.vue";
+import Contact from "@/views/contact/Contact.vue";
+import PrivacyPolicy from "@/views/policies/PrivacyPolicy.vue";
+import TermsAndConditions from "@/views/policies/TermsAndConditions.vue";
+import Resources from "@/views/resources/Resources.vue";
+import SubjectExplore from "@/views/level/SubjectExplore.vue";
+import Book from "@/views/shop/Book.vue";
 import GCSE from "@/views/level/GCSE.vue";
 import ALevel from "@/views/level/ALevel.vue";
 import Bundles from "@/views/bundles/Bundles.vue";
@@ -12,20 +15,42 @@ import Bundle from "@/views/shop/Bundle.vue";
 import ExploreBundles from "@/views/bundles/Explore.vue";
 import GenericLevel from "@/views/level/GenericLevel.vue";
 import Explore from "@/views/resources/Explore.vue";
-import PageNotFound from "@/views/PageNotFound.vue"
-import Tokens from "@/views/Tokens.vue"
+import PageNotFound from "@/views/PageNotFound.vue";
+import Tokens from "@/views/Tokens.vue";
 import Test from "@/views/Test.vue";
 import Checkout from "@/views/shop/Checkout.vue";
 import CheckoutAddress from "@/views/shop/CheckoutAddress.vue";
 import CheckoutPayment from "@/views/shop/CheckoutPayment.vue";
 import Invoice from "@/views/shop/Invoice.vue";
+import { useHead } from "@unhead/vue";
 
 const routes = [
   {
     name: "index",
     path: "/",
     component: Index,
-    meta: { breadcrumb: "Home" },
+    meta: { breadcrumb: "Home", title: "Home" },
+  },
+  {
+    name: "contact-us",
+    path: "/contact-us",
+    component: Contact,
+    meta: { breadcrumb: "Contact Us", title: "Contact Us" },
+  },
+  {
+    name: "privacy-policy",
+    path: "/privacy-policy",
+    component: PrivacyPolicy,
+    meta: {
+      breadcrumb: "Privacy Policy",
+      title: "Privacy Policy",
+    },
+  },
+  {
+    name: "terms-and-conditions",
+    path: "/terms-and-conditions",
+    component: TermsAndConditions,
+    meta: { breadcrumb: "Terms and Conditions", title: "Terms and Conditions" },
   },
   {
     name: "explore-resources",
@@ -205,31 +230,36 @@ const routes = [
 
 // Create the router
 const router = createRouter({
-    history: createWebHistory(),
-    routes: routes,
-    scrollBehavior(to, from, savedPosition) {
-        if ('preventScrollBehaviour' in to.meta) {
-            if (to.meta.preventScrollBehaviour(to,from,savedPosition)) {
-                return {}
-            }
-        }
-        if (savedPosition) {
-            return savedPosition;
-        }
-        else if (to.path === from.path && to.query!==from.query) {
-            return {};
-        }
-        else {
-            return { top:0 };
-        }
+  history: createWebHistory(),
+  routes: routes,
+  scrollBehavior(to, from, savedPosition) {
+    if ("preventScrollBehaviour" in to.meta) {
+      if (to.meta.preventScrollBehaviour(to, from, savedPosition)) {
+        return {};
+      }
     }
-
+    if (savedPosition) {
+      return savedPosition;
+    } else if (to.path === from.path && to.query !== from.query) {
+      return {};
+    } else {
+      return { top: 0 };
+    }
+  },
 });
 
 router.beforeEach((to, from, next) => {
-    useBindleApiStore().routingFailed = false;
-    next();
+  useBindleApiStore().routingFailed = false;
+  next();
 });
 
-export default router
-export { routes }
+router.afterEach((to) => {
+  const pageTitle = to.meta.title || "";
+
+  useHead({
+    title: `Bindle - ${pageTitle}`,
+  });
+});
+
+export default router;
+export { routes };

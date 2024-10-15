@@ -3,6 +3,7 @@ import { computed, onMounted, ref } from "vue";
 import { useRoute } from "vue-router";
 import { useBindleApiStore } from "@/store/bindle-api.js";
 import { Util } from "@/components/helpers/Util";
+import { trackEvent } from "@/components/helpers/analytics";
 import Layout from "@/views/shared/Layout.vue";
 import Breadcrumbs from "@/components/Breadcrumbs.vue";
 import Bundle from "@/views/shared/Bundle.vue";
@@ -98,6 +99,13 @@ const { isPending, mutate } = useMutation({
 });
 
 const addToBasket = () => {
+  trackEvent("addToBasket", {
+    item_id: book.value?.id,
+    item_name: book.value?.title,
+    value: getPrice.value,
+    currency: "GBP",
+  });
+
   mutate({
     item_type: "book",
     item_id: book.value?.id,
@@ -308,7 +316,6 @@ const itemsInStock = computed(() => {
         </div>
 
         <featured-books title="Recommended Resources" />
-
       </div>
     </div>
   </layout>

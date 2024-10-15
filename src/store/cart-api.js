@@ -189,3 +189,19 @@ export async function getOrderMode() {
   );
   return resp?.data?.mode;
 }
+
+
+export async function saveMessage(data) {
+  const newData = {
+    ...data,
+    ...getAnonIdAndUuid(),
+  };
+
+  console.log("Save Message", data);
+
+  return axios.post(`${API_ENDPOINT}message`, newData, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+}
