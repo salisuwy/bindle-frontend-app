@@ -523,6 +523,7 @@ const getTitle = (()=> {
                                title-class="md:text-sm lg:text-base cursor-pointer linklike"
                                indicator-class="float-right">
                         <template #title><h3 class="inline-block">RESOURCE TYPE</h3></template>
+                        <pre>{{  types }}</pre>
                         <template #indicator>
                             <chevron-icon down class="inline-block"/>
                         </template>
