@@ -287,6 +287,7 @@ const itemsInStock = computed(() => {
                   </tr>
                   <tr>
                     <td>Type(s)</td>
+                    <!-- <pre>{{ subjects }}</pre> -->
                     <td>{{ getTypesList }}</td>
                   </tr>
                 </table>

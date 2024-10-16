@@ -8,9 +8,9 @@ const bookUrls = ref([
   Util.getPlaceholderBookImage(0),
   Util.getPlaceholderBookImage(1),
   Util.getPlaceholderBookImage(2),
-  Util.getPlaceholderBookImage(3),
-  Util.getPlaceholderBookImage(4),
-  Util.getPlaceholderBookImage(5),
+  Util.getPlaceholderBookImage(6),
+  Util.getPlaceholderBookImage(8),
+  Util.getPlaceholderBookImage(7),
 ]);
 onBeforeMount(() => {
   bindleApiStore.getBooks().then(() => {
