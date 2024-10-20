@@ -16,6 +16,7 @@ import SearchIcon from "@/components/icons/SearchIcon.vue";
 import HorizontalMenuBar from "@/components/HorizontalMenuBar.vue";
 import ChevronIcon from "@/components/icons/ChevronIcon.vue";
 import CartIcon from "@/components/icons/CartIcon.vue";
+import HelpIcon from "@/components/icons/HelpIcon.vue";
 import BurgerIcon from "@/components/icons/BurgerIcon.vue";
 import SlideIn from "@/components/SlideIn.vue";
 import CloseIcon from "@/components/icons/CloseIcon.vue";
@@ -453,22 +454,26 @@ const cartItemsCount = computed(() => {
         />
       </div>
     </div>
-    <div class="shrink mt-2 lg:mr-4 relative">
-      <!--            <router-link to="/basket">
-                <cart-icon width="24" height="24" class="mx-auto cursor-pointer text-theme-teal"/>
-            </router-link>
-            -->
-      <cart-icon
-        width="24"
-        height="24"
-        class="mx-auto cursor-pointer text-theme-teal"
-        @click="toggleCart"
-      />
-      <span
-        class="absolute -top-2 -right-1 rounded-full text-white bg-theme-teal h-5 w-5 text-[12px] text-center"
-        >{{ cartItemsCount }}</span
-      >
+    <div class="shrink mt-2 lg:mr-4 flex gap-2 lg:gap-4">
+      <router-link to="/contact-us" title="Contact Us">
+          <help-icon width="25" height="25" class="mx-auto cursor-pointer text-gray-800"/>
+      </router-link>
+          
+      <div class="relative">
+        <cart-icon
+          width="24"
+          height="24"
+          class="mx-auto cursor-pointer text-theme-teal"
+          @click="toggleCart"
+        />
+        <span
+          class="absolute -top-2 -right-1 rounded-full text-white bg-theme-teal h-5 w-5 text-[12px] text-center"
+          >{{ cartItemsCount }}
+        </span>
+      </div>
+
     </div>
+    
     <div class="shrink mt-2 lg:hidden">
       <burger-icon
         class="mx-auto cursor-pointer linklike mr-8"

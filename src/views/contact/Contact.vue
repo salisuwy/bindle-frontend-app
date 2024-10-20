@@ -89,8 +89,8 @@ async function sendMessage() {
                 <h2 class="text-gray-600 font-medium">
                   <a
                     class="text-gray-600 font-medium"
-                    href="mailto:customerservices@bindle.co.uk"
-                    >customerservices@bindle.co.uk</a
+                    href="mailto:support@bindle.co.uk"
+                    >support@bindle.co.uk</a
                   >
                 </h2>
               </div>
