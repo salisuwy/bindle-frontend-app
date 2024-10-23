@@ -397,6 +397,10 @@ onMounted(async () => {
     await bindleApiStore.getBundles()
     bundles.value = bindleApiStore.bundles;
 
+    if(route.query?.formats === 'ebook') {
+        formats.value.push('ebook');
+    }
+
     if ('subject' in route.query && route.query.subject!=='all') {
         await nextTick();
         filterSubjectAccordionRef.value.open();

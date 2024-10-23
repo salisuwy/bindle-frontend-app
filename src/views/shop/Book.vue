@@ -124,7 +124,7 @@ onMounted(async () => {
   examboard.value = await bindleApiStore.getExamboardById(
     book.value.examboard_id
   );
-  types.value = await bindleApiStore.getTypesById(book.value.type_ids);
+  types.value = await bindleApiStore.getTypesById([book.value.type_id]);
   bundle.value = await await bindleApiStore.getRandomBundles(1)[0];
 });
 
@@ -287,8 +287,6 @@ const itemsInStock = computed(() => {
                   </tr>
                   <tr>
                     <td>Type(s)</td>
-                    <!-- <pre>{{ subjects }}</pre> -->
-                    <!-- <td>Textbook</td> -->
                     <td>{{ getTypesList }}</td>
                   </tr>
                 </table>

@@ -112,7 +112,8 @@ const getTypes = computed(() => {
   if (bundle.value !== null && bindleApiStore.types !== null) {
     for (let idx = 0; idx < bundle.value.book_ids.length; idx++) {
       const book = bindleApiStore.books[bundle.value.book_ids[idx]];
-      book.type_ids.forEach((type_id) => {
+      const type_ids = [book.type_id];
+      type_ids.forEach((type_id) => {
         if (type_id in bindleApiStore.types) {
           const typeName = bindleApiStore.types[type_id].name;
           if (!(typeName in types)) {
@@ -279,7 +280,8 @@ watch(
             <div
               class="flex flex-row h-fit sticky top-12 bg-theme-pale w-full py-6"
             >
-              <img
+            <img :src="bundle?.image_url" :alt="bundle?.title" class="w-full h-auto object-contain object-center aspect-auto">
+              <!-- <img
                 :src="bundleImages[0]"
                 alt="book image"
                 class="w-1/3 mx-auto scale-70 rotate-5"
@@ -293,7 +295,7 @@ watch(
                 :src="bundleImages[2]"
                 alt="book image"
                 class="w-1/3 mx-auto scale-70 -rotate-5"
-              />
+              /> -->
             </div>
           </div>
           <div v-if="bundle" class="w-full md:w-1/2 p-8">

@@ -15,7 +15,7 @@ import slide2bg from '/assets/slide2bg.png';
             Accessible on all of your devices, our digital resources have the same quality but better for the planet, and your wallet.
           </p>
           <div class="mt-12">
-            <router-link to="shop" class="buttonlike cursor-pointer px-12 py-3 rounded-sm" >Shop Now</router-link>
+            <router-link to="/resources/explore?formats=ebook" class="buttonlike cursor-pointer px-12 py-3 rounded-sm" >Shop Now</router-link>
           </div>
         </div>
         <div class="grow">&nbsp;</div>
