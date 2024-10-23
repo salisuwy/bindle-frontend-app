@@ -231,7 +231,6 @@ const cartItemsCount = computed(() => {
             </div>
             <div class="xl:w-1/3 mb-4 flex flex-col">
               <h2>RESOURCE TYPE</h2>
-              <!-- <pre>{{  types }}</pre> -->
               <router-link
                 :to="'/resources/explore?type=' + type.slug"
                 v-for="type in types"
@@ -283,7 +282,6 @@ const cartItemsCount = computed(() => {
           >
             <div class="flex flex-col w-1/2 lg:w-1/3">
               <h2>RESOURCE TYPE</h2>
-              <!-- <pre>{{  types }}</pre> -->
               <router-link
                 :to="'/resources/explore?level=gcse&type=' + type.slug"
                 v-for="type in types"
@@ -356,7 +354,6 @@ const cartItemsCount = computed(() => {
           >
             <div class="flex flex-col w-1/2 lg:w-1/3">
               <h2>RESOURCE TYPE</h2>
-              <!-- <pre>{{  types }}</pre> -->
               <!--
                             <a href="">Textbooks</a>
                             <a href="">Study Guides</a>

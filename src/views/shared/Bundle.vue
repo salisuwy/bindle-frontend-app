@@ -51,7 +51,7 @@ const getImagesClass = (book_ids) => {
       <div
         class="relative h-72 bg-theme-pale overflow-hidden"
       >
-       <img :src="bundle?.image_url" :alt="bundle?.title" class="w-full h-full object-cover object-center aspect-auto">
+       <img :src="bundle?.image_url" :alt="bundle?.title" class="w-full h-full object-contain object-center aspect-auto">
         <!-- <img
           v-for="(book_id, index) in props.bundle['book_ids']"
           :key="index"

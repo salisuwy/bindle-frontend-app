@@ -401,7 +401,6 @@ const paginationNavigation = () => {
 
                     <accordion ref="filterTypeAccordionRef" content-class="filter-level flex flex-col" title-class="md:text-sm lg:text-base cursor-pointer linklike" indicator-class="float-right">
                         <template #title><h3 class="inline-block">RESOURCE TYPE</h3></template>
-                        <!-- <pre>{{  types }}</pre> -->
                         <template #indicator><chevron-icon down class="inline-block" /></template>
                         <hr class="hidden md:block w-full my-4"/>
                         <label v-if="filtersLoaded" v-for="(type) in types" :key="type['slug']" class="bindle-checkbox cursor-pointer mr-auto">
