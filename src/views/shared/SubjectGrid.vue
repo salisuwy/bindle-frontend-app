@@ -14,8 +14,9 @@ const subjects = ref(null)
 const prioritisedIndex = ref([])
 onMounted(async () => {
     subjects.value = await bindleApiStore.getSubjects();
-    console.error("Subjects>>>", subjects.value)
+    console.error("Subjects >>>", subjects.value)
     prioritisedIndex.value = await bindleApiStore.getPrioritisedSubjectsIndex();
+    console.error("prioritisedIndex >>>", prioritisedIndex.value)
 });
 
 
