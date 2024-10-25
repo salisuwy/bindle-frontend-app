@@ -280,7 +280,7 @@ watch(
             <div
               class="flex flex-row h-fit sticky top-12 bg-theme-pale w-full py-6"
             >
-            <img :src="bundle?.image_url" :alt="bundle?.title" class="w-full h-auto object-contain object-center aspect-auto">
+            <img :src="bundle?.image_url?.main" :alt="bundle?.title" class="w-full h-auto object-contain object-center aspect-auto">
               <!-- <img
                 :src="bundleImages[0]"
                 alt="book image"
