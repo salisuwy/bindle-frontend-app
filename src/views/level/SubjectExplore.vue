@@ -10,6 +10,7 @@ import Accordion from "@/components/Accordion.vue";
 import Bundle from "@/views/shared/Bundle.vue";
 import Book from "@/views/shared/Book.vue";
 import Pagination from "@/components/Pagination.vue";
+import { useHead } from "@unhead/vue";
 
 const route = useRoute();
 const router = useRouter();
@@ -338,6 +339,15 @@ const updateSubject = async (subjectSlug) => {
     }
     await router.push({path: newUrl, query: route.query});
 }
+
+// TODO: title sorting
+const navBarTitle = computed(() => {
+  // return route.params.level;
+  return pageTitle;
+});
+useHead ({
+    title: navBarTitle
+});
 
 watch(
     ()=> [ route.params.level, route.params.subject],

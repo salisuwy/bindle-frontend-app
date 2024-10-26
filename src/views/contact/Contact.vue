@@ -7,11 +7,6 @@ import { useForm, Field, ErrorMessage } from "vee-validate";
 import * as yup from "yup";
 import { saveMessage } from "@/store/cart-api";
 import SpinnerIcon from "@/components/icons/SpinnerIcon.vue";
-import { useHead } from '@unhead/vue'
-
-useHead({
-  title: 'Contact Us'
-})
 
 const showForm = ref(true);
 const isProcessing = ref(false);

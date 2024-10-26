@@ -14,9 +14,7 @@ const subjects = ref(null)
 const prioritisedIndex = ref([])
 onMounted(async () => {
     subjects.value = await bindleApiStore.getSubjects();
-    console.error("Subjects >>>", subjects.value)
     prioritisedIndex.value = await bindleApiStore.getPrioritisedSubjectsIndex();
-    console.error("prioritisedIndex >>>", prioritisedIndex.value)
 });
 
 
@@ -50,7 +48,6 @@ const subjectClass = (idx) => {
     <router-link v-for="(id, idx) in prioritisedIndex"
                  :to="'/'+props.stub+'/'+subjects[id]['slug']"
                  :class="subjectClass(idx)+' flex align-center justify-center'">
-                 <!-- <pre>{{ subjects[id]['image_url'] }}</pre> -->
       <img v-if="idx<9 && subjects[id]['image_url']"
            :src="Util.ensureSsl(subjects[id]['image_url'])"
            :alt="subjects[id]['name']"

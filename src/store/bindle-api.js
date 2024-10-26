@@ -376,7 +376,7 @@ export const useBindleApiStore = defineStore("bindleApi", () => {
           subject["image_url"] = "/assets/subjects/english-language.png";
           subject["priority"] = 2;
           break;
-        case "english-lit":
+        case "english-literature":
           subject["image_url"] = "/assets/subjects/english-literature.png";
           subject["priority"] = 2;
           break;

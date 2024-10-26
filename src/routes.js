@@ -56,13 +56,13 @@ const routes = [
     name: "explore-resources",
     path: "/resources/explore",
     component: Explore,
-    meta: { breadcrumb: "Explore" },
+    meta: { breadcrumb: "Explore", title: "Explore Resources" },
   },
   {
     name: "resources",
     path: "/resources",
     component: Resources,
-    meta: { breadcrumb: "Resources" },
+    meta: { breadcrumb: "Resources", title: "Resources" },
   },
   {
     name: "bundles",
@@ -70,6 +70,7 @@ const routes = [
     component: Bundles,
     meta: {
       breadcrumb: "Bundles",
+      title: "Bundles",
     },
   },
   {
@@ -78,6 +79,7 @@ const routes = [
     component: ExploreBundles,
     meta: {
       breadcrumb: "ExploreBundles",
+      title: "Explore Bundles",
     },
   },
   {
@@ -92,26 +94,26 @@ const routes = [
     name: "checkout",
     path: "/checkout",
     component: Checkout,
-    meta: { breadcrumb: "Checkout" },
+    meta: { breadcrumb: "Checkout", title: "Checkout" },
   },
   {
     name: "checkout-address",
     path: "/checkout-address",
     component: CheckoutAddress,
-    meta: { breadcrumb: "Checkout" },
+    meta: { breadcrumb: "Checkout", title: "Checkout Address" },
   },
   {
     name: "checkout-payment",
     path: "/checkout-payment",
     component: CheckoutPayment,
-    meta: { breadcrumb: "Checkout" },
+    meta: { breadcrumb: "Checkout", title: "Checkout Payment" },
   },
 
   {
     name: "invoice",
     path: "/invoice/:anonId/:orderId",
     component: Invoice,
-    meta: { breadcrumb: "Invoice" },
+    meta: { breadcrumb: "Invoice", title: "Invoice" },
   },
   {
     name: "gcse",
@@ -119,6 +121,7 @@ const routes = [
     component: GCSE,
     meta: {
       breadcrumb: "GCSE",
+      title: "GCSE",
     },
   },
   {
@@ -127,6 +130,7 @@ const routes = [
     component: ALevel,
     meta: {
       breadcrumb: "A-Level",
+      title: "A-Level",
     },
   },
   {
@@ -135,6 +139,7 @@ const routes = [
     component: Book,
     meta: {
       breadcrumb: (route) => Util.humaniseSnakeCase(route.params.book),
+      title: (route) => 'Book ABC',
     },
     beforeEnter: async (to, from, next) => {
       const bindleStore = useBindleApiStore();
@@ -208,6 +213,8 @@ const routes = [
     component: GenericLevel,
     meta: {
       breadcrumb: (route) => Util.humaniseSnakeCase(route.params.level),
+      title: (route) =>
+        `Generic Level ${Util.humaniseSnakeCase(route.params.level)}`,
     },
     beforeEnter: async (to, from, next) => {
       const bindleStore = useBindleApiStore();
@@ -255,10 +262,7 @@ router.beforeEach((to, from, next) => {
 
 router.afterEach((to) => {
   const pageTitle = to.meta.title || "";
-
-  useHead({
-    title: `Bindle - ${pageTitle}`,
-  });
+  useHead({ title: `Bindle - ${pageTitle}` });
 });
 
 export default router;

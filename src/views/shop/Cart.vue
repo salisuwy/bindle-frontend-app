@@ -25,6 +25,15 @@ const order = computed(() => {
   return data.value?.order ?? {};
 });
 
+
+const bookStock = computed(() => {
+  return data.value?.order?.book_stock ?? {};
+});
+
+const bundleStock = computed(() => {
+  return data.value?.order?.bundle_stock ?? {};
+});
+
 const cartItems = computed(() => {
   return data.value?.order?.items ?? [];
 });
@@ -35,12 +44,15 @@ const cartItemsCount = computed(() => {
 });
 
 const orderTotalPlusShipping = computed(() => {
-  const orderFinal = isNaN(Number.parseFloat(order.value?.order_final)) ? 0 : Number.parseFloat(order.value?.order_final);
-  const shippingCost = isNaN(Number.parseFloat(order.value?.shipping_cost)) ? 0 : Number.parseFloat(order.value?.shipping_cost);
+  const orderFinal = isNaN(Number.parseFloat(order.value?.order_final))
+    ? 0
+    : Number.parseFloat(order.value?.order_final);
+  const shippingCost = isNaN(Number.parseFloat(order.value?.shipping_cost))
+    ? 0
+    : Number.parseFloat(order.value?.shipping_cost);
   const totalTo2Decimals = (orderFinal + shippingCost).toFixed(2);
   return totalTo2Decimals;
 });
-
 </script>
 <template>
   <div v-if="cartItems.length === 0">
@@ -54,11 +66,13 @@ const orderTotalPlusShipping = computed(() => {
     ></router-link>
   </div>
 
-  <CartDrawer 
-    v-else 
-    :items="cartItems" 
-    :total="orderTotalPlusShipping"
+  <CartDrawer
+    v-else
+    :items="cartItems"
     :count="cartItemsCount"
+    :total="orderTotalPlusShipping"
+    :bookStock="bookStock"
+    :bundleStock="bundleStock"
     @checkoutLinkClicked="gotoCheckout"
   />
 </template>

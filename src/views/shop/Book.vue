@@ -303,13 +303,13 @@ const itemsInStock = computed(() => {
               >
                 <template #title
                   ><h3 class="inline-block text-2xl">
-                    Shipping and returns
+                    Delivery and returns
                   </h3></template
                 >
                 <template #indicator
                   ><chevron-icon down class="inline-block"
                 /></template>
-                <div>Shipping and returns info placeholder</div>
+                <div>Delivery and returns info placeholder</div>
               </accordion>
             </div> -->
           </div>

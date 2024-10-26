@@ -10,7 +10,7 @@ const bindleApiStore = useBindleApiStore()
     <div class="bg-theme-white py-10 relative">
         <div class="mx-auto max-w-xl w-full px-6 text-left mb-16">
             <accordion content-class="text-sm text-theme-darkgray2 mt-2" title-class="linklike" indicator-class="float-right" open>
-                <template #title><h3 class="inline-block text-2xl">Shipping and returns</h3></template>
+                <template #title><h3 class="inline-block text-2xl">Delivery and returns</h3></template>
                 <template #indicator><chevron-icon down class="inline-block" /></template>
                 <div>
                     Good news, everyone! There's a report on TV with some very bad news! This opera's as lousy as it is brilliant! Your lyrics lack subtlety. You can't just have your characters announce how they feel. That makes me feel angry!

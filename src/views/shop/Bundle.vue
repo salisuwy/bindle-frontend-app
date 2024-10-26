@@ -280,7 +280,11 @@ watch(
             <div
               class="flex flex-row h-fit sticky top-12 bg-theme-pale w-full py-6"
             >
-            <img :src="bundle?.image_url?.main" :alt="bundle?.title" class="w-full h-auto object-contain object-center aspect-auto">
+              <img
+                :src="bundle?.image_url?.main"
+                :alt="bundle?.title"
+                class="w-full h-auto object-contain object-center aspect-auto"
+              />
               <!-- <img
                 :src="bundleImages[0]"
                 alt="book image"
@@ -370,11 +374,9 @@ watch(
                 <!-- {{ itemsInStock }} - {{ bundle.quantity_in_stock }} -->
 
                 <span v-if="!isPending && (ebookSelected || itemsInStock > 0)">
-                  Add to basket - &pound;{{
-                    getBundlePrice
-                  }}
+                  Add to basket - &pound;{{ getBundlePrice }}
                 </span>
-                <span v-if="!isPending && (!ebookSelected && itemsInStock <= 0)">
+                <span v-if="!isPending && !ebookSelected && itemsInStock <= 0">
                   Out of stock
                 </span>
                 <span
@@ -457,13 +459,13 @@ watch(
               >
                 <template #title
                   ><h3 class="inline-block text-2xl">
-                    Shipping and returns
+                    Delivery and returns
                   </h3></template
                 >
                 <template #indicator
                   ><chevron-icon down class="inline-block"
                 /></template>
-                <div>Shipping and returns info placeholder</div>
+                <div>Delivery and returns info placeholder</div>
               </accordion>
             </div> -->
           </div>
@@ -471,12 +473,13 @@ watch(
         <div v-if="bundle" class="w-full text-center my-8">
           <h2 class="text3xl">What's inside?</h2>
           <div class="max-w-2/3 md:w-1/2 mx-auto my-4">
-            Tailored for {{ getExamboards.join(" / ") }} Exam Board{{
+            Tailored for
+            {{ Array.from(new Set(getExamboards)).join(" / ") }} Exam Board{{
               getExamboards.length > 0 ? "s" : ""
             }}
-            deep dive into {{ getLevels.join(" / ") }}
-            {{ getSubjects.join(" / ") }} to ensure you're well prepared for
-            exam success.
+            deep dive into {{ Array.from(new Set(getLevels)).join(" / ") }}
+            {{ Array.from(new Set(getSubjects)).join(" / ") }} to ensure you're
+            well prepared for exam success.
           </div>
           <div
             class="md:mx-8 flex flex-col md:flex-row items-center justify-center mx-auto gap-4 md:gap-0"
