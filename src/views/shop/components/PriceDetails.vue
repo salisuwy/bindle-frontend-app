@@ -13,7 +13,7 @@
     >
       <span class="font-light text-neutral-500">Pre Discount</span>
       <span class="font-medium text-neutral-800"
-        >£{{ order?.order_total }}</span
+        >£{{ order?.order_total_before_discount }}</span
       >
     </div>
     <div class="flex gap-5 justify-between mt-3 text-base leading-6">
@@ -32,8 +32,7 @@
     <div class="flex gap-5 justify-between mt-3 text-base leading-6">
       <span class="font-light text-neutral-500">Coupon + Bundle Saving</span>
       <span class="font-medium text-neutral-800">
-        {{ order?.coupons_total_discount > 0 ? "-" : "" }}
-        £{{ order?.coupons_total_discount }}
+        £{{ order?.order_savings }}
       </span>
     </div>
     <p
@@ -45,7 +44,7 @@
     <div class="flex gap-5 justify-between mt-3 text-base leading-6">
       <span class="font-light text-neutral-500">Delivery Fee</span>
       <span class="font-medium" v-if="order?.shipping_cost > 0">
-        £{{ order?.shipping_cost}}
+        £{{ order?.shipping_cost }}
       </span>
       <span class="font-medium text-teal-500" v-else>FREE</span>
     </div>
@@ -86,10 +85,7 @@ const coupon = computed(() => {
 });
 
 const orderTotalPlusShipping = computed(() => {
-  const orderFinal = isNaN(Number.parseFloat(order.value?.order_final)) ? 0 : Number.parseFloat(order.value?.order_final);
-  const shippingCost = isNaN(Number.parseFloat(order.value?.shipping_cost)) ? 0 : Number.parseFloat(order.value?.shipping_cost);
-  const totalTo2Decimals = (orderFinal + shippingCost).toFixed(2);
-  return totalTo2Decimals;
+  const orderFinal = order.value?.order_final ?? 0;
+  return orderFinal;
 });
-
 </script>

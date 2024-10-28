@@ -139,7 +139,6 @@ const routes = [
     component: Book,
     meta: {
       breadcrumb: (route) => Util.humaniseSnakeCase(route.params.book),
-      title: (route) => 'Book ABC',
     },
     beforeEnter: async (to, from, next) => {
       const bindleStore = useBindleApiStore();
@@ -213,8 +212,6 @@ const routes = [
     component: GenericLevel,
     meta: {
       breadcrumb: (route) => Util.humaniseSnakeCase(route.params.level),
-      title: (route) =>
-        `Generic Level ${Util.humaniseSnakeCase(route.params.level)}`,
     },
     beforeEnter: async (to, from, next) => {
       const bindleStore = useBindleApiStore();

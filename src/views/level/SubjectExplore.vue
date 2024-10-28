@@ -341,13 +341,13 @@ const updateSubject = async (subjectSlug) => {
 }
 
 // TODO: title sorting
-const navBarTitle = computed(() => {
-  // return route.params.level;
-  return pageTitle;
-});
-useHead ({
-    title: navBarTitle
-});
+// const navBarTitle = computed(() => {
+//   // return route.params.level;
+//   return pageTitle;
+// });
+// useHead ({
+//     title: navBarTitle
+// });
 
 watch(
     ()=> [ route.params.level, route.params.subject],

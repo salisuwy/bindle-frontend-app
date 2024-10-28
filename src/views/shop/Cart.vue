@@ -25,7 +25,6 @@ const order = computed(() => {
   return data.value?.order ?? {};
 });
 
-
 const bookStock = computed(() => {
   return data.value?.order?.book_stock ?? {};
 });
@@ -44,14 +43,8 @@ const cartItemsCount = computed(() => {
 });
 
 const orderTotalPlusShipping = computed(() => {
-  const orderFinal = isNaN(Number.parseFloat(order.value?.order_final))
-    ? 0
-    : Number.parseFloat(order.value?.order_final);
-  const shippingCost = isNaN(Number.parseFloat(order.value?.shipping_cost))
-    ? 0
-    : Number.parseFloat(order.value?.shipping_cost);
-  const totalTo2Decimals = (orderFinal + shippingCost).toFixed(2);
-  return totalTo2Decimals;
+  const orderFinal = order.value?.order_final ?? 0;
+  return orderFinal;
 });
 </script>
 <template>
