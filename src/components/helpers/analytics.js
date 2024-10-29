@@ -16,8 +16,8 @@ const eventMapping = {
 };
 
 export function trackEvent(event, params = {}) {
-  console.log("Tracking event: " + event);
-  console.log(params);
+  // console.log("Tracking event: " + event);
+  // console.log(params);
 
   // Check if the event exists in the mapping
   const mappedEvent = eventMapping[event];
@@ -43,7 +43,7 @@ export function trackEvent(event, params = {}) {
 
 export default {
   methods: {
-    // (1) Add Payment Info
+    //--- (1) Add Payment Info
     trackAddPaymentInfo() {
       analytics.trackEvent('addPaymentInfo', {
         currency: 'USD',
@@ -52,7 +52,7 @@ export default {
       });
     },
 
-    // (2) Add to Basket
+    // (2) --- Add to Basket
     trackAddToBasket() {
       analytics.trackEvent('addToBasket', {
         item_id: '12345',
@@ -70,7 +70,7 @@ export default {
       });
     },
 
-    // (4) Contact
+    // (4) ---- Contact
     trackContact() {
       analytics.trackEvent('contact', {
         contact_method: 'email',
@@ -78,7 +78,7 @@ export default {
       });
     },
 
-    // (5) Initiate Checkout
+    // (5) ---- Initiate Checkout
     trackInitiateCheckout() {
       analytics.trackEvent('initiateCheckout', {
         currency: 'USD',
@@ -98,7 +98,7 @@ export default {
       });
     },
 
-    // (7) Purchase
+    // (7) --- Purchase
     trackPurchase() {
       analytics.trackEvent('purchase', {
         transaction_id: 'T12345',

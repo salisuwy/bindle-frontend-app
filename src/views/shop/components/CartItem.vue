@@ -102,6 +102,7 @@ import AddToCartErrorNotification from "./AddToCartErrorNotification.vue";
 import SpinnerIcon from "../../../components/icons/SpinnerIcon.vue";
 import { addToCart, removeFromCart, setUuid } from "@/store/cart-api";
 import { useMutation, useQueryClient } from "@tanstack/vue-query";
+import { trackEvent } from "../../../components/helpers/analytics";
 
 const queryClient = useQueryClient();
 
@@ -162,13 +163,22 @@ const { isPending, mutate } = useMutation({
 
 function increaseQuantity() {
   if (itemsInStock.value > 0) {
+    
+    trackEvent("addToBasket", {
+      item_id: item.value.item_id,
+      item_type: item.value.item_type,
+      item_name: item.value?.title,
+      value: item.value?.discounted_price,
+      currency: "GBP",
+    });
+
     // optimistic update
     item.value.quantity = item.value.quantity + 1;
     mutate({
       operation: "add",
       item_type: item.value.item_type,
       item_id: item.value.item_id,
-      is_ebook: item.value.is_ebook
+      is_ebook: item.value.is_ebook,
     });
   }
 }
@@ -181,7 +191,7 @@ function decreaseQuantity() {
       operation: "remove",
       item_type: item.value.item_type,
       item_id: item.value.item_id,
-      is_ebook: item.value.is_ebook
+      is_ebook: item.value.is_ebook,
     });
   }
 }

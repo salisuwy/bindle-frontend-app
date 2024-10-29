@@ -453,7 +453,7 @@ const cartItemsCount = computed(() => {
     </div>
     <div class="shrink mt-2 lg:mr-4 flex gap-2 lg:gap-4">
       <router-link to="/contact-us" title="Contact Us">
-          <help-icon width="25" height="25" class="mx-auto cursor-pointer text-gray-800"/>
+          <help-icon width="25" height="25" class="mx-auto cursor-pointer font-medium text-teal-500"/>
       </router-link>
           
       <div class="relative">

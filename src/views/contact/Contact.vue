@@ -7,6 +7,7 @@ import { useForm, Field, ErrorMessage } from "vee-validate";
 import * as yup from "yup";
 import { saveMessage } from "@/store/cart-api";
 import SpinnerIcon from "@/components/icons/SpinnerIcon.vue";
+import { trackEvent } from "../../components/helpers/analytics";
 
 const showForm = ref(true);
 const isProcessing = ref(false);
@@ -30,6 +31,11 @@ const { handleSubmit, values, setFieldValue, setFieldError, errors } = useForm({
 });
 
 async function sendMessage() {
+  trackEvent("contact", {
+    contact_method: "email",
+    message_subject: "Support Inquiry",
+  });
+
   isProcessing.value = true;
   try {
     await schema.validate(values, { abortEarly: false });
@@ -138,7 +144,7 @@ async function sendMessage() {
 
             <div
               class="w-full bg-theme-navyblue rounded-3xl text-white px-8 pt-6 pb-20 grow text-left relative"
-               v-if="showForm"
+              v-if="showForm"
             >
               <h2 class="text-white text-3xl mb-4">Send Us a Message</h2>
               <form @submit.prevent="sendMessage" class="space-y-6" novalidate>

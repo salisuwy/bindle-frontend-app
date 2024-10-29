@@ -1,10 +1,11 @@
 <script setup>
-import { ref, watch, computed, defineProps, defineEmits } from "vue";
+import { ref, watch, computed, defineProps, defineEmits, onMounted } from "vue";
 import { countries } from "@/components/helpers/countries";
 import { useForm, Field, ErrorMessage } from "vee-validate";
 import * as yup from "yup";
 import { useMutation, useQueryClient } from "@tanstack/vue-query";
 import { setOrderAddress, setUuid } from "@/store/cart-api";
+import { trackEvent } from "../../../components/helpers/analytics";
 
 const props = defineProps({
   order: {
@@ -50,7 +51,10 @@ const schema = yup.object({
     .string()
     .email("Email is invalid")
     .required("Email is required")
-    .matches(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/, 'Invalid email format'),
+    .matches(
+      /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+      "Invalid email format"
+    ),
   delivery_address1: yup.string().required("Address line 1 is required"),
   delivery_city: yup.string().required("Town/City is required"),
   delivery_zip: yup.string().required("ZIP/Postal code is required"),
@@ -62,7 +66,10 @@ const schema = yup.object({
     .string()
     .email("Email is invalid")
     .required("Email is required")
-    .matches(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/, 'Invalid email format'),
+    .matches(
+      /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+      "Invalid email format"
+    ),
   billing_address1: yup.string().required("Address line 1 is required"),
   billing_city: yup.string().required("Town/City is required"),
   billing_zip: yup.string().required("ZIP/Postal code is required"),
@@ -131,6 +138,22 @@ watch(transition, async (_) => {
       emit("setCurrentStage", 1);
     }
   }
+});
+
+onMounted(() => {
+  const itInOrder = props.order?.items?.map((it) => {
+    return {
+      item_id: it?.item_id,
+      item_type: it?.item_type,
+      item_name: it?.title,
+      quantity: it?.quantity,
+    };
+  });
+  trackEvent("initiateCheckout", {
+    currency: "GBP",
+    value: props.order?.order_final,
+    items: itInOrder,
+  });
 });
 </script>
 

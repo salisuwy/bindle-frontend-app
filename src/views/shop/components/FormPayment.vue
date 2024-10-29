@@ -2,10 +2,17 @@
 import { ref, watch, computed, defineProps, defineEmits, onMounted } from "vue";
 import { useMutation, useQueryClient } from "@tanstack/vue-query";
 import { preConfirmPayment, createPaymentIntent } from "@/store/cart-api";
+import { trackEvent } from "../../../components/helpers/analytics";
 import { useRouter } from "vue-router";
 import { loadStripe } from "@stripe/stripe-js";
 import SpinnerIcon from "@/components/icons/SpinnerIcon.vue";
-import { getAnonIdAndUuid, getOrderMode, STRIPE_PUBLIC_KEY, STRIPE_PUBLIC_KEY_LIVE, STRIPE_PUBLIC_KEY_TEST } from "../../../store/cart-api";
+import {
+  getAnonIdAndUuid,
+  getOrderMode,
+  STRIPE_PUBLIC_KEY,
+  STRIPE_PUBLIC_KEY_LIVE,
+  STRIPE_PUBLIC_KEY_TEST,
+} from "../../../store/cart-api";
 
 const router = useRouter();
 const props = defineProps({
@@ -77,6 +84,21 @@ const performTransition = () => {
 };
 
 async function handlePaymentPreConfirm(paymentIntent) {
+  const itInOrder = order.value?.items?.map((it) => {
+    return {
+      item_id: it?.item_id,
+      item_type: it?.item_type,
+      item_name: it?.title,
+      quantity: it?.quantity,
+    };
+  });
+  trackEvent("purchase", {
+    currency: "GBP",
+    transaction_id: order.value?.uuid,
+    value: order.value?.order_final,
+    items: itInOrder,
+  });
+
   try {
     await preConfirmPayment({ payment_intent: paymentIntent });
     return true;
@@ -90,7 +112,7 @@ watch(transition, async (_) => {
   if (props.currentStage === 2) {
     console.log("starting payment");
 
-    otherErrors.value = "";   // reset the other error
+    otherErrors.value = ""; // reset the other error
 
     if (!cardHolderName.value) {
       emit("setCurrentStage", 2);
@@ -103,20 +125,28 @@ watch(transition, async (_) => {
       return;
     }
 
+    trackEvent("addPaymentInfo", {
+      currency: "GBP",
+      value: order.value?.order_final,
+      payment_type: "credit_card",
+    });
+
     await makePayment();
 
     console.log("payment done");
   }
 });
 
-
 onMounted(async () => {
   console.log("mounted");
-    
-  const ORDER_MODE = await getOrderMode();
-  const SELECTED_STRIPE_KEY = ORDER_MODE === 'test' ? STRIPE_PUBLIC_KEY_TEST : STRIPE_PUBLIC_KEY_LIVE; 
 
-  const TEN_CHARS = (SELECTED_STRIPE_KEY ? String(SELECTED_STRIPE_KEY) : '').substring(0, 15);
+  const ORDER_MODE = await getOrderMode();
+  const SELECTED_STRIPE_KEY =
+    ORDER_MODE === "test" ? STRIPE_PUBLIC_KEY_TEST : STRIPE_PUBLIC_KEY_LIVE;
+
+  const TEN_CHARS = (
+    SELECTED_STRIPE_KEY ? String(SELECTED_STRIPE_KEY) : ""
+  ).substring(0, 15);
   console.log(`>>> STRIPE - mode: ${ORDER_MODE} | pk: ${TEN_CHARS}`);
 
   stripe = await loadStripe(SELECTED_STRIPE_KEY);
@@ -181,7 +211,9 @@ async function makePayment() {
       });
 
     if (paymentMethodError) {
-      const errMsg = paymentMethodError?.message || "An error is encountered while validating card information";
+      const errMsg =
+        paymentMethodError?.message ||
+        "An error is encountered while validating card information";
       throw new Error(errMsg);
     }
 
@@ -195,7 +227,9 @@ async function makePayment() {
         paymentIntentError.type === "card_error" ||
         paymentIntentError.type === "validation_error"
       ) {
-        const errMsg = paymentIntentError?.message || "An error is encountered while making payment";
+        const errMsg =
+          paymentIntentError?.message ||
+          "An error is encountered while making payment";
         throw new Error(errMsg);
       } else {
         throw new Error(
@@ -219,9 +253,11 @@ async function makePayment() {
       router.push(`/invoice/${anonUuid.anonid}/${anonUuid.uuid}`);
     }
   } catch (error) {
-    const errMsg = error?.message || "An error is encountered while processing payment. Please try again";
+    const errMsg =
+      error?.message ||
+      "An error is encountered while processing payment. Please try again";
     console.log("[Catch] error", errMsg);
-    otherErrors.value = errMsg
+    otherErrors.value = errMsg;
     emit("setCurrentStage", 2);
   }
 }
@@ -239,11 +275,11 @@ async function makePayment() {
     <hr class="my-4 h-px border border-zinc-200" />
 
     <div
-        v-if="otherErrors"
-        class="justify-end items-start px-6 pt-5 pb-6 text-base font-light tracking-normal leading-4 text-red-500 bg-red-50 rounded-md max-md:px-5 max-md:max-w-full"
-      >
-        {{ otherErrors }}
-      </div>
+      v-if="otherErrors"
+      class="justify-end items-start px-6 pt-5 pb-6 text-base font-light tracking-normal leading-4 text-red-500 bg-red-50 rounded-md max-md:px-5 max-md:max-w-full"
+    >
+      {{ otherErrors }}
+    </div>
 
     <div
       class="mt-6 font-medium tracking-tighter text-neutral-600 max-md:max-w-full"
