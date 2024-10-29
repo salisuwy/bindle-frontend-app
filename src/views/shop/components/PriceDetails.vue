@@ -18,9 +18,16 @@
     </div>
     <div class="flex gap-5 justify-between mt-3 text-base leading-6">
       <span class="font-light text-neutral-500">Coupon Discount</span>
-      <span class="font-medium text-neutral-800"
-        >£{{ order?.coupons_total_discount }}</span
+      <span
+        class="font-medium"
+        :class="{
+          'text-teal-500': order?.coupons_total_discount > 0,
+          'text-neutral-800': order?.coupons_total_discount <= 0,
+        }"
       >
+        {{ order?.coupons_total_discount > 0 ? "-" : "" }}
+        £{{ order?.coupons_total_discount }}
+      </span>
     </div>
     <p
       v-if="coupon"
@@ -30,8 +37,15 @@
       <span class="font-medium">{{ coupon }}</span> )
     </p>
     <div class="flex gap-5 justify-between mt-3 text-base leading-6">
-      <span class="font-light text-neutral-500">Coupon + Bundle Saving</span>
-      <span class="font-medium text-neutral-800">
+      <span class="font-light text-neutral-500">Bundle Saving</span>
+      <span
+        class="font-medium"
+        :class="{
+          'text-teal-500': order?.order_savings > 0,
+          'text-neutral-800': order?.order_savings <= 0,
+        }"
+      >
+        {{ order?.order_savings > 0 ? "-" : "" }}
         £{{ order?.order_savings }}
       </span>
     </div>
@@ -41,6 +55,16 @@
     >
       (Promotional offer applied)
     </p>
+
+    <hr class="border border-gray-200 mt-4" />
+
+    <div class="flex gap-5 justify-between mt-3 text-base leading-6">
+      <span class="text-lg leading-6 text-neutral-800">Subtotal</span>
+      <span class="font-medium text-neutral-800">
+        £{{ order?.order_subtotal }}
+      </span>
+    </div>
+
     <div class="flex gap-5 justify-between mt-3 text-base leading-6">
       <span class="font-light text-neutral-500">Delivery Fee</span>
       <span class="font-medium" v-if="order?.shipping_cost > 0">
