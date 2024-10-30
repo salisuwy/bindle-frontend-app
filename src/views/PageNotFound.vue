@@ -1,5 +1,11 @@
 <script setup>
 import Layout from "@/views/shared/Layout.vue";
+import { useHead } from "@unhead/vue";
+
+useHead({
+  title: () => `Page Not Found`,
+});
+
 </script>
 <template>
   <layout>

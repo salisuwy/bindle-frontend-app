@@ -20,6 +20,7 @@ import AddToCartErrorNotification from "./components/AddToCartErrorNotification.
 import SpinnerIcon from "../../components/icons/SpinnerIcon.vue";
 import { useMutation, useQueryClient, useQuery } from "@tanstack/vue-query";
 import { addToCart, setUuid, getOrderCart } from "@/store/cart-api";
+import { useHead } from "@unhead/vue";
 
 const queryClient = useQueryClient();
 
@@ -220,6 +221,10 @@ const getBundle = async () => {
   const slug = route.path.split("/").slice(-1)[0];
   bundle.value = await bindleApiStore.getBundleBySlug(slug);
 };
+
+useHead({
+  title: () => `Bindle - Bundle: ${bundle.value?.title}`,
+});
 
 onMounted(async () => {
   await bindleApiStore.getBundles();

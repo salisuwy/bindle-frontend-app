@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onMounted, ref } from "vue";
+import { computed, onMounted, ref, watch } from "vue";
 import { useRoute } from "vue-router";
 import { useBindleApiStore } from "@/store/bindle-api.js";
 import { Util } from "@/components/helpers/Util";
@@ -19,6 +19,7 @@ import { useMutation, useQueryClient, useQuery } from "@tanstack/vue-query";
 import { addToCart, setUuid, getOrderCart } from "@/store/cart-api";
 import SpinnerIcon from "../../components/icons/SpinnerIcon.vue";
 import AddToCartErrorNotification from "./components/AddToCartErrorNotification.vue";
+import { useHead } from "@unhead/vue";
 
 const queryClient = useQueryClient();
 
@@ -115,7 +116,7 @@ const addToBasket = () => {
   });
 };
 
-onMounted(async () => {
+const prepBook = async () => {
   const slug = route.path.split("/").slice(-1)[0];
   book.value = await bindleApiStore.fetchBookBySlug(slug);
   ebookSelected.value = book.value && book.value.is_ebook;
@@ -126,6 +127,21 @@ onMounted(async () => {
   );
   types.value = await bindleApiStore.getTypesById([book.value.type_id]);
   bundle.value = await await bindleApiStore.getRandomBundles(1)[0];
+};
+
+watch(
+  () => route.path,
+  () => {
+    prepBook();
+  }
+);
+
+useHead({
+  title: () => `Bindle - Book: ${book.value?.title}`,
+});
+
+onMounted(async () => {
+  await prepBook();
 });
 
 const itemsInStock = computed(() => {

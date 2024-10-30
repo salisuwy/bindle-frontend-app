@@ -88,7 +88,6 @@ const routes = [
     component: Bundle,
     meta: {
       breadcrumb: (route) => Util.humaniseSnakeCase(route.params.bundle),
-      title: "View Bundle",
     },
   },
   {
@@ -140,7 +139,6 @@ const routes = [
     component: Book,
     meta: {
       breadcrumb: (route) => Util.humaniseSnakeCase(route.params.book),
-      title: "View Book",
     },
     beforeEnter: async (to, from, next) => {
       const bindleStore = useBindleApiStore();
@@ -178,7 +176,6 @@ const routes = [
     component: SubjectExplore,
     meta: {
       breadcrumb: (route) => Util.humaniseSnakeCase(route.params.subject),
-      title: "View Subject",
       preventScrollBehaviour: (to, from, savedPosition) =>
         to.name === from.name,
     },
@@ -215,7 +212,7 @@ const routes = [
     component: GenericLevel,
     meta: {
       breadcrumb: (route) => Util.humaniseSnakeCase(route.params.level),
-      title: "View Level",
+      title: "Generic Level",
     },
     beforeEnter: async (to, from, next) => {
       const bindleStore = useBindleApiStore();
@@ -233,6 +230,9 @@ const routes = [
     name: "page-not-found",
     path: "/:pathMatch(.*)*",
     component: PageNotFound,
+    meta: {
+      title: "Page Not Found",
+    },
   },
 ];
 
@@ -263,7 +263,9 @@ router.beforeEach((to, from, next) => {
 
 router.afterEach((to) => {
   const pageTitle = to.meta.title || "";
-  useHead({ title: `Bindle - ${pageTitle}` });
+  if (pageTitle) {
+    useHead({ title: `Bindle - ${pageTitle}` });
+  }
 });
 
 export default router;
