@@ -13,6 +13,8 @@ import ChevronIcon from "@/components/icons/ChevronIcon.vue";
 import PlusIcon from "@/components/icons/PlusIcon.vue";
 import PopularBundles from "@/views/shared/PopularBundles.vue";
 import FeaturedBooks from "@/views/shared/FeaturedBooks.vue";
+import "vue3-carousel/dist/carousel.css";
+import { Carousel, Slide, Navigation } from "vue3-carousel";
 
 import { toast } from "vue3-toastify";
 import AddToCartNotification from "./components/AddToCartNotification.vue";
@@ -21,6 +23,25 @@ import SpinnerIcon from "../../components/icons/SpinnerIcon.vue";
 import { useMutation, useQueryClient, useQuery } from "@tanstack/vue-query";
 import { addToCart, setUuid, getOrderCart } from "@/store/cart-api";
 import { useHead } from "@unhead/vue";
+import { useWindowSize } from "@vueuse/core";
+
+const { width } = useWindowSize();
+
+const carouselRef = ref();
+const currentSlide = ref(0);
+
+const nextSlide = () => carouselRef.value.next();
+const prevSlide = () => carouselRef.value.prev();
+
+const itemsToShow = computed(() => {
+  if (width.value < 640) {
+    return 1;
+  } else if (width.value < 1024) {
+    return 2;
+  } else {
+    return 3;
+  }
+});
 
 const queryClient = useQueryClient();
 
@@ -475,6 +496,7 @@ watch(
             </div> -->
           </div>
         </div>
+
         <div v-if="bundle" class="w-full text-center my-8">
           <h2 class="text3xl">What's inside?</h2>
           <div class="max-w-2/3 md:w-1/2 mx-auto my-4">
@@ -487,17 +509,69 @@ watch(
             well prepared for exam success.
           </div>
           <div
-            class="md:mx-8 flex flex-col md:flex-row items-center justify-center mx-auto gap-4 md:gap-0"
+            class="md:mx-8 flex flex-col md:flex-row items-center justify-center md:items-start mx-auto gap-4 md:gap-10 border-none border-red-600"
           >
-            <div class="w-1/2 md:w-3/12 flex flex-col">
-              <img
-                :src="bundleImages[0]"
-                alt="book image"
-                class="w-full h-auto"
-              />
-              <div></div>
-            </div>
-            <div class="hidden md:block md:w-1/12">
+            <template v-if="books && books?.length <= 3">
+              <div v-for="book in books" class="w-1/2 md:w-4/12 flex flex-col">
+                    <div class="w-full h-auto md:h-[330px] lg:h-[400px] xl:h-[580px]">
+                      <img
+                        :src="book.image_url"
+                        alt="book image"
+                        class="w-full h-full object-cover object-center"
+                      />
+                    </div>
+                    <div class="mt-5">
+                      <div class="text-theme-navyblue">
+                        {{ getBookTypes(0).join("/") }}
+                      </div>
+                      <div class="mb-4 text-2xl">{{ book.title }}</div>
+                      <router-link
+                        v-if="book.url"
+                        :to="book.url"
+                        class="text-theme-teal"
+                        >View Product</router-link
+                      >
+                    </div>
+              </div>
+            </template>
+
+            <template v-if="books && books?.length > 3">
+              <carousel
+                ref="carouselRef" 
+                v-model="currentSlide"
+                class=""
+                :items-to-show="itemsToShow"
+              >
+                <slide v-for="book in books" :key="book.id" class="i">
+                  <!-- <div v-for="book in books" class="w-1/2 md:w-4/12 flex flex-col"> -->
+                    <!-- <div class="w-full h-auto md:h-[330px] lg:h-[400px] xl:h-[580px]"></div> -->
+                  <div class="border-none border-blue-600 grow mx-6">
+                    <!-- <div class="w-full h-[550px] border border-red-500"> -->
+                      <div class="w-full h-auto md:h-[330px] lg:h-[400px] xl:h-[580px]">
+                      <img
+                        :src="book.image_url"
+                        alt="book image"
+                        class="w-full h-full object-cover object-center"
+                      />
+                    </div>
+                    <div class="mt-5">
+                      <div class="text-theme-navyblue">
+                        {{ getBookTypes(0).join("/") }}
+                      </div>
+                      <div class="mb-4 text-2xl">{{ book.title }}</div>
+                      <router-link
+                        v-if="book.url"
+                        :to="book.url"
+                        class="text-theme-teal"
+                        >View Product</router-link
+                      >
+                    </div>
+                  </div>
+                </slide>
+              </carousel>
+            </template>
+
+            <!-- <div class="hidden md:block md:w-1/12">
               <plus-icon class="mx-auto" />
             </div>
             <div class="w-1/2 md:w-3/12 flex flex-col">
@@ -516,56 +590,18 @@ watch(
                 alt="book image"
                 class="w-full h-auto"
               />
-            </div>
+            </div> -->
           </div>
+          <!-- <div
+            v-if="books &&  books?.length > 3"
+            class="hidden md:flex md:flex-row md:items-start md:justify-center mx-auto gap-4 md:gap-0 py-4"
+          > -->
           <div
-            v-if="books"
-            class="md:mx-8 flex flex-col md:flex-row items-center md:items-start justify-center mx-auto gap-4 md:gap-0 py-4"
+            v-if="books &&  books?.length > 3"
+            class="flex flex-row items-start justify-center mx-auto gap-4 md:gap-0 py-4"
           >
-            <div class="w-1/2 md:w-3/12 flex flex-col">
-              <div v-if="0 in books">
-                <div class="text-theme-navyblue">
-                  {{ getBookTypes(0).join("/") }}
-                </div>
-                <div class="mb-4 text-2xl">{{ books[0].title }}</div>
-                <router-link
-                  v-if="books[0].url"
-                  :to="books[0].url"
-                  class="text-theme-teal"
-                  >View Product</router-link
-                >
-              </div>
-            </div>
-            <div class="hidden md:block md:w-1/12"></div>
-            <div class="w-1/2 md:w-3/12 flex flex-col">
-              <div v-if="1 in books">
-                <div class="text-theme-navyblue">
-                  {{ getBookTypes(1).join("/") }}
-                </div>
-                <div class="mb-4 text-2xl">{{ books[1].title }}</div>
-                <router-link
-                  v-if="books[1].url"
-                  :to="books[1].url"
-                  class="text-theme-teal"
-                  >View Product</router-link
-                >
-              </div>
-            </div>
-            <div class="hidden md:block md:w-1/12"></div>
-            <div class="w-1/2 md:w-3/12 flex flex-col">
-              <div v-if="2 in books">
-                <div class="text-theme-navyblue">
-                  {{ getBookTypes(2).join("/") }}
-                </div>
-                <div class="mb-4 text-2xl">{{ bundle.books[2].title }}</div>
-                <router-link
-                  v-if="books[2].url"
-                  :to="books[2].url"
-                  class="text-theme-teal"
-                  >View Product</router-link
-                >
-              </div>
-            </div>
+            <button @click="prevSlide" class="rounded-none font-extrabold mx-2">&#10216;</button>
+            <button @click="nextSlide" class="rounded-none font-extrabold mx-2">&#10217;</button>
           </div>
         </div>
         <popular-bundles title="You may also like" />
@@ -574,3 +610,15 @@ watch(
     </div>
   </layout>
 </template>
+
+<style scoped>
+.carousel__slide {
+  align-items: start;
+}
+
+@media (max-width: 500px) {
+  .carousel {
+    width: 100%;
+  }
+}
+</style>
