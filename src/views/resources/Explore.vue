@@ -11,6 +11,8 @@ import Bundle from "@/views/shared/Bundle.vue";
 import Book from "@/views/shared/Book.vue";
 import Pagination from "@/components/Pagination.vue";
 import { Util } from "@/components/helpers/Util.js";
+import { trackEvent } from "../../components/helpers/analytics";
+import { useHead } from "@unhead/vue";
 
 const route = useRoute();
 const router = useRouter();
@@ -24,6 +26,7 @@ const trueTypeSlugs = ref([]);
 const examboards = ref({});
 const books = ref({});
 const bundles = ref({});
+const filterSubjectName = ref("");
 
 const itemsPerPage = ref(16);
 
@@ -392,6 +395,42 @@ const resizeWindow = () => {
   }
 };
 
+async function prepPageTitleText() {
+  const routeSubj = route.query.subject || "all";
+  const findSubject = Object.values(subjects?.value ?? {})?.find(
+    (subject) => subject.slug === routeSubj
+  );
+  const title = findSubject ? findSubject?.name : "";
+  filterSubjectName.value = title;
+  // console.log("prepPageTitleText() XX: ", title);
+}
+
+watch(
+  () => route.query,
+  (newQuery, oldQuery) => {
+    console.log("QPC:", newQuery);
+    prepPageTitleText();
+  },
+  { deep: true, immediate: true }
+);
+
+useHead({
+  title: () => `Bindle - All Resource: ${filterSubjectName.value} Bundle`,
+});
+
+watch([filterSubject, filterLevel, filterType, formats, filterExamboard], () => {
+  const filterParams = {
+    bindle_subjects: filterSubject.value,
+    bindle_levels: filterLevel.value?.join(", "),
+    bindle_types: filterType.value?.join(", "),
+    bindle_formats: formats.value?.join(", "),
+    bindle_examboards: filterExamboard.value?.join(", "),
+  };
+
+  //console.log(">>>applyFilter", filterParams);
+  trackEvent("applyFilter", filterParams);
+});
+
 onMounted(async () => {
   window.addEventListener("resize", resizeWindow);
 
@@ -438,6 +477,8 @@ onMounted(async () => {
     await nextTick();
     filterExamboardAccordionRef.value.open();
   }
+
+  prepPageTitleText();
 });
 onUnmounted(async () => {
   window.removeEventListener("resize", resizeWindow);
@@ -450,7 +491,7 @@ const paginationNavigation = () => {
 
 const getTitle = () => {
   return filterSubject.value === "all"
-    ? "Resources"
+    ? "All"
     : Util.humaniseSnakeCase(filterSubject.value);
 };
 </script>
@@ -471,7 +512,7 @@ const getTitle = () => {
           class="titlebar md:col-start-2 md:col-span-3 row-start-2 text-wrap"
         >
           <div class="flex flex-row pb-4">
-            <h1 class="text-4xl md:text-4xl">{{ getTitle() }}</h1>
+            <h1 class="text-4xl md:text-4xl">{{ filterSubjectName }} Resources</h1>
             <div
               class="md:hidden grow pt-2 cursor-pointer"
               @click="toggleMobileFilters()"

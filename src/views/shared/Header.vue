@@ -24,6 +24,7 @@ import Cart from "@/views/shop/Cart.vue";
 
 import { useQueryClient, useQuery } from "@tanstack/vue-query";
 import { getOrderCart } from "@/store/cart-api";
+import { trackEvent } from "../../components/helpers/analytics";
 
 const bindleApiStore = useBindleApiStore();
 const route = useRoute();
@@ -119,6 +120,15 @@ const performSearch = () => {
   if (mobileSearchRef.value.isOpen()) {
     mobileSearchRef.value.triggerClose();
   }
+
+  const searchParams = {
+    search_term: searchText.value,
+    search_category: "resources",
+  };
+
+  //console.log(">>>search", searchParams);
+  trackEvent('search', searchParams)
+
   router.push("/resources/explore?q=" + encodeURIComponent(searchText.value));
 };
 const bookUrl = (level, idx) => {
@@ -453,9 +463,13 @@ const cartItemsCount = computed(() => {
     </div>
     <div class="shrink mt-2 lg:mr-4 flex gap-2 lg:gap-4">
       <router-link to="/contact-us" title="Contact Us">
-          <help-icon width="25" height="25" class="mx-auto cursor-pointer font-medium text-teal-500"/>
+        <help-icon
+          width="25"
+          height="25"
+          class="mx-auto cursor-pointer font-medium text-teal-500"
+        />
       </router-link>
-          
+
       <div class="relative">
         <cart-icon
           width="24"
@@ -468,9 +482,8 @@ const cartItemsCount = computed(() => {
           >{{ cartItemsCount }}
         </span>
       </div>
-
     </div>
-    
+
     <div class="shrink mt-2 lg:hidden">
       <burger-icon
         class="mx-auto cursor-pointer linklike mr-8"

@@ -11,6 +11,7 @@ import Bundle from "@/views/shared/Bundle.vue";
 import Book from "@/views/shared/Book.vue";
 import Pagination from "@/components/Pagination.vue";
 import { useHead } from "@unhead/vue";
+import { trackEvent } from "../../components/helpers/analytics";
 
 const route = useRoute();
 const router = useRouter();
@@ -41,7 +42,7 @@ const navbarTitle = ref('View Subject');
 const bundleType = { id: 4, name: "Bundles", slug: "bundles" };
 
 const filterSubject = computed(() => {
-  return subject.value.slug;
+  return subject.value?.slug;
 });
 const filterSubjectId = computed(() => {
   return subject.value.id;
@@ -369,6 +370,19 @@ watch(
 
 useHead({
   title: () => `Bindle - ${navbarTitle.value}`,
+});
+
+watch([filterSubject, filterLevel, filterType, formats, filterExamboard], () => {
+  const filterParams = {
+    bindle_subjects: filterSubject.value,
+    bindle_levels: filterLevel.value?.join(", "),
+    bindle_types: filterType.value?.join(", "),
+    bindle_formats: formats.value?.join(", "),
+    bindle_examboards: filterExamboard.value?.join(", "),
+  };
+
+  // console.log("applyFilter", filterParams);
+  trackEvent("applyFilter", filterParams);
 });
 
 onMounted(async () => {

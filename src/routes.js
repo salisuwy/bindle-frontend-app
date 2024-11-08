@@ -56,7 +56,7 @@ const routes = [
     name: "explore-resources",
     path: "/resources/explore",
     component: Explore,
-    meta: { breadcrumb: "Explore", title: "Explore Resources" },
+    meta: { breadcrumb: "Explore" },
   },
   {
     name: "resources",
@@ -79,7 +79,6 @@ const routes = [
     component: ExploreBundles,
     meta: {
       breadcrumb: "ExploreBundles",
-      title: "Explore Bundles",
     },
   },
   {

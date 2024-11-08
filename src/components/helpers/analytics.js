@@ -12,7 +12,8 @@ const eventMapping = {
   submitApplication: {
     ga4: "submit_application",
     fbq: "SubmitApplication",
-  }, // Assuming a custom event for this one
+  }, // Assuming a custom event for this one,
+  applyFilter: { ga4: "apply_filter", fbq: "FilterApplied" }, // Custom filter event,
 };
 
 export function trackEvent(event, params = {}) {
@@ -36,7 +37,6 @@ export function trackEvent(event, params = {}) {
     console.warn(`Event '${event}' is not mapped to GA4 or Facebook Pixel.`);
   }
 }
-
 
 /**
  * import analytics from '@/analytics.js';
@@ -136,6 +136,27 @@ export default {
         success: true
       });
     }
+
+    // (11) Search Event
+    trackSearch(searchTerm, searchCategory = 'general') {
+      analytics.trackEvent('search', {
+        search_term: searchTerm,
+        search_category: searchCategory
+      });
+    },
+
+    // (12) Filter Event
+    trackFilter(filterParams) {
+      analytics.trackEvent('filter', {
+        ...filterParams
+      });
+    },
+
+    // Usage example for search
+    this.trackSearch('laptop', 'electronics'); // GA4: search, FBQ: Search
+    // Usage example for filtering
+    this.trackFilter({ format: 'digital', type: 'ebook' }); // GA4: apply_filter, FBQ: FilterApplied
+
   }
 };
 
