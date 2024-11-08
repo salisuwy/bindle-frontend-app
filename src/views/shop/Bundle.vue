@@ -276,8 +276,17 @@ const itemsInStock = computed(() => {
 
 watch(
   () => route.path,
-  () => {
-    getBundle();
+  async () => {
+    await getBundle();
+    
+    books.value = Object.values(
+      await bindleApiStore.getBooksById(bundle.value.book_ids)
+    );
+    for (let idx = 0; idx < books.value.length; idx++) {
+      books.value[idx].url = await bindleApiStore.getBookUrl(
+        books.value[idx].id
+      );
+    }
   }
 );
 </script>
@@ -513,41 +522,45 @@ watch(
           >
             <template v-if="books && books?.length <= 3">
               <div v-for="book in books" class="w-1/2 md:w-4/12 flex flex-col">
-                    <div class="w-full h-auto md:h-[330px] lg:h-[400px] xl:h-[580px]">
-                      <img
-                        :src="book.image_url"
-                        alt="book image"
-                        class="w-full h-full object-cover object-center"
-                      />
-                    </div>
-                    <div class="mt-5">
-                      <div class="text-theme-navyblue">
-                        {{ getBookTypes(0).join("/") }}
-                      </div>
-                      <div class="mb-4 text-2xl">{{ book.title }}</div>
-                      <router-link
-                        v-if="book.url"
-                        :to="book.url"
-                        class="text-theme-teal"
-                        >View Product</router-link
-                      >
-                    </div>
+                <div
+                  class="w-full h-auto md:h-[330px] lg:h-[400px] xl:h-[580px]"
+                >
+                  <img
+                    :src="book.image_url"
+                    alt="book image"
+                    class="w-full h-full object-cover object-center"
+                  />
+                </div>
+                <div class="mt-5">
+                  <div class="text-theme-navyblue">
+                    {{ getBookTypes(0).join("/") }}
+                  </div>
+                  <div class="mb-4 text-2xl">{{ book.title }}</div>
+                  <router-link
+                    v-if="book.url"
+                    :to="book.url"
+                    class="text-theme-teal"
+                    >View Product</router-link
+                  >
+                </div>
               </div>
             </template>
 
             <template v-if="books && books?.length > 3">
               <carousel
-                ref="carouselRef" 
+                ref="carouselRef"
                 v-model="currentSlide"
                 class=""
                 :items-to-show="itemsToShow"
               >
                 <slide v-for="book in books" :key="book.id" class="i">
                   <!-- <div v-for="book in books" class="w-1/2 md:w-4/12 flex flex-col"> -->
-                    <!-- <div class="w-full h-auto md:h-[330px] lg:h-[400px] xl:h-[580px]"></div> -->
+                  <!-- <div class="w-full h-auto md:h-[330px] lg:h-[400px] xl:h-[580px]"></div> -->
                   <div class="border-none border-blue-600 grow mx-6">
                     <!-- <div class="w-full h-[550px] border border-red-500"> -->
-                      <div class="w-full h-auto md:h-[330px] lg:h-[400px] xl:h-[580px]">
+                    <div
+                      class="w-full h-auto md:h-[330px] lg:h-[400px] xl:h-[580px]"
+                    >
                       <img
                         :src="book.image_url"
                         alt="book image"
@@ -597,11 +610,15 @@ watch(
             class="hidden md:flex md:flex-row md:items-start md:justify-center mx-auto gap-4 md:gap-0 py-4"
           > -->
           <div
-            v-if="books &&  books?.length > 3"
+            v-if="books && books?.length > 3"
             class="flex flex-row items-start justify-center mx-auto gap-4 md:gap-0 py-4"
           >
-            <button @click="prevSlide" class="rounded-none font-extrabold mx-2">&#10216;</button>
-            <button @click="nextSlide" class="rounded-none font-extrabold mx-2">&#10217;</button>
+            <button @click="prevSlide" class="rounded-none font-extrabold mx-2">
+              &#10216;
+            </button>
+            <button @click="nextSlide" class="rounded-none font-extrabold mx-2">
+              &#10217;
+            </button>
           </div>
         </div>
         <popular-bundles title="You may also like" />
