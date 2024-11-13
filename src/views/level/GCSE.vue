@@ -18,7 +18,7 @@ import SubjectGrid from "@/views/shared/SubjectGrid.vue";
       <div class="bg-theme-white py-10">
         <subject-grid stub="gcse" />
         <recommended-bundles />
-        <popular-products />
+        <!-- <popular-products /> -->
       </div>
     </div>
   </layout>

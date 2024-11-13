@@ -583,40 +583,17 @@ watch(
                 </slide>
               </carousel>
             </template>
-
-            <!-- <div class="hidden md:block md:w-1/12">
-              <plus-icon class="mx-auto" />
-            </div>
-            <div class="w-1/2 md:w-3/12 flex flex-col">
-              <img
-                :src="bundleImages[1]"
-                alt="book image"
-                class="w-full h-auto"
-              />
-            </div>
-            <div class="hidden md:block md:w-1/12">
-              <plus-icon class="mx-auto" />
-            </div>
-            <div class="w-1/2 md:w-3/12 flex flex-col">
-              <img
-                :src="bundleImages[2]"
-                alt="book image"
-                class="w-full h-auto"
-              />
-            </div> -->
+            
           </div>
-          <!-- <div
-            v-if="books &&  books?.length > 3"
-            class="hidden md:flex md:flex-row md:items-start md:justify-center mx-auto gap-4 md:gap-0 py-4"
-          > -->
+          
           <div
             v-if="books && books?.length > 3"
             class="flex flex-row items-start justify-center mx-auto gap-4 md:gap-0 py-4"
           >
-            <button @click="prevSlide" class="rounded-none font-extrabold mx-2">
+            <button @click="prevSlide" class="rounded-none font-extrabold mx-2 hover:bg-teal-400">
               &#10216;
             </button>
-            <button @click="nextSlide" class="rounded-none font-extrabold mx-2">
+            <button @click="nextSlide" class="rounded-none font-extrabold mx-2 hover:bg-teal-400">
               &#10217;
             </button>
           </div>
