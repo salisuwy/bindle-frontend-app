@@ -21,10 +21,10 @@ const props = defineProps({
     required: true,
   },
   transition: String,
-  currentStage: Number,
   isTransitioning: Boolean,
 });
-const emit = defineEmits(["setCurrentStage", "performTransition"]);
+
+const emit = defineEmits(["setValidity", "startTransition", "stopTransition"]);
 
 const queryClient = useQueryClient();
 
@@ -79,10 +79,6 @@ const style = {
   },
 };
 
-const performTransition = () => {
-  emit("performTransition");
-};
-
 async function handlePaymentPreConfirm(paymentIntent) {
   const itInOrder = order.value?.items?.map((it) => {
     return {
@@ -109,32 +105,33 @@ async function handlePaymentPreConfirm(paymentIntent) {
 }
 
 watch(transition, async (_) => {
-  if (props.currentStage === 2) {
-    console.log("starting payment");
+  console.log("starting payment");
 
-    otherErrors.value = ""; // reset the other error
+  emit("startTransition");
 
-    if (!cardHolderName.value) {
-      emit("setCurrentStage", 2);
-      cardHolderNameError.value = "Please enter card holder name";
-      return;
-    }
+  otherErrors.value = ""; // reset the other error
 
-    if (cardDetailsError.value) {
-      emit("setCurrentStage", 2);
-      return;
-    }
-
-    trackEvent("addPaymentInfo", {
-      currency: "GBP",
-      value: order.value?.order_final,
-      payment_type: "credit_card",
-    });
-
-    await makePayment();
-
-    console.log("payment done");
+  if (!cardHolderName.value) {
+    emit("stopTransition");
+    cardHolderNameError.value = "Please enter card holder name";
+    return;
   }
+
+  if (cardDetailsError.value) {
+    emit("stopTransition");
+    return;
+  }
+
+  trackEvent("addPaymentInfo", {
+    currency: "GBP",
+    value: order.value?.order_final,
+    payment_type: "credit_card",
+  });
+
+  await makePayment();
+
+  console.log("payment done");
+  emit("stopTransition");
 });
 
 onMounted(async () => {
@@ -258,7 +255,7 @@ async function makePayment() {
       "An error is encountered while processing payment. Please try again";
     console.log("[Catch] error", errMsg);
     otherErrors.value = errMsg;
-    emit("setCurrentStage", 2);
+    emit("stopTransition");
   }
 }
 </script>
@@ -304,7 +301,7 @@ async function makePayment() {
         id="cardHolderName"
         type="text"
         placeholder="Enter your card holder name"
-        class="justify-center px-4 py-2 mt-2 tracking-tighter bg-white rounded-sm border border-solid border-zinc-200 text-neutral-400 max-md:max-w-full w-full"
+        class="justify-center font-normal px-4 py-2 mt-2 tracking-tighter bg-white rounded-sm border border-solid border-zinc-200 text-natural-400 max-md:max-w-full w-full"
         :class="{ 'border-red-500': cardHolderNameError }"
         v-model="cardHolderName"
       />
@@ -313,9 +310,9 @@ async function makePayment() {
       }}</span>
     </div>
 
-    <div class="flex justify-start items-center">
+    <!-- <div class="flex justify-start items-center">
       <button
-        class="flex justify-center items-center px-3.5 py-2.5 mt-8 text-sm font-semibold text-white bg-teal-500 rounded-sm max-md:px-5 w-full md:w-1/3"
+        class="flex justify-center items-center px-3.5 py-2.5 mt-8 text-sm font-semibold text-white bg-teal-500 rounded-sm max-md:px-5 w-full md:w-full"
         @click="performTransition"
         :disabled="props.isTransitioning"
       >
@@ -326,6 +323,17 @@ async function makePayment() {
         <span v-if="!props.isTransitioning"> Place Order </span>
       </button>
     </div>
+    <div class="mt-6">
+      <p class="text-[16px] text-gray-400 font-light">
+        Your personal data will be used to process your order, support your
+        experience throughout this website, and for other purposes described in
+        our
+        <router-link to="/privacy-policy" class="underline text-theme-teal"
+          >privacy policy.</router-link
+        >
+      </p>
+    </div>
+  </div> -->
   </div>
 </template>
 

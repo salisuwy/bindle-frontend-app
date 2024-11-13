@@ -7,6 +7,9 @@ import App from "./App.vue";
 import router from "./routes.js";
 import "vue3-toastify/dist/index.css";
 
+import { PerfectScrollbarPlugin } from "vue3-perfect-scrollbar";
+import "vue3-perfect-scrollbar/style.css";
+
 import "./style.css";
 import "./font-awesome.css";
 
@@ -34,12 +37,10 @@ const gtagOptions = {
   router,
 };
 
-
 const app = createApp(App);
 
 const pinia = createPinia();
 const head = createHead();
-
 
 app.use(head);
 app.use(pinia);
@@ -47,6 +48,11 @@ app.use(router);
 app.use({ VueGtag, gtagOptions });
 app.use(VueQueryPlugin, queryClient);
 app.use(Vue3Toasity, toastifyOptions);
-
+app.use(PerfectScrollbarPlugin, {
+  options: {
+    suppressScrollX: true,
+    useBothWheelAxes: false,
+  },
+});
 
 app.mount("#app");

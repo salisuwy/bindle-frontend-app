@@ -339,12 +339,13 @@ const updateSubject = async (subjectSlug) => {
   subject.value = await bindleApiStore.getSubjectBySlug(subjectSlug);
   const newUrl = "/" + level.value["slug"] + "/" + subjectSlug;
   if (subject.value) {
-    if (level.value) {
+    /*if (level.value) {
       pageTitle.value = level.value["name"] + " " + subject.value["name"];
     } else {
       pageTitle.value = subject.value["name"];
-    }
-
+    }*/
+    
+    pageTitle.value = subject.value["name"];
     navbarTitle.value = pageTitle.value;
   }
   await router.push({ path: newUrl, query: route.query });
@@ -412,12 +413,12 @@ onMounted(async () => {
   filtersLoaded.value = true;
 
   if (subject.value) {
-    if (level.value) {
-      pageTitle.value = level.value["name"] + " " + subject.value["name"];
-    } else {
-      pageTitle.value = subject.value["name"];
-    }
-
+    // if (level.value) {
+    //   pageTitle.value = level.value["name"] + " " + subject.value["name"];
+    // } else {
+    //   pageTitle.value = subject.value["name"];
+    // }
+    pageTitle.value = subject.value["name"];
     navbarTitle.value = pageTitle.value;
   }
 

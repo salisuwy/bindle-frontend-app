@@ -35,7 +35,7 @@ const gotoCheckout = () => {
       >
         <span class="text-2xl leading-none text-zinc-950">My Cart</span>
         <span class="text-sm leading-loose text-teal-500 ml-2"
-          >({{ count }} Items)</span
+          >({{ count }} Item{{ count > 1 ? "s" : "" }})</span
         >
       </h1>
     </header>

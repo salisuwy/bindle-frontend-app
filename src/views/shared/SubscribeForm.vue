@@ -69,6 +69,7 @@ const submitButtonDisabled = computed(() => {
           (emailValid ? ' text-theme-black' : ' text-gray-600')
         "
         @keyup="inputContentChanged"
+        placeholder="Subscribe for updates"
         autocomplete="off"
       />
       <button

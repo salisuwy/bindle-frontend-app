@@ -120,6 +120,21 @@ export async function setOrderAddress(data) {
   });
 }
 
+export async function setOrderAddressPartial(data) {
+  const newData = {
+    ...data,
+    ...getAnonIdAndUuid(),
+  };
+
+  console.log("setOrderAddressPartial", data);
+
+  return axios.post(`${API_ENDPOINT}orders/cart/address-partial`, newData, {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+}
+
 export async function createPaymentIntent(data) {
   const newData = {
     ...data,

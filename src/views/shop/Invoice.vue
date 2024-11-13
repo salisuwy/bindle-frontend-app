@@ -12,6 +12,7 @@ import { setUuid } from "../../store/cart-api";
 import SpinnerIcon from "../../components/icons/SpinnerIcon.vue";
 import OrderNotFound from "./components/OrderNotFound.vue";
 import { useRoute } from "vue-router";
+import FormAddressConfirmation from "./components/FormAddressConfirmation.vue";
 
 const breadcrumbs = ref([
   { text: "Home", path: "/" },
@@ -57,15 +58,11 @@ async function downloadInvoice() {
     const url = await getOrderInvoice(anonId, orderId);
     // open new tab with url.url
     window.open(url.url, "_blank");
-    
-  }
-  catch (error) {
+  } catch (error) {
     console.error("downloadInvoice error", error);
   }
-    processing.value = false;
+  processing.value = false;
 }
-
-
 </script>
 <template>
   <layout>
@@ -98,22 +95,26 @@ async function downloadInvoice() {
 
         <div
           v-if="isPending"
-          class="flex justify-center items-center h-[300px] bg-white rounded-md">
+          class="flex justify-center items-center h-[300px] bg-white rounded-md"
+        >
           <SpinnerIcon class="w-10 h-10 animate-spin" />
         </div>
 
         <OrderNotFound v-if="!isPending && Object.keys(order).length === 0" />
 
-
         <div
           v-if="Object.keys(order).length > 0"
           class="flex gap-5 max-md:flex-col max-md:gap-0"
         >
-          <section class="flex flex-col w-[68%] max-md:ml-0 max-md:w-full">
+          <section
+            class="flex flex-col w-[68%] max-md:ml-0 max-md:w-full order-2 md:order-1"
+          >
             <div
-              class="justify-end items-start px-6 pt-5 pb-6 text-base font-light tracking-normal leading-4 text-teal-500 bg-teal-50 rounded-md max-md:px-5 max-md:max-w-full md:mb-6"
+              class="hidden md:flex justify-start w-full items-start px-6 pt-5 pb-6 text-base font-light tracking-normal leading-4 text-teal-500 bg-teal-50 rounded-md max-md:px-5 max-md:max-w-full md:mb-6"
             >
-              <div class="flex flex-col gap-3 md:flex-row md:gap-0 justify-between items-start">
+              <div
+                class="w-full flex flex-col gap-3 md:flex-row md:gap-0 justify-between items-start"
+              >
                 <div>
                   <h3 class="font-medium text-lg text-teal-500 mb-2">
                     Order placed, Thank you
@@ -136,34 +137,69 @@ async function downloadInvoice() {
               </div>
             </div>
 
-            <ShoppingCart
-              :items="cartItems"
-              :transition="transition"
-              :currentStage="4"
-              :editable="false"
-              title="Order Details"
-              @setCurrentStage="setCurrentStage"
-            />
-
-            <AddressPaymentDetailsPostPayment
+            <FormAddressConfirmation
               :order="order"
+              :editable="false"
               :transition="transition"
-              :currentStage="currentStage"
-              @setCurrentStage="setCurrentStage"
             />
           </section>
 
           <aside
-            class="flex flex-col ml-5 w-[32%] max-md:ml-0 max-md:w-full h-fit"
+            class="flex flex-col ml-5 w-[32%] max-md:ml-0 max-md:w-full h-fit order-1 md:order-2"
           >
             <div
-              class="relative flex flex-col grow px-4 py-6 mx-auto w-full bg-white rounded-md border border-solid border-zinc-200 max-md:mt-9"
+              class="flex md:hidden w-full justify-start items-start px-6 pt-5 pb-6 text-base font-light tracking-normal leading-4 text-teal-500 bg-teal-50 rounded-md max-md:px-5 max-md:max-w-full md:mb-6"
+            >
+              <div
+                class="w-full flex flex-col gap-3 md:flex-row md:gap-0 justify-between items-start"
+              >
+                <div>
+                  <h3 class="font-medium text-lg text-teal-500 mb-2">
+                    Order placed, Thank you
+                    {{ order?.billing_first_name }}!
+                  </h3>
+                  <p class="text-theme-darkgray2">
+                    Confirmation will be sent to your email.
+                  </p>
+                </div>
+                <span class="text-theme-darkgray2 font-semibold"
+                  >Ordered on
+                  {{
+                    new Date(order?.created_at)?.toLocaleDateString("en-GB", {
+                      day: "numeric",
+                      month: "long",
+                      year: "numeric",
+                    })
+                  }}</span
+                >
+              </div>
+            </div>
+
+            <div
+              class="relative flex flex-col grow px-4 py-6 mx-auto w-full bg-white rounded-md border border-solid border-zinc-200 max-md:mt-5"
+            >
+              <ShoppingCart
+                :items="cartItems"
+                :bookStock="bookStock"
+                :bundleStock="bundleStock"
+                :transition="transition"
+                :editable="false"
+                :showTotalItemsCount="false"
+                :orderId="order?.uuid"
+                title="Order Details"
+                :showScrollBar="true"
+                cssClasses="border-none !px-0 !py-0"
+              />
+            </div>
+            <div
+              class="relative flex flex-col grow px-4 py-6 mx-auto w-full bg-white rounded-md border border-solid border-zinc-200 mt-9"
             >
               <CouponSection v-if="false" />
               <PriceDetails
                 :order="order"
                 title="Order Summary"
                 :showDivider="true"
+                :showAsAccordion="true"
               />
 
               <button

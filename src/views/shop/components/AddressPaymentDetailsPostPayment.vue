@@ -108,6 +108,16 @@ watch(transition, async (_) => {
       </div>
     </div>
     <article
+      
+      class="flex flex-col justify-center items-start px-6 mt-6 text-base font-medium bg-white rounded-md text-zinc-900 max-md:px-5 max-md:max-w-full"
+    ></article>
+
+    <article
+      
+      class="flex flex-col justify-center items-start px-6 mt-6 text-base font-medium bg-white rounded-md text-zinc-900 max-md:px-5 max-md:max-w-full"
+    ></article>
+
+    <article
       v-if="order?.payment_last4"
       class="flex flex-col justify-center items-start px-6 mt-6 text-base font-medium bg-white rounded-md text-zinc-900 max-md:px-5 max-md:max-w-full"
     >

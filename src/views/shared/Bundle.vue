@@ -3,12 +3,90 @@ import ChevronIcon from "@/components/icons/ChevronIcon.vue";
 import { computed, onMounted, ref } from "vue";
 import { Util } from "@/components/helpers/Util.js";
 import { useBindleApiStore } from "@/store/bindle-api.js";
+import { toast } from "vue3-toastify";
+import { trackEvent } from "../../components/helpers/analytics";
+import { useMutation, useQueryClient, useQuery } from "@tanstack/vue-query";
+import { addToCart, setUuid, getOrderCart } from "@/store/cart-api";
+import AddToCartErrorNotification from "../shop/components/AddToCartErrorNotification.vue";
+import AddToCartNotification from "../shop/components/AddToCartNotification.vue";
+import SpinnerIcon from "../../components/icons/SpinnerIcon.vue";
 
 const props = defineProps({
   bundle: { type: Object },
   fullWidthButton: { type: Boolean, default: true },
   useRowLayout: { type: Boolean, default: false },
 });
+
+// CART OPERATIONS
+const queryClient = useQueryClient();
+
+const { data: order } = useQuery({
+  queryKey: ["cartItems"],
+  queryFn: getOrderCart,
+});
+
+const ebookSelected = props.bundle["is_ebook"] ? true : false;
+
+const bundleStock = computed(() => {
+  return order.value?.order?.bundle_stock ?? {};
+});
+
+const itemsInStock = computed(() => {
+  if (props.bundle === null || bundleStock.value === null) {
+    return 0;
+  }
+
+  if (props.bundle["id"] in bundleStock.value) {
+    return bundleStock.value[props.bundle["id"]];
+  }
+  return props.bundle["quantity_in_stock"];
+});
+
+const { isPending, mutate } = useMutation({
+  mutationFn: addToCart,
+  onMutate: () => {
+    console.log("mutating");
+  },
+  onError: (error) => {
+    console.error("mutation error", error);
+    toast(AddToCartErrorNotification);
+  },
+  onSuccess: ({ data }) => {
+    console.log("mutation success", data);
+    setUuid(data?.order?.uuid);
+    toast(AddToCartNotification);
+  },
+  onSettled: () => {
+    queryClient.invalidateQueries(["cartItems"]);
+  },
+});
+
+const addToBasket = () => {
+  const item_id = props.bundle["id"];
+  const item_name = props.bundle["title"];
+  const item_type = "bundle";
+  const currency = "GBP";
+  const is_ebook = props.bundle["is_ebook"] ? true : false;
+  const value = Util.toFixedDisplay(
+    props.bundle["is_ebook"]
+      ? props.bundle["price_ebook"]
+      : props.bundle["price_amount"],
+    2
+  );
+
+  trackEvent("addToBasket", { item_id, item_name, value, currency });
+
+  mutate({
+    item_type: item_type,
+    item_id: item_id,
+    is_ebook: is_ebook,
+    anonid: localStorage.getItem("anonid"),
+    uuid: localStorage.getItem("uuid"),
+  });
+};
+
+// CART OPERATIONS
+
 const bindleApiStore = useBindleApiStore();
 const slug = computed(() => {
   return Util.snakeCase(props.bundle["title"]);
@@ -46,12 +124,20 @@ const getImagesClass = (book_ids) => {
 };
 </script>
 <template>
-  <div v-if="props.bundle" :class="getClasses">
+  <div
+    v-if="props.bundle"
+    :class="getClasses"
+    class="group py-4 bg-white hover:bg-slate-50"
+  >
     <div class="col-start-1 row-start-1">
       <div
-        class="relative h-72 bg-theme-pale overflow-hidden"
+        class="relative h-72 bg-white group-hover:bg-slate-50 overflow-hidden"
       >
-       <img :src="bundle?.image_url?.thumb" :alt="bundle?.title" class="w-full h-full object-contain object-center aspect-auto">
+        <img
+          :src="bundle?.image_url?.thumb"
+          :alt="bundle?.title"
+          class="w-full h-full object-contain object-center aspect-auto"
+        />
         <!-- <img
           v-for="(book_id, index) in props.bundle['book_ids']"
           :key="index"
@@ -69,22 +155,49 @@ const getImagesClass = (book_ids) => {
           : 'px-4 col-start-1 row-start-2'
       "
     >
-      <div class="text-theme-navyblue font-bold text-left pt-4 pb-2">
+      <!-- <div class="text-theme-navyblue font-bold text-left pt-4 pb-2">
         {{ getBundleType }}
+      </div> -->
+
+      <div class="flex gap-4 justify-center items-center flex-wrap my-4">
+        <router-link
+          :to="'/bundles/' + slug"
+          class="bg-white text-theme-teal border border-theme-teal text-center buttonlike w-auto w-min-[140px] flex-shrink-0 flex-grow inline-block"
+          draggable="false"
+          >View Product
+        </router-link>
+        <button
+          class="bg-theme-teal rounded-none hover:bg-teal-400 w-auto w-min-[140px] flex-shrink-0 flex-grow inline-block"
+          @click="addToBasket"
+          :disabled="isPending || (!ebookSelected && itemsInStock <= 0)"
+        >
+          <!-- {{ itemsInStock }} - {{ bundle.quantity_in_stock }} -->
+          <span v-if="!isPending && (ebookSelected || itemsInStock > 0)">
+            Add to Cart
+          </span>
+          <span v-if="!isPending && !ebookSelected && itemsInStock <= 0">
+            Out of stock
+          </span>
+          <span v-if="isPending" class="flex gap-4 justify-center items-center">
+            <SpinnerIcon class="w-5 h-5 text-white" />
+            Adding...
+          </span>
+        </button>
       </div>
-      <h3
-        class="text-2xl text-left font-normal h-16 md:line-clamp-2"
+
+      <p
+        class="text-2xl text-left font-normal my-4 md:line-clamp-2"
         :title="props.bundle['name']"
       >
-        <router-link :to="'/bundles/' + slug">
+        <router-link class="font-normal" :to="'/bundles/' + slug">
           {{ props.bundle["title"] }}
         </router-link>
-      </h3>
+      </p>
 
-      <div class="flex justify-start items-center gap-2">
+      <!-- <div class="flex justify-start items-center gap-2">
         <span
           v-if="props.bundle['is_ebook']"
-          class="justify-center self-start px-2.5 py-2 mt-2 text-xs text-gray-600 whitespace-nowrap bg-gray-200 rounded-sm"
+          class="justify-center self-start px-2.5 py-2 mt-2 text-xs text-gray-600 whitespace-nowrap rounded-sm bg-gray-200"
         >
           E-book
         </span>
@@ -94,7 +207,7 @@ const getImagesClass = (book_ids) => {
         >
           Paperback
         </span>
-      </div>
+      </div> -->
 
       <div class="text-left text-theme-darkgray">From:</div>
       <div class="flex flex-col 2xs:flex-row flex-wrap items-start gap-4 mx-2">
@@ -147,7 +260,7 @@ const getImagesClass = (book_ids) => {
     <div
       v-if="props.fullWidthButton"
       :class="
-        'py-4 mt-4 mb-8 text-center ' +
+        'hidden hover:block py-4 mt-4 mb-8 text-center ' +
         (props.useRowLayout
           ? 'col-start-1 col-span-2 row-start-2 md:col-span-1 md:row-start-3'
           : 'row-start-3')

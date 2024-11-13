@@ -19,8 +19,10 @@ import PageNotFound from "@/views/PageNotFound.vue";
 import Tokens from "@/views/Tokens.vue";
 import Test from "@/views/Test.vue";
 import Checkout from "@/views/shop/Checkout.vue";
+import CheckoutV2 from "@/views/shop/CheckoutV2.vue";
 import CheckoutAddress from "@/views/shop/CheckoutAddress.vue";
 import CheckoutPayment from "@/views/shop/CheckoutPayment.vue";
+import CheckoutPaymentV2 from "@/views/shop/CheckoutPaymentV2.vue";
 import Invoice from "@/views/shop/Invoice.vue";
 import { useHead } from "@unhead/vue";
 
@@ -89,10 +91,16 @@ const routes = [
       breadcrumb: (route) => Util.humaniseSnakeCase(route.params.bundle),
     },
   },
+  // {
+  //   name: "checkout",
+  //   path: "/checkout",
+  //   component: Checkout,
+  //   meta: { breadcrumb: "Checkout", title: "Checkout" },
+  // },
   {
     name: "checkout",
     path: "/checkout",
-    component: Checkout,
+    component: CheckoutV2,
     meta: { breadcrumb: "Checkout", title: "Checkout" },
   },
   {
@@ -101,13 +109,18 @@ const routes = [
     component: CheckoutAddress,
     meta: { breadcrumb: "Checkout", title: "Checkout Address" },
   },
+  // {
+  //   name: "checkout-payment",
+  //   path: "/checkout-payment",
+  //   component: CheckoutPayment,
+  //   meta: { breadcrumb: "Checkout", title: "Checkout Payment" },
+  // },
   {
     name: "checkout-payment",
     path: "/checkout-payment",
-    component: CheckoutPayment,
+    component: CheckoutPaymentV2,
     meta: { breadcrumb: "Checkout", title: "Checkout Payment" },
   },
-
   {
     name: "invoice",
     path: "/invoice/:anonId/:orderId",

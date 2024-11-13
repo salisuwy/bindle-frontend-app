@@ -96,5 +96,8 @@ defineExpose({toggle, open, close})
              :style="{'overflow':'hidden', transition: 'height 0.3s ease, transform 0.3s ease', ...props.contentStyle}">
             <slot></slot>
         </div>
+        <div>
+            <slot name="footer"></slot>
+        </div>
     </div>
 </template>

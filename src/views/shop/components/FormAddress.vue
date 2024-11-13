@@ -4,7 +4,11 @@ import { countries } from "@/components/helpers/countries";
 import { useForm, Field, ErrorMessage } from "vee-validate";
 import * as yup from "yup";
 import { useMutation, useQueryClient } from "@tanstack/vue-query";
-import { setOrderAddress, setUuid } from "@/store/cart-api";
+import {
+  setOrderAddress,
+  setOrderAddressPartial,
+  setUuid,
+} from "@/store/cart-api";
 import { trackEvent } from "../../../components/helpers/analytics";
 
 const props = defineProps({
@@ -13,29 +17,39 @@ const props = defineProps({
     required: true,
   },
   transition: String,
-  currentStage: Number,
 });
-const emit = defineEmits(["setCurrentStage"]);
+
+const emit = defineEmits(["setValidity", "startTransition", "stopTransition"]);
 const queryClient = useQueryClient();
 
 const { isPending, mutate } = useMutation({
-  mutationFn: setOrderAddress,
+  mutationFn: async (data) => {
+    if (Object.keys(data).includes("partial")) {
+      return await setOrderAddressPartial(data);
+    } else {
+      return await setOrderAddress(data);
+    }
+  },
   onMutate: () => {
     console.log("mutating");
   },
-  onError: (error) => {
+  onError: (error, variables) => {
     console.error("mutation error", error);
-    emit("setCurrentStage", 1);
-
-    // toast(AddToCartErrorNotification);
+    if (! Object.keys(variables).includes("partial")) {
+      emit("setValidity", { key: "address", value: false });
+    }
   },
-  onSuccess: ({ data }) => {
-    console.log("mutation success", data);
+  onSuccess: ({ data }, variables) => {
+    // console.log("mutation success", data);
+    console.log("mutation success - payload", variables);
     setUuid(data?.order?.uuid);
-    emit("setCurrentStage", 2);
+    if (! Object.keys(variables).includes("partial")) {
+      emit("setValidity", { key: "address", value: true });
+    }
   },
   onSettled: () => {
     queryClient.invalidateQueries(["cartItems"]);
+    emit("stopTransition");
   },
 });
 
@@ -112,7 +126,7 @@ const { handleSubmit, values, setFieldValue, setFieldError, errors } = useForm({
   },
 });
 
-const sharedAddress = ref(true);
+const sharedAddress = ref(false);
 watch(sharedAddress, async (value) => {
   if (value) {
     copyDeliveryAddressToBilling();
@@ -125,18 +139,28 @@ watch(values, async (value) => {
   }
 });
 
+async function updateOnBlur() {
+  try {
+    const newValues = { ...values, partial: true };
+    await mutate(newValues);
+    await schema.validate(values, { abortEarly: false });
+  } catch (err) {
+    console.log("Partial validation fail", err);
+  }
+}
+
+
 watch(transition, async (_) => {
-  if (props.currentStage === 1) {
-    try {
-      await schema.validate(values, { abortEarly: false });
-      console.log("submitted", values);
-      mutate(values);
-    } catch (err) {
-      err.inner.forEach((error) => {
-        setFieldError(error.path, error.message);
-      });
-      emit("setCurrentStage", 1);
-    }
+  emit("startTransition");
+  try {
+    await schema.validate(values, { abortEarly: false });
+    mutate(values);
+  } catch (err) {
+    err.inner.forEach((error) => {
+      setFieldError(error.path, error.message);
+    });
+    emit("stopTransition");
+    emit("setValidity", { key: "address", value: false });
   }
 });
 
@@ -166,7 +190,7 @@ onMounted(() => {
         class="flex flex-wrap gap-2 justify-between items-center self-stretch pt-2.5 pb-0.5"
       >
         <h1 class="grow text-xl leading-7 text-gray-700">Delivery Address</h1>
-        <div class="flex gap-2" v-show="true">
+        <div class="flex gap-2" v-show="false">
           <div class="flex flex-col justify-center p-1">
             <input
               v-model="sharedAddress"
@@ -179,7 +203,7 @@ onMounted(() => {
             for="billingAddress"
             class="text-base tracking-tighter leading-6 text-neutral-400"
           >
-            Use this address for delivery details
+            Same as delivery address
           </label>
         </div>
       </header>
@@ -203,6 +227,7 @@ onMounted(() => {
               :class="{
                 'border-red-500 bg-red-50': errors.delivery_first_name,
               }"
+              @blur="updateOnBlur"
             />
             <ErrorMessage name="delivery_first_name" class="text-red-500" />
           </div>
@@ -219,6 +244,7 @@ onMounted(() => {
               :class="{
                 'border-red-500 bg-red-50': errors.delivery_last_name,
               }"
+              @blur="updateOnBlur"
             />
             <ErrorMessage name="delivery_last_name" class="text-red-500" />
           </div>
@@ -239,6 +265,7 @@ onMounted(() => {
               :class="{
                 'border-red-500 bg-red-50': errors.delivery_phone,
               }"
+              @blur="updateOnBlur"
             />
             <ErrorMessage name="delivery_phone" class="text-red-500" />
           </div>
@@ -253,6 +280,7 @@ onMounted(() => {
               placeholder="Enter your email"
               class="justify-center px-4 py-2 mt-2 bg-white rounded-sm border border-solid border-zinc-200 text-neutral-400"
               :class="{ 'border-red-500 bg-red-50': errors.delivery_email }"
+              @blur="updateOnBlur"
             />
             <ErrorMessage name="delivery_email" class="text-red-500" />
           </div>
@@ -270,6 +298,7 @@ onMounted(() => {
           placeholder="Enter your Address line 1"
           class="justify-center px-4 py-2 mt-2 text-base tracking-tighter leading-6 bg-white rounded-sm border border-solid border-zinc-200 text-neutral-400 max-md:max-w-full"
           :class="{ 'border-red-500 bg-red-50': errors.delivery_address1 }"
+          @blur="updateOnBlur"
         />
         <ErrorMessage name="delivery_address1" class="text-red-500" />
         <label
@@ -285,6 +314,7 @@ onMounted(() => {
           placeholder="Enter your Address line 2"
           class="justify-center px-4 py-2 mt-2 text-base tracking-tighter leading-6 bg-white rounded-sm border border-solid border-zinc-200 text-neutral-400 max-md:max-w-full"
           :class="{ 'border-red-500 bg-red-50': errors.delivery_address2 }"
+          @blur="updateOnBlur"
         />
         <ErrorMessage name="delivery_address2" class="text-red-500" />
         <div
@@ -301,6 +331,7 @@ onMounted(() => {
               placeholder="Enter your city"
               class="justify-center px-4 py-2 mt-2 bg-white rounded-sm border border-solid border-zinc-200 text-neutral-400"
               :class="{ 'border-red-500 bg-red-50': errors.delivery_city }"
+              @blur="updateOnBlur"
             />
             <ErrorMessage name="delivery_city" class="text-red-500" />
           </div>
@@ -315,6 +346,7 @@ onMounted(() => {
               placeholder="Enter your code"
               class="justify-center px-4 py-2 mt-2 bg-white rounded-sm border border-solid border-zinc-200 text-neutral-400"
               :class="{ 'border-red-500 bg-red-50': errors.delivery_zip }"
+              @blur="updateOnBlur"
             />
             <ErrorMessage name="delivery_zip" class="text-red-500" />
           </div>
@@ -328,6 +360,7 @@ onMounted(() => {
         <div
           class="flex justify-center self-start pr-4 py-2 mt-2 text-base tracking-tighter leading-6 bg-white rounded-sm border border-solid border-neutral-200 text-neutral-400"
           :class="{ 'border-red-500 bg-red-50': errors.delivery_country }"
+          @blur="updateOnBlur"
         >
           <Field
             as="select"
@@ -335,6 +368,7 @@ onMounted(() => {
             name="delivery_country"
             class="flex-1 bg-transparent border-none"
             required
+            @change="updateOnBlur"
           >
             <option value="">Select option</option>
             <option
@@ -350,33 +384,28 @@ onMounted(() => {
       </section>
     </div>
 
-    <div v-show="!sharedAddress">
-      <br />
-      <br />
-    </div>
-
     <div
-      v-show="!sharedAddress"
-      class="flex flex-col px-6 py-8 w-full bg-white rounded-md border border-solid border-zinc-200 max-md:px-5 max-md:mt-9 max-md:max-w-full"
+      class="flex flex-col px-6 py-8 w-full bg-white rounded-md border border-solid border-zinc-200 max-md:px-5 max-md:mt-9 max-md:max-w-full mt-8"
     >
       <header
         class="flex flex-wrap gap-2 justify-between items-center self-stretch pt-2.5 pb-0.5"
       >
-        <h1 class="grow text-xl leading-7 text-gray-700">Billing Address</h1>
-        <div class="flex gap-2" v-show="false">
+        <h1 class="grow text-xl leading-7 text-gray-700">Billing Details</h1>
+        <div class="flex gap-2">
           <div class="flex flex-col justify-center p-1">
             <input
               v-model="sharedAddress"
               type="checkbox"
               id="billingAddress"
-              class="h-4 w-4 shrink-0 rounded-sm border border-zinc-200 text-teal-500 checked:ring-teal-500"
+              class="h-4 w-4 shrink-0 rounded-sm border border-zinc-200 text-teal-500 checked:bg-teal-500 checked:border-teal-500 custom-checkbox"
+              @change="updateOnBlur"
             />
           </div>
           <label
             for="billingAddress"
             class="text-base tracking-tighter leading-6 text-neutral-400"
           >
-            Use this address for billing details
+            Same as delivery address
           </label>
         </div>
       </header>
@@ -398,6 +427,7 @@ onMounted(() => {
               :class="{
                 'border-red-500 bg-red-50': errors.billing_first_name,
               }"
+              @blur="updateOnBlur"
             />
             <ErrorMessage name="billing_first_name" class="text-red-500" />
           </div>
@@ -414,6 +444,7 @@ onMounted(() => {
               :class="{
                 'border-red-500 bg-red-50': errors.billing_last_name,
               }"
+              @blur="updateOnBlur"
             />
             <ErrorMessage name="billing_last_name" class="text-red-500" />
           </div>
@@ -434,6 +465,7 @@ onMounted(() => {
               :class="{
                 'border-red-500 bg-red-50': errors.billing_phone,
               }"
+              @blur="updateOnBlur"
             />
             <ErrorMessage name="billing_phone" class="text-red-500" />
           </div>
@@ -448,6 +480,7 @@ onMounted(() => {
               placeholder="Enter your email"
               class="justify-center px-4 py-2 mt-2 bg-white rounded-sm border border-solid border-zinc-200 text-neutral-400"
               :class="{ 'border-red-500 bg-red-50': errors.billing_email }"
+              @blur="updateOnBlur"
             />
             <ErrorMessage name="billing_email" class="text-red-500" />
           </div>
@@ -465,6 +498,7 @@ onMounted(() => {
           placeholder="Enter your Address line 1"
           class="justify-center px-4 py-2 mt-2 text-base tracking-tighter leading-6 bg-white rounded-sm border border-solid border-zinc-200 text-neutral-400 max-md:max-w-full"
           :class="{ 'border-red-500 bg-red-50': errors.billing_address1 }"
+          @blur="updateOnBlur"
         />
         <ErrorMessage name="billing_address1" class="text-red-500" />
         <label
@@ -480,6 +514,7 @@ onMounted(() => {
           placeholder="Enter your Address line 2"
           class="justify-center px-4 py-2 mt-2 text-base tracking-tighter leading-6 bg-white rounded-sm border border-solid border-zinc-200 text-neutral-400 max-md:max-w-full"
           :class="{ 'border-red-500 bg-red-50': errors.billing_address2 }"
+          @blur="updateOnBlur"
         />
         <ErrorMessage name="billing_address2" class="text-red-500" />
         <div
@@ -496,6 +531,7 @@ onMounted(() => {
               placeholder="Enter your city"
               class="justify-center px-4 py-2 mt-2 bg-white rounded-sm border border-solid border-zinc-200 text-neutral-400"
               :class="{ 'border-red-500 bg-red-50': errors.billing_city }"
+              @blur="updateOnBlur"
             />
             <ErrorMessage name="billing_city" class="text-red-500" />
           </div>
@@ -510,6 +546,7 @@ onMounted(() => {
               placeholder="Enter your code"
               class="justify-center px-4 py-2 mt-2 bg-white rounded-sm border border-solid border-zinc-200 text-neutral-400"
               :class="{ 'border-red-500 bg-red-50': errors.billing_zip }"
+              @blur="updateOnBlur"
             />
             <ErrorMessage name="billing_zip" class="text-red-500" />
           </div>
@@ -530,6 +567,7 @@ onMounted(() => {
             name="billing_country"
             class="flex-1 bg-transparent border-none"
             required
+            @change="updateOnBlur"
           >
             <option value="">Select option</option>
             <option
@@ -546,3 +584,10 @@ onMounted(() => {
     </div>
   </form>
 </template>
+
+<style scoped>
+.custom-checkbox:checked {
+  background-color: #14b8a6; /* Teal color */
+  border-color: #14b8a6;
+}
+</style>

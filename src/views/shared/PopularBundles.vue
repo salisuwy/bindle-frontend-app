@@ -14,6 +14,12 @@ const props = defineProps({
   use_carousel: { type: Boolean, default: true },
 });
 
+const carouselRef = ref();
+const currentSlide = ref(0);
+
+const nextSlide = () => carouselRef.value.next();
+const prevSlide = () => carouselRef.value.prev();
+
 const loaded = ref(false);
 
 const bindleApiStore = useBindleApiStore();
@@ -45,11 +51,19 @@ const itemsToShow = computed(() => {
     <carousel
       v-if="props.use_carousel"
       class="py-2"
+      ref="carouselRef"
+      v-model="currentSlide"
+      :wrap-around="true"
+      :items-to-show="itemsToShow"
+    >
+      <!-- <carousel
+      v-if="props.use_carousel"
+      class="py-2"
       :transition="1000"
       :wrap-around="true"
       :autoplay="6000"
       :items-to-show="itemsToShow"
-    >
+    ></carousel> -->
       <slide
         v-for="(bundle, index) in bundles"
         :key="index"
@@ -57,7 +71,7 @@ const itemsToShow = computed(() => {
       >
         <bundle :bundle="bundle" class="max-w-full" />
       </slide>
-      <template #addons>
+      <!-- <template #addons>
         <navigation>
           <template #next>
             <span>
@@ -96,8 +110,21 @@ const itemsToShow = computed(() => {
             </span>
           </template>
         </navigation>
-      </template>
+      </template> -->
     </carousel>
+
+    <div
+      v-if="bundles && bundles?.length > 0"
+      class="flex flex-row items-start justify-center mx-auto gap-4 md:gap-0 py-4"
+    >
+      <button @click="prevSlide" class="rounded-none font-extrabold mx-2">
+        &#10216;
+      </button>
+      <button @click="nextSlide" class="rounded-none font-extrabold mx-2">
+        &#10217;
+      </button>
+    </div>
+
     <div
       v-else
       class="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-4 gap-4 px-8 max-w-screen-xl mx-auto h-fit"
