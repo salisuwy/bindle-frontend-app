@@ -145,7 +145,7 @@ onMounted(async () => {
     <div class="flex gap-4 justify-center items-center flex-wrap my-4">
       <router-link
         :to="product.product_url"
-        class="bg-white text-theme-teal border border-theme-teal text-center buttonlike w-auto w-min-[140px] flex-shrink-0 flex-grow inline-block"
+        class="bg-white hover:bg-zinc-50 text-theme-teal border border-theme-teal text-center buttonlike w-auto w-min-[140px] flex-shrink-0 flex-grow inline-block"
         draggable="false"
         >View Product
       </router-link>

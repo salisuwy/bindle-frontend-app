@@ -35,7 +35,7 @@ const { isPending, mutate } = useMutation({
   },
   onError: (error, variables) => {
     console.error("mutation error", error);
-    if (! Object.keys(variables).includes("partial")) {
+    if (!Object.keys(variables).includes("partial")) {
       emit("setValidity", { key: "address", value: false });
     }
   },
@@ -43,7 +43,7 @@ const { isPending, mutate } = useMutation({
     // console.log("mutation success", data);
     console.log("mutation success - payload", variables);
     setUuid(data?.order?.uuid);
-    if (! Object.keys(variables).includes("partial")) {
+    if (!Object.keys(variables).includes("partial")) {
       emit("setValidity", { key: "address", value: true });
     }
   },
@@ -149,7 +149,6 @@ async function updateOnBlur() {
   }
 }
 
-
 watch(transition, async (_) => {
   emit("startTransition");
   try {
@@ -190,22 +189,6 @@ onMounted(() => {
         class="flex flex-wrap gap-2 justify-between items-center self-stretch pt-2.5 pb-0.5"
       >
         <h1 class="grow text-xl leading-7 text-gray-700">Delivery Address</h1>
-        <div class="flex gap-2" v-show="false">
-          <div class="flex flex-col justify-center p-1">
-            <input
-              v-model="sharedAddress"
-              type="checkbox"
-              id="billingAddress"
-              class="h-4 w-4 shrink-0 rounded-sm border border-zinc-200 text-teal-500 checked:ring-teal-500"
-            />
-          </div>
-          <label
-            for="billingAddress"
-            class="text-base tracking-tighter leading-6 text-neutral-400"
-          >
-            Same as delivery address
-          </label>
-        </div>
       </header>
       <hr class="mt-4 h-px border border-zinc-200" />
       <section class="flex flex-col mt-6 bg-white max-md:max-w-full">
@@ -391,23 +374,16 @@ onMounted(() => {
         class="flex flex-wrap gap-2 justify-between items-center self-stretch pt-2.5 pb-0.5"
       >
         <h1 class="grow text-xl leading-7 text-gray-700">Billing Details</h1>
-        <div class="flex gap-2">
-          <div class="flex flex-col justify-center p-1">
-            <input
-              v-model="sharedAddress"
-              type="checkbox"
-              id="billingAddress"
-              class="h-4 w-4 shrink-0 rounded-sm border border-zinc-200 text-teal-500 checked:bg-teal-500 checked:border-teal-500 custom-checkbox"
-              @change="updateOnBlur"
-            />
-          </div>
-          <label
-            for="billingAddress"
-            class="text-base tracking-tighter leading-6 text-neutral-400"
-          >
-            Same as delivery address
-          </label>
-        </div>
+        <label
+          class="text-base tracking-tighter leading-6 text-neutral-400 bindle-checkbox cursor-pointer mr-4"
+        >
+          <input
+            type="checkbox"
+            v-model="sharedAddress"
+            @change="updateOnBlur"
+          />
+          Same as delivery address
+        </label>
       </header>
       <hr class="mt-4 h-px border border-zinc-200" />
       <section class="flex flex-col mt-6 bg-white max-md:max-w-full">

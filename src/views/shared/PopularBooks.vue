@@ -6,6 +6,7 @@ import { Carousel, Slide, Navigation } from "vue3-carousel";
 import Book from "@/views/shared/Book.vue";
 import { useWindowSize } from "@vueuse/core";
 import Bundle from "@/views/shared/Bundle.vue";
+import CarouselNav from "./CarouselNav.vue";
 
 const props = defineProps({
   title: { type: String, default: "Popular Products" },
@@ -41,22 +42,25 @@ const itemsToShow = computed(() => {
     return 1;
   } else if (width.value < 1024) {
     return 2;
-  } else  {
+  } else {
     return 3;
   }
-  
 });
 </script>
 <template>
-  <div class="py-4 max-w-8xl mx-auto grid lg:grid-cols-4" v-if="products.length > 0">
+  <div
+    class="py-4 max-w-8xl mx-auto grid lg:grid-cols-4"
+    v-if="products.length > 0"
+  >
     <section class="">
       <div class="lg:w-[70%] flex flex-col gap-2 lg:gap-5 p-4 lg:px-8">
         <h2 class="text-4xl text-center lg:text-left">{{ props.title }}</h2>
-        <p class="text-center lg:text-left">Check out our top best-sellers right now!</p>
+        <p class="text-center lg:text-left">
+          Check out our top best-sellers right now!
+        </p>
       </div>
-      
     </section>
-    <section class="lg:col-span-3 ">
+    <section class="lg:col-span-3">
       <carousel
         v-if="props.use_carousel"
         class="py-2"
@@ -81,17 +85,11 @@ const itemsToShow = computed(() => {
         </slide>
       </carousel>
 
-      <div
+      <CarouselNav
         v-if="products && products?.length > 0"
-        class="flex flex-row items-start justify-center mx-auto gap-4 md:gap-0 py-4"
-      >
-        <button @click="prevSlide" class="rounded-none font-extrabold mx-2 hover:bg-teal-400">
-          &#10216;
-        </button>
-        <button @click="nextSlide" class="rounded-none font-extrabold mx-2 hover:bg-teal-400">
-          &#10217;
-        </button>
-      </div>
+        @prevSlide="prevSlide"
+        @nextSlide="nextSlide"
+      />
 
       <div
         v-else

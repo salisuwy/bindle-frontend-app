@@ -5,6 +5,7 @@ import Book from "@/views/shared/Book.vue";
 import "vue3-carousel/dist/carousel.css";
 import { Carousel, Slide, Navigation } from "vue3-carousel";
 import { useWindowSize } from "@vueuse/core";
+import CarouselNav from "./CarouselNav.vue";
 
 const props = defineProps({
   title: { type: String, default: "Featured Products" },
@@ -64,23 +65,13 @@ const itemsToShow = computed(() => {
         <book :product="product" />
       </slide>
     </carousel>
-    <div
-      class="flex flex-row items-start justify-center mx-auto gap-4 md:gap-0 py-4"
+
+    <CarouselNav
       v-if="products && products?.length > 3"
-    >
-      <button
-        @click="prevSlide"
-        class="rounded-none font-extrabold mx-2 hover:bg-teal-400"
-      >
-        &#10216;
-      </button>
-      <button
-        @click="nextSlide"
-        class="rounded-none font-extrabold mx-2 hover:bg-teal-400"
-      >
-        &#10217;
-      </button>
-    </div>
+      @prevSlide="prevSlide"
+      @nextSlide="nextSlide"
+    />
+    
   </div>
 </template>
 <style scoped>

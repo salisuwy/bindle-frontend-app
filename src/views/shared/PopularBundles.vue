@@ -5,6 +5,7 @@ import { Carousel, Slide, Navigation } from "vue3-carousel";
 import Bundle from "@/views/shared/Bundle.vue";
 import { useBindleApiStore } from "@/store/bindle-api.js";
 import { useWindowSize } from "@vueuse/core";
+import CarouselNav from "./CarouselNav.vue";
 
 const props = defineProps({
   title: { type: String, default: "Popular Bundles" },
@@ -73,26 +74,20 @@ const itemsToShow = computed(() => {
       </slide>
     </carousel>
 
-    <div
+    <CarouselNav
       v-if="bundles && bundles?.length > 0"
-      class="flex flex-row items-start justify-center mx-auto gap-4 md:gap-0 py-4"
-    >
-      <button @click="prevSlide" class="rounded-none font-extrabold mx-2 hover:bg-teal-400">
-        &#10216;
-      </button>
-      <button @click="nextSlide" class="rounded-none font-extrabold mx-2 hover:bg-teal-400">
-        &#10217;
-      </button>
-    </div>
+      @prevSlide="prevSlide"
+      @nextSlide="nextSlide"
+    />
 
-    <div
+    <!-- <div
       v-else
       class="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-4 gap-4 px-8 max-w-screen-xl mx-auto h-fit"
     >
       <div v-for="(bundle, index) in bundles" :key="index">
         <bundle :bundle="bundle" class="max-w-full" />
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 <style scoped>

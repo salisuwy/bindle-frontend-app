@@ -155,14 +155,14 @@ const getImagesClass = (book_ids) => {
           : 'px-4 col-start-1 row-start-2'
       "
     >
-      <!-- <div class="text-theme-navyblue font-bold text-left pt-4 pb-2">
+      <div class="text-theme-navyblue font-bold text-left pt-4 pb-2">
         {{ getBundleType }}
-      </div> -->
+      </div>
 
       <div class="flex gap-4 justify-center items-center flex-wrap my-4">
         <router-link
           :to="'/bundles/' + slug"
-          class="bg-white text-theme-teal border border-theme-teal text-center buttonlike w-auto w-min-[140px] flex-shrink-0 flex-grow inline-block"
+          class="bg-white hover:bg-zinc-50 text-theme-teal border border-theme-teal text-center buttonlike w-auto w-min-[140px] flex-shrink-0 flex-grow inline-block"
           draggable="false"
           >View Product
         </router-link>
@@ -194,7 +194,7 @@ const getImagesClass = (book_ids) => {
         </router-link>
       </p>
 
-      <!-- <div class="flex justify-start items-center gap-2">
+      <div class="flex justify-start items-center gap-2">
         <span
           v-if="props.bundle['is_ebook']"
           class="justify-center self-start px-2.5 py-2 mt-2 text-xs text-gray-600 whitespace-nowrap rounded-sm bg-gray-200"
@@ -207,7 +207,7 @@ const getImagesClass = (book_ids) => {
         >
           Paperback
         </span>
-      </div> -->
+      </div>
 
       <div class="text-left text-theme-darkgray">From:</div>
       <div class="flex flex-col 2xs:flex-row flex-wrap items-start gap-4 mx-2">

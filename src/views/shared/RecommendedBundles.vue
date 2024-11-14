@@ -6,6 +6,7 @@ import Bundle from "@/views/shared/Bundle.vue";
 import "vue3-carousel/dist/carousel.css";
 import { Carousel, Slide, Navigation } from "vue3-carousel";
 import { useWindowSize } from "@vueuse/core";
+import CarouselNav from "./CarouselNav.vue";
 
 const route = useRoute();
 
@@ -77,23 +78,11 @@ const itemsToShow = computed(() => {
       </slide>
     </carousel>
 
-    <div
+    <CarouselNav
       v-if="getPopularBundles && getPopularBundles?.length > 0"
-      class="flex flex-row items-start justify-center mx-auto gap-4 md:gap-0 py-4"
-    >
-      <button
-        @click="prevSlide"
-        class="rounded-none font-extrabold mx-2 hover:bg-teal-400"
-      >
-        &#10216;
-      </button>
-      <button
-        @click="nextSlide"
-        class="rounded-none font-extrabold mx-2 hover:bg-teal-400"
-      >
-        &#10217;
-      </button>
-    </div>
+      @prevSlide="prevSlide"
+      @nextSlide="nextSlide"
+    />
   </div>
 </template>
 <style scoped>

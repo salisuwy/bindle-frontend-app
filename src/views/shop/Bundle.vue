@@ -24,6 +24,7 @@ import { useMutation, useQueryClient, useQuery } from "@tanstack/vue-query";
 import { addToCart, setUuid, getOrderCart } from "@/store/cart-api";
 import { useHead } from "@unhead/vue";
 import { useWindowSize } from "@vueuse/core";
+import CarouselNav from "../shared/CarouselNav.vue";
 
 const { width } = useWindowSize();
 
@@ -278,7 +279,7 @@ watch(
   () => route.path,
   async () => {
     await getBundle();
-    
+
     books.value = Object.values(
       await bindleApiStore.getBooksById(bundle.value.book_ids)
     );
@@ -583,20 +584,14 @@ watch(
                 </slide>
               </carousel>
             </template>
-            
           </div>
-          
-          <div
+
+          <CarouselNav
             v-if="books && books?.length > 3"
-            class="flex flex-row items-start justify-center mx-auto gap-4 md:gap-0 py-4"
-          >
-            <button @click="prevSlide" class="rounded-none font-extrabold mx-2 hover:bg-teal-400">
-              &#10216;
-            </button>
-            <button @click="nextSlide" class="rounded-none font-extrabold mx-2 hover:bg-teal-400">
-              &#10217;
-            </button>
-          </div>
+            @prevSlide="prevSlide"
+            @nextSlide="nextSlide"
+          />
+          
         </div>
         <popular-bundles title="You may also like" />
         <featured-books title="Recommended Resources" />
