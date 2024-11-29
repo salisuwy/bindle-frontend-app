@@ -16,6 +16,7 @@ import SearchIcon from "@/components/icons/SearchIcon.vue";
 import HorizontalMenuBar from "@/components/HorizontalMenuBar.vue";
 import ChevronIcon from "@/components/icons/ChevronIcon.vue";
 import CartIcon from "@/components/icons/CartIcon.vue";
+import UserIcon from "@/components/icons/UserIcon.vue";
 import HelpIcon from "@/components/icons/HelpIcon.vue";
 import BurgerIcon from "@/components/icons/BurgerIcon.vue";
 import SlideIn from "@/components/SlideIn.vue";
@@ -462,6 +463,14 @@ const cartItemsCount = computed(() => {
       </div>
     </div>
     <div class="shrink mt-2 lg:mr-4 flex gap-2 lg:gap-4">
+
+      <router-link to="/signup" title="Signup">
+        <user-icon
+          width="25"
+          height="25"
+          class="mx-auto cursor-pointer font-medium text-teal-500"
+        />
+      </router-link>
       <router-link to="/contact-us" title="Contact Us">
         <help-icon
           width="25"
