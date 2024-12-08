@@ -265,6 +265,9 @@ onMounted(async () => {
   }
 
   // Track page view
+  // TODO: Add subject, level and examboard
+  // TODO: hide additional subjects (left bar, buttons (gcse/aqa))
+  // console.log(">>> BUNDLE: ", bundle.value);
   trackEvent("viewContent", {
     item_id: bundle.value?.id,
     item_type: "bundle",
