@@ -418,24 +418,30 @@ useHead({
   title: () => `Bindle - All Resource: ${filterSubjectName.value} Bundle`,
 });
 
-watch([filterSubject, filterLevel, filterType, formats, filterExamboard], () => {
-  const filterParams = {
-    bindle_subjects: filterSubject.value,
-    bindle_levels: filterLevel.value?.join(", "),
-    bindle_types: filterType.value?.join(", "),
-    bindle_formats: formats.value?.join(", "),
-    bindle_examboards: filterExamboard.value?.join(", "),
-  };
+watch(
+  [filterSubject, filterLevel, filterType, formats, filterExamboard],
+  () => {
+    const filterParams = {
+      bindle_subjects: filterSubject.value,
+      bindle_levels: filterLevel.value?.join(", "),
+      bindle_types: filterType.value?.join(", "),
+      bindle_formats: formats.value?.join(", "),
+      bindle_examboards: filterExamboard.value?.join(", "),
+    };
 
-  //console.log(">>>applyFilter", filterParams);
-  trackEvent("applyFilter", filterParams);
-});
+    //console.log(">>>applyFilter", filterParams);
+    trackEvent("applyFilter", filterParams);
+  }
+);
 
 onMounted(async () => {
   window.addEventListener("resize", resizeWindow);
 
   await bindleApiStore.getSubjects();
   subjects.value = bindleApiStore.subjects;
+  subjects.value = Object.values(subjects.value).filter((subject) => {
+    return subject.show_on_nav === 1;
+  });
 
   await bindleApiStore.getLevels();
   levels.value = bindleApiStore.levels;
@@ -512,7 +518,9 @@ const getTitle = () => {
           class="titlebar md:col-start-2 md:col-span-3 row-start-2 text-wrap"
         >
           <div class="flex flex-row pb-4">
-            <h1 class="text-4xl md:text-4xl">{{ filterSubjectName }} Resources</h1>
+            <h1 class="text-4xl md:text-4xl">
+              {{ filterSubjectName }} Resources
+            </h1>
             <div
               class="md:hidden grow pt-2 cursor-pointer"
               @click="toggleMobileFilters()"

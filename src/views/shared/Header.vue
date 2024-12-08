@@ -45,9 +45,17 @@ const threeRandomGCESLevelBooks = ref([]);
 const mobileSearchInputRef = ref(null);
 const mobileSearchRef = ref(null);
 
+const navSubjects = computed(() => {
+  return Object.values(subjects.value).filter((subject) => {
+    return subject.show_on_nav === 1;
+  });
+});
+
 onBeforeMount(() => {
   bindleApiStore.getSubjects().then(() => {
     subjects.value = bindleApiStore.subjects;
+    //navSubjects.value = subjects.value;
+    // navSubjects.value = subjects.value.filter(subject => subject.show_on_nav);
     //console.log('subjects', subjects.value);
     loadCount.value++;
   });
@@ -127,7 +135,7 @@ const performSearch = () => {
   };
 
   //console.log(">>>search", searchParams);
-  trackEvent('search', searchParams)
+  trackEvent("search", searchParams);
 
   router.push("/resources/explore?q=" + encodeURIComponent(searchText.value));
 };
@@ -217,7 +225,7 @@ const cartItemsCount = computed(() => {
             <h2>SUBJECTS</h2>
             <div class="w-full flex flex-col md:flex-row md:flex-wrap">
               <router-link
-                v-for="(subject, index) in subjects"
+                v-for="(subject, index) in navSubjects"
                 :key="index"
                 :to="'/resources/explore?subject=' + subject.slug"
                 class="md:w-1/2 xl:w-1/3"
@@ -279,7 +287,7 @@ const cartItemsCount = computed(() => {
             <h2>SUBJECTS</h2>
             <div class="w-full flex flex-col md:flex-row md:flex-wrap">
               <router-link
-                v-for="(subject, index) in subjects"
+                v-for="(subject, index) in navSubjects"
                 :key="index"
                 :to="'/gcse/' + subject.slug"
                 class="md:w-1/2 xl:w-1/3"
@@ -351,7 +359,7 @@ const cartItemsCount = computed(() => {
             <h2>SUBJECTS</h2>
             <div class="w-full flex flex-col md:flex-row md:flex-wrap">
               <router-link
-                v-for="(subject, index) in subjects"
+                v-for="(subject, index) in navSubjects"
                 :key="index"
                 :to="'/a-level/' + subject.slug"
                 class="md:w-1/2 xl:w-1/3"

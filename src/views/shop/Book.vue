@@ -145,6 +145,8 @@ onMounted(async () => {
   await prepBook();
 
   // Track page view
+  // TODO: Add subject, level and examboard
+  // console.log(">>> BOOK: ", book.value);
   trackEvent("viewContent", {
     item_id: book.value?.id,
     item_type: "book",

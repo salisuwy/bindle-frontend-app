@@ -359,7 +359,10 @@ export const useBindleApiStore = defineStore("bindleApi", () => {
 
   const getPrioritisedSubjectsIndex = async () => {
     await getSubjects();
-    return Object.entries(subjects.value)
+    const subSubjects = Object.values(subjects.value).filter((subject) => {
+      return subject.show_on_nav === 1;
+    });
+    return Object.entries(subSubjects)
       .sort(([, dataA], [, dataB]) => dataA.priority - dataB.priority)
       .map(([id]) => id);
   };
