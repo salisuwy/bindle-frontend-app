@@ -26,6 +26,9 @@ import Cart from "@/views/shop/Cart.vue";
 import { useQueryClient, useQuery } from "@tanstack/vue-query";
 import { getOrderCart } from "@/store/cart-api";
 import { trackEvent } from "../../components/helpers/analytics";
+import { useAuthStore } from "@/store/useAuthStore";
+
+const authStore = useAuthStore();
 
 const bindleApiStore = useBindleApiStore();
 const route = useRoute();
@@ -175,78 +178,97 @@ const cartItemsCount = computed(() => {
   const items = data.value?.order?.items ?? [];
   return items.reduce((acc, item) => acc + item.quantity, 0);
 });
+
+const firstName = authStore.user?.name?.split(" ")[0];
+const lastName = authStore.user?.name?.split(" ")[1];
+
+// Returns User initials using firstname and lastname of the user
+const initials = computed(() => {
+  const firstInitial = firstName?.charAt(0) || "";
+  const lastInitial = lastName?.charAt(0) || "";
+  return (firstInitial + lastInitial).toUpperCase();
+});
+
+// Generate a random background color (optional)
+const avatarColor = computed(() => {
+  const colors = ["#FF5733", "#33FF57", "#3357FF", "#FFC300", "#DA33FF"];
+  return colors[
+    (firstName + lastName).length % colors.length
+  ];
+});
+
+const isDropdownOpen = ref(false);
+
+const toggleDropdown = () => {
+  isDropdownOpen.value = !isDropdownOpen.value;
+};
+
+const handleUserAction = (action) => {
+  isDropdownOpen.value = false;
+  switch (action) {
+    case "login":
+      router.push("/login");
+      break;
+    case "signup":
+      router.push("/signup");
+      break;
+    case "profile":
+      router.push(`/user/${authStore.user.id}`);
+      break;
+    case "logout":
+      authStore.logout();
+      router.push("/");
+      break;
+    default:
+      break;
+  }
+};
+
 </script>
 
 <template>
-  <div
-    class="flex flex-row gap-6 lg:gap-10 whitespace-nowrap mt-8 max-w-8xl overflow-hidden"
-  >
+  <div class="flex flex-row gap-6 lg:gap-10 whitespace-nowrap mt-8 max-w-8xl overflow-hidden">
     <div class="flex-1 text-left ml-8 mb-8">
       <router-link to="/">
         <bindle-logo />
       </router-link>
     </div>
-    <horizontal-menu-bar
-      ref="menuBar"
-      class="mt-2 child-w-screen block lg:visible mr-4 lg:mr-0"
-      list-class="gap-10 invisible lg:visible"
-      link-class="h-full block"
-      submenu-class="bg-white border-t border-theme-gray shadow-md"
-      active-colour="#00bfa6"
-      active-text-decoration="underline"
-      :items="{
+    <horizontal-menu-bar ref="menuBar" class="mt-2 child-w-screen block lg:visible mr-4 lg:mr-0"
+      list-class="gap-10 invisible lg:visible" link-class="h-full block"
+      submenu-class="bg-white border-t border-theme-gray shadow-md" active-colour="#00bfa6"
+      active-text-decoration="underline" :items="{
         'Shop Resources': '/resources',
         GCSEs: '/gcse',
         'A-Levels': '/a-level',
         'Explore Bundles': '/bundles',
-      }"
-    >
+      }">
       <template v-slot:shop-resources>
-        <div
-          id="shop-resources"
-          v-if="!loaded"
-          class="loading max-w-full w-8xl mx-auto h-48 working-spinner"
-        >
+        <div id="shop-resources" v-if="!loaded" class="loading max-w-full w-8xl mx-auto h-48 working-spinner">
           &nbsp;
         </div>
-        <div
-          v-else
-          id="shop-resources"
-          class="max-w-full w-8xl mx-auto text-left grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-6 px-10 py-6"
-        >
+        <div v-else id="shop-resources"
+          class="max-w-full w-8xl mx-auto text-left grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-6 px-10 py-6">
           <div class="sm:col-start-1 md:col-span-2 xl:col-span-3 mb-4">
             <h2>SUBJECTS</h2>
             <div class="w-full flex flex-col md:flex-row md:flex-wrap">
-              <router-link
-                v-for="(subject, index) in subjects"
-                :key="index"
-                :to="'/resources/explore?subject=' + subject.slug"
-                class="md:w-1/2 xl:w-1/3"
-              >
+              <router-link v-for="(subject, index) in subjects" :key="index"
+                :to="'/resources/explore?subject=' + subject.slug" class="md:w-1/2 xl:w-1/3">
                 {{ subject.name }}
               </router-link>
             </div>
           </div>
           <div
-            class="sm:col-start-2 md:col-start-3 xl:col-start-4 xl:col-span-3 flex flex-col xl:flex-row xl:flex-wrap"
-          >
+            class="sm:col-start-2 md:col-start-3 xl:col-start-4 xl:col-span-3 flex flex-col xl:flex-row xl:flex-wrap">
             <div class="xl:w-1/3 mb-4 flex flex-col">
               <h2>QUALIFICATION</h2>
-              <router-link
-                v-for="(level, index) in levels"
-                :key="index"
-                :to="'/' + level.slug"
-              >
+              <router-link v-for="(level, index) in levels" :key="index" :to="'/' + level.slug">
                 {{ level.description }}
               </router-link>
             </div>
             <div class="xl:w-1/3 mb-4 flex flex-col">
               <h2>RESOURCE TYPE</h2>
-              <router-link
-                :to="'/resources/explore?type=' + type.slug"
-                v-for="type in types"
-                >{{ type.name }}</router-link
-              >
+              <router-link :to="'/resources/explore?type=' + type.slug" v-for="type in types">{{ type.name
+                }}</router-link>
             </div>
             <!--
                         <div class="xl:w-1/3 mb-4 flex flex-col">
@@ -258,111 +280,63 @@ const cartItemsCount = computed(() => {
           </div>
         </div>
         <div class="max-w-full w-8xl mx-auto text-left pb-6">
-          <router-link to="/resources" class="text-theme-teal ml-8"
-            >Shop all resources
+          <router-link to="/resources" class="text-theme-teal ml-8">Shop all resources
             <chevron-icon width="12" height="12" right class="inline" />
           </router-link>
         </div>
       </template>
       <template v-slot:gcses>
-        <div
-          id="gcses"
-          v-if="!loaded"
-          class="loading max-w-full w-8xl mx-auto h-48 working-spinner"
-        >
+        <div id="gcses" v-if="!loaded" class="loading max-w-full w-8xl mx-auto h-48 working-spinner">
           &nbsp;
         </div>
-        <div
-          v-else
-          class="max-w-full w-8xl mx-auto text-left grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 xl:grid-cols-6 px-10 py-6"
-        >
+        <div v-else
+          class="max-w-full w-8xl mx-auto text-left grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 xl:grid-cols-6 px-10 py-6">
           <div class="sm:col-start-1 md:col-span-2 xl:col-span-3 mb-4">
             <h2>SUBJECTS</h2>
             <div class="w-full flex flex-col md:flex-row md:flex-wrap">
-              <router-link
-                v-for="(subject, index) in subjects"
-                :key="index"
-                :to="'/gcse/' + subject.slug"
-                class="md:w-1/2 xl:w-1/3"
-                >{{ subject.name }}
+              <router-link v-for="(subject, index) in subjects" :key="index" :to="'/gcse/' + subject.slug"
+                class="md:w-1/2 xl:w-1/3">{{ subject.name }}
               </router-link>
             </div>
           </div>
-          <div
-            class="flex flex-col md:flex-row md:flex-wrap md:col-span-2 xl:col-span-3"
-          >
+          <div class="flex flex-col md:flex-row md:flex-wrap md:col-span-2 xl:col-span-3">
             <div class="flex flex-col w-1/2 lg:w-1/3">
               <h2>RESOURCE TYPE</h2>
-              <router-link
-                :to="'/resources/explore?level=gcse&type=' + type.slug"
-                v-for="type in types"
-                >{{ type.name }}</router-link
-              >
+              <router-link :to="'/resources/explore?level=gcse&type=' + type.slug" v-for="type in types">{{ type.name
+                }}</router-link>
             </div>
-            <div
-              class="bg-theme-lightteal w-1/2 lg:w-2/3 centered py-8 min-h-40"
-            >
+            <div class="bg-theme-lightteal w-1/2 lg:w-2/3 centered py-8 min-h-40">
               <div class="flex flex-row -rotate-5">
-                <img
-                  :src="bookUrl('gcse', 0)"
-                  class="w-1/3 scale-60"
-                  style="transform-origin: 90% 50%"
-                  alt="textbook"
-                />
-                <img
-                  :src="bookUrl('gcse', 1)"
-                  class="w-1/3 scale-90"
-                  alt="textbook"
-                />
-                <img
-                  :src="bookUrl('gcse', 2)"
-                  class="w-1/3 scale-60"
-                  style="transform-origin: 10% 50%"
-                  alt="textbook"
-                />
+                <img :src="bookUrl('gcse', 0)" class="w-1/3 scale-60" style="transform-origin: 90% 50%"
+                  alt="textbook" />
+                <img :src="bookUrl('gcse', 1)" class="w-1/3 scale-90" alt="textbook" />
+                <img :src="bookUrl('gcse', 2)" class="w-1/3 scale-60" style="transform-origin: 10% 50%"
+                  alt="textbook" />
               </div>
             </div>
           </div>
         </div>
         <div class="max-w-full w-8xl mx-auto text-left pb-6">
-          <router-link to="/gcse" class="ml-8 text-theme-teal"
-            >Shop all GCSE resources
-            <chevron-icon
-              width="12"
-              height="12"
-              right
-              class="inline"
-            ></chevron-icon>
+          <router-link to="/gcse" class="ml-8 text-theme-teal">Shop all GCSE resources
+            <chevron-icon width="12" height="12" right class="inline"></chevron-icon>
           </router-link>
         </div>
       </template>
       <template v-slot:a-levels>
-        <div
-          id="alevels"
-          v-if="!loaded"
-          class="loading max-w-full w-8xl mx-auto h-48 working-spinner"
-        >
+        <div id="alevels" v-if="!loaded" class="loading max-w-full w-8xl mx-auto h-48 working-spinner">
           &nbsp;
         </div>
-        <div
-          v-else
-          class="max-w-full w-8xl mx-auto text-left grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 xl:grid-cols-6 px-10 py-6"
-        >
+        <div v-else
+          class="max-w-full w-8xl mx-auto text-left grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 xl:grid-cols-6 px-10 py-6">
           <div class="sm:col-start-1 md:col-span-2 xl:col-span-3 mb-4">
             <h2>SUBJECTS</h2>
             <div class="w-full flex flex-col md:flex-row md:flex-wrap">
-              <router-link
-                v-for="(subject, index) in subjects"
-                :key="index"
-                :to="'/a-level/' + subject.slug"
-                class="md:w-1/2 xl:w-1/3"
-                >{{ subject.name }}
+              <router-link v-for="(subject, index) in subjects" :key="index" :to="'/a-level/' + subject.slug"
+                class="md:w-1/2 xl:w-1/3">{{ subject.name }}
               </router-link>
             </div>
           </div>
-          <div
-            class="flex flex-col md:flex-row md:flex-wrap md:col-span-2 xl:col-span-3"
-          >
+          <div class="flex flex-col md:flex-row md:flex-wrap md:col-span-2 xl:col-span-3">
             <div class="flex flex-col w-1/2 lg:w-1/3">
               <h2>RESOURCE TYPE</h2>
               <!--
@@ -372,46 +346,23 @@ const cartItemsCount = computed(() => {
                             <a href="">Bundles</a>
                             <a href="">EBooks</a>
                             -->
-              <router-link
-                :to="'/resources/explore?level=a-level&type=' + type.slug"
-                v-for="type in types"
-                >{{ type.name }}</router-link
-              >
+              <router-link :to="'/resources/explore?level=a-level&type=' + type.slug" v-for="type in types">{{ type.name
+                }}</router-link>
             </div>
-            <div
-              class="bg-theme-lightteal w-1/2 lg:w-2/3 centered py-8 min-h-40"
-            >
+            <div class="bg-theme-lightteal w-1/2 lg:w-2/3 centered py-8 min-h-40">
               <div class="flex flex-row -rotate-5">
-                <img
-                  :src="bookUrl('alevel', 0)"
-                  class="w-1/3 scale-60"
-                  style="transform-origin: 90% 50%"
-                  alt="textbook"
-                />
-                <img
-                  :src="bookUrl('alevel', 1)"
-                  class="w-1/3 scale-90"
-                  alt="textbook"
-                />
-                <img
-                  :src="bookUrl('alevel', 2)"
-                  class="w-1/3 scale-60"
-                  style="transform-origin: 10% 50%"
-                  alt="textbook"
-                />
+                <img :src="bookUrl('alevel', 0)" class="w-1/3 scale-60" style="transform-origin: 90% 50%"
+                  alt="textbook" />
+                <img :src="bookUrl('alevel', 1)" class="w-1/3 scale-90" alt="textbook" />
+                <img :src="bookUrl('alevel', 2)" class="w-1/3 scale-60" style="transform-origin: 10% 50%"
+                  alt="textbook" />
               </div>
             </div>
           </div>
         </div>
         <div class="max-w-full w-8xl mx-auto text-left pb-6">
-          <router-link to="/a-level" class="ml-8 text-theme-teal"
-            >Shop all A-Level resources
-            <chevron-icon
-              width="12"
-              height="12"
-              right
-              class="inline"
-            ></chevron-icon>
+          <router-link to="/a-level" class="ml-8 text-theme-teal">Shop all A-Level resources
+            <chevron-icon width="12" height="12" right class="inline"></chevron-icon>
           </router-link>
         </div>
       </template>
@@ -424,89 +375,74 @@ const cartItemsCount = computed(() => {
         <template v-slot:close>
           <close-icon />
         </template>
-        <div
-          class="rounded-full bg-theme-pale w-full bg-theme-pal flex flex-row py-2"
-        >
-          <input
-            ref="mobileSearchInputRef"
-            type="text"
-            v-model="searchText"
-            v-on:keyup.enter="performSearch"
-            class="bg-theme-pale p-2 grow ml-4 border-solid border-r-2 border-theme-lightgray"
-          />
-          <search-icon
-            class="cursor-pointer inline mx-4 relative top-3"
-            width="16"
-            height="16"
-            @click="performSearch"
-          />
+        <div class="rounded-full bg-theme-pale w-full bg-theme-pal flex flex-row py-2">
+          <input ref="mobileSearchInputRef" type="text" v-model="searchText" v-on:keyup.enter="performSearch"
+            class="bg-theme-pale p-2 grow ml-4 border-solid border-r-2 border-theme-lightgray" />
+          <search-icon class="cursor-pointer inline mx-4 relative top-3" width="16" height="16"
+            @click="performSearch" />
         </div>
       </slide-in>
     </div>
-    <div
-      class="hidden sm:flex sm:flex-row sm:flex-nowrap justify-center items-center"
-    >
+    <div class="hidden sm:flex sm:flex-row sm:flex-nowrap justify-center items-center">
       <div class="rounded-full bg-theme-pale h-10 mb-8">
-        <input
-          type="text"
-          v-model="searchText"
+        <input type="text" v-model="searchText"
           class="placeholder:text-xs xl:placeholder:text-sm xl:w-80 mt-2 ml-4 outline-none bg-theme-pale border-solid border-r-2 border-theme-lightgray"
-          placeholder="Search for study resources by keywords..."
-          v-on:keyup.enter="performSearch"
-        />
-        <search-icon
-          class="cursor-pointer inline mx-4 relative -top-1"
-          width="16"
-          height="16"
-          @click="performSearch"
-        />
+          placeholder="Search for study resources by keywords..." v-on:keyup.enter="performSearch" />
+        <search-icon class="cursor-pointer inline mx-4 relative -top-1" width="16" height="16" @click="performSearch" />
       </div>
     </div>
     <div class="shrink mt-2 lg:mr-4 flex gap-2 lg:gap-4">
-
-      <router-link to="/signup" title="Signup">
-        <user-icon
-          width="25"
-          height="25"
-          class="mx-auto cursor-pointer font-medium text-teal-500"
-        />
-      </router-link>
+      <a @click="toggleDropdown" class="p-0 rounded-full bg-white m-0 cursor-pointer">
+        <div v-if="authStore.user" class="w-10 h-10 flex items-center justify-center rounded-full text-white"
+          :style="{ backgroundColor: avatarColor }">
+          {{ initials }}
+        </div>
+        <user-icon v-else width="25" height="25" class="mx-auto cursor-pointer font-medium text-white" />
+      </a>
+      <div v-if="isDropdownOpen" class="absolute right-0 mt-8 w-48 bg-white rounded-lg shadow-lg z-50">
+        <ul class=" text-gray-700">
+          <!-- <li v-if="!authStore.user">
+            <a class="block w-full px-4 py-2 font-normal hover:bg-teal-500 hover:text-white cursor-pointer"
+              @click="handleUserAction('signup')">
+              Sign Up
+            </a>
+          </li> -->
+          <li v-if="!authStore.user">
+            <a class="block w-full px-4 py-2 font-normal hover:bg-teal-500 hover:text-white cursor-pointer"
+              @click="handleUserAction('login')">
+              Log In
+            </a>
+          </li>
+          <li v-if="authStore.user">
+            <a class="block w-full px-4 py-2 font-normal hover:bg-teal-500 hover:text-white cursor-pointer"
+              @click="handleUserAction('profile')">
+              Profile Settings
+            </a>
+          </li>
+          <li v-if="authStore.user">
+            <a class="block w-full px-4 py-2 font-normal text-red-600 hover:bg-red-600 hover:text-white cursor-pointer"
+              @click="handleUserAction('logout')">
+              Log Out
+            </a>
+          </li>
+        </ul>
+      </div>
       <router-link to="/contact-us" title="Contact Us">
-        <help-icon
-          width="25"
-          height="25"
-          class="mx-auto cursor-pointer font-medium text-teal-500"
-        />
+        <help-icon width="25" height="25" class="mx-auto cursor-pointer font-medium text-teal-500" />
       </router-link>
 
       <div class="relative">
-        <cart-icon
-          width="24"
-          height="24"
-          class="mx-auto cursor-pointer text-theme-teal"
-          @click="toggleCart"
-        />
-        <span
-          class="absolute -top-2 -right-1 rounded-full text-white bg-theme-teal h-5 w-5 text-[12px] text-center"
-          >{{ cartItemsCount }}
+        <cart-icon width="24" height="24" class="mx-auto cursor-pointer text-theme-teal" @click="toggleCart" />
+        <span class="absolute -top-2 -right-1 rounded-full text-white bg-theme-teal h-5 w-5 text-[12px] text-center">{{
+          cartItemsCount }}
         </span>
       </div>
     </div>
 
     <div class="shrink mt-2 lg:hidden">
-      <burger-icon
-        class="mx-auto cursor-pointer linklike mr-8"
-        width="24"
-        height="24"
-        @click="mobileMenu"
-      />
+      <burger-icon class="mx-auto cursor-pointer linklike mr-8" width="24" height="24" @click="mobileMenu" />
     </div>
-    <slide-in
-      ref="cartSliderRef"
-      right
-      no-open-button
-      background-colour="white"
-    >
+    <slide-in ref="cartSliderRef" right no-open-button background-colour="white">
       <cart @checkoutLinkClicked="closeSlideIn" />
     </slide-in>
   </div>
@@ -540,13 +476,13 @@ const cartItemsCount = computed(() => {
     opacity: 1;
   }
 
-  ul#nav-menu > li {
+  ul#nav-menu>li {
     visibility: visible !important;
     background-color: white;
     position: relative;
   }
 
-  ul#nav-menu > li > label > a {
+  ul#nav-menu>li>label>a {
     font-size: 26px;
     height: fit-content;
     padding-left: 30px;
@@ -554,12 +490,12 @@ const cartItemsCount = computed(() => {
     text-align: left;
   }
 
-  ul#nav-menu > li > label:hover {
+  ul#nav-menu>li>label:hover {
     opacity: 0.6;
     cursor: pointer;
   }
 
-  ul#nav-menu > li.has-children > label:before {
+  ul#nav-menu>li.has-children>label:before {
     position: absolute;
     left: 12px;
     top: 8px;
@@ -568,12 +504,12 @@ const cartItemsCount = computed(() => {
     color: #777;
   }
 
-  ul#nav-menu > li.has-children > label > a {
+  ul#nav-menu>li.has-children>label>a {
     pointer-events: none;
     cursor: pointer;
   }
 
-  ul#nav-menu > li > ul {
+  ul#nav-menu>li>ul {
     position: static !important;
     visibility: visible !important;
     border-top: none;
@@ -581,20 +517,33 @@ const cartItemsCount = computed(() => {
     box-shadow: 0 0 #0000;
   }
 
-  ul#nav-menu > li > ul > li > div {
+  ul#nav-menu>li>ul>li>div {
     padding-top: 0;
     padding-bottom: 0;
     padding-left: 30px;
   }
 
-  input[name="menuradios"] ~ ul {
+  input[name="menuradios"]~ul {
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.5s ease-in-out !important;
   }
 
-  input[name="menuradios"]:checked ~ ul {
+  input[name="menuradios"]:checked~ul {
     max-height: 1000px;
   }
+}
+
+.avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  color: white;
+  font-weight: bold;
+  font-size: 12px;
+  text-transform: uppercase;
 }
 </style>

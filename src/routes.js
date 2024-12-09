@@ -27,6 +27,7 @@ import Invoice from "@/views/shop/Invoice.vue";
 import Signup from "@/views/user-profile/Signup.vue";
 import Login from "@/views/user-profile/Login.vue";
 import RegisterUser from "@/views/user-profile/RegisterUser.vue";
+import UserProfile from "@/views/user-profile/UserProfile.vue";
 import { useHead } from "@unhead/vue";
 
 const routes = [
@@ -255,6 +256,11 @@ const routes = [
     name: "user-register",
     path: "/register-user",
     component: RegisterUser,
+  },
+  {
+    name: "user-profile",
+    path: "/user/:userId",
+    component: UserProfile,
   },
   {
     name: "page-not-found",

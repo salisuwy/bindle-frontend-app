@@ -1,10 +1,5 @@
 <template>
-    <div class="login">
-        <div class="header border-b">
-            <router-link to="/">
-                <bindle-logo />
-            </router-link>
-        </div>
+    <MinimalLayout>
         <div class="login-container flex justify-center items-center">
             <div class="login-box w-full max-w-md bg-white rounded-lg shadow-md text-left">
                 <h1 class="text-xl font-semibold text-gray-900 border-b px-6 py-4">Login to Bindle</h1>
@@ -38,53 +33,36 @@
 
                     <!-- Success Message -->
                     <p v-if="isSuccess" class="text-green-500 text-sm mt-2">Login successful!</p>
+
+                    <!-- Signup Link -->
+                    <p class="text-sm text-gray-500 text-center mt-1">
+                        Don't have an account?
+                        <a href="/signup" class="text-teal-500 hover:underline">Sign Up</a>
+                    </p>
                 </div>
             </div>
-
         </div>
-    </div>
+    </MinimalLayout>
 </template>
 
 <script setup>
 import { ref } from "vue";
 import { useRouter } from "vue-router";
+import MinimalLayout from "@/views/shared/MinimalLayout.vue";
+import { useAuthStore } from "@/store/useAuthStore";
 
-import { useMutation } from "@tanstack/vue-query";
-import { loginUser } from "@/store/user-profile-api";
-
-import BindleLogo from "@/views/shared/BindleLogo.vue";
-
+const {
+    login,
+} = useAuthStore();
 const router = useRouter();
 
 const email = ref("");
 const password = ref("");
-
-const { mutate: login, isLoading, isError, isSuccess, error, data: user } = useMutation({
-    mutationFn: loginUser,
-});
 
 const onLoginUser = () => {
     login({
         email: email.value,
         password: password.value
     });
-    if (isSuccess) {
-        console.log("Hello success", user);
-        router.push("/");
-    }
 };
 </script>
-
-<style scoped>
-.login {
-    display: grid;
-    grid-template-rows: auto 1fr;
-    height: 100vh;
-    background: linear-gradient(113.52deg, #e5f3f1 0%, #f8f9f9 100%);
-}
-
-.header {
-    text-align: center;
-    padding: 1.5rem 0 1.5rem 2rem;
-}
-</style>
