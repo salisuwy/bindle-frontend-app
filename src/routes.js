@@ -24,6 +24,10 @@ import CheckoutAddress from "@/views/shop/CheckoutAddress.vue";
 import CheckoutPayment from "@/views/shop/CheckoutPayment.vue";
 import CheckoutPaymentV2 from "@/views/shop/CheckoutPaymentV2.vue";
 import Invoice from "@/views/shop/Invoice.vue";
+import Signup from "@/views/user-profile/Signup.vue";
+import Login from "@/views/user-profile/Login.vue";
+import RegisterUser from "@/views/user-profile/RegisterUser.vue";
+import UserProfile from "@/views/user-profile/UserProfile.vue";
 import { useHead } from "@unhead/vue";
 
 const routes = [
@@ -237,6 +241,26 @@ const routes = [
         useBindleApiStore().routingFailed = true;
       }
     },
+  },
+  {
+    name: "user-profile-signup",
+    path: "/signup",
+    component: Signup,
+  },
+  {
+    name: "user-profile-login",
+    path: "/login",
+    component: Login,
+  },
+  {
+    name: "user-register",
+    path: "/register-user",
+    component: RegisterUser,
+  },
+  {
+    name: "user-profile",
+    path: "/user/:userId",
+    component: UserProfile,
   },
   {
     name: "page-not-found",
