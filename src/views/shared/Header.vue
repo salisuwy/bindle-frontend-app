@@ -183,19 +183,12 @@ const firstName = authStore.user?.name?.split(" ")[0];
 const lastName = authStore.user?.name?.split(" ")[1];
 
 // Returns User initials using firstname and lastname of the user
-const initials = computed(() => {
+const initials = () => {
+  console.log("initials",)
   const firstInitial = firstName?.charAt(0) || "";
   const lastInitial = lastName?.charAt(0) || "";
   return (firstInitial + lastInitial).toUpperCase();
-});
-
-// Generate a random background color (optional)
-const avatarColor = computed(() => {
-  const colors = ["#FF5733", "#33FF57", "#3357FF", "#FFC300", "#DA33FF"];
-  return colors[
-    (firstName + lastName).length % colors.length
-  ];
-});
+};
 
 const isDropdownOpen = ref(false);
 
@@ -393,20 +386,19 @@ const handleUserAction = (action) => {
     </div>
     <div class="shrink mt-2 lg:mr-4 flex gap-2 lg:gap-4">
       <a @click="toggleDropdown" class="p-0 rounded-full bg-white m-0 cursor-pointer">
-        <div v-if="authStore.user" class="w-10 h-10 flex items-center justify-center rounded-full text-white"
-          :style="{ backgroundColor: avatarColor }">
-          {{ initials }}
+        <div v-if="authStore.user" class="w-8 h-8 flex items-center justify-center rounded-full text-white bg-teal-500">
+          {{ initials() }}
         </div>
-        <user-icon v-else width="25" height="25" class="mx-auto cursor-pointer font-medium text-white" />
+        <user-icon v-else width="25" height="25" class="mx-auto cursor-pointer font-medium" />
       </a>
       <div v-if="isDropdownOpen" class="absolute right-0 mt-8 w-48 bg-white rounded-lg shadow-lg z-50">
         <ul class=" text-gray-700">
-          <!-- <li v-if="!authStore.user">
+          <li v-if="!authStore.user">
             <a class="block w-full px-4 py-2 font-normal hover:bg-teal-500 hover:text-white cursor-pointer"
               @click="handleUserAction('signup')">
               Sign Up
             </a>
-          </li> -->
+          </li>
           <li v-if="!authStore.user">
             <a class="block w-full px-4 py-2 font-normal hover:bg-teal-500 hover:text-white cursor-pointer"
               @click="handleUserAction('login')">
@@ -532,18 +524,5 @@ const handleUserAction = (action) => {
   input[name="menuradios"]:checked~ul {
     max-height: 1000px;
   }
-}
-
-.avatar {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  color: white;
-  font-weight: bold;
-  font-size: 12px;
-  text-transform: uppercase;
 }
 </style>

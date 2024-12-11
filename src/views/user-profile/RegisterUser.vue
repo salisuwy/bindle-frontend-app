@@ -6,12 +6,11 @@
                 </h1>
                 <div class="p-6">
                     <div v-for="(selected, index) in selectedCourses" :key="selected.id"
-                        class=" border-l-4 w-50 bg-theme-pal flex flex-row pt-2 mb-4"
-                        :class="`border-l-${randomColor(index)}-400`">
+                        class="border-l-4 w-50 bg-theme-pal flex flex-row pt-2 mb-4" :class="`border-l-teal-400`">
                         <input type="text" :value="selected.name" :readonly="true" class="border-b p-2 grow ml-4 " />
                     </div>
                     <div v-if="selectedCourses.length < 4"
-                        class="border-l-4 w-50 bg-theme-pal flex flex-row pt-2 mb-4 items-center border-l-green-400">
+                        class="border-l-4 w-50 bg-theme-pal flex flex-row pt-2 mb-4 items-center border-l-teal-400">
                         <input ref="courseSearchInputRef" type="text" v-model="searchText"
                             v-on:keyup.enter="performSearch" placeholder="Type to Search"
                             class="border-b p-2 grow ml-2" />
@@ -82,9 +81,9 @@ const onAttachCourses = async () => {
 }
 
 // Generate a random border color
-const randomColor = (index) => {
-    console.log("randomColor", index);
-    const colors = ["blue", "red", "yellow", "green"];
-    return colors[index];
-};
+// const randomColor = (index) => {
+//     const colors = ["blue", "red", "yellow", "green"];
+//     console.log("randomColor", index, colors[index]);
+//     return colors[index];
+// };
 </script>
