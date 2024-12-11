@@ -179,12 +179,11 @@ const cartItemsCount = computed(() => {
   return items.reduce((acc, item) => acc + item.quantity, 0);
 });
 
-const firstName = authStore.user?.name?.split(" ")[0];
-const lastName = authStore.user?.name?.split(" ")[1];
-
 // Returns User initials using firstname and lastname of the user
 const initials = () => {
-  console.log("initials",)
+  const firstName = authStore.user?.name?.split(" ")[0];
+  const lastName = authStore.user?.name?.split(" ")[1];
+
   const firstInitial = firstName?.charAt(0) || "";
   const lastInitial = lastName?.charAt(0) || "";
   return (firstInitial + lastInitial).toUpperCase();
