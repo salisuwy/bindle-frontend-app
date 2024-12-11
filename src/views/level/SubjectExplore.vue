@@ -391,6 +391,10 @@ onMounted(async () => {
 
   await bindleApiStore.getSubjects();
   subjects.value = bindleApiStore.subjects;
+  subjects.value = Object.values(subjects.value).filter((subject) => {
+    return subject.show_on_nav === 1;
+  });
+  
   subject.value = Object.values(subjects.value).find(
     (checkSubject) => checkSubject["slug"] === route.params.subject
   );

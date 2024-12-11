@@ -75,7 +75,13 @@ const addToBasket = () => {
     2
   );
 
-  trackEvent("addToBasket", { item_id, item_name, value, currency });
+  trackEvent("addToBasket", {
+    item_id: item_id,
+    item_type: item_type,
+    item_name: item_name,
+    value: value,
+    currency: currency,
+  });
 
   mutate({
     item_type: item_type,

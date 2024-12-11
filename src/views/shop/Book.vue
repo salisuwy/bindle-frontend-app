@@ -102,6 +102,7 @@ const { isPending, mutate } = useMutation({
 const addToBasket = () => {
   trackEvent("addToBasket", {
     item_id: book.value?.id,
+    item_type: "book",
     item_name: book.value?.title,
     value: getPrice.value,
     currency: "GBP",
@@ -142,6 +143,17 @@ useHead({
 
 onMounted(async () => {
   await prepBook();
+
+  // Track page view
+  // TODO: Add subject, level and examboard
+  // console.log(">>> BOOK: ", book.value);
+  trackEvent("viewContent", {
+    item_id: book.value?.id,
+    item_type: "book",
+    item_name: book.value?.title,
+    value: getPrice.value,
+    currency: "GBP",
+  });
 });
 
 const itemsInStock = computed(() => {

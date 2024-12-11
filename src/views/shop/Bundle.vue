@@ -225,6 +225,7 @@ const { isPending, mutate } = useMutation({
 const addToBasket = () => {
   trackEvent("addToBasket", {
     item_id: bundle.value?.id,
+    item_type: "bundle",
     item_name: bundle.value?.title,
     value: getBundlePrice.value,
     currency: "GBP",
@@ -262,6 +263,18 @@ onMounted(async () => {
   for (let idx = 0; idx < books.value.length; idx++) {
     books.value[idx].url = await bindleApiStore.getBookUrl(books.value[idx].id);
   }
+
+  // Track page view
+  // TODO: Add subject, level and examboard
+  // TODO: hide additional subjects (left bar, buttons (gcse/aqa))
+  // console.log(">>> BUNDLE: ", bundle.value);
+  trackEvent("viewContent", {
+    item_id: bundle.value?.id,
+    item_type: "bundle",
+    item_name: bundle.value?.title,
+    value: getBundlePrice.value,
+    currency: "GBP",
+  });
 });
 
 const itemsInStock = computed(() => {
