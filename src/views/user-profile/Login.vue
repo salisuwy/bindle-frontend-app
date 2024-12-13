@@ -29,10 +29,10 @@
                     </button>
 
                     <!-- Error Message -->
-                    <p v-if="isError" class="text-red-500 text-sm mt-2">Error: {{ error.message }}</p>
+                    <p v-if="authStore.error" class="text-red-500 text-sm mt-2">Error: {{ authStore.error }}</p>
 
                     <!-- Success Message -->
-                    <p v-if="isSuccess" class="text-green-500 text-sm mt-2">Login successful!</p>
+                    <!-- <p v-if="isSuccess" class="text-green-500 text-sm mt-2">Login successful!</p> -->
 
                     <!-- Signup Link -->
                     <p class="text-sm text-gray-500 text-center mt-1">
@@ -47,20 +47,16 @@
 
 <script setup>
 import { ref } from "vue";
-import { useRouter } from "vue-router";
 import MinimalLayout from "@/views/shared/MinimalLayout.vue";
 import { useAuthStore } from "@/store/useAuthStore";
 
-const {
-    login,
-} = useAuthStore();
-const router = useRouter();
+const authStore = useAuthStore();
 
 const email = ref("");
 const password = ref("");
 
 const onLoginUser = () => {
-    login({
+    authStore.login({
         email: email.value,
         password: password.value
     });

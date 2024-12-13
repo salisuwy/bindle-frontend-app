@@ -15,16 +15,22 @@ export const useAuthStore = defineStore("auth", () => {
   const state = reactive({
     user: null,
     token: "",
+    isError: false,
+    error: null,
+    isLoading: false,
   });
 
   // >> GETTERS
   const user = computed(() => state.user);
   const accessToken = computed(() => state.token);
   const isGuest = computed(() => state.user.role === "guest");
+  const error = computed(() => state.error);
+  const isLoading = computed(() => state.isLoading);
 
   // >> ACTIONS
 
   const signup = async (params) => {
+    state.isLoading = true;
     await axios
       .post(`${API_ENDPOINT}auth/signup`, params)
       .then((data, status) => {
@@ -33,11 +39,19 @@ export const useAuthStore = defineStore("auth", () => {
         setStorage("auth/user", JSON.stringify(state.user));
         setStorage("auth/token", JSON.stringify(state.token));
         router.push("/register-user");
+        state.isLoading = false;
       })
-      .catch(({ status }) => {});
+      .catch((error, status) => {
+        console.log("Error", error);
+        state.isLoading = false;
+        state.isError = true;
+        const errorsList = error.response.data.errors;
+        state.error = errorsList[Object.keys(errorsList)[0]][0];
+      });
   };
 
   const login = async (params) => {
+    state.isLoading = true;
     await axios
       .post(`${API_ENDPOINT}auth/login`, params)
       .then((data, status) => {
@@ -46,8 +60,14 @@ export const useAuthStore = defineStore("auth", () => {
         setStorage("auth/user", JSON.stringify(state.user));
         setStorage("auth/token", JSON.stringify(state.token));
         router.push(`/user/${state.user.id}`);
+        state.isLoading = false;
       })
-      .catch(({ status }) => {});
+      .catch((error, status) => {
+        console.log("Error", error);
+        state.isLoading = false;
+        state.isError = true;
+        state.error = error.response.data.message;
+      });
   };
 
   const logout = async (params) => {
@@ -104,6 +124,9 @@ export const useAuthStore = defineStore("auth", () => {
   onBeforeMount(() => {
     state.token = getStorage("auth/token", "");
     state.user = getStorage("auth/user", null);
+    state.error = null;
+    state.isError = false;
+    state.isLoading = false;
   });
 
   return {
@@ -111,6 +134,8 @@ export const useAuthStore = defineStore("auth", () => {
     accessToken,
     user,
     isGuest,
+    error,
+    isLoading,
     signup,
     login,
     logout,
