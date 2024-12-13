@@ -398,7 +398,7 @@ const handleUserAction = (action) => {
         </div>
         <user-icon v-else width="25" height="25" class="mx-auto cursor-pointer font-medium" />
       </a>
-      <div v-if="isDropdownOpen" class="absolute right-0 mt-8 w-48 bg-white rounded-lg shadow-lg z-50">
+      <div v-if="isDropdownOpen" class="absolute mt-8 w-48 bg-white rounded-lg shadow-lg z-50">
         <ul class=" text-gray-700">
           <li v-if="!authStore.user">
             <a class="block w-full px-4 py-2 font-normal hover:bg-teal-500 hover:text-white cursor-pointer"

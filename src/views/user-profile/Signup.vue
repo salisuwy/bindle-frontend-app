@@ -42,13 +42,11 @@
           <button class="w-full bg-teal-500 hover:bg-teal-600 text-white font-medium py-2 rounded-md mb-4"
             @click="onSignupUser">
             Continue
+            <i v-if="authStore.isLoading" class="fa fa-solid fa-circle-notch fa-spin ml-2"></i>
           </button>
 
           <!-- Error Message -->
-          <!-- <p v-if="isError" class="text-red-500 text-sm mt-2">Error: {{ error.message }}</p> -->
-
-          <!-- Success Message -->
-          <!-- <p v-if="isSuccess" class="text-green-500 text-sm mt-2">Signup successful!</p> -->
+          <p v-if="authStore.error" class="text-red-500 text-sm mt-2">Error: {{ authStore.error }}</p>
 
           <!-- Divider -->
           <!-- <div class="flex items-center justify-center mb-4">
@@ -101,9 +99,7 @@ import { useRouter } from "vue-router";
 import MinimalLayout from "@/views/shared/MinimalLayout.vue";
 import { useAuthStore } from "@/store/useAuthStore";
 
-const {
-  signup,
-} = useAuthStore();
+const authStore = useAuthStore();
 const router = useRouter();
 
 const email = ref("");
@@ -112,7 +108,7 @@ const first_name = ref("");
 const last_name = ref("");
 
 const onSignupUser = () => {
-  signup({
+  authStore.signup({
     email: email.value,
     password: password.value,
     first_name: first_name.value,
