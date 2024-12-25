@@ -28,6 +28,9 @@ import Signup from "@/views/user-profile/Signup.vue";
 import Login from "@/views/user-profile/Login.vue";
 import RegisterUser from "@/views/user-profile/RegisterUser.vue";
 import UserProfile from "@/views/user-profile/UserProfile.vue";
+import UserProfileOrders from "@/views/user-profile/UserProfileOrders.vue";
+import UserProfileBuddy from "@/views/user-profile/UserProfileBuddy.vue";
+
 import { useHead } from "@unhead/vue";
 
 const routes = [
@@ -261,6 +264,16 @@ const routes = [
     name: "user-profile",
     path: "/user/:userId",
     component: UserProfile,
+  },
+  {
+    name: "user-profile-orders",
+    path: "/user/:userId/orders",
+    component: UserProfileOrders,
+  },
+  {
+    name: "user-profile-buddy",
+    path: "/user/:userId/buddy",
+    component: UserProfileBuddy,
   },
   {
     name: "page-not-found",

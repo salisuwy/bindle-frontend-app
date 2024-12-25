@@ -18,6 +18,12 @@ export const useAuthStore = defineStore("auth", () => {
     isError: false,
     error: null,
     isLoading: false,
+    updateUserLoading: false,
+    updateUserError: null,
+    changePasswordLoading: false,
+    changePasswordError: null,
+    deleteUserLoading: false,
+    deleteUserError: null,
   });
 
   // >> GETTERS
@@ -91,7 +97,7 @@ export const useAuthStore = defineStore("auth", () => {
     await axios
       .get(`${API_ENDPOINT}profile/me`, {
         headers: {
-          Authorization: `Bearer ${params.token}`,
+          Authorization: `Bearer ${accessToken.value}`,
           "Content-Type": "application/json",
         },
       })
@@ -105,20 +111,84 @@ export const useAuthStore = defineStore("auth", () => {
   };
 
   const updateUser = async (params) => {
+    console.log("updateUser", params);
+    state.updateUserError = null;
+    state.updateUserLoading = true;
     await axios
-      .post(`${API_ENDPOINT}profile/update`, params.params, {
+      .post(`${API_ENDPOINT}profile/update`, params, {
         headers: {
-          Authorization: `Bearer ${params.token}`,
+          Authorization: `Bearer ${accessToken.value}`,
           "Content-Type": "application/json",
         },
       })
       .then((data, status) => {
+        console.log("updateUser then", data, status);
         state.user = data.data.user;
-        state.token = data.data.token;
         setStorage("auth/user", JSON.stringify(state.user));
-        setStorage("auth/token", JSON.stringify(state.token));
+        state.updateUserLoading = false;
       })
-      .catch(({ status }) => {});
+      .catch((error) => {
+        state.updateUserLoading = false;
+        const errorsList = error.response.data.errors;
+        state.updateUserError = errorsList[Object.keys(errorsList)[0]][0];
+      });
+  };
+
+  const changePassword = async (params) => {
+    console.log("changePassword", params);
+    state.changePasswordError = null;
+    state.changePasswordLoading = true;
+    await axios
+      .post(`${API_ENDPOINT}profile/change-password`, params, {
+        headers: {
+          Authorization: `Bearer ${accessToken.value}`,
+          "Content-Type": "application/json",
+        },
+      })
+      .then((data) => {
+        console.log("changePassword", data);
+        state.token = data.data.token;
+        setStorage("auth/token", JSON.stringify(state.token));
+        state.changePasswordLoading = false;
+      })
+      .catch((error) => {
+        state.changePasswordLoading = false;
+        console.log("changePassword error", error);
+        const message = error.response.data.message;
+        const errorsList = error.response.data.errors;
+        state.changePasswordError = message
+          ? message
+          : errorsList[Object.keys(errorsList)[0]][0];
+      });
+  };
+
+  const deleteUser = async () => {
+    state.deleteUserLoading = true;
+    state.deleteUserError = null;
+    await axios
+      .post(
+        `${API_ENDPOINT}profile/delete-account`,
+        {},
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${accessToken.value}`,
+          },
+        }
+      )
+      .then((data) => {
+        state.user = null;
+        state.token = null;
+        clearStorage("auth/user");
+        clearStorage("auth/token");
+        state.deleteUserLoading = false;
+        router.push(`/`);
+      })
+      .catch((error) => {
+        state.deleteUserLoading = false;
+        console.log("deleteUser error", error);
+        state.deleteUserError = error.response.data.error;
+      });
   };
 
   onBeforeMount(() => {
@@ -141,5 +211,7 @@ export const useAuthStore = defineStore("auth", () => {
     logout,
     getProfile,
     updateUser,
+    changePassword,
+    deleteUser,
   };
 });
