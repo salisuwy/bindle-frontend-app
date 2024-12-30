@@ -240,13 +240,13 @@ email.value = authStore.user?.email;
 phone.value = authStore.user?.phone;
 
 const checkErrors = (key, event) => {
-    console.log("checkErrors", event.target.value);
+    // console.log("checkErrors", event.target.value);
     if (!event.target.value) errors.value[key] = true;
     else errors.value[key] = false;
 }
 
 const onSaveProfileDetails = () => {
-    console.log("onSaveProfileDetails", first_name.value);
+    // console.log("onSaveProfileDetails", first_name.value);
     if (!first_name.value) errors.value.first_name = true;
     if (!last_name.value) errors.value.last_name = true;
     if (!phone.value) errors.value.phone = true;
@@ -264,7 +264,7 @@ const onSaveProfileDetails = () => {
 }
 
 const onChangePassword = () => {
-    console.log("onChangePassword");
+    // console.log("onChangePassword");
     if (!old_password.value) errors.value.old_password = true;
     if (!new_password.value) errors.value.new_password = true;
     if (!new_password_confirmation.value) errors.value.new_password_confirmation = true;

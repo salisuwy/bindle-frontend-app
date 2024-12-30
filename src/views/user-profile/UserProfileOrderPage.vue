@@ -174,7 +174,6 @@ onBeforeMount(() => {
 })
 
 onUnmounted(() => {
-    console.log("onUnmounted")
     authStore.resetCurrentOrder();
 })
 
