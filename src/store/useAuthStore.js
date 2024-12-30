@@ -24,6 +24,13 @@ export const useAuthStore = defineStore("auth", () => {
     changePasswordError: null,
     deleteUserLoading: false,
     deleteUserError: null,
+    allOrders: [],
+    allOrdersLoading: false,
+    allOrdersError: null,
+    currentOrder: null,
+    currentOrderLoading: false,
+    currentOrderError: null,
+    currentOrderInvoice: null,
   });
 
   // >> GETTERS
@@ -32,6 +39,11 @@ export const useAuthStore = defineStore("auth", () => {
   const isGuest = computed(() => state.user.role === "guest");
   const error = computed(() => state.error);
   const isLoading = computed(() => state.isLoading);
+  const currentOrderLoading = computed(() => state.currentOrderLoading);
+  const currentOrder = computed(() => state.currentOrder);
+  const currentOrderInvoice = computed(() => state.currentOrderInvoice);
+  const allOrdersLoading = computed(() => state.allOrdersLoading);
+  const allOrdersError = computed(() => state.allOrdersError);
 
   // >> ACTIONS
 
@@ -191,6 +203,73 @@ export const useAuthStore = defineStore("auth", () => {
       });
   };
 
+  const fetchAllOrders = async (params) => {
+    const urlParams = new URLSearchParams(params);
+    state.allOrdersLoading = true;
+    await axios
+      .get(`${API_ENDPOINT}profile/orders?${urlParams}`, {
+        headers: {
+          Authorization: `Bearer ${accessToken.value}`,
+          "Content-Type": "application/json",
+        },
+      })
+      .then((data) => {
+        console.log("fetchAllOrders", data);
+        state.allOrders = data.data.data;
+        state.allOrdersLoading = false;
+      })
+      .catch((error) => {
+        console.log("fetchAllOrders", error);
+        state.allOrdersLoading = false;
+        state.allOrdersError = error.response.data.error;
+      });
+  };
+
+  const fetchOrderById = async (params) => {
+    state.currentOrderLoading = true;
+    await axios
+      .get(`${API_ENDPOINT}profile/orders/${params.id}`, {
+        headers: {
+          Authorization: `Bearer ${accessToken.value}`,
+          "Content-Type": "application/json",
+        },
+      })
+      .then((data) => {
+        console.log("fetchOrderById", data);
+        state.currentOrder = data.data;
+        state.currentOrderLoading = false;
+      })
+      .catch((error) => {
+        console.log("fetchOrderById", error);
+        state.currentOrderLoading = false;
+        state.currentOrderError = error.response.data.error;
+      });
+  };
+
+  const fetchOrderInvoiceById = async (params) => {
+    await axios
+      .get(`${API_ENDPOINT}profile/orders/${params.id}/invoice`, {
+        headers: {
+          Authorization: `Bearer ${accessToken.value}`,
+          "Content-Type": "application/json",
+        },
+      })
+      .then((data) => {
+        console.log("fetchOrderInvoiceById", data);
+        state.currentOrderInvoice = data.data.url;
+      })
+      .catch((error) => {
+        console.log("fetchOrderInvoiceById", error);
+      });
+  };
+
+  const resetCurrentOrder = () => {
+    console.log("resetCurrentOrder", state);
+    state.currentOrder = null;
+    state.currentOrderLoading = false;
+    state.currentOrderError = null;
+  };
+
   onBeforeMount(() => {
     state.token = getStorage("auth/token", "");
     state.user = getStorage("auth/user", null);
@@ -206,6 +285,11 @@ export const useAuthStore = defineStore("auth", () => {
     isGuest,
     error,
     isLoading,
+    currentOrderLoading,
+    currentOrder,
+    currentOrderInvoice,
+    allOrdersLoading,
+    allOrdersError,
     signup,
     login,
     logout,
@@ -213,5 +297,9 @@ export const useAuthStore = defineStore("auth", () => {
     updateUser,
     changePassword,
     deleteUser,
+    fetchAllOrders,
+    fetchOrderById,
+    fetchOrderInvoiceById,
+    resetCurrentOrder,
   };
 });
