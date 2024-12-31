@@ -55,7 +55,7 @@ const searchText = ref("");
 const selectedCourses = ref([]);
 
 const performSearch = () => {
-    console.log("fetchCourses", coursesStore.fetchCourses)
+    // console.log("fetchCourses", coursesStore.fetchCourses)
     coursesStore.fetchCourses({
         keyword: searchText.value,
         limit: 8,
@@ -64,26 +64,19 @@ const performSearch = () => {
 };
 
 const selectCourse = (course) => {
-    console.log("selectedCourse", course);
+    // console.log("selectedCourse", course);
     selectedCourses.value.push(course);
-    console.log("selectedCourses", selectedCourses.value, course, "hello");
+    // console.log("selectedCourses", selectedCourses.value, course, "hello");
     coursesStore.resetCourses();
     searchText.value = "";
 }
 
 const onAttachCourses = async () => {
-    console.log("onAttachCourses", selectedCourses.value, "helllo");
+    // console.log("onAttachCourses", selectedCourses.value, "helllo");
     const courseIds = selectedCourses.value.map(course => course.id);
     await coursesStore.attachMultipleCourses({
         course_ids: courseIds
     });
     router.push(`/user/${authStore.user.id}`);
 }
-
-// Generate a random border color
-// const randomColor = (index) => {
-//     const colors = ["blue", "red", "yellow", "green"];
-//     console.log("randomColor", index, colors[index]);
-//     return colors[index];
-// };
 </script>
