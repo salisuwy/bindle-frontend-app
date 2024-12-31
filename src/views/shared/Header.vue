@@ -393,7 +393,7 @@ const handleUserAction = (action) => {
     </div>
     <div class="shrink mt-2 lg:mr-4 flex gap-2 lg:gap-4">
       <a @click="toggleDropdown" class="p-0 rounded-full bg-white m-0 cursor-pointer">
-        <div v-if="authStore.user" class="w-8 h-8 flex items-center justify-center rounded-full text-white bg-teal-500">
+        <div v-if="authStore.user" class="w-6 h-6 flex items-center justify-center rounded-full text-white bg-teal-500">
           {{ initials() }}
         </div>
         <user-icon v-else width="25" height="25" class="mx-auto cursor-pointer font-medium" />
