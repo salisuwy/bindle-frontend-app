@@ -1,7 +1,7 @@
 <template>
   <MinimalLayout>
     <div class="signup-container flex justify-center items-center">
-      <div class="signup-box w-full max-w-md bg-white rounded-lg shadow-md text-left">
+      <div class="signup-box w-full max-w-md bg-white rounded-lg shadow-md text-left" @keydown.enter="onSignupUser">
         <h1 class="text-xl font-semibold text-gray-900 border-b px-6 py-4">Sign up to Bindle</h1>
         <div class="p-6">
 
@@ -30,12 +30,27 @@
           </div>
 
           <!-- Password Input -->
-          <div class="mb-4">
+          <div class="mb-4 relative">
             <label for="password" class="block font-medium text-gray-700">Password</label>
-            <input type="password" id="password" placeholder="Enter your password"
+            <input :type="isPasswordVisible ? 'text' : 'password'" id="password" placeholder="Enter your password"
+              class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-teal-500 focus:border-teal-500 sm:text-sm"
+              v-model="confirmPassword" />
+            <p class="mt-1 text-xs text-gray-500">Password must be at least 6 characters</p>
+            <span @click="togglePasswordVisibility" class="absolute top-8 right-3 text-gray-500 cursor-pointer">
+              <i :class="isPasswordVisible ? 'fa fa-eye-slash' : 'fa fa-eye'" class="pt-2"></i>
+            </span>
+          </div>
+
+          <div class="mb-4 relative">
+            <label for="confirm-password" class="block font-medium text-gray-700">Confirm Password</label>
+            <input :type="isConfirmPasswordVisible ? 'text' : 'password'" id="confirm-password"
+              placeholder="Confirm your password"
               class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-teal-500 focus:border-teal-500 sm:text-sm"
               v-model="password" />
-            <p class="mt-1 text-xs text-gray-500">Password must be at least 8 characters</p>
+            <!-- <p class="mt-1 text-xs text-gray-500">Password must be at least 6 characters</p> -->
+            <span @click="toggleConfirmPasswordVisibility" class="absolute top-8 right-3 text-gray-500 cursor-pointer">
+              <i :class="isConfirmPasswordVisible ? 'fa fa-eye-slash' : 'fa fa-eye'" class="pt-2"></i>
+            </span>
           </div>
 
           <!-- Continue Button -->
@@ -104,13 +119,25 @@ const router = useRouter();
 
 const email = ref("");
 const password = ref("");
+const confirmPassword = ref("");
 const first_name = ref("");
 const last_name = ref("");
+
+const isPasswordVisible = ref(false);
+const isConfirmPasswordVisible = ref(false);
+
+const togglePasswordVisibility = () => {
+  isPasswordVisible.value = !isPasswordVisible.value;
+};
+const toggleConfirmPasswordVisibility = () => {
+  isConfirmPasswordVisible.value = !isConfirmPasswordVisible.value;
+};
 
 const onSignupUser = () => {
   authStore.signup({
     email: email.value,
     password: password.value,
+    confirmPassword: confirmPassword.value,
     first_name: first_name.value,
     last_name: last_name.value
   });

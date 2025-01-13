@@ -1,7 +1,7 @@
 <template>
     <MinimalLayout>
         <div class="login-container flex justify-center items-center">
-            <div class="login-box w-full max-w-md bg-white rounded-lg shadow-md text-left">
+            <div class="login-box w-full max-w-md bg-white rounded-lg shadow-md text-left" @keydown.enter="onLoginUser">
                 <h1 class="text-xl font-semibold text-gray-900 border-b px-6 py-4">Login to Bindle</h1>
                 <div class="p-6">
                     <!-- Email Input -->
@@ -13,18 +13,31 @@
                     </div>
 
                     <!-- Password Input -->
-                    <div class="mb-4">
+                    <div class="mb-3 relative">
                         <label for="password" class="block font-medium text-gray-700">Password</label>
-                        <input type="password" id="password" placeholder="Enter your password"
+                        <input :type="isPasswordVisible ? 'text' : 'password'" id="password"
+                            placeholder="Enter your password"
                             class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-teal-500 focus:border-teal-500 sm:text-sm"
                             v-model="password" />
-                        <p class="mt-1 text-xs text-gray-500">Password must be at least 8 characters</p>
+                        <p class="mt-1 text-xs text-gray-500">Password must be at least 6 characters</p>
+                        <span @click="togglePasswordVisibility"
+                            class="absolute top-8 right-3 text-gray-500 cursor-pointer">
+                            <i :class="isPasswordVisible ? 'fa fa-eye-slash' : 'fa fa-eye'" class="pt-2"></i>
+                        </span>
                     </div>
+
+                    <p class="text-sm text-gray-500 text-right mb-3">
+                        <a href="/forgot-password"
+                            class="text-theme-darkgray focus:text-teal-500 hover:text-teal-500 hover:underline">Forgot
+                            Password?</a>
+                    </p>
+
 
                     <!-- Continue Button -->
                     <button class="w-full bg-teal-500 hover:bg-teal-600 text-white font-medium py-2 rounded-md mb-4"
-                        @click="onLoginUser" :disabled="isLoading">
-                        <span v-if="isLoading">Logging In...</span>
+                        @click="onLoginUser">
+                        <span v-if="authStore.isLoading">Logging In <i v-if="authStore.isLoading"
+                                class="fa fa-solid fa-circle-notch fa-spin ml-2"></i></span>
                         <span v-else>Continue</span>
                     </button>
 
@@ -55,10 +68,17 @@ const authStore = useAuthStore();
 const email = ref("");
 const password = ref("");
 
+const isPasswordVisible = ref(false);
+
+const togglePasswordVisibility = () => {
+    isPasswordVisible.value = !isPasswordVisible.value;
+};
+
 const onLoginUser = () => {
     authStore.login({
         email: email.value,
         password: password.value
     });
 };
+
 </script>

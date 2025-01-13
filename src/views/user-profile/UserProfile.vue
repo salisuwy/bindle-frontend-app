@@ -1,16 +1,15 @@
 <template>
-    <UserProfileLayout>
-        <div class="w-full">
-            <h2 class="text-left mb-6">My Profile</h2>
+    <UserProfileTabLayout>
+        <div>
             <form novalidate class="w-full mb-8">
                 <div
-                    class="flex flex-col px-6 py-8 w-full bg-white rounded-md border border-solid border-zinc-200 max-md:px-5 max-md:mt-9 max-md:max-w-full">
+                    class="flex flex-col px-4 py-6 md:px-6 md:py-8 w-full bg-white rounded-md border border-solid border-zinc-200">
                     <header class="flex flex-wrap gap-2 justify-between items-center self-stretch pt-2.5 pb-0.5">
                         <h1 class="grow text-xl leading-7 text-gray-700 text-left">Personal Information</h1>
                     </header>
                     <hr class="mt-4 h-px border border-zinc-200" />
-                    <section class="flex flex-col mt-6 bg-white max-md:max-w-full">
-                        <div class="flex gap-5 text-base tracking-tighter leading-6 max-md:flex-wrap">
+                    <section class="flex flex-col mt-6 bg-white">
+                        <div class="flex flex-col md:flex-row gap-5 text-base tracking-tighter leading-6">
                             <div class="flex flex-col flex-1">
                                 <label for="profile_first_name" class="font-medium text-neutral-600 text-left">First
                                     name
@@ -22,7 +21,8 @@
                                         'border-zinc-200': !errors.first_name,
                                         'border-red-500 bg-red-50': errors.first_name,
                                     }" @blur="checkErrors('first_name', $event)" />
-                                <span v-if="errors.first_name" class=" text-red-400 text-sm text-left">First name should
+                                <span v-if="errors.first_name" class=" text-red-400 text-sm text-left">First name
+                                    should
                                     not be
                                     empty!</span>
                             </div>
@@ -37,12 +37,13 @@
                                         'border-zinc-200': !errors.last_name,
                                         'border-red-500 bg-red-50': errors.last_name,
                                     }" @blur="checkErrors('last_name', $event)" />
-                                <span v-if="errors.last_name" class=" text-red-400 text-sm text-left">Last name should
+                                <span v-if="errors.last_name" class=" text-red-400 text-sm text-left">Last name
+                                    should
                                     not be
                                     empty!</span>
                             </div>
                         </div>
-                        <div class="flex gap-5 mt-6 text-base tracking-tighter leading-6 max-md:flex-wrap">
+                        <div class="flex flex-col md:flex-row gap-5 mt-6 text-base tracking-tighter leading-6">
                             <div class="flex flex-col flex-1">
                                 <label for="profile_phone" class="font-medium text-neutral-600 text-left">Phone
                                     number
@@ -88,20 +89,21 @@
 
                         </div>
                         <!-- Error Message -->
-                        <p v-if="authStore.state.updateUserError" class="text-red-500 text-sm mt-1 text-left">Error: {{
-                            authStore.state.updateUserError }}</p>
+                        <p v-if="authStore.state.updateUserError" class="text-red-500 text-sm mt-1 text-left">Error:
+                            {{
+                                authStore.state.updateUserError }}</p>
                     </section>
                 </div>
             </form>
             <form novalidate class="w-full mb-8">
                 <div
-                    class="flex flex-col px-6 py-8 w-full bg-white rounded-md border border-solid border-zinc-200 max-md:px-5 max-md:mt-9 max-md:max-w-full">
+                    class="flex flex-col px-4 py-6 md:px-6 md:py-8 w-full bg-white rounded-md border border-solid border-zinc-200">
                     <header class="flex flex-wrap gap-2 justify-between items-center self-stretch pt-2.5 pb-0.5">
                         <h1 class="grow text-xl leading-7 text-gray-700 text-left">Change Password</h1>
                     </header>
                     <hr class="mt-4 h-px border border-zinc-200" />
-                    <section class="flex flex-col mt-6 bg-white max-md:max-w-full">
-                        <div class="flex gap-5 text-base tracking-tighter leading-6 max-md:flex-wrap">
+                    <section class="flex flex-col mt-6 bg-white">
+                        <div class="flex flex-col md:flex-row gap-5 text-base tracking-tighter leading-6">
                             <div class="flex flex-col flex-1">
                                 <label for="old_password" class="font-medium text-neutral-600 text-left">Current
                                     Password *</label>
@@ -119,7 +121,7 @@
                             </div>
 
                         </div>
-                        <div class="flex gap-5 mt-6 text-base tracking-tighter leading-6 max-md:flex-wrap">
+                        <div class="flex flex-col md:flex-row gap-5 mt-6 text-base tracking-tighter leading-6">
                             <div class="flex flex-col flex-1">
                                 <label for="new_password" class="font-medium text-neutral-600 text-left">New
                                     Password *</label>
@@ -167,7 +169,8 @@
                             <!-- <button class=" text-teal-500 bg-white border-teal-500 ml-4">Forgot Password</button> -->
                         </div>
                         <!-- Error Message -->
-                        <p v-if="authStore.state.changePasswordError" class="text-red-500 text-sm mt-1 text-left">Error:
+                        <p v-if="authStore.state.changePasswordError" class="text-red-500 text-sm mt-1 text-left">
+                            Error:
                             {{
                                 authStore.state.changePasswordError }}</p>
                     </section>
@@ -175,12 +178,12 @@
             </form>
             <form novalidate class="w-full mb-8">
                 <div
-                    class="flex flex-col px-6 py-8 w-full bg-white rounded-md border border-solid border-zinc-200 max-md:px-5 max-md:mt-9 max-md:max-w-full">
+                    class="flex flex-col px-4 py-6 md:px-6 md:py-8 w-full bg-white rounded-md border border-solid border-zinc-200">
                     <header class="flex flex-wrap gap-2 justify-between items-center self-stretch pt-2.5 pb-0.5">
                         <h1 class="grow text-xl leading-7 text-gray-700 text-left">Delete Account</h1>
                     </header>
                     <hr class="mt-4 h-px border border-zinc-200" />
-                    <section class="flex flex-col mt-6 bg-white max-md:max-w-full text-left">
+                    <section class="flex flex-col mt-6 bg-white text-left">
                         <p class="mb-4 text-neutral-400">
                             Deleting your account is non-reversible. All of your data will be permanently
                             deleted.
@@ -205,24 +208,25 @@
                 </div>
             </form>
         </div>
-    </UserProfileLayout>
+    </UserProfileTabLayout>
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, onBeforeMount } from "vue";
 import { useRouter } from "vue-router";
-import { Field, ErrorMessage } from "vee-validate";
+import { Field } from "vee-validate";
 
-import BasicLayout from "@/views/shared/BasicLayout.vue";
-import UserProfileLayout from "@/views/shared/UserProfileLayout.vue";
+import UserProfileTabLayout from "@/views/shared/UserProfileTabLayout.vue";
 
 import { useAuthStore } from "@/store/useAuthStore";
-import { PhoneArrowDownLeftIcon } from "@heroicons/vue/16/solid";
+import { watch } from "vue";
 
 const router = useRouter();
 const errors = ref({})
 
 const authStore = useAuthStore();
+
+const defaultAddress = ref(null);
 
 const first_name = ref("");
 const last_name = ref("");
@@ -240,13 +244,11 @@ email.value = authStore.user?.email;
 phone.value = authStore.user?.phone;
 
 const checkErrors = (key, event) => {
-    // console.log("checkErrors", event.target.value);
     if (!event.target.value) errors.value[key] = true;
     else errors.value[key] = false;
 }
 
 const onSaveProfileDetails = () => {
-    // console.log("onSaveProfileDetails", first_name.value);
     if (!first_name.value) errors.value.first_name = true;
     if (!last_name.value) errors.value.last_name = true;
     if (!phone.value) errors.value.phone = true;
@@ -260,11 +262,9 @@ const onSaveProfileDetails = () => {
             phone: phone.value
         });
     }
-
 }
 
 const onChangePassword = () => {
-    // console.log("onChangePassword");
     if (!old_password.value) errors.value.old_password = true;
     if (!new_password.value) errors.value.new_password = true;
     if (!new_password_confirmation.value) errors.value.new_password_confirmation = true;
@@ -285,4 +285,69 @@ const onDeleteUser = () => {
     authStore.deleteUser();
 }
 
+const tabs = [
+    {
+        title: 'My Profile',
+        id: 'profile'
+    },
+    {
+        title: 'Addresses',
+        id: 'addresses'
+    }
+]
+
+const selectedTab = ref({
+    title: 'My Profile',
+    id: 'profile'
+});
+
+const isCurrentTab = (tab) => {
+    if (selectedTab.value.id === tab) return true;
+    return false;
+}
+
+const changeTab = (tab) => {
+    if (tab) {
+        selectedTab.value = tabs.find(t => t.id === tab);
+        if (tab === 'addresses') {
+            router.push(`/user/${authStore.user.id}/addresses`)
+        } else {
+            router.push(`/user/${authStore.user.id}`)
+        }
+
+    }
+}
+
+const capitalize = (str) => {
+    if (!str) return '';
+    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
+}
+
+const onDeleteAddress = (id) => {
+    authStore.deleteAddress(id);
+}
+
+const onSetDefaultAddress = (id) => {
+    authStore.setDefaultAddress({
+        params: {
+            "type": "delivery",
+            "default": true
+        },
+        id
+    });
+}
+
+onBeforeMount(() => {
+    authStore.fetchAddresses();
+})
+
+watch(defaultAddress, (newAddress) => {
+    authStore.setDefaultAddress({
+        params: {
+            "type": "delivery",
+            "default": true
+        },
+        id: newAddress.id
+    });
+})
 </script>
