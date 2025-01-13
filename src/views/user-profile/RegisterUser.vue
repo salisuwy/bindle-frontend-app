@@ -12,20 +12,24 @@
                     <div v-if="selectedCourses.length < 4"
                         class="border-l-4 w-50 bg-theme-pal flex flex-row pt-2 mb-4 items-center border-l-teal-400">
                         <input ref="courseSearchInputRef" type="text" v-model="searchText"
-                            v-on:keyup.enter="performSearch" placeholder="Type to Search"
+                            v-on:keyup="debouncedPerformSearch" placeholder="Type to Search"
                             class="border-b p-2 grow ml-2" />
 
-                        <i v-if="coursesStore.isCoursesLoading === 'loading'"
-                            class="fa fa-solid fa-circle-notch fa-spin ml-2"></i>
+                        <i v-if="coursesStore.isCoursesLoading"
+                            class="fa fa-solid fa-circle-notch fa-spin ml-2 text-theme-darkgray"></i>
                     </div>
-                    <div v-if="coursesStore.isCoursesLoading === 'success'">
-                        <ul>
+                    <div>
+                        <ul v-if="!coursesStore.isCoursesLoading">
                             <li v-for="course in coursesStore.courses" :key="course.id" @click="selectCourse(course)"
                                 class="bg-theme-pale my-2 p-2 grow ml-4 border-solid border-theme-lightgray cursor-pointer hover:bg-theme-lightteal flex flex-row justify-between">
                                 <span>{{ course.name }}</span>
                                 <i class="fa fa-solid fa-plus ml-2 text-teal-400"></i>
                             </li>
                         </ul>
+                        <div v-else class=" w-full h-36 flex flex-col justify-center items-center text-theme-darkgray">
+                            <span class="text-sm mb-2">Fetching Subjects</span>
+                            <i class="fa fa-solid fa-circle-notch fa-spin ml-2"></i>
+                        </div>
                     </div>
 
                     <button class="w-full bg-teal-500 hover:bg-teal-600 text-white font-medium py-2 rounded-md my-4"
@@ -54,6 +58,14 @@ const router = useRouter();
 const searchText = ref("");
 const selectedCourses = ref([]);
 
+function debounce(func, wait) {
+    let timeout;
+    return function (...args) {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => func.apply(this, args), wait);
+    };
+}
+
 const performSearch = () => {
     // console.log("fetchCourses", coursesStore.fetchCourses)
     coursesStore.fetchCourses({
@@ -62,6 +74,12 @@ const performSearch = () => {
         page: 1,
     });
 };
+
+// Wrapping the performSearch method with debounce
+const debouncedPerformSearch = debounce(() => {
+    performSearch();
+}, 300);
+
 
 const selectCourse = (course) => {
     // console.log("selectedCourse", course);

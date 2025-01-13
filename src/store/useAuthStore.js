@@ -18,6 +18,7 @@ export const useAuthStore = defineStore("auth", () => {
     isError: false,
     error: null,
     isLoading: false,
+    forgotPassword: null,
     updateUserLoading: false,
     updateUserError: null,
     changePasswordLoading: false,
@@ -31,6 +32,20 @@ export const useAuthStore = defineStore("auth", () => {
     currentOrderLoading: false,
     currentOrderError: null,
     currentOrderInvoice: null,
+    allAddresses: [],
+    allAddressesLoading: false,
+    allAddressesError: null,
+    currentAddress: null,
+    currentAddressLoading: false,
+    currentAddressError: null,
+    updateAddressLoading: false,
+    updateAddressError: null,
+    setDefaultAddressLoading: false,
+    setDefaultAddressError: null,
+    deleteAddressLoading: false,
+    deleteAddressError: null,
+    createAddressLoading: false,
+    createAddressError: null,
   });
 
   // >> GETTERS
@@ -49,6 +64,8 @@ export const useAuthStore = defineStore("auth", () => {
 
   const signup = async (params) => {
     state.isLoading = true;
+    state.isError = false;
+    state.error = null;
     await axios
       .post(`${API_ENDPOINT}auth/signup`, params)
       .then((data, status) => {
@@ -58,6 +75,8 @@ export const useAuthStore = defineStore("auth", () => {
         setStorage("auth/token", JSON.stringify(state.token));
         router.push("/register-user");
         state.isLoading = false;
+        state.isError = false;
+        state.error = null;
       })
       .catch((error, status) => {
         console.log("Error", error);
@@ -70,6 +89,8 @@ export const useAuthStore = defineStore("auth", () => {
 
   const login = async (params) => {
     state.isLoading = true;
+    state.isError = false;
+    state.error = null;
     await axios
       .post(`${API_ENDPOINT}auth/login`, params)
       .then((data, status) => {
@@ -79,6 +100,8 @@ export const useAuthStore = defineStore("auth", () => {
         setStorage("auth/token", JSON.stringify(state.token));
         router.push(`/user/${state.user.id}`);
         state.isLoading = false;
+        state.isError = false;
+        state.error = null;
       })
       .catch((error, status) => {
         console.log("Error", error);
@@ -103,6 +126,30 @@ export const useAuthStore = defineStore("auth", () => {
         clearStorage("auth/token");
       })
       .catch(({ status }) => {});
+  };
+
+  const forgotPassword = async (params) => {
+    state.isLoading = true;
+    state.isError = false;
+    state.error = null;
+    axios
+      .post(`${API_ENDPOINT}auth/password-reset`, params)
+      .then((data) => {
+        state.forgotPassword = data.data;
+        state.isLoading = false;
+        state.isError = false;
+        state.error = null;
+      })
+      .catch((error) => {
+        console.log("Error", error);
+        state.isLoading = false;
+        state.isError = true;
+        const message = error.response.data.message;
+        const errorsList = error.response.data.errors;
+        state.error = message
+          ? message
+          : errorsList[Object.keys(errorsList)[0]][0];
+      });
   };
 
   const getProfile = async (params) => {
@@ -270,6 +317,155 @@ export const useAuthStore = defineStore("auth", () => {
     state.currentOrderError = null;
   };
 
+  const fetchAddresses = () => {
+    state.allAddressesLoading = true;
+    axios
+      .get(`${API_ENDPOINT}profile/addresses`, {
+        headers: {
+          Authorization: `Bearer ${accessToken.value}`,
+          "Content-Type": "application/json",
+        },
+      })
+      .then((data) => {
+        console.log("fetchAddresses", data.data);
+        state.allAddresses = data.data;
+        state.allAddressesLoading = false;
+      })
+      .catch((error) => {
+        state.allAddressesLoading = false;
+        console.log("fetchAddresses", error);
+        state.allAddressesError = error.response.data.error;
+      });
+  };
+
+  const setDefaultAddress = (params) => {
+    console.log("setDefaultAddress", params);
+    axios
+      .patch(
+        `${API_ENDPOINT}profile/addresses/${params.id}/set-default`,
+        params.params,
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken.value}`,
+            "Content-Type": "application/json",
+          },
+        }
+      )
+      .then((data) => {
+        console.log("fetchAddresses", data.data);
+        fetchAddresses();
+      })
+      .catch((error) => {});
+  };
+
+  // const removeDefaultAddress = (params) => {
+  //   console.log("removeDefaultAddress", params);
+  //   axios
+  //     .patch(
+  //       `${API_ENDPOINT}profile/addresses/${params.id}/set-default`,
+  //       params.params,
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${accessToken.value}`,
+  //           "Content-Type": "application/json",
+  //         },
+  //       }
+  //     )
+  //     .then((data) => {
+  //       console.log("fetchAddresses", data.data);
+  //       fetchAddresses();
+  //     })
+  //     .catch((error) => {});
+  // };
+
+  const getAddressById = (params) => {
+    state.currentAddressLoading = true;
+    state.currentAddressError = null;
+    axios
+      .get(`${API_ENDPOINT}profile/addresses/${params.id}`, {
+        headers: {
+          Authorization: `Bearer ${accessToken.value}`,
+          "Content-Type": "application/json",
+        },
+      })
+      .then((data) => {
+        state.currentAddress = data.data;
+        state.currentAddressLoading = false;
+      })
+      .catch((error) => {
+        state.currentAddressError = error.response.data.error;
+        state.currentAddressLoading = false;
+      });
+  };
+
+  const createAddress = (params) => {
+    state.createAddressLoading = true;
+    axios
+      .post(`${API_ENDPOINT}profile/addresses`, params, {
+        headers: {
+          Authorization: `Bearer ${accessToken.value}`,
+          "Content-Type": "application/json",
+        },
+      })
+      .then((data) => {
+        console.log("createAddress", data.data);
+        router.push(`/user/${state.user.id}/addresses`);
+        state.currentAddress = null;
+        state.createAddressLoading = false;
+      })
+      .catch((error) => {
+        console.log(error);
+        console.log("createAddress", error.response.data.error);
+        state.createAddressError = error.response.data.error;
+        state.createAddressLoading = false;
+      });
+  };
+
+  const updateAddress = (params) => {
+    state.updateAddressLoading = true;
+    axios
+      .patch(`${API_ENDPOINT}profile/addresses/${params.id}`, params, {
+        headers: {
+          Authorization: `Bearer ${accessToken.value}`,
+          "Content-Type": "application/json",
+        },
+      })
+      .then((data) => {
+        console.log("updateAddress", data.data);
+        router.push(`/user/${state.user.id}/addresses`);
+        state.currentAddress = null;
+        state.updateAddressLoading = false;
+      })
+      .catch((error) => {
+        console.log(error);
+        console.log("updateAddress", error.response.data.error);
+        state.updateAddressError = error.response.data.error;
+        state.updateAddressLoading = false;
+      });
+  };
+
+  const deleteAddress = (params) => {
+    state.deleteAddressLoading = true;
+    axios
+      .delete(`${API_ENDPOINT}profile/addresses/${params}`, {
+        headers: {
+          Authorization: `Bearer ${accessToken.value}`,
+          "Content-Type": "application/json",
+        },
+      })
+      .then((data) => {
+        console.log("deleteAddress", data.data);
+        state.deleteAddressLoading = false;
+        fetchAddresses();
+      })
+      .catch((error) => {
+        console.log(error);
+        console.log("deleteAddress", error.response.data.error);
+        state.deleteAddressError = error.response.data.error;
+        state.deleteAddressLoading = false;
+      });
+  };
+
   onBeforeMount(() => {
     state.token = getStorage("auth/token", "");
     state.user = getStorage("auth/user", null);
@@ -293,6 +489,7 @@ export const useAuthStore = defineStore("auth", () => {
     signup,
     login,
     logout,
+    forgotPassword,
     getProfile,
     updateUser,
     changePassword,
@@ -301,5 +498,11 @@ export const useAuthStore = defineStore("auth", () => {
     fetchOrderById,
     fetchOrderInvoiceById,
     resetCurrentOrder,
+    fetchAddresses,
+    setDefaultAddress,
+    getAddressById,
+    createAddress,
+    updateAddress,
+    deleteAddress,
   };
 });

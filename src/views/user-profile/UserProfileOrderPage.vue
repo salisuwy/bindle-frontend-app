@@ -5,7 +5,7 @@
 
             <div class="flex flex-row justify-between items-start mb-10">
                 <div class="flex flex-col">
-                    <h2 class=" text-5xl font-normal text-left mb-2">Order Details </h2>
+                    <h2 class="text-3xl md:text-5xl font-normal text-left mb-2">Order Details </h2>
                     <span class=" text-gray-500">Order ID: <span class=" text-theme-black font-medium">#{{
                         authStore.currentOrder.uuid }}</span></span>
                 </div>
@@ -26,7 +26,7 @@
                 <div class="order-details pt-3">
                     <div>
                         <h3 class="pb-4 font-medium">Delivery address</h3>
-                        <ul>
+                        <ul class="break-all md:break-normal">
                             <li class="font-medium customer-name">{{
                                 authStore.currentOrder.delivery_first_name?.toUpperCase() }} {{
                                     authStore.currentOrder.delivery_last_name?.toUpperCase() }}</li>
@@ -44,7 +44,7 @@
                     </div>
                     <div>
                         <h3 class="pb-4 font-medium">Billing address</h3>
-                        <ul>
+                        <ul class="break-all md:break-normal">
                             <li class="font-medium customer-name">{{
                                 authStore.currentOrder.billing_first_name?.toUpperCase() }} {{
                                     authStore.currentOrder.billing_last_name?.toUpperCase() }}</li>

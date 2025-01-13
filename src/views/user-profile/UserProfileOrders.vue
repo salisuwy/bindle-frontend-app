@@ -23,7 +23,7 @@
                 <h2 class="text-left mb-6">Your Orders <span v-if="ordersCount > 0" class="text-sm text-gray-400">{{
                     ordersCount }}</span></h2>
 
-                <div class="order-tabs flex mb-8">
+                <!-- <div class="order-tabs flex mb-8">
                     <button class="px-4 py-2"
                         :class="{ ' bg-teal-950 text-white': isCurrentTab('all'), 'bg-theme-pale text-gray-400 ': !isCurrentTab('all') }"
                         @click.prevent.stop="selectedTab = 'all'"> All
@@ -32,7 +32,7 @@
                         :class="{ ' bg-teal-950 text-white': isCurrentTab('cancelled'), ' bg-theme-pale text-gray-400 ': !isCurrentTab('cancelled') }"
                         @click.prevent.stop="selectedTab = 'cancelled'">Cancelled
                         Orders</button>
-                </div>
+                </div> -->
                 <div>
                     <div v-for="order in authStore.state.allOrders" :key="order.id"
                         class="flex flex-col w-full bg-white rounded-md border border-solid border-zinc-200 max-md:px-5 max-md:mt-9 max-md:max-w-full mb-6">
@@ -42,18 +42,19 @@
                                 'text-teal-500': order.status === 'DISP_BY_GARDNER'
                             }">{{
                                 orderStatusMapping[order.status] }}</h1>
-                            <span class=" text-gray-500">Order ID: <span class=" text-theme-black font-medium">#{{
-                                order.uuid }}</span></span>
+                            <span class=" text-gray-500 text-right">Order ID: <span
+                                    class=" text-theme-black font-medium">#{{
+                                        order.uuid }}</span></span>
                         </header>
                         <hr class="mt-4 h-px border border-zinc-200" />
-                        <section class="px-6 py-8 flex flex-row justify-between items-end max-md:max-w-full">
+                        <section class="px-6 py-8 flex flex-row justify-between items-end max-md:max-w-full flex-wrap">
                             <div class="w-[80%]">
                                 <p class="pb-6 text-left">Ordered on {{ formattedDate(order.created_at) }}</p>
                                 <div class="flex flex-row pt-6 pr-6 overflow-scroll">
                                     <img v-for="image in order.images" :key="image" class="pr-3 w-28" :src="image">
                                 </div>
                             </div>
-                            <a class="bg-transparent text-teal-500 py-0 items-center cursor-pointer"
+                            <a class="bg-transparent text-teal-500 py-0 items-center cursor-pointer mt-6 md:mt-0"
                                 @click="goToOrderPage(order.id)">View
                                 Details
                                 <i class="fa fa-solid fa-angle-right ml-2 text-lg"></i>

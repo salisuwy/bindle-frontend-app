@@ -26,11 +26,14 @@ import CheckoutPaymentV2 from "@/views/shop/CheckoutPaymentV2.vue";
 import Invoice from "@/views/shop/Invoice.vue";
 import Signup from "@/views/user-profile/Signup.vue";
 import Login from "@/views/user-profile/Login.vue";
+import ForgotPassword from "@/views/user-profile/ForgotPassword.vue";
 import RegisterUser from "@/views/user-profile/RegisterUser.vue";
 import UserProfile from "@/views/user-profile/UserProfile.vue";
 import UserProfileOrders from "@/views/user-profile/UserProfileOrders.vue";
 import UserProfileBuddy from "@/views/user-profile/UserProfileBuddy.vue";
 import UserProfileOrderPage from "@/views/user-profile/UserProfileOrderPage.vue";
+import UserProfileAddresses from "@/views/user-profile/UserProfileAddresses.vue";
+import UserProfileAddressPage from "@/views/user-profile/UserProfileAddressPage.vue";
 
 import { useHead } from "@unhead/vue";
 
@@ -257,6 +260,11 @@ const routes = [
     component: Login,
   },
   {
+    name: "user-profile-forgot-password",
+    path: "/forgot-password",
+    component: ForgotPassword,
+  },
+  {
     name: "user-register",
     path: "/register-user",
     component: RegisterUser,
@@ -280,6 +288,16 @@ const routes = [
     name: "user-profile-buddy",
     path: "/user/:userId/buddy",
     component: UserProfileBuddy,
+  },
+  {
+    name: "user-profile-addresses",
+    path: "/user/:userId/addresses",
+    component: UserProfileAddresses,
+  },
+  {
+    name: "user-profile-address-page",
+    path: "/user/:userId/addresses/:addressId",
+    component: UserProfileAddressPage,
   },
   {
     name: "page-not-found",

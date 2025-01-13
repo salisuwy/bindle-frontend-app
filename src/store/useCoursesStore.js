@@ -15,7 +15,7 @@ export const useCoursesStore = defineStore("courses", () => {
   const { setStorage, getStorage, clearStorage } = useLocalStorage();
   const state = reactive({
     courses: null,
-    isCoursesLoading: "",
+    isCoursesLoading: false,
   });
 
   // >> GETTERS
@@ -25,7 +25,7 @@ export const useCoursesStore = defineStore("courses", () => {
   // >> ACTIONS
   const fetchCourses = async (params) => {
     const { accessToken } = useAuthStore();
-    state.isCoursesLoading = "loading";
+    state.isCoursesLoading = true;
     const urlParams = new URLSearchParams(params);
     await axios
       .get(`${API_ENDPOINT}courses/search?${urlParams}`, {
@@ -36,16 +36,16 @@ export const useCoursesStore = defineStore("courses", () => {
       })
       .then((data, status) => {
         state.courses = data.data.courses.data;
-        state.isCoursesLoading = "success";
+        state.isCoursesLoading = false;
       })
       .catch((error) => {
-        state.isCoursesLoading = "failure";
+        state.isCoursesLoading = false;
       });
   };
 
   const resetCourses = () => {
     state.courses = null;
-    state.isCoursesLoading = "";
+    state.isCoursesLoading = false;
   };
 
   const attachMultipleCourses = async (params) => {
