@@ -7,7 +7,7 @@
         <div v-else class="w-full">
             <section v-if="authStore.state.allOrders?.length === 0"
                 class="flex flex-col px-5 max-w-[273px] mx-auto my-8">
-                <img loading="lazy" src="/assets/basket.svg" />
+                <img loading="lazy" src="/assets/orders.svg" />
                 <h2 class="self-center mt-3 text-2xl font-medium leading-8 text-slate-800">
                     No Orders Placed Yet
                 </h2>

@@ -233,11 +233,11 @@ const onEditAddress = () => {
         town: town.value,
         city: city.value,
         zip: zip.value,
-        country: country.value
+        country: country.value,
+        is_delivery_default: authStore.state.currentAddress.is_delivery_default || false,
+        is_billing_default: authStore.state.currentAddress.is_billing_default || false,
     };
     authStore.updateAddress(updatedAddress);
-    // router.push(`/user/${authStore.user?.id}/addresses`);
-    // resetAddressFields();
 };
 
 const onCreateAddress = () => {
@@ -251,10 +251,10 @@ const onCreateAddress = () => {
         town: town.value,
         city: city.value,
         zip: zip.value,
-        country: country.value
+        country: country.value,
+        "is_delivery_default": authStore.state.allAddresses.length === 0 ? true : false,
+        "is_billing_default": authStore.state.allAddresses.length === 0 ? true : false,
     };
     authStore.createAddress(newAddress);
-    // router.push(`/user/${authStore.user?.id}/addresses`);
-    // resetAddressFields();
 }
 </script>
