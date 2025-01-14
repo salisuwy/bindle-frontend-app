@@ -14,7 +14,7 @@
                     Addresses</button>
 
             </div>
-            <div v-if="isCurrentTab('addresses') && !route.fullPath.includes('new') && !route.params.addressId"
+            <div v-if="isCurrentTab('addresses') && !route.fullPath.includes('new') && !route.params.addressId && authStore.state.allAddresses?.length > 0"
                 class="flex justify-end mb-4">
                 <button class="px-4 py-2 ml-4 mt-2 md:mt-0 text-teal-500  border-teal-500 bg-transparent"
                     @click.prevent.stop="router.push(`/user/${authStore.user.id}/addresses/new`)">
