@@ -15,7 +15,7 @@
                     Don’t wait & Let’s make your first purchase now.
                 </p>
                 <button @click="exploreShop"
-                    class="justify-center items-center px-3.5 py-2.5 mt-5 w-full text-sm font-semibold text-white bg-teal-500 rounded-sm">
+                    class="justify-center items-center px-3.5 py-2.5 mt-5 w-full text-sm font-semibold text-white bg-teal-500 rounded-sm hover:bg-teal-600">
                     Explore Shop
                 </button>
             </section>

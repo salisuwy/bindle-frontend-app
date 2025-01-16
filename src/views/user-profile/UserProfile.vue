@@ -76,7 +76,8 @@
                             </div>
                         </div>
                         <div class="flex mt-6">
-                            <button class=" bg-teal-500 text-white" @click.prevent="onSaveProfileDetails">
+                            <button class=" bg-teal-500 text-white hover:bg-teal-600"
+                                @click.prevent="onSaveProfileDetails">
                                 <span v-if="authStore.state.updateUserLoading">
                                     Saving Profile Changes
                                     <i class="fa fa-solid fa-circle-notch fa-spin ml-2"></i>
@@ -157,8 +158,8 @@
                             </div>
                         </div>
                         <div class="flex mt-6">
-                            <button class=" bg-teal-500 text-white" @click.prevent="onChangePassword"><span
-                                    v-if="authStore.state.changePasswordLoading">
+                            <button class=" bg-teal-500 text-white hover:bg-teal-600"
+                                @click.prevent="onChangePassword"><span v-if="authStore.state.changePasswordLoading">
                                     Updating Password
                                     <i class="fa fa-solid fa-circle-notch fa-spin ml-2"></i>
                                 </span>
@@ -189,7 +190,7 @@
                             deleted.
                         </p>
                         <div class="">
-                            <button class=" bg-red-500 text-white px-6" @click.prevent="onDeleteUser">
+                            <button class=" bg-red-500 text-white px-6 hover:bg-red-600" @click.prevent="onDeleteUser">
                                 <span v-if="authStore.state.deleteUserLoading">
                                     Deleting User
                                     <i class="fa fa-solid fa-circle-notch fa-spin ml-2"></i>

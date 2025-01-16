@@ -17,7 +17,7 @@
                         Go ahead and add your first address now.
                     </p>
                     <button @click.prevent.stop="router.push(`/user/${authStore.user.id}/addresses/new`)"
-                        class="justify-center items-center px-3.5 py-2.5 mt-5 w-full text-sm font-semibold text-white bg-teal-500 rounded-sm">
+                        class="justify-center items-center px-3.5 py-2.5 mt-5 w-full text-sm font-semibold text-white bg-teal-500 rounded-sm hover:bg-teal-600">
                         Add New Address
                     </button>
                 </section>
@@ -41,18 +41,18 @@
                                 <ul>
                                     <li class="font-medium customer-name">{{
                                         address.first_name?.toUpperCase() }} {{
-                                        address.last_name?.toUpperCase() }}
+                                            address.last_name?.toUpperCase() }}
                                     </li>
                                     <li>{{ address.address1 }} {{
                                         address.address2 }},
                                         {{ address.town }} {{
-                                        address.city }},
+                                            address.city }},
                                         {{ address.zip }}, {{
-                                        address.country }}</li>
+                                            address.country }}</li>
                                     <li class="text-gray-500">Phone: <span class="text-theme-black font-medium">{{
-                                            address.phone }}</span> </li>
+                                        address.phone }}</span> </li>
                                     <li class="text-gray-500">Email: <span class="text-theme-black font-medium">{{
-                                            address.email }}</span> </li>
+                                        address.email }}</span> </li>
                                     <li v-if="address.is_delivery_default === 1" class="mt-1">
                                         <span
                                             class="text-sm border bg-teal-500 px-2 py-1 text-white uppercase rounded-lg font-medium">Default</span>
@@ -62,7 +62,8 @@
                             </label>
                             <div class="flex mt-6 md:mt-0">
 
-                                <button class=" text-teal-500 border-teal-500 bg-transparent text-sm"
+                                <button
+                                    class=" text-teal-500 border-teal-500 bg-transparent text-sm hover:bg-teal-600 hover:text-white"
                                     @click.prevent="goToEditPage(address.id)">
 
                                     <!-- <i class="fa fa-pencil"></i> -->
@@ -77,14 +78,15 @@
 
                                 </button> -->
                                 <button v-if="address.is_delivery_default !== 1"
-                                    class=" text-teal-500 border-teal-500 bg-transparent ml-4 text-sm"
+                                    class=" text-teal-500 border-teal-500 bg-transparent ml-4 text-sm hover:bg-teal-600 hover:text-white"
                                     @click.prevent="onSetDefaultAddress(address.id)">
 
                                     Set Default
 
                                 </button>
 
-                                <button class=" text-red-500 border-red-500 bg-transparent ml-4 text-sm"
+                                <button
+                                    class=" text-red-500 border-red-500 bg-transparent ml-4 text-sm hover:bg-red-600 hover:text-white"
                                     @click.prevent="onDeleteAddress(address.id)">
 
                                     <!-- <i class="fa fa-trash"></i> -->
