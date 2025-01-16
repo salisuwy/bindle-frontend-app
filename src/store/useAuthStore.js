@@ -152,7 +152,15 @@ export const useAuthStore = defineStore("auth", () => {
       });
   };
 
+  const signupWithGoogle = async (params) => {
+    return axios.get(`${API_ENDPOINT}auth/google/redirect`).then((data) => {
+      console.log("signupWithGoogle", data.data);
+      return data.data.url;
+    });
+  };
+
   const getProfile = async (params) => {
+    console.log("getProfile", accessToken.value);
     await axios
       .get(`${API_ENDPOINT}profile/me`, {
         headers: {
@@ -162,9 +170,7 @@ export const useAuthStore = defineStore("auth", () => {
       })
       .then((data, status) => {
         state.user = data.data.user;
-        state.token = data.data.token;
         setStorage("auth/user", JSON.stringify(state.user));
-        setStorage("auth/token", JSON.stringify(state.token));
       })
       .catch(({ status }) => {});
   };
@@ -466,6 +472,11 @@ export const useAuthStore = defineStore("auth", () => {
       });
   };
 
+  const setAccessToken = (token) => {
+    state.token = token;
+    setStorage("auth/token", JSON.stringify(state.token));
+  };
+
   onBeforeMount(() => {
     state.token = getStorage("auth/token", "");
     state.user = getStorage("auth/user", null);
@@ -490,6 +501,7 @@ export const useAuthStore = defineStore("auth", () => {
     login,
     logout,
     forgotPassword,
+    signupWithGoogle,
     getProfile,
     updateUser,
     changePassword,
@@ -504,5 +516,6 @@ export const useAuthStore = defineStore("auth", () => {
     createAddress,
     updateAddress,
     deleteAddress,
+    setAccessToken,
   };
 });

@@ -34,6 +34,7 @@ import UserProfileBuddy from "@/views/user-profile/UserProfileBuddy.vue";
 import UserProfileOrderPage from "@/views/user-profile/UserProfileOrderPage.vue";
 import UserProfileAddresses from "@/views/user-profile/UserProfileAddresses.vue";
 import UserProfileAddressPage from "@/views/user-profile/UserProfileAddressPage.vue";
+import AuthSuccess from "@/views/AuthSuccess.vue";
 
 import { useHead } from "@unhead/vue";
 
@@ -298,6 +299,11 @@ const routes = [
     name: "user-profile-address-page",
     path: "/user/:userId/addresses/:addressId",
     component: UserProfileAddressPage,
+  },
+  {
+    path: "/auth/success",
+    name: "auth-success",
+    component: AuthSuccess,
   },
   {
     name: "page-not-found",

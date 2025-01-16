@@ -12,7 +12,7 @@
 
 
                 <a :href="authStore.currentOrderInvoice" target="_blank"
-                    class=" bg-teal-500 text-white px-3 py-2 rounded">Download Invoice</a>
+                    class=" bg-teal-500 text-white px-3 py-2 rounded hover:bg-teal-600">Download Invoice</a>
             </div>
 
             <h1 class="grow text-xl leading-7 text-gray-700 text-left font-medium mb-2" :class="{

@@ -5,10 +5,10 @@
 
             <div class="profile-tabs flex flex-wrap mb-8">
                 <button class="px-4 py-2"
-                    :class="{ ' bg-teal-950 text-white': isCurrentTab('profile'), 'bg-theme-pale text-gray-400 ': !isCurrentTab('profile') }"
+                    :class="{ ' bg-teal-950 text-white hover:bg-teal-800': isCurrentTab('profile'), 'bg-theme-pale text-gray-400 hover:text-gray-600 focus:outline-none': !isCurrentTab('profile') }"
                     @click.prevent.stop="changeTab('profile')">Profile Details</button>
                 <button class="px-4 py-2 ml-4 mt-2 md:mt-0"
-                    :class="{ ' bg-teal-950 text-white': isCurrentTab('addresses'), ' bg-theme-pale text-gray-400 ': !isCurrentTab('addresses') }"
+                    :class="{ ' bg-teal-950 text-white hover:bg-teal-800': isCurrentTab('addresses'), ' bg-theme-pale text-gray-400 hover:text-gray-600 focus:outline-none': !isCurrentTab('addresses') }"
                     @click.prevent.stop="changeTab('addresses')">
 
                     Addresses</button>
@@ -16,12 +16,13 @@
             </div>
             <div v-if="isCurrentTab('addresses') && !route.fullPath.includes('new') && !route.params.addressId && authStore.state.allAddresses?.length > 0"
                 class="flex justify-end mb-4">
-                <button class="px-4 py-2 ml-4 mt-2 md:mt-0 text-teal-500  border-teal-500 bg-transparent"
+                <button
+                    class="px-4 py-2 ml-4 mt-2 md:mt-0 text-teal-500  border-teal-500 bg-transparent hover:bg-teal-500 hover:text-white"
                     @click.prevent.stop="router.push(`/user/${authStore.user.id}/addresses/new`)">
                     Add New Address</button>
             </div>
             <div v-if="route.fullPath.includes('new') || route.params.addressId" class="flex justify-start mb-4">
-                <button class="px-0 py-2 mt-2 md:mt-0 text-teal-500  bg-transparent underline text-lg"
+                <button class="px-0 py-2 mt-2 md:mt-0 text-teal-500 bg-transparent underline text-lg focus:outline-none"
                     @click.prevent.stop="router.push(`/user/${authStore.user.id}/addresses`)">
                     <i class="fa fa-angle-left pr-2"></i>
                     Back to Addresses</button>

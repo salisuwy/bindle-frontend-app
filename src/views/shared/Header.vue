@@ -415,7 +415,7 @@ const handleUserAction = (action) => {
           <li v-if="authStore.user">
             <a class="block w-full px-4 py-2 font-normal hover:bg-teal-500 hover:text-white cursor-pointer"
               @click="handleUserAction('profile')">
-              Profile Settings
+              My Profile
             </a>
           </li>
           <li v-if="authStore.user">
@@ -432,8 +432,9 @@ const handleUserAction = (action) => {
 
       <div class="relative">
         <cart-icon width="24" height="24" class="mx-auto cursor-pointer text-theme-teal" @click="toggleCart" />
-        <span class="absolute -top-2 -right-1 rounded-full text-white bg-theme-teal h-5 w-5 text-[12px] text-center">{{
-          cartItemsCount }}
+        <span v-if="cartItemsCount > 0"
+          class="absolute -top-2 -right-1 rounded-full text-white bg-theme-teal h-5 w-5 text-[12px] text-center">{{
+            cartItemsCount }}
         </span>
       </div>
     </div>

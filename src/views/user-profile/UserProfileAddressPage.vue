@@ -105,12 +105,12 @@
 
 
                     <button v-if="authStore.state.currentAddress && route.params.addressId !== 'new'"
-                        @click="onEditAddress">
+                        @click="onEditAddress" class="hover:bg-teal-600">
                         <span v-if="authStore.state.updateAddressLoading">Editing <i
                                 class="fa fa-solid fa-circle-notch fa-spin ml-2"></i></span>
                         <span v-else>Edit Address</span>
                     </button>
-                    <button v-else @click="onCreateAddress">
+                    <button v-else @click="onCreateAddress" class="hover:bg-teal-600">
 
                         <span v-if="authStore.state.createAddressLoading">Saving <i
                                 class="fa fa-solid fa-circle-notch fa-spin ml-2"></i></span>

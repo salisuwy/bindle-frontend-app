@@ -64,24 +64,20 @@
           <p v-if="authStore.error" class="text-red-500 text-sm mt-2">Error: {{ authStore.error }}</p>
 
           <!-- Divider -->
-          <!-- <div class="flex items-center justify-center mb-4">
+          <div class="flex items-center justify-center mb-4">
             <hr class="w-full border-gray-300" />
             <span class="px-2 text-gray-500 text-sm">OR</span>
             <hr class="w-full border-gray-300" />
-          </div> -->
+          </div>
 
           <!-- Signup with Google -->
-          <!-- <button
-            class="w-full flex items-center justify-center border border-gray-300 text-gray-700 font-medium py-2 rounded-md mb-3 bg-gray-100 hover:bg-gray-200">
-            <span class="mr-2">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
-                stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M19.428 15.341A8 8 0 1115.34 4.572m1.767 3.909h4m0 0v4m0-4L12 12" />
-              </svg>
+          <button class="w-full flex items-center justify-center border border-gray-300 text-gray-700
+            font-normal py-2 rounded-md mb-3 bg-gray-100 hover:bg-gray-200" @click="onSignupWithGoogle">
+            <span class="mr-4">
+              <img loading="lazy" src="/assets/google.svg" class="w-5" />
             </span>
-            Signup with Google
-          </button> -->
+            Sign in with Google
+          </button>
 
           <!-- Continue as Guest -->
           <!-- <button
@@ -142,4 +138,34 @@ const onSignupUser = () => {
     last_name: last_name.value
   });
 };
+
+const onSignupWithGoogle = async () => {
+  const googleUrl = await authStore.signupWithGoogle();
+  const authWindow = window.open(
+    googleUrl,
+    "_blank",
+    "width=500,height=600"
+  );
+
+  if (!authWindow) {
+    console.error("Unable to open authentication window.");
+    return;
+  }
+
+  const interval = setInterval(() => {
+    const token = localStorage.getItem("authToken");
+    if (token) {
+      console.log("Token received from localStorage:", token);
+      authStore.setAccessToken(token);
+
+      // Cleanup
+      clearInterval(interval);
+      localStorage.removeItem("authToken");
+      authWindow.close();
+      authStore.getProfile();
+      router.push("/register-user");
+    }
+  }, 1000); // Poll every second
+};
+
 </script>
