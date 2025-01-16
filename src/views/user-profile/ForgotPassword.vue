@@ -50,14 +50,14 @@
                     <i class="fa far fa-check-circle fa-2x"></i>
                     {{ authStore.state.forgotPassword.message }}
                 </div>
-                <p class=" text-theme-darkgray mb-8" @dblclick="copyPassword">Your new password is <br> <span
+                <!-- <p class=" text-theme-darkgray mb-8" @dblclick="copyPassword">Your new password is <br> <span
                         ref="myPassword"
                         class=" text-neutral-600 font-medium bg-theme-pale px-2 py-1 rounded cursor-pointer">{{
                             authStore.state.forgotPassword.new_password }}</span>
 
                     <span v-if="passwordCopied" class="text-sm pl-6 absolute">copied! <i
                             class="fa fa-copy ml-2"></i></span>
-                </p>
+                </p> -->
 
                 <button class="w-full bg-teal-500 hover:bg-teal-600 text-white font-medium py-2 rounded-md"
                     @click="navigateToLogin">
