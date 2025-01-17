@@ -124,8 +124,15 @@ export const useAuthStore = defineStore("auth", () => {
         state.token = null;
         clearStorage("auth/user");
         clearStorage("auth/token");
+        router.push(`/login`);
       })
-      .catch(({ status }) => {});
+      .catch(({ status }) => {
+        state.user = null;
+        state.token = null;
+        clearStorage("auth/user");
+        clearStorage("auth/token");
+        router.push(`/login`);
+      });
   };
 
   const forgotPassword = async (params) => {
