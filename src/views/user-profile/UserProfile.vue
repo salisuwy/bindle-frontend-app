@@ -346,7 +346,9 @@ onBeforeMount(() => {
 })
 
 onMounted(() => {
+    console.log("onMounted UserProfile", route.params.userId)
     if (route.params.userId === 'undefined') {
+        console.log("onMounted UserProfile inside if", route.params.userId)
         router.push(`/user/${authStore.user.id}`);
     }
 
