@@ -162,8 +162,9 @@ const onSignupWithGoogle = async () => {
       clearInterval(interval);
       localStorage.removeItem("authToken");
       authWindow.close();
-      authStore.getProfile();
-      router.push("/register-user");
+      authStore.getProfile({
+        redirectFrom: 'signup'
+      });
     }
   }, 1000); // Poll every second
 };

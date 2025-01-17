@@ -114,7 +114,7 @@ const onSignupWithGoogle = async () => {
         return;
     }
 
-    const interval = setInterval(async () => {
+    const interval = setInterval(() => {
         const token = localStorage.getItem("authToken");
         if (token) {
             console.log("Token received from localStorage:", token);
@@ -124,8 +124,9 @@ const onSignupWithGoogle = async () => {
             clearInterval(interval);
             localStorage.removeItem("authToken");
             authWindow.close();
-            await authStore.getProfile();
-            router.push(`/user/${authStore.user?.id}`);
+            authStore.getProfile({
+                redirectFrom: 'login'
+            });
         }
     }, 1000); // Poll every second
 };
