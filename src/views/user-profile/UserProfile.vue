@@ -213,8 +213,8 @@
 </template>
 
 <script setup>
-import { ref, onBeforeMount } from "vue";
-import { useRouter } from "vue-router";
+import { ref, onBeforeMount, onMounted } from "vue";
+import { useRouter, useRoute } from "vue-router";
 import { Field } from "vee-validate";
 
 import UserProfileTabLayout from "@/views/shared/UserProfileTabLayout.vue";
@@ -223,6 +223,7 @@ import { useAuthStore } from "@/store/useAuthStore";
 import { watch } from "vue";
 
 const router = useRouter();
+const route = useRoute();
 const errors = ref({})
 
 const authStore = useAuthStore();
@@ -237,12 +238,12 @@ const old_password = ref("");
 const new_password = ref("");
 const new_password_confirmation = ref("");
 
-const userName = authStore.user?.name?.split(" ");
+// const userName = authStore.user?.name?.split(" ");
 
-first_name.value = userName && userName[0];
-last_name.value = userName && userName[1] || "";
-email.value = authStore.user?.email;
-phone.value = authStore.user?.phone;
+// first_name.value = userName && userName[0];
+// last_name.value = userName && userName[1] || "";
+// email.value = authStore.user?.email;
+// phone.value = authStore.user?.phone;
 
 const checkErrors = (key, event) => {
     if (!event.target.value) errors.value[key] = true;
@@ -340,6 +341,23 @@ const onSetDefaultAddress = (id) => {
 
 onBeforeMount(() => {
     authStore.fetchAddresses();
+
+
+})
+
+onMounted(() => {
+    console.log("onMounted UserProfile", route.params.userId)
+    if (route.params.userId === 'undefined') {
+        console.log("onMounted UserProfile inside if", route.params.userId)
+        router.push(`/user/${authStore.user.id}`);
+    }
+
+    const userName = authStore.user?.name?.split(" ");
+
+    first_name.value = userName && userName[0];
+    last_name.value = userName && userName[1] || "";
+    email.value = authStore.user?.email;
+    phone.value = authStore.user?.phone;
 })
 
 watch(defaultAddress, (newAddress) => {

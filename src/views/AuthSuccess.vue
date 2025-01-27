@@ -8,7 +8,6 @@ onMounted(() => {
             "http://localhost:5173/auth/success", // Local dev URL
             "https://bindle.co.uk/auth/success",  // Production URL
             "https://staging.bindle.co.uk/auth/success" // Staging
-
         ];
 
         if (successUrls.some(url => window.location.href.startsWith(url))) {

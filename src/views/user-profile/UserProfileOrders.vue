@@ -48,10 +48,14 @@
                         </header>
                         <hr class="mt-4 h-px border border-zinc-200" />
                         <section class="px-6 py-8 flex flex-row justify-between items-end max-md:max-w-full flex-wrap">
-                            <div class="w-[80%]">
+                            <div>
                                 <p class="pb-6 text-left">Ordered on {{ formattedDate(order.created_at) }}</p>
-                                <div class="flex flex-row pt-6 pr-6 overflow-scroll">
-                                    <img v-for="image in order.images" :key="image" class="pr-3 w-28" :src="image">
+                                <div class="flex flex-row pt-6 pr-6 items-end">
+                                    <img v-for="image in order.images.slice(0, 2)" :key="image" class="pr-3 w-28"
+                                        :src="image">
+                                    <span v-if="order.images.length > 2" class="pl-4 text-theme-darkgray">+ {{
+                                        order.images.length - 2 }}
+                                        More</span>
                                 </div>
                             </div>
                             <a class="bg-transparent text-teal-500 py-0 items-center cursor-pointer mt-6 md:mt-0"

@@ -1,0 +1,41 @@
+name: Deploy To Staging Env
+
+on:
+  push:
+    branches:
+      - cleanup/profile
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up SSH
+        uses: webfactory/ssh-agent@v0.8.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Add server to known hosts
+        run: ssh-keyscan -H 206.189.115.91 >> ~/.ssh/known_hosts
+
+      - name: Deploy to staging server
+        env:
+          HOST: 206.189.115.91
+          USER: root
+        run: |
+          ssh $USER@$HOST << 'EOF'
+            eval $(ssh-agent -s)
+            ssh-add /root/.ssh/bindle_repo_keys_FE
+            export PATH=$PATH:/root/.nvm/versions/node/v18.19.1/bin
+            cd /home/bindle-staging
+            git stash save "Stashing changes before pull"
+            git fetch origin
+            git checkout cleanup/profile
+            git pull origin cleanup/profile
+            npm ci
+            npm run build
+          EOF
+

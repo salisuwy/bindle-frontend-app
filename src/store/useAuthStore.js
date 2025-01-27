@@ -124,8 +124,15 @@ export const useAuthStore = defineStore("auth", () => {
         state.token = null;
         clearStorage("auth/user");
         clearStorage("auth/token");
+        router.push(`/login`);
       })
-      .catch(({ status }) => {});
+      .catch(({ status }) => {
+        state.user = null;
+        state.token = null;
+        clearStorage("auth/user");
+        clearStorage("auth/token");
+        router.push(`/login`);
+      });
   };
 
   const forgotPassword = async (params) => {
@@ -168,9 +175,14 @@ export const useAuthStore = defineStore("auth", () => {
           "Content-Type": "application/json",
         },
       })
-      .then((data, status) => {
+      .then((data) => {
         state.user = data.data.user;
         setStorage("auth/user", JSON.stringify(state.user));
+        if (params.redirectFrom === "login") {
+          router.push(`/user/${data.data.user.id}`);
+        } else if (params.redirectFrom === "signup") {
+          router.push(`/register-user`);
+        }
       })
       .catch(({ status }) => {});
   };
@@ -472,6 +484,11 @@ export const useAuthStore = defineStore("auth", () => {
       });
   };
 
+  const setUser = (user) => {
+    state.user = user;
+    setStorage("auth/user", JSON.stringify(state.user));
+  };
+
   const setAccessToken = (token) => {
     state.token = token;
     setStorage("auth/token", JSON.stringify(state.token));
@@ -516,6 +533,7 @@ export const useAuthStore = defineStore("auth", () => {
     createAddress,
     updateAddress,
     deleteAddress,
+    setUser,
     setAccessToken,
   };
 });
