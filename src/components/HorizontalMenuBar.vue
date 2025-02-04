@@ -70,7 +70,7 @@ onMounted(() => {
   if (menuRef.value !== null) {
     const list = menuRef.value.getElementsByTagName('a');
     const url = window.location.pathname + window.location.search;
-    for (let item of list) {
+    for (const item of list) {
       if (item.hasAttribute('href')) {
         const href = item.getAttribute('href');
         if (href === url) {

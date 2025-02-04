@@ -194,9 +194,9 @@ const pageIdx = computed({
 });
 
 const filteredProducts = computed(() => {
-  let buildFilteredProducts = [];
+  const buildFilteredProducts = [];
   if (bundles.value && books.value && shouldIncludeBundle.value) {
-    let filteredBundles = Object.values(bundles.value).filter((bundle) => {
+    const filteredBundles = Object.values(bundles.value).filter((bundle) => {
       if (bundle.book_ids.length === 0) {
         return false;
       }
@@ -257,7 +257,7 @@ const filteredProducts = computed(() => {
     buildFilteredProducts.push(...filteredBundles);
   }
   if (books.value && !bundleOnlyFilter.value) {
-    let filteredBooks = Object.values(books.value).filter((book) => {
+    const filteredBooks = Object.values(books.value).filter((book) => {
       // format type ebook and paperback
       if (formats.value.length > 0) {
         if (formats.value.includes('ebook') && formats.value.includes('paperback')) {

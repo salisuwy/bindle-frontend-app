@@ -19,7 +19,7 @@ export default [
   },
   skipFormatting,
   {
-    files: ['**/*.ts', '**/*.vue'],
+    files: ['**/*.ts', '**/*.vue', '**/*.js'],
     plugins: { prettier },
     rules: {
       '@typescript-eslint/no-unused-vars': 'warn',

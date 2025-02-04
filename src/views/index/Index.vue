@@ -16,7 +16,7 @@ const bindleApiStore = useBindleApiStore();
 
 onMounted(async () => {
   try {
-    let data = await bindleApiStore.getHomepageData();
+    const data = await bindleApiStore.getHomepageData();
     //console.log('data', data);
   } catch (e) {
     console.error(e);

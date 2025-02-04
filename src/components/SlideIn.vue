@@ -85,7 +85,7 @@ const transitionAfterClose = () => {
 };
 
 const getModalStyles = () => {
-  let styles = ['width:' + props.width, 'max-width:100%'];
+  const styles = ['width:' + props.width, 'max-width:100%'];
   if (props.backgroundColour !== null) {
     styles.push('background-color:' + props.backgroundColour);
   }

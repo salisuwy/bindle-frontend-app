@@ -43,10 +43,10 @@ const fullName = computed(() => {
   return `${order?.value?.billing_first_name} ${order?.value?.billing_last_name}`;
 });
 
-let otherErrors = ref('');
+const otherErrors = ref('');
 
-let cardHolderName = ref('');
-let cardHolderNameError = ref('');
+const cardHolderName = ref('');
+const cardHolderNameError = ref('');
 
 watch(cardHolderName, (newVal) => {
   if (!newVal?.trim()) {
@@ -56,7 +56,7 @@ watch(cardHolderName, (newVal) => {
   }
 });
 
-let cardDetailsError = ref('');
+const cardDetailsError = ref('');
 
 const style = {
   base: {
@@ -161,8 +161,8 @@ onMounted(async () => {
   });
 
   element.on('change', function (event) {
-    var errorEl = document.getElementById('card-errors');
-    var cardEl = document.getElementById('payment-element');
+    const errorEl = document.getElementById('card-errors');
+    const cardEl = document.getElementById('payment-element');
     if (event.error) {
       cardDetailsError.value = event.error.message;
       cardEl.classList.add('payment-element-error');

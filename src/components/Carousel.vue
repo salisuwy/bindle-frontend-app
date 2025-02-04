@@ -107,7 +107,7 @@ const endDrag = (event) => {
   const widths = Array.from(itemRefs.value).map((item) => {
     return item.offsetWidth;
   });
-  let translateX = -dragTranslateX.value;
+  const translateX = -dragTranslateX.value;
   for (let idx = 0; idx < offsets.length - 1; idx++) {
     if (
       translateX <
@@ -128,13 +128,13 @@ const recalculateItems = () => {
     return item.offsetWidth;
   });
   const itemGap = trackRef.value.offsetWidth - widths[slideIndex.value];
-  let offset = offsets[slideIndex.value] - itemGap / 2;
+  const offset = offsets[slideIndex.value] - itemGap / 2;
   trackRef.value.style.transform = 'translate(' + (0 - offset) + 'px, 0)';
   dragTranslateX.value = 0 - offset;
 };
 
 const slideIndexes = computed(() => {
-  let idxes = items.value ? Object.keys(items.value) : [];
+  const idxes = items.value ? Object.keys(items.value) : [];
   return idxes;
 });
 
@@ -162,9 +162,9 @@ const index = () => slideIndex.value;
 const count = () => itemRefs.value.length;
 
 defineExpose({ next, prev, index, count, selectIndex });
-let emits = defineEmits(['slideChanged']);
+const emits = defineEmits(['slideChanged']);
 
-let carouselStyles = computed(() => {
+const carouselStyles = computed(() => {
   return {
     '--track-transition': 'transform ' + props.transitionSecs + 's ease-in-out',
     '--track-gap': props.gapWidth,

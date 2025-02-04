@@ -31,7 +31,7 @@ const isHorizontal = computed(() => {
 });
 
 const getStyle = computed(() => {
-  let styleObj = { display: 'flex', 'overscroll-behavior': 'none' };
+  const styleObj = { display: 'flex', 'overscroll-behavior': 'none' };
   if (props.draggable) {
     if (!isDragging.value) {
       styleObj['cursor'] = 'grab';
@@ -91,7 +91,7 @@ const startScrolling = (direction) => {
   }
   const amount = direction === 'left' ? -props.scrollSpeed : props.scrollSpeed;
   scrollInterval = setInterval(() => {
-    if (flexRef !== null) {
+    if (flexRef.value !== null) {
       const flex = flexRef.value;
       flex.scrollLeft += amount;
     }

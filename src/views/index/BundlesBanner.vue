@@ -14,7 +14,7 @@ const bookUrls = ref([
 ]);
 onBeforeMount(() => {
   bindleApiStore.getBooks().then(() => {
-    let books = bindleApiStore.books;
+    const books = bindleApiStore.books;
     bindleApiStore.getPopularBundles(2).then((bundles) => {
       const book1_ids = bundles[0]['book_ids'];
       const book2_ids = bundles[1]['book_ids'];

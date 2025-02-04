@@ -19,7 +19,7 @@ const breadcrumbs = computed(() => {
 
   for (let idx = 0; idx < pathSegments.length; idx++) {
     const matchPath = idx === 0 ? '/' : pathSegments.slice(0, idx + 1).join('/');
-    let matchingRoute = router.resolve(matchPath);
+    const matchingRoute = router.resolve(matchPath);
     if (matchingRoute) {
       let text;
       if (typeof matchingRoute.meta.breadcrumb === 'function') {
