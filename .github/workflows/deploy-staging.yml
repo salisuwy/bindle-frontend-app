@@ -3,7 +3,7 @@ name: Deploy To Staging Env
 on:
   push:
     branches:
-      - cleanup/profile
+      - staging
 
 jobs:
   deploy:
@@ -33,9 +33,8 @@ jobs:
             cd /home/bindle-staging
             git stash save "Stashing changes before pull"
             git fetch origin
-            git checkout cleanup/profile
-            git pull origin cleanup/profile
+            git checkout staging
+            git pull origin staging
             npm ci
             npm run build
           EOF
-
