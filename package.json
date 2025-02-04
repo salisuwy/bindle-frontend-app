@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "type-check": "vue-tsc --build --force --noEmit",
     "preview": "vite preview",
     "deploy-prod": "eval $(ssh-agent -s) && ssh-add /root/.ssh/bindle_repo_keys_FE && export PATH=$PATH:/root/.nvm/versions/node/v18.19.1/bin && cd /home/bindle-frontend-app && git fetch origin && git checkout main && git pull origin main && npm ci && npm run build"
   },
@@ -32,11 +33,16 @@
     "yup": "^1.4.0"
   },
   "devDependencies": {
+    "@tsconfig/node18": "^18.2.4",
+    "@types/node": "^22.13.1",
     "@vitejs/plugin-basic-ssl": "^1.1.0",
     "@vitejs/plugin-vue": "^4.5.2",
+    "@vue/tsconfig": "^0.7.0",
     "autoprefixer": "^10.4.17",
     "postcss": "^8.4.33",
     "tailwindcss": "^3.4.1",
-    "vite": "^5.0.8"
+    "typescript": "^5.7.3",
+    "vite": "^5.0.8",
+    "vue-tsc": "^2.2.0"
   }
 }
