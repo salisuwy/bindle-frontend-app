@@ -13,10 +13,7 @@
 </template>
 
 <script setup>
-import CartItem from "./CartItem.vue";
-import CouponSection from "./CouponSection.vue";
-import PriceDetails from "./PriceDetails.vue";
-
-
-
+import CartItem from './CartItem.vue';
+import CouponSection from './CouponSection.vue';
+import PriceDetails from './PriceDetails.vue';
 </script>

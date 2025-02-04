@@ -1,9 +1,9 @@
 <script setup>
-import { onBeforeMount, ref } from "vue";
-import { useBindleApiStore } from "@/store/bindle-api.js";
-import "vue3-carousel/dist/carousel.css";
-import { Carousel, Slide, Pagination, Navigation } from "vue3-carousel";
-import { Util } from "@/components/helpers/Util.js";
+import { onBeforeMount, ref } from 'vue';
+import { useBindleApiStore } from '@/store/bindle-api.js';
+import 'vue3-carousel/dist/carousel.css';
+import { Carousel, Slide, Pagination, Navigation } from 'vue3-carousel';
+import { Util } from '@/components/helpers/Util.js';
 
 const bindleApiStore = useBindleApiStore();
 const books = ref([]);
@@ -36,21 +36,15 @@ onBeforeMount(() => {
 
 const bookUrl = (level, idx) => {
   idx = Math.min(3, idx);
-  if (level === "gcse") {
-    if (
-      threeRandomGCESLevelBooks.value.length > 0 &&
-      idx in threeRandomGCESLevelBooks.value
-    ) {
-      return threeRandomGCESLevelBooks.value[idx]["imgurl"];
+  if (level === 'gcse') {
+    if (threeRandomGCESLevelBooks.value.length > 0 && idx in threeRandomGCESLevelBooks.value) {
+      return threeRandomGCESLevelBooks.value[idx]['imgurl'];
     } else {
       return Util.getPlaceholderBookImage(idx);
     }
   } else {
-    if (
-      threeRandomALevelBooks.value.length > 0 &&
-      idx in threeRandomALevelBooks.value
-    ) {
-      return threeRandomALevelBooks.value[idx]["imgurl"];
+    if (threeRandomALevelBooks.value.length > 0 && idx in threeRandomALevelBooks.value) {
+      return threeRandomALevelBooks.value[idx]['imgurl'];
     } else {
       return Util.getPlaceholderBookImage(idx);
     }
@@ -80,8 +74,8 @@ const bookUrl = (level, idx) => {
         <p
           class="max-w-sm sm:max-w-md xl:max-w-2xl mx-auto pointer-none mt-4 md:mt-10 text-sm md:text-lg lg:text-xl xl:text-2xl leading-4 2xs:leading-5 grow"
         >
-          Streamline your GCSE and A-level journey with Bindle. Our carefully
-          curated bundles take the guesswork out of study resources.
+          Streamline your GCSE and A-level journey with Bindle. Our carefully curated bundles take
+          the guesswork out of study resources.
           <strong>Ease and affordability in every bundle</strong>
         </p>
         <div class="grow my-12">
@@ -111,12 +105,9 @@ const bookUrl = (level, idx) => {
         <p
           class="max-w-sm sm:max-w-md xl:max-w-2xl mx-auto pointer-none mt-4 md:mt-10 text-sm md:text-xl leading-4 2xs:leading-5 text-theme-white grow"
         >
-          Unlock affordability and sustainability with our e-books. Choose our
-          eco-friendly digital options for smart savings.
-          <strong
-            >Quality educations that's kind to your wallet and the
-            planet.</strong
-          >
+          Unlock affordability and sustainability with our e-books. Choose our eco-friendly digital
+          options for smart savings.
+          <strong>Quality educations that's kind to your wallet and the planet.</strong>
         </p>
         <div class="grow my-12">
           <router-link
@@ -132,13 +123,11 @@ const bookUrl = (level, idx) => {
       style="
         background: url('/assets/slide3bg.png') no-repeat center bottom fixed;
         background-size: cover;
-        background-blend-mode: overlay; 
-        background-color: rgba(255, 255, 255, 0.7); 
+        background-blend-mode: overlay;
+        background-color: rgba(255, 255, 255, 0.7);
       "
     >
-      <div
-        class="carousel-content w-full xl:min-h-[750px]"
-      >
+      <div class="carousel-content w-full xl:min-h-[750px]">
         <h2
           class="max-w-sm sm:max-w-md xl:max-w-2xl px-4 xl:px-6 mx-auto text-2xl lg:text-5xl xl:text-7xl mt-12 md:mt-14 lg:mt-24 xl:mt-32 leading-6 text-theme-black"
         >
@@ -147,9 +136,8 @@ const bookUrl = (level, idx) => {
         <p
           class="max-w-sm sm:max-w-md xl:max-w-2xl mx-auto pointer-none mt-4 md:mt-10 text-sm lg:text-2xl leading-4 2xs:leading-5 text-theme-black grow"
         >
-          Master a subject with a comprehensive textbook. grasp essentials with
-          a focused revision guide, and sharpen skills with dedicated exam
-          workbook.
+          Master a subject with a comprehensive textbook. grasp essentials with a focused revision
+          guide, and sharpen skills with dedicated exam workbook.
           <strong>In one place for your success.</strong>
         </p>
         <div class="grow my-12 mb-24">

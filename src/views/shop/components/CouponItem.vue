@@ -1,16 +1,12 @@
 <template>
   <article class="flex justify-between items-start gap-2.5 p-2.5" :class="{ 'mt-8': !isApplied }">
-    <div class="flex flex-col justify-center"
-    :class="{ 'border-red-500': isRemoveCouponError }"
-    >
+    <div class="flex flex-col justify-center" :class="{ 'border-red-500': isRemoveCouponError }">
       <div
         class="justify-center w-fit px-2 py-1 text-xs font-semibold leading-5 text-teal-500 uppercase whitespace-nowrap rounded-sm border border-teal-500 border-dashed"
       >
         {{ code }}
       </div>
-      <div class="mt-1.5 font-medium leading-[157%] text-neutral-800">
-        Save {{ savings }}
-      </div>
+      <div class="mt-1.5 font-medium leading-[157%] text-neutral-800">Save {{ savings }}</div>
       <div class="mt-1.5 font-light leading-6 text-zinc-500">
         {{ description }}
         <!-- <br />Expires on: {{ expiryDate }} -->
@@ -29,14 +25,14 @@
         <SpinnerIcon class="w-6 h-6" />
       </span>
       <span v-else>
-        {{ isApplied ? "Remove" : "Apply" }}
+        {{ isApplied ? 'Remove' : 'Apply' }}
       </span>
     </button>
   </article>
 </template>
 
 <script setup>
-import { defineProps, defineEmits } from "vue";
+import { defineProps, defineEmits } from 'vue';
 const props = defineProps({
   code: {
     type: String,
@@ -52,7 +48,7 @@ const props = defineProps({
   },
   expiryDate: {
     type: String,
-    default: "",
+    default: '',
   },
   isApplied: {
     type: Boolean,
@@ -68,9 +64,9 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(["onRemoveCoupon"]);
+const emit = defineEmits(['onRemoveCoupon']);
 
 function removeCoupon() {
-  emit("onRemoveCoupon", props.code);
+  emit('onRemoveCoupon', props.code);
 }
 </script>

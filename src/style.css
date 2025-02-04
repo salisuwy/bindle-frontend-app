@@ -23,20 +23,22 @@
 }
 
 .carousel .carousel__pagination {
-  gap:6px !important;
+  gap: 6px !important;
 }
 .carousel .carousel__pagination .carousel__pagination-button {
-  width:20px;
-  height:20px;
+  width: 20px;
+  height: 20px;
 }
 .carousel .carousel__pagination .carousel__pagination-button:after {
-  width:14px;
-  height:14px;
-  border-radius:100%;
-  background-color:var(--color-theme-teal);
+  width: 14px;
+  height: 14px;
+  border-radius: 100%;
+  background-color: var(--color-theme-teal);
 }
-.carousel .carousel__pagination .carousel__pagination-button.carousel__pagination-button--active:after {
-  background-color:white;
+.carousel
+  .carousel__pagination
+  .carousel__pagination-button.carousel__pagination-button--active:after {
+  background-color: white;
 }
 .homepage-carousel .carousel__slide {
   max-height: calc(100vh - 100px);
@@ -48,9 +50,7 @@
   }
 }
 
-
 @layer base {
-
   @font-face {
     font-family: 'Outfit';
     src: url('/src/assets/fonts/Outfit-VariableFont_wght.ttf') format('truetype');
@@ -80,41 +80,46 @@
     margin: 0;
     padding: 0;
     text-align: center;
-    background-color:var(--color-theme-white);
-    color:black;
+    background-color: var(--color-theme-white);
+    color: black;
   }
 
-  h1,h2,h3,h4,h5,h6 {
-    color:var(--color-theme-black);
-    font-weight:600;
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: var(--color-theme-black);
+    font-weight: 600;
   }
   h2 {
-    font-size:20px;
+    font-size: 20px;
   }
   hr {
-    border-width:1px;
-    border-top:1px;
+    border-width: 1px;
+    border-top: 1px;
   }
 }
 
 @layer components {
-
   a {
     font-weight: 500;
     color: var(--color-theme-black);
     text-decoration: inherit;
   }
 
-  a:hover,.linklike:hover {
-    opacity:0.8;
+  a:hover,
+  .linklike:hover {
+    opacity: 0.8;
   }
   .linklike {
-    cursor:pointer
+    cursor: pointer;
   }
   .buttonlike {
-    background-color:var(--color-theme-teal);
-    color:var(--color-theme-white);
-    padding:10px 20px;
+    background-color: var(--color-theme-teal);
+    color: var(--color-theme-white);
+    padding: 10px 20px;
   }
 
   body {
@@ -142,10 +147,10 @@
     transition: border-color 0.25s;
   }
   button:disabled {
-    opacity:0.5;
+    opacity: 0.5;
   }
   button:disabled:hover {
-    outline:none;
+    outline: none;
   }
 
   button:focus,
@@ -154,37 +159,35 @@
   }
 
   input:focus-visible {
-    outline:none;
+    outline: none;
   }
 
   .card {
     padding: 2em;
   }
-  .carousel-controls input[type=radio] {
+  .carousel-controls input[type='radio'] {
     background-color: var(--color-theme-black);
   }
 
-  .carousel-controls input[type=radio]:checked {
+  .carousel-controls input[type='radio']:checked {
     background-color: var(--color-theme-teal);
   }
 
-  label input[type=checkbox] {
-    accent-color:var(--color-theme-teal);
+  label input[type='checkbox'] {
+    accent-color: var(--color-theme-teal);
   }
 
   @supports selector(:has(*)) {
-
-    label.bindle-checkbox:has(> input[type=checkbox]) {
-      position:relative;
-      left:14px;
-
+    label.bindle-checkbox:has(> input[type='checkbox']) {
+      position: relative;
+      left: 14px;
     }
-    label.bindle-checkbox > input[type=checkbox] {
-      appearance:none;
+    label.bindle-checkbox > input[type='checkbox'] {
+      appearance: none;
     }
 
-    label.bindle-checkbox:has(> input[type=checkbox]):before {
-      content: "\00A0";
+    label.bindle-checkbox:has(> input[type='checkbox']):before {
+      content: '\00A0';
       line-height: 12px;
       border: 1px solid #ccc;
       font-size: 12px;
@@ -201,7 +204,7 @@
       transition: 120ms background-color ease-in-out;
     }
 
-    label.bindle-checkbox:has(> input[type=checkbox]:checked):before {
+    label.bindle-checkbox:has(> input[type='checkbox']:checked):before {
       content: '\2714';
       color: white;
       display: inline-block;
@@ -210,17 +213,17 @@
       transform: scale(1);
     }
 
-    label.bindle-radio:has(> input[type=radio]) {
-      position:relative;
-      left:14px;
+    label.bindle-radio:has(> input[type='radio']) {
+      position: relative;
+      left: 14px;
     }
 
-    label.bindle-radio > input[type=radio] {
-      appearance:none;
+    label.bindle-radio > input[type='radio'] {
+      appearance: none;
     }
 
-    label.bindle-radio:has(> input[type=radio]):before {
-      content: "\00A0";
+    label.bindle-radio:has(> input[type='radio']):before {
+      content: '\00A0';
       line-height: 12px;
       border: 1px solid #ccc;
       font-size: 12px;
@@ -236,17 +239,16 @@
       user-select: none;
     }
 
-    label.bindle-radio:has(> input[type=checkbox]:checked):before {
+    label.bindle-radio:has(> input[type='checkbox']:checked):before {
       content: '\2714';
       color: white;
       display: inline-block;
       background-color: var(--color-theme-teal);
-      border-color:var(--color-theme-teal);
+      border-color: var(--color-theme-teal);
     }
-
   }
 
-  input[type="radio"].bindle-radio {
+  input[type='radio'].bindle-radio {
     /* normalise and hide the default one */
     -webkit-appearance: none;
     appearance: none;
@@ -260,64 +262,67 @@
     transform: translateY(0.075em);
     display: inline-grid;
     place-content: center;
-    cursor:pointer;
+    cursor: pointer;
   }
 
-  input[type="radio"].bindle-radio::before {
-    content: "";
+  input[type='radio'].bindle-radio::before {
+    content: '';
     width: 0.9em;
     height: 0.9em;
     border-radius: 50%;
     box-shadow: inset 1em 1em var(--color-theme-teal);
-    cursor:pointer;
+    cursor: pointer;
     transform: scale(0);
     transition: 120ms transform ease-in-out;
   }
 
-  input[type="radio"].bindle-radio:checked::before {
+  input[type='radio'].bindle-radio:checked::before {
     transform: scale(1);
   }
 
   .radio-links input[type='radio'] {
-    display:none
+    display: none;
   }
 
   .radio-links input[type='radio']:checked + label {
-    color:var(--color-theme-teal);
-    text-decoration:underline;
+    color: var(--color-theme-teal);
+    text-decoration: underline;
   }
 
   table.info tr td {
-    padding:4px;
+    padding: 4px;
   }
   table.info tr td:first-child {
-    font-weight:600;
-    padding-right:16px;
+    font-weight: 600;
+    padding-right: 16px;
   }
   table.info tr td:first-child:after {
-    content:":";
+    content: ':';
   }
   table.info tr:nth-child(even) {
-    background-color:#f8f8f8;
+    background-color: #f8f8f8;
   }
 
   select {
-    background-color:transparent;
-    border-radius:2px;
-    border:1px solid #ddd;
-    padding:4px 8px;
+    background-color: transparent;
+    border-radius: 2px;
+    border: 1px solid #ddd;
+    padding: 4px 8px;
   }
 }
 
 @layer utilities {
   /* spinner */
-  .working-spinner, .working-spinner-xl {
-    position:relative;
-    opacity:0.5;
-    pointer-events:none;
+  .working-spinner,
+  .working-spinner-xl {
+    position: relative;
+    opacity: 0.5;
+    pointer-events: none;
   }
   @keyframes spinner {
-    to {transform: rotate(360deg);}
+    to {
+      transform: rotate(360deg);
+    }
   }
   .working-spinner:before {
     content: '';
@@ -332,7 +337,7 @@
     border-radius: 50%;
     border-right: 4px solid transparent;
     animation: spinner 1.2s linear infinite;
-    z-index:100;
+    z-index: 100;
     border-top: 4px solid #6fb3b2;
   }
   .working-spinner-xl {
@@ -341,30 +346,48 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    width:240px;
-    height:240px;
-    margin-top:-120px;
+    width: 240px;
+    height: 240px;
+    margin-top: -120px;
     margin-left: -120px;
     border-radius: 50%;
     border-right: 4px solid transparent;
     animation: spinner 1.2s linear infinite;
-    z-index:100;
+    z-index: 100;
     border-top: 4px solid #6fb3b2;
   }
 
-  .rotate-5 { transform:rotate(5deg); }
-  .-rotate-5 { transform:rotate(-5deg); }
-  .rotate-10 { transform:rotate(5deg); }
-  .-rotate-10 { transform:rotate(-5deg); }
-  .scale-50 { transform:scale(0.5); }
-  .scale-60 { transform:scale(0.6); }
-  .scale-70 { transform:scale(0.7); }
-  .scale-80 { transform:scale(0.8); }
-  .scale-90 { transform:scale(0.9); }
-  .shadow-1 { box-shadow: 0 0 5px #555 }
+  .rotate-5 {
+    transform: rotate(5deg);
+  }
+  .-rotate-5 {
+    transform: rotate(-5deg);
+  }
+  .rotate-10 {
+    transform: rotate(5deg);
+  }
+  .-rotate-10 {
+    transform: rotate(-5deg);
+  }
+  .scale-50 {
+    transform: scale(0.5);
+  }
+  .scale-60 {
+    transform: scale(0.6);
+  }
+  .scale-70 {
+    transform: scale(0.7);
+  }
+  .scale-80 {
+    transform: scale(0.8);
+  }
+  .scale-90 {
+    transform: scale(0.9);
+  }
+  .shadow-1 {
+    box-shadow: 0 0 5px #555;
+  }
 }
-
-
 
 .bbb {
   border: 1px solid red;
@@ -374,7 +397,7 @@
   width: 100%;
 }
 .Toastify__close-button {
-  display: none;  
+  display: none;
 }
 
 .Toastify__toast {

@@ -23,14 +23,11 @@
           </svg>
         </span>
 
-        <h3 class="md:text-lg font-medium text-zinc-950">
-          Error encontered, please try again
-        </h3>
+        <h3 class="md:text-lg font-medium text-zinc-950">Error encontered, please try again</h3>
       </div>
       <a href="/checkout" class="font-semibold text-theme-teal">View Cart</a>
     </div>
   </section>
 </template>
 
-<script setup>
-</script>
+<script setup></script>

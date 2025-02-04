@@ -1,6 +1,6 @@
 <script setup>
-import { watch, computed, defineProps, defineEmits } from "vue";
-import { countries } from "@/components/helpers/countries";
+import { watch, computed, defineProps, defineEmits } from 'vue';
+import { countries } from '@/components/helpers/countries';
 
 const props = defineProps({
   order: {
@@ -15,7 +15,7 @@ const order = computed(() => {
   return props.order;
 });
 
-const emit = defineEmits(["setCurrentStage"]);
+const emit = defineEmits(['setCurrentStage']);
 
 const transition = computed(() => {
   return props.transition;
@@ -58,11 +58,7 @@ watch(transition, async (_) => {
               </p>
               <p class="mt-2">
                 {{ order?.delivery_address1 }},
-                {{
-                  order?.delivery_address2
-                    ? order?.delivery_address2 + ", "
-                    : ""
-                }}
+                {{ order?.delivery_address2 ? order?.delivery_address2 + ', ' : '' }}
                 {{ order?.delivery_city }}, {{ order?.delivery_zip }},
                 {{ order?.delivery_country }}
               </p>
@@ -88,9 +84,7 @@ watch(transition, async (_) => {
               </p>
               <p class="mt-2">
                 {{ order?.billing_address1 }},
-                {{
-                  order?.billing_address2 ? order?.billing_address2 + ", " : ""
-                }}
+                {{ order?.billing_address2 ? order?.billing_address2 + ', ' : '' }}
                 {{ order?.billing_city }}, {{ order?.billing_zip }},
                 {{ order?.billing_country }}
               </p>
@@ -108,12 +102,10 @@ watch(transition, async (_) => {
       </div>
     </div>
     <article
-      
       class="flex flex-col justify-center items-start px-6 mt-6 text-base font-medium bg-white rounded-md text-zinc-900 max-md:px-5 max-md:max-w-full"
     ></article>
 
     <article
-      
       class="flex flex-col justify-center items-start px-6 mt-6 text-base font-medium bg-white rounded-md text-zinc-900 max-md:px-5 max-md:max-w-full"
     ></article>
 
@@ -124,7 +116,10 @@ watch(transition, async (_) => {
       <div class="flex flex-col bg-white rounded-md">
         <h2 class="text-lg text-slate-800">Payment details</h2>
         <p class="mt-6 text-sm font-bold text-cyan-800 uppercase">
-          {{ order?.payment_nameoncard ?? (order?.billing_first_name + " " + order?.billing_lastname_name) }}
+          {{
+            order?.payment_nameoncard ??
+            order?.billing_first_name + ' ' + order?.billing_lastname_name
+          }}
         </p>
         <p class="mt-4">
           <span class="text-zinc-500">Card Number: </span>
@@ -132,9 +127,7 @@ watch(transition, async (_) => {
         </p>
         <p class="mt-4">
           <span class="text-zinc-500">Expiration Date: </span>
-          {{ order?.payment_expiry_month }}/{{
-            order?.payment_expiry_year?.toString().slice(-2)
-          }}
+          {{ order?.payment_expiry_month }}/{{ order?.payment_expiry_year?.toString().slice(-2) }}
         </p>
       </div>
     </article>

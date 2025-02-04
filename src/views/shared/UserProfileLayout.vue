@@ -6,10 +6,7 @@
     <div
       class="flex flex-col md:flex-row px-4 md:px-8 mt-6 max-w-18xl overflow-hidden max-w-8xl mx-auto"
     >
-      <nav
-        aria-label="breadcrumb"
-        class="text-left w-full col-start-1 md:col-span-4 grow"
-      >
+      <nav aria-label="breadcrumb" class="text-left w-full col-start-1 md:col-span-4 grow">
         <ol class="breadcrumbs flex flex-row flex-wrap gap-2 sm:gap-4">
           <li
             v-for="(breadcrumb, index) in getBreadcrumbs"
@@ -20,9 +17,7 @@
             <router-link v-if="breadcrumb.path !== ''" :to="breadcrumb.path">{{
               breadcrumb.text
             }}</router-link>
-            <span v-else class="text-theme-darkgray">{{
-              breadcrumb.text
-            }}</span>
+            <span v-else class="text-theme-darkgray">{{ breadcrumb.text }}</span>
           </li>
         </ol>
       </nav>
@@ -57,9 +52,7 @@
             <li
               class="pb-4 text-left cursor-pointer hover:text-teal-500"
               :class="{ 'text-teal-500': isTabOrders }"
-              @click.prevent.stop="
-                goToRoute(`/user/${authStore.user.id}/orders`)
-              "
+              @click.prevent.stop="goToRoute(`/user/${authStore.user.id}/orders`)"
             >
               Orders
             </li>
@@ -69,9 +62,7 @@
             <li
               class="pb-4 text-left cursor-pointer hover:text-teal-500"
               :class="{ 'text-teal-500': isTabBuddy }"
-              @click.prevent.stop="
-                goToRoute(`/user/${authStore.user.id}/buddy`)
-              "
+              @click.prevent.stop="goToRoute(`/user/${authStore.user.id}/buddy`)"
             >
               Bindle Buddy
             </li>
@@ -89,13 +80,13 @@
 </template>
 
 <script setup lang="ts">
-import { useSlots, computed, ref } from "vue";
-import { useRouter, useRoute } from "vue-router";
+import { useSlots, computed, ref } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
 
-import { useAuthStore } from "@/store/useAuthStore";
+import { useAuthStore } from '@/store/useAuthStore';
 
-import LayoutHeader from "./Header.vue";
-import LayoutFooter from "./Footer.vue";
+import LayoutHeader from './Header.vue';
+import LayoutFooter from './Footer.vue';
 
 const slots = useSlots();
 
@@ -109,19 +100,19 @@ const goToRoute = (route: string) => {
 };
 
 const isTabOrders = computed(() => {
-  return route.fullPath.includes("orders");
+  return route.fullPath.includes('orders');
 });
 
 const isTabBuddy = computed(() => {
-  return route.fullPath.includes("buddy");
+  return route.fullPath.includes('buddy');
 });
 
 const isTabProfileAddresses = computed(() => {
-  return route.fullPath.includes("addresses");
+  return route.fullPath.includes('addresses');
 });
 
 const isTabProfileAddressNew = computed(() => {
-  return route.fullPath.includes("addresses/new");
+  return route.fullPath.includes('addresses/new');
 });
 
 const isTabProfile = computed(() => {
@@ -130,44 +121,42 @@ const isTabProfile = computed(() => {
 
 const getBreadcrumbs = computed(() => {
   const profileBreadcrumbs = [
-    { text: "Home", path: "/" },
-    { text: "My Account", path: `/user/${authStore.user?.id}` },
+    { text: 'Home', path: '/' },
+    { text: 'My Account', path: `/user/${authStore.user?.id}` },
   ];
 
   const addressesBreadcrumbs = [
-    { text: "Home", path: "/" },
-    { text: "My Account", path: `/user/${authStore.user?.id}` },
-    { text: "Addresses", path: `/user/${authStore.user?.id}/addresses` },
+    { text: 'Home', path: '/' },
+    { text: 'My Account', path: `/user/${authStore.user?.id}` },
+    { text: 'Addresses', path: `/user/${authStore.user?.id}/addresses` },
   ];
 
   const addressPageBreadcrumbs = [
-    { text: "Home", path: "/" },
-    { text: "My Account", path: `/user/${authStore.user?.id}` },
-    { text: "Addresses", path: `/user/${authStore.user?.id}/addresses` },
+    { text: 'Home', path: '/' },
+    { text: 'My Account', path: `/user/${authStore.user?.id}` },
+    { text: 'Addresses', path: `/user/${authStore.user?.id}/addresses` },
     {
       text: `${
         authStore.state.currentAddress
-          ? "Address ID: #" + authStore.state.currentAddress?.id
-          : "New Address"
+          ? 'Address ID: #' + authStore.state.currentAddress?.id
+          : 'New Address'
       }`,
       path: `/user/${authStore.user?.id}/addresses/${
-        authStore.state.currentAddress
-          ? authStore.state.currentAddress?.id
-          : "new"
+        authStore.state.currentAddress ? authStore.state.currentAddress?.id : 'new'
       }`,
     },
   ];
 
   const ordersBreadcrumbs = [
-    { text: "Home", path: "/" },
-    { text: "My Account", path: `/user/${authStore.user?.id}` },
-    { text: "Orders", path: `/user/${authStore.user?.id}/orders` },
+    { text: 'Home', path: '/' },
+    { text: 'My Account', path: `/user/${authStore.user?.id}` },
+    { text: 'Orders', path: `/user/${authStore.user?.id}/orders` },
   ];
 
   const orderPageBreadcrumbs = [
-    { text: "Home", path: "/" },
-    { text: "My Account", path: `/user/${authStore.user?.id}` },
-    { text: "Orders", path: `/user/${authStore.user?.id}/orders` },
+    { text: 'Home', path: '/' },
+    { text: 'My Account', path: `/user/${authStore.user?.id}` },
+    { text: 'Orders', path: `/user/${authStore.user?.id}/orders` },
     {
       text: `Order ID: #${authStore.currentOrder?.uuid}`,
       path: `/user/${authStore.user?.id}/orders/${authStore.currentOrder?.id}`,
@@ -175,9 +164,9 @@ const getBreadcrumbs = computed(() => {
   ];
 
   const buddyBreadcrumbs = [
-    { text: "Home", path: "/" },
-    { text: "My Account", path: `/user/${authStore.user?.id}` },
-    { text: "Bindle Buddy", path: `/user/${authStore.user?.id}/buddy` },
+    { text: 'Home', path: '/' },
+    { text: 'My Account', path: `/user/${authStore.user?.id}` },
+    { text: 'Bindle Buddy', path: `/user/${authStore.user?.id}/buddy` },
   ];
 
   if (isTabOrders.value) {

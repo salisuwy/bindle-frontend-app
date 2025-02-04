@@ -1,7 +1,7 @@
 <script setup>
-import Layout from "@/views/shared/Layout.vue";
-import Breadcrumbs from "@/components/Breadcrumbs.vue";
-import BenefitsBanner from "@/views/index/BenefitsBanner.vue";
+import Layout from '@/views/shared/Layout.vue';
+import Breadcrumbs from '@/components/Breadcrumbs.vue';
+import BenefitsBanner from '@/views/index/BenefitsBanner.vue';
 </script>
 
 <template>
@@ -9,9 +9,7 @@ import BenefitsBanner from "@/views/index/BenefitsBanner.vue";
     <div class="bg-theme-white relative">
       <div class="bg-theme-verylightteal py-10">
         <div class="mx-auto max-w-8xl w-full px-6 text-left mb-8">
-          <breadcrumbs
-            class="text-left w-full col-start-1 md:col-span-4 mb-4"
-          />
+          <breadcrumbs class="text-left w-full col-start-1 md:col-span-4 mb-4" />
           <h1 class="mt-12">Terms and Conditions</h1>
           <!-- <div class="my-6 text-xl">
             If you have any questions, be sure to let us know!
@@ -19,18 +17,14 @@ import BenefitsBanner from "@/views/index/BenefitsBanner.vue";
         </div>
       </div>
       <div class="bg-theme-white py-10 px-6">
-        <div
-          class="max-w-8xl mx-auto flex flex-col md:flex-row w-full gap-6 pt-4 pb-4"
-        >
+        <div class="max-w-8xl mx-auto flex flex-col md:flex-row w-full gap-6 pt-4 pb-4">
           <!-- policy start -->
 
           <div data-custom-class="body" class="text-left">
             <div align="center" style="text-align: left">
               <div style="line-height: 1.5">
                 <strong
-                  ><span data-custom-class="heading_1"
-                    >AGREEMENT TO OUR LEGAL TERMS</span
-                  ></strong
+                  ><span data-custom-class="heading_1">AGREEMENT TO OUR LEGAL TERMS</span></strong
                 >
               </div>
             </div>
@@ -41,11 +35,7 @@ import BenefitsBanner from "@/views/index/BenefitsBanner.vue";
             </div>
             <div align="center" style="line-height: 1"><br /></div>
             <div align="center" style="text-align: left">
-              <div
-                class="MsoNormal"
-                data-custom-class="body_text"
-                style="line-height: 1.5"
-              >
+              <div class="MsoNormal" data-custom-class="body_text" style="line-height: 1.5">
                 <span
                   style="font-size:11.0pt;line-height:115%;font-family:Arial;
 Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
@@ -55,14 +45,9 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                     data-id="9d459c4e-c548-e5cb-7729-a118548965d2"
                     data-type="question"
                     >__________</bdt
-                  ><bdt class="block-component"></bdt> (<bdt
-                    class="block-component"
-                  ></bdt
-                  >"<strong>Company</strong>," "<strong>we</strong>,"
-                  "<strong>us</strong>," "<strong>our</strong>"<bdt
-                    class="statement-end-if-in-editor"
-                  ></bdt
-                  >)<span
+                  ><bdt class="block-component"></bdt> (<bdt class="block-component"></bdt
+                  >"<strong>Company</strong>," "<strong>we</strong>," "<strong>us</strong>,"
+                  "<strong>our</strong>"<bdt class="statement-end-if-in-editor"></bdt>)<span
                     style="font-size:11.0pt;line-height:115%;
 Arial;mso-fareast-font-family:Calibri;color:#595959;mso-themecolor:text1;
 mso-themetint:166;"
@@ -74,43 +59,32 @@ mso-themetint:166;"
                         style="font-size:11.0pt;line-height:115%;
 Arial;mso-fareast-font-family:Calibri;color:#595959;mso-themecolor:text1;
 mso-themetint:166;"
-                        ><bdt class="question"
-                          ><bdt class="block-component">.</bdt></bdt
-                        ></span
+                        ><bdt class="question"><bdt class="block-component">.</bdt></bdt></span
                       ><bdt class="block-component"></bdt></span></span
                 ></span>
               </div>
             </div>
             <div align="center" style="line-height: 1"><br /></div>
             <div align="center" style="text-align: left">
-              <div
-                class="MsoNormal"
-                data-custom-class="body_text"
-                style="line-height: 1.5"
-              >
+              <div class="MsoNormal" data-custom-class="body_text" style="line-height: 1.5">
                 <span
                   style="font-size:11.0pt;line-height:115%;font-family:Arial;
 Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                   >We operate <bdt class="block-component"></bdt
-                  ><bdt class="block-component"></bdt>, as well as any other
-                  related products and services that refer or link to these
-                  legal terms (the <bdt class="block-component"></bdt>"<strong
-                    >Legal Terms</strong
-                  >"<bdt class="statement-end-if-in-editor"></bdt>)
-                  (collectively, the
-                  <bdt class="block-component"></bdt
-                  >"<strong>Services</strong>"<bdt
+                  ><bdt class="block-component"></bdt>, as well as any other related products and
+                  services that refer or link to these legal terms (the
+                  <bdt class="block-component"></bdt>"<strong>Legal Terms</strong>"<bdt
+                    class="statement-end-if-in-editor"
+                  ></bdt
+                  >) (collectively, the
+                  <bdt class="block-component"></bdt>"<strong>Services</strong>"<bdt
                     class="statement-end-if-in-editor"
                   ></bdt
                   >).<bdt class="block-component"></bdt
                 ></span>
               </div>
               <div class="MsoNormal" style="line-height: 1"><br /></div>
-              <div
-                class="MsoNormal"
-                data-custom-class="body_text"
-                style="line-height: 1.5"
-              >
+              <div class="MsoNormal" data-custom-class="body_text" style="line-height: 1.5">
                 <span
                   style="font-size:11.0pt;line-height:115%;font-family:Arial;
 Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
@@ -118,10 +92,8 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                   <bdt class="block-component"
                     >email at <bdt class="question">__________</bdt
                     ><bdt class="block-component"></bdt> or by mail to
-                    <bdt class="question">__________</bdt
-                    ><bdt class="block-component"></bdt>,
-                    <bdt class="question">__________</bdt
-                    ><bdt class="block-component"></bdt
+                    <bdt class="question">__________</bdt><bdt class="block-component"></bdt>,
+                    <bdt class="question">__________</bdt><bdt class="block-component"></bdt
                     ><bdt class="block-component"></bdt
                     ><bdt class="block-component"
                       ><bdt class="block-component">,&nbsp;</bdt
@@ -132,66 +104,45 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                 >
               </div>
               <div class="MsoNormal" style="line-height: 1"><br /></div>
-              <div
-                class="MsoNormal"
-                data-custom-class="body_text"
-                style="line-height: 1.5"
-              >
+              <div class="MsoNormal" data-custom-class="body_text" style="line-height: 1.5">
                 <span
                   style="font-size:11.0pt;line-height:115%;font-family:Arial;
 Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
-                  >These Legal Terms constitute a legally binding agreement made
-                  between you, whether personally or on behalf of an entity
-                  (<bdt class="block-component"></bdt>"<strong>you</strong>"<bdt
-                    class="statement-end-if-in-editor"
-                  ></bdt
-                  >), and <bdt class="question">__________</bdt>, concerning
-                  your access to and use of the Services. You agree that by
-                  accessing the Services, you have read, understood, and agreed
-                  to be bound by all of these Legal Terms. IF YOU DO NOT AGREE
-                  WITH ALL OF THESE LEGAL TERMS, THEN YOU ARE EXPRESSLY
-                  PROHIBITED FROM USING THE SERVICES AND YOU MUST DISCONTINUE
-                  USE IMMEDIATELY.<bdt class="block-component"></bdt
+                  >These Legal Terms constitute a legally binding agreement made between you,
+                  whether personally or on behalf of an entity (<bdt class="block-component"></bdt
+                  >"<strong>you</strong>"<bdt class="statement-end-if-in-editor"></bdt>), and
+                  <bdt class="question">__________</bdt>, concerning your access to and use of the
+                  Services. You agree that by accessing the Services, you have read, understood, and
+                  agreed to be bound by all of these Legal Terms. IF YOU DO NOT AGREE WITH ALL OF
+                  THESE LEGAL TERMS, THEN YOU ARE EXPRESSLY PROHIBITED FROM USING THE SERVICES AND
+                  YOU MUST DISCONTINUE USE IMMEDIATELY.<bdt class="block-component"></bdt
                 ></span>
               </div>
               <div class="MsoNormal" style="line-height: 1"><br /></div>
-              <div
-                class="MsoNormal"
-                data-custom-class="body_text"
-                style="line-height: 1.5"
-              >
+              <div class="MsoNormal" data-custom-class="body_text" style="line-height: 1.5">
                 <span
                   style="font-size:11.0pt;line-height:115%;font-family:Arial;
 Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
-                  >Supplemental terms and conditions or documents that may be
-                  posted on the Services from time to time are hereby expressly
-                  incorporated herein by reference. We reserve the right, in our
-                  sole discretion, to make changes or modifications to these
-                  Legal Terms <bdt class="block-component"></bdt>at any time and
-                  for any reason<bdt class="statement-end-if-in-editor"></bdt>.
-                  We will alert you about any changes by updating the
-                  <bdt class="block-component"></bdt>"Last updated"<bdt
+                  >Supplemental terms and conditions or documents that may be posted on the Services
+                  from time to time are hereby expressly incorporated herein by reference. We
+                  reserve the right, in our sole discretion, to make changes or modifications to
+                  these Legal Terms <bdt class="block-component"></bdt>at any time and for any
+                  reason<bdt class="statement-end-if-in-editor"></bdt>. We will alert you about any
+                  changes by updating the <bdt class="block-component"></bdt>"Last updated"<bdt
                     class="statement-end-if-in-editor"
                   ></bdt>
-                  date of these Legal Terms, and you waive any right to receive
-                  specific notice of each such change. It is your responsibility
-                  to periodically review these Legal Terms to stay informed of
-                  updates. You will be subject to, and will be deemed to have
-                  been made aware of and to have accepted, the changes in any
-                  revised Legal Terms by your continued use of the Services
-                  after the date such revised Legal Terms are posted.<bdt
-                    class="else-block"
-                  ></bdt
+                  date of these Legal Terms, and you waive any right to receive specific notice of
+                  each such change. It is your responsibility to periodically review these Legal
+                  Terms to stay informed of updates. You will be subject to, and will be deemed to
+                  have been made aware of and to have accepted, the changes in any revised Legal
+                  Terms by your continued use of the Services after the date such revised Legal
+                  Terms are posted.<bdt class="else-block"></bdt
                 ></span>
               </div>
             </div>
             <div align="center" style="line-height: 1"><br /></div>
             <div align="center" style="text-align: left">
-              <div
-                class="MsoNormal"
-                data-custom-class="body_text"
-                style="line-height: 1.5"
-              >
+              <div class="MsoNormal" data-custom-class="body_text" style="line-height: 1.5">
                 <bdt
                   class="block-container if"
                   data-type="if"
@@ -205,21 +156,12 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                 ></bdt>
               </div>
               <div class="MsoNormal" style="line-height: 1"><br /></div>
-              <div
-                class="MsoNormal"
-                data-custom-class="body_text"
-                style="line-height: 1.5"
-              >
-                We recommend that you print a copy of these Legal Terms for your
-                records.
+              <div class="MsoNormal" data-custom-class="body_text" style="line-height: 1.5">
+                We recommend that you print a copy of these Legal Terms for your records.
               </div>
               <div class="MsoNormal" style="line-height: 1.5"><br /></div>
               <div class="MsoNormal" style="line-height: 1.5"><br /></div>
-              <div
-                class="MsoNormal"
-                data-custom-class="heading_1"
-                style="line-height: 1.5"
-              >
+              <div class="MsoNormal" data-custom-class="heading_1" style="line-height: 1.5">
                 <strong>TABLE OF CONTENTS</strong>
               </div>
               <div class="MsoNormal" style="line-height: 1.5"><br /></div>
@@ -227,9 +169,7 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                 <a href="#services"
                   ><span data-custom-class="link"
                     ><span style="color: rgb(0, 58, 250); font-size: 15px"
-                      ><span data-custom-class="body_text"
-                        >1. OUR SERVICES</span
-                      ></span
+                      ><span data-custom-class="body_text">1. OUR SERVICES</span></span
                     ></span
                   ></a
                 >
@@ -247,9 +187,7 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                 <a data-custom-class="link" href="#userreps"></a
                 ><a data-custom-class="link" href="#userreps"
                   ><span style="color: rbg(0, 58, 250); font-size: 15px"
-                    ><span
-                      data-custom-class="body_text"
-                      style="color: rgb(0, 58, 250)"
+                    ><span data-custom-class="body_text" style="color: rgb(0, 58, 250)"
                       >3. USER REPRESENTATIONS</span
                     ></span
                   ></a
@@ -257,8 +195,7 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
               </div>
               <div class="MsoNormal" style="line-height: 1.5">
                 <span style="font-size: 15px"
-                  ><span data-custom-class="body_text"
-                    ><bdt class="block-component"></bdt></span
+                  ><span data-custom-class="body_text"><bdt class="block-component"></bdt></span
                 ></span>
                 <a data-custom-class="link" href="#products"></a>
               </div>
@@ -266,11 +203,8 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                 <a data-custom-class="link" href="#products"
                   ><span style="color: rgb(0, 58, 250); font-size: 15px"
                     ><span data-custom-class="body_text"
-                      ><bdt class="block-component"></bdt
-                      ><bdt class="block-component"></bdt
-                      ><bdt
-                        class="statement-end-if-in-editor"
-                      ></bdt></span></span
+                      ><bdt class="block-component"></bdt><bdt class="block-component"></bdt
+                      ><bdt class="statement-end-if-in-editor"></bdt></span></span
                 ></a>
                 <a data-custom-class="link" href="#purchases"></a>
               </div>
@@ -282,14 +216,11 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                 ></a>
               </div>
               <div class="MsoNormal" style="line-height: 1.5">
-                <bdt class="block-component"
-                  ><span style="font-size: 15px"></span
-                ></bdt>
+                <bdt class="block-component"><span style="font-size: 15px"></span></bdt>
               </div>
               <div class="MsoNormal" style="line-height: 1.5">
                 <span style="font-size: 15px"
-                  ><span data-custom-class="body_text"
-                    ><bdt class="block-component"></bdt></span
+                  ><span data-custom-class="body_text"><bdt class="block-component"></bdt></span
                 ></span>
                 <a data-custom-class="link" href="#software"></a>
                 <a data-custom-class="link" href="#software"></a>
@@ -305,9 +236,7 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
               <div class="MsoNormal" style="line-height: 1.5">
                 <a data-custom-class="link" href="#prohibited"
                   ><span style="color: rgb(0, 58, 250); font-size: 15px"
-                    ><span data-custom-class="body_text"
-                      >4. PROHIBITED ACTIVITIES</span
-                    ></span
+                    ><span data-custom-class="body_text">4. PROHIBITED ACTIVITIES</span></span
                   ></a
                 >
                 <a data-custom-class="link" href="#ugc"></a>
@@ -326,8 +255,7 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                 <a data-custom-class="link" href="#license"
                   ><span style="color: rgb(0, 58, 250); font-size: 15px"
                     ><span data-custom-class="body_text"
-                      >6. CONTRIBUTION
-                      <bdt class="block-component"></bdt>LICENSE<bdt
+                      >6. CONTRIBUTION <bdt class="block-component"></bdt>LICENSE<bdt
                         class="statement-end-if-in-editor"
                       ></bdt></span></span
                 ></a>
@@ -376,9 +304,7 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
               <div class="MsoNormal" style="line-height: 1.5">
                 <a data-custom-class="link" href="#sitemanage"
                   ><span style="color: rgb(0, 58, 250); font-size: 15px"
-                    ><span data-custom-class="body_text"
-                      >7. SERVICES MANAGEMENT</span
-                    ></span
+                    ><span data-custom-class="body_text">7. SERVICES MANAGEMENT</span></span
                   ></a
                 >
                 <a data-custom-class="link" href="#ppyes"></a>
@@ -408,17 +334,14 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
               </div>
               <div class="MsoNormal" style="line-height: 1.5">
                 <span style="font-size: 15px"
-                  ><span data-custom-class="body_text"
-                    ><bdt class="block-component"></bdt></span
+                  ><span data-custom-class="body_text"><bdt class="block-component"></bdt></span
                 ></span>
                 <a data-custom-class="link" href="#terms"></a>
               </div>
               <div class="MsoNormal" style="line-height: 1.5">
                 <a data-custom-class="link" href="#terms"
                   ><span style="color: rgb(0, 58, 250); font-size: 15px"
-                    ><span data-custom-class="body_text"
-                      >8. TERM AND TERMINATION</span
-                    ></span
+                    ><span data-custom-class="body_text">8. TERM AND TERMINATION</span></span
                   ></a
                 >
                 <a data-custom-class="link" href="#modifications"></a>
@@ -436,9 +359,7 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
               <div class="MsoNormal" style="line-height: 1.5">
                 <a data-custom-class="link" href="#law"
                   ><span style="color: rgb(0, 58, 250); font-size: 15px"
-                    ><span data-custom-class="body_text"
-                      >10. GOVERNING LAW</span
-                    ></span
+                    ><span data-custom-class="body_text">10. GOVERNING LAW</span></span
                   ></a
                 >
                 <a data-custom-class="link" href="#disputes"></a>
@@ -446,9 +367,7 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
               <div class="MsoNormal" style="line-height: 1.5">
                 <a data-custom-class="link" href="#disputes"
                   ><span style="color: rgb(0, 58, 250); font-size: 15px"
-                    ><span data-custom-class="body_text"
-                      >11. DISPUTE RESOLUTION</span
-                    ></span
+                    ><span data-custom-class="body_text">11. DISPUTE RESOLUTION</span></span
                   ></a
                 >
                 <a data-custom-class="link" href="#corrections"></a>
@@ -456,9 +375,7 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
               <div class="MsoNormal" style="line-height: 1.5">
                 <a data-custom-class="link" href="#corrections"
                   ><span style="color: rgb(0, 58, 250); font-size: 15px"
-                    ><span data-custom-class="body_text"
-                      >12. CORRECTIONS</span
-                    ></span
+                    ><span data-custom-class="body_text">12. CORRECTIONS</span></span
                   ></a
                 >
                 <a data-custom-class="link" href="#disclaimer"></a>
@@ -466,9 +383,7 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
               <div class="MsoNormal" style="line-height: 1.5">
                 <a data-custom-class="link" href="#disclaimer"
                   ><span style="color: rgb(0, 58, 250); font-size: 15px"
-                    ><span data-custom-class="body_text"
-                      >13. DISCLAIMER</span
-                    ></span
+                    ><span data-custom-class="body_text">13. DISCLAIMER</span></span
                   ></a
                 >
                 <a data-custom-class="link" href="#liability"></a>
@@ -476,9 +391,7 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
               <div class="MsoNormal" style="line-height: 1.5">
                 <a data-custom-class="link" href="#liability"
                   ><span style="color: rgb(0, 58, 250); font-size: 15px"
-                    ><span data-custom-class="body_text"
-                      >14. LIMITATIONS OF LIABILITY</span
-                    ></span
+                    ><span data-custom-class="body_text">14. LIMITATIONS OF LIABILITY</span></span
                   ></a
                 >
                 <a data-custom-class="link" href="#indemnification"></a>
@@ -486,9 +399,7 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
               <div class="MsoNormal" style="line-height: 1.5">
                 <a data-custom-class="link" href="#indemnification"
                   ><span style="color: rgb(0, 58, 250); font-size: 15px"
-                    ><span data-custom-class="body_text"
-                      >15. INDEMNIFICATION</span
-                    ></span
+                    ><span data-custom-class="body_text">15. INDEMNIFICATION</span></span
                   ></a
                 >
                 <a data-custom-class="link" href="#userdata"></a>
@@ -496,9 +407,7 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
               <div class="MsoNormal" style="line-height: 1.5">
                 <a data-custom-class="link" href="#userdata"
                   ><span style="color: rgb(0, 58, 250); font-size: 15px"
-                    ><span data-custom-class="body_text"
-                      >16. USER DATA</span
-                    ></span
+                    ><span data-custom-class="body_text">16. USER DATA</span></span
                   ></a
                 >
                 <a data-custom-class="link" href="#electronic"></a>
@@ -507,17 +416,14 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                 <a data-custom-class="link" href="#electronic"
                   ><span style="color: rgb(0, 58, 250); font-size: 15px"
                     ><span data-custom-class="body_text"
-                      >17. ELECTRONIC COMMUNICATIONS, TRANSACTIONS, AND
-                      SIGNATURES</span
+                      >17. ELECTRONIC COMMUNICATIONS, TRANSACTIONS, AND SIGNATURES</span
                     ></span
                   ></a
                 >
                 <a data-custom-class="link" href="#california"></a>
               </div>
               <div class="MsoNormal" style="line-height: 1.5">
-                <bdt class="block-component"
-                  ><span style="font-size: 15px"></span
-                ></bdt>
+                <bdt class="block-component"><span style="font-size: 15px"></span></bdt>
               </div>
               <div class="MsoNormal" style="line-height: 1.5">
                 <a data-custom-class="link" href="#california"
@@ -530,9 +436,7 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
               <div class="MsoNormal" style="line-height: 1.5">
                 <a data-custom-class="link" href="#misc"
                   ><span style="color: rgb(0, 58, 250); font-size: 15px"
-                    ><span data-custom-class="body_text"
-                      >18. MISCELLANEOUS</span
-                    ></span
+                    ><span data-custom-class="body_text">18. MISCELLANEOUS</span></span
                   ></a
                 >
                 <a data-custom-class="link" href="#contact"></a>
@@ -570,19 +474,13 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
               <div class="MsoNormal" style="line-height: 1.5">
                 <a data-custom-class="link" href="#contact"
                   ><span style="color: rgb(0, 58, 250); font-size: 15px"
-                    ><span data-custom-class="body_text"
-                      >19. CONTACT US</span
-                    ></span
+                    ><span data-custom-class="body_text">19. CONTACT US</span></span
                   ></a
                 >
               </div>
             </div>
             <div align="center" style="text-align: left">
-              <div
-                class="MsoNormal"
-                data-custom-class="heading_1"
-                style="line-height: 1.5"
-              >
+              <div class="MsoNormal" data-custom-class="heading_1" style="line-height: 1.5">
                 <a name="_b6y29mp52qvx"></a>
               </div>
               <div class="MsoNormal" style="line-height: 1.5"><br /></div>
@@ -593,26 +491,18 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                 id="services"
                 style="line-height: 1.5"
               >
-                <strong
-                  ><span style="font-size: 19px">1. OUR SERVICES</span></strong
-                >
+                <strong><span style="font-size: 19px">1. OUR SERVICES</span></strong>
               </div>
               <div class="MsoNormal" style="line-height: 1.5"><br /></div>
-              <div
-                class="MsoNormal"
-                data-custom-class="body_text"
-                style="line-height: 1.5"
-              >
+              <div class="MsoNormal" data-custom-class="body_text" style="line-height: 1.5">
                 <span style="font-size: 15px"
-                  >The information provided when using the Services is not
-                  intended for distribution to or use by any person or entity in
-                  any jurisdiction or country where such distribution or use
-                  would be contrary to law or regulation or which would subject
-                  us to any registration requirement within such jurisdiction or
-                  country. Accordingly, those persons who choose to access the
-                  Services from other locations do so on their own initiative
-                  and are solely responsible for compliance with local laws, if
-                  and to the extent local laws are applicable.<bdt
+                  >The information provided when using the Services is not intended for distribution
+                  to or use by any person or entity in any jurisdiction or country where such
+                  distribution or use would be contrary to law or regulation or which would subject
+                  us to any registration requirement within such jurisdiction or country.
+                  Accordingly, those persons who choose to access the Services from other locations
+                  do so on their own initiative and are solely responsible for compliance with local
+                  laws, if and to the extent local laws are applicable.<bdt
                     class="block-component"
                   ></bdt
                 ></span>
@@ -632,31 +522,21 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
             </div>
             <div align="center" style="line-height: 1.5"><br /></div>
             <div align="center" style="text-align: left">
-              <div
-                class="MsoNormal"
-                data-custom-class="heading_2"
-                style="line-height: 1.5"
-              >
+              <div class="MsoNormal" data-custom-class="heading_2" style="line-height: 1.5">
                 <strong>Our intellectual property</strong>
               </div>
               <div class="MsoNormal" style="line-height: 1.5"><br /></div>
-              <div
-                class="MsoNormal"
-                data-custom-class="body_text"
-                style="line-height: 1.5"
-              >
+              <div class="MsoNormal" data-custom-class="body_text" style="line-height: 1.5">
                 <span
                   style="font-size:11.0pt;line-height:115%;font-family:Arial;
 Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
-                  >We are the owner or the licensee of all intellectual property
-                  rights in our Services, including all source code, databases,
-                  functionality, software, website designs, audio, video, text,
-                  photographs, and graphics in the Services (collectively, the
-                  <bdt class="block-component"></bdt>"Content"<bdt
+                  >We are the owner or the licensee of all intellectual property rights in our
+                  Services, including all source code, databases, functionality, software, website
+                  designs, audio, video, text, photographs, and graphics in the Services
+                  (collectively, the <bdt class="block-component"></bdt>"Content"<bdt
                     class="statement-end-if-in-editor"
                   ></bdt
-                  >), as well as the trademarks, service marks, and logos
-                  contained therein (the
+                  >), as well as the trademarks, service marks, and logos contained therein (the
                   <bdt class="block-component"></bdt>"Marks"<bdt
                     class="statement-end-if-in-editor"
                   ></bdt
@@ -664,26 +544,17 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                 >
               </div>
               <div class="MsoNormal" style="line-height: 1.5"><br /></div>
-              <div
-                class="MsoNormal"
-                data-custom-class="body_text"
-                style="line-height: 1.5"
-              >
+              <div class="MsoNormal" data-custom-class="body_text" style="line-height: 1.5">
                 <span
                   style="font-size:11.0pt;line-height:115%;font-family:Arial;
 Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
-                  >Our Content and Marks are protected by copyright and
-                  trademark laws (and various other intellectual property rights
-                  and unfair competition laws) and treaties in the United States
-                  and around the world.</span
+                  >Our Content and Marks are protected by copyright and trademark laws (and various
+                  other intellectual property rights and unfair competition laws) and treaties in
+                  the United States and around the world.</span
                 >
               </div>
               <div class="MsoNormal" style="line-height: 1.5"><br /></div>
-              <div
-                class="MsoNormal"
-                data-custom-class="body_text"
-                style="line-height: 1.5"
-              >
+              <div class="MsoNormal" data-custom-class="body_text" style="line-height: 1.5">
                 <span
                   style="font-size:11.0pt;line-height:115%;font-family:Arial;
 Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
@@ -691,30 +562,20 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                   <bdt class="block-component"></bdt>"AS IS"<bdt
                     class="statement-end-if-in-editor"
                   ></bdt>
-                  for your <bdt class="block-component"></bdt>personal,
-                  non-commercial use or internal business purpose<bdt
-                    class="statement-end-if-in-editor"
-                  ></bdt>
+                  for your <bdt class="block-component"></bdt>personal, non-commercial use or
+                  internal business purpose<bdt class="statement-end-if-in-editor"></bdt>
                   only.</span
                 >
               </div>
               <div class="MsoNormal" style="line-height: 1.5"><br /></div>
-              <div
-                class="MsoNormal"
-                data-custom-class="heading_2"
-                style="line-height: 1.5"
-              >
+              <div class="MsoNormal" data-custom-class="heading_2" style="line-height: 1.5">
                 <strong>Your use of our Services</strong>
               </div>
               <div class="MsoNormal" style="line-height: 1.5"><br /></div>
-              <div
-                class="MsoNormal"
-                data-custom-class="body_text"
-                style="line-height: 1.5"
-              >
+              <div class="MsoNormal" data-custom-class="body_text" style="line-height: 1.5">
                 <span style="font-size: 15px"
-                  >Subject to your compliance with these Legal Terms, including
-                  the <bdt class="block-component"></bdt>"<bdt
+                  >Subject to your compliance with these Legal Terms, including the
+                  <bdt class="block-component"></bdt>"<bdt
                     class="statement-end-if-in-editor"
                   ></bdt></span
                 ><a data-custom-class="link" href="#prohibited"
@@ -725,196 +586,127 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                   ><bdt class="block-component"></bdt>"<bdt
                     class="statement-end-if-in-editor"
                   ></bdt>
-                  section below, we grant you a non-exclusive, non-transferable,
-                  revocable <bdt class="block-component"></bdt>license<bdt
+                  section below, we grant you a non-exclusive, non-transferable, revocable
+                  <bdt class="block-component"></bdt>license<bdt
                     class="statement-end-if-in-editor"
                   ></bdt>
                   to:</span
                 >
               </div>
               <ul>
-                <li
-                  class="MsoNormal"
-                  data-custom-class="body_text"
-                  style="line-height: 1.5"
-                >
+                <li class="MsoNormal" data-custom-class="body_text" style="line-height: 1.5">
                   <span style="font-size: 15px">access the Services; and</span>
                 </li>
-                <li
-                  class="MsoNormal"
-                  data-custom-class="body_text"
-                  style="line-height: 1.5"
-                >
+                <li class="MsoNormal" data-custom-class="body_text" style="line-height: 1.5">
                   <span style="font-size: 15px"
-                    >download or print a copy of any portion of the Content to
-                    which you have properly gained access.</span
+                    >download or print a copy of any portion of the Content to which you have
+                    properly gained access.</span
                   >
                 </li>
               </ul>
-              <div
-                class="MsoNormal"
-                data-custom-class="body_text"
-                style="line-height: 1.5"
-              >
+              <div class="MsoNormal" data-custom-class="body_text" style="line-height: 1.5">
                 <span
                   style="font-size:11.0pt;line-height:115%;font-family:Arial;
 Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
-                  >solely for your <bdt class="block-component"></bdt>personal,
-                  non-commercial use or internal business purpose<bdt
-                    class="statement-end-if-in-editor"
-                  ></bdt
-                  >.</span
+                  >solely for your <bdt class="block-component"></bdt>personal, non-commercial use
+                  or internal business purpose<bdt class="statement-end-if-in-editor"></bdt>.</span
                 >
               </div>
               <div class="MsoNormal" style="line-height: 1.5"><br /></div>
-              <div
-                class="MsoNormal"
-                data-custom-class="body_text"
-                style="line-height: 1.5"
-              >
+              <div class="MsoNormal" data-custom-class="body_text" style="line-height: 1.5">
                 <span
                   style="font-size:11.0pt;line-height:115%;font-family:Arial;
 Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
-                  >Except as set out in this section or elsewhere in our Legal
-                  Terms, no part of the Services and no Content or Marks may be
-                  copied, reproduced, aggregated, republished, uploaded, posted,
-                  publicly displayed, encoded, translated, transmitted,
-                  distributed, sold, licensed, or otherwise exploited for any
-                  commercial purpose whatsoever, without our express prior
-                  written permission.</span
+                  >Except as set out in this section or elsewhere in our Legal Terms, no part of the
+                  Services and no Content or Marks may be copied, reproduced, aggregated,
+                  republished, uploaded, posted, publicly displayed, encoded, translated,
+                  transmitted, distributed, sold, licensed, or otherwise exploited for any
+                  commercial purpose whatsoever, without our express prior written permission.</span
                 >
               </div>
               <div class="MsoNormal" style="line-height: 1.5"><br /></div>
-              <div
-                class="MsoNormal"
-                data-custom-class="body_text"
-                style="line-height: 1.5"
-              >
+              <div class="MsoNormal" data-custom-class="body_text" style="line-height: 1.5">
                 <span
                   style="font-size:11.0pt;line-height:115%;font-family:Arial;
 Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
-                  >If you wish to make any use of the Services, Content, or
-                  Marks other than as set out in this section or elsewhere in
-                  our Legal Terms, please address your request to:
-                  <bdt class="question">__________</bdt>. If we ever grant you
-                  the permission to post, reproduce, or publicly display any
-                  part of our Services or Content, you must identify us as the
-                  owners or licensors of the Services, Content, or Marks and
-                  ensure that any copyright or proprietary notice appears or is
-                  visible on posting, reproducing, or displaying our
-                  Content.</span
+                  >If you wish to make any use of the Services, Content, or Marks other than as set
+                  out in this section or elsewhere in our Legal Terms, please address your request
+                  to: <bdt class="question">__________</bdt>. If we ever grant you the permission to
+                  post, reproduce, or publicly display any part of our Services or Content, you must
+                  identify us as the owners or licensors of the Services, Content, or Marks and
+                  ensure that any copyright or proprietary notice appears or is visible on posting,
+                  reproducing, or displaying our Content.</span
                 >
               </div>
             </div>
             <div align="center" style="line-height: 1.5"><br /></div>
             <div align="center" style="text-align: left">
-              <div
-                class="MsoNormal"
-                data-custom-class="body_text"
-                style="line-height: 1.5"
-              >
+              <div class="MsoNormal" data-custom-class="body_text" style="line-height: 1.5">
                 <span
                   style="font-size:11.0pt;line-height:115%;font-family:Arial;
 Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
-                  >We reserve all rights not expressly granted to you in and to
-                  the Services, Content, and Marks.</span
+                  >We reserve all rights not expressly granted to you in and to the Services,
+                  Content, and Marks.</span
                 >
               </div>
               <div class="MsoNormal" style="line-height: 1.5"><br /></div>
-              <div
-                class="MsoNormal"
-                data-custom-class="body_text"
-                style="line-height: 1.5"
-              >
+              <div class="MsoNormal" data-custom-class="body_text" style="line-height: 1.5">
                 <span
                   style="font-size:11.0pt;line-height:115%;font-family:Arial;
 Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
-                  >Any breach of these Intellectual Property Rights will
-                  constitute a material breach of our Legal Terms and your right
-                  to use our Services will terminate immediately.</span
+                  >Any breach of these Intellectual Property Rights will constitute a material
+                  breach of our Legal Terms and your right to use our Services will terminate
+                  immediately.</span
                 >
               </div>
               <div class="MsoNormal" style="line-height: 1.5"><br /></div>
-              <div
-                class="MsoNormal"
-                data-custom-class="heading_2"
-                style="line-height: 1.5"
-              >
+              <div class="MsoNormal" data-custom-class="heading_2" style="line-height: 1.5">
                 <span
                   style="font-size:11.0pt;line-height:115%;font-family:Arial;
 Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
-                  ><strong
-                    >Your submissions<bdt class="block-component"></bdt></strong
+                  ><strong>Your submissions<bdt class="block-component"></bdt></strong
                 ></span>
               </div>
               <div class="MsoNormal" style="line-height: 1.5"><br /></div>
-              <div
-                class="MsoNormal"
-                data-custom-class="body_text"
-                style="line-height: 1.5"
-              >
+              <div class="MsoNormal" data-custom-class="body_text" style="line-height: 1.5">
                 <span style="font-size: 15px"
-                  >Please review this section and the
-                  <bdt class="block-component"></bdt>"<bdt
+                  >Please review this section and the <bdt class="block-component"></bdt>"<bdt
                     class="statement-end-if-in-editor"
                   ></bdt
                   ><a data-custom-class="link" href="#prohibited"
-                    ><span style="color: rgb(0, 58, 250)"
-                      >PROHIBITED ACTIVITIES</span
-                    ></a
+                    ><span style="color: rgb(0, 58, 250)">PROHIBITED ACTIVITIES</span></a
                   ><bdt class="block-component"></bdt>"<bdt
                     class="statement-end-if-in-editor"
                   ></bdt>
-                  section carefully prior to using our Services to understand
-                  the (a) rights you give us and (b) obligations you have when
-                  you post or upload any content through the Services.</span
+                  section carefully prior to using our Services to understand the (a) rights you
+                  give us and (b) obligations you have when you post or upload any content through
+                  the Services.</span
                 >
               </div>
               <div class="MsoNormal" style="line-height: 1.5"><br /></div>
-              <div
-                class="MsoNormal"
-                data-custom-class="body_text"
-                style="line-height: 1.5"
-              >
+              <div class="MsoNormal" data-custom-class="body_text" style="line-height: 1.5">
                 <span style="font-size: 15px"
-                  ><strong>Submissions:</strong> By directly sending us any
-                  question, comment, suggestion, idea, feedback, or other
-                  information about the Services (<bdt
+                  ><strong>Submissions:</strong> By directly sending us any question, comment,
+                  suggestion, idea, feedback, or other information about the Services (<bdt
                     class="block-component"
                   ></bdt
-                  >"Submissions"<bdt class="statement-end-if-in-editor"></bdt>),
-                  you agree to assign to us all intellectual property rights in
-                  such Submission. You agree that we shall own this Submission
-                  and be entitled to its unrestricted use and dissemination for
-                  any lawful purpose, commercial or otherwise, without
-                  acknowledgment or compensation to you.<bdt
-                    class="block-component"
-                  ></bdt
+                  >"Submissions"<bdt class="statement-end-if-in-editor"></bdt>), you agree to assign
+                  to us all intellectual property rights in such Submission. You agree that we shall
+                  own this Submission and be entitled to its unrestricted use and dissemination for
+                  any lawful purpose, commercial or otherwise, without acknowledgment or
+                  compensation to you.<bdt class="block-component"></bdt
                 ></span>
               </div>
               <div class="MsoNormal" style="line-height: 1.5"><br /></div>
-              <div
-                class="MsoNormal"
-                data-custom-class="body_text"
-                style="line-height: 1.5"
-              >
+              <div class="MsoNormal" data-custom-class="body_text" style="line-height: 1.5">
                 <span style="font-size: 15px"
-                  ><strong
-                    >You are responsible for what you post or upload:</strong
-                  >
-                  By sending us Submissions<bdt class="block-component"></bdt>
-                  through any part of the Services<bdt
-                    class="block-component"
-                  ></bdt>
-                  you:</span
+                  ><strong>You are responsible for what you post or upload:</strong> By sending us
+                  Submissions<bdt class="block-component"></bdt> through any part of the
+                  Services<bdt class="block-component"></bdt> you:</span
                 >
               </div>
               <ul>
-                <li
-                  class="MsoNormal"
-                  data-custom-class="body_text"
-                  style="line-height: 1.5"
-                >
+                <li class="MsoNormal" data-custom-class="body_text" style="line-height: 1.5">
                   <span style="font-size: 15px"
                     >confirm that you have read and agree with our
                     <bdt class="block-component"></bdt>"<bdt
@@ -928,77 +720,43 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                     ><bdt class="block-component"></bdt>"<bdt
                       class="statement-end-if-in-editor"
                     ></bdt>
-                    and will not post, send, publish, upload, or transmit
-                    through the Services any Submission<bdt
-                      class="block-component"
-                    ></bdt>
-                    that is illegal, harassing, hateful, harmful, defamatory,
-                    obscene, bullying, abusive, discriminatory, threatening to
-                    any person or group, sexually explicit, false, inaccurate,
+                    and will not post, send, publish, upload, or transmit through the Services any
+                    Submission<bdt class="block-component"></bdt> that is illegal, harassing,
+                    hateful, harmful, defamatory, obscene, bullying, abusive, discriminatory,
+                    threatening to any person or group, sexually explicit, false, inaccurate,
                     deceitful, or misleading;</span
                   >
                 </li>
-                <li
-                  class="MsoNormal"
-                  data-custom-class="body_text"
-                  style="line-height: 1.5"
-                >
+                <li class="MsoNormal" data-custom-class="body_text" style="line-height: 1.5">
                   <span style="font-size: 15px"
-                    >to the extent permissible by applicable law, waive any and
-                    all moral rights to any such Submission<bdt
-                      class="block-component"
-                    ></bdt
-                    >;</span
+                    >to the extent permissible by applicable law, waive any and all moral rights to
+                    any such Submission<bdt class="block-component"></bdt>;</span
                   >
                 </li>
-                <li
-                  class="MsoNormal"
-                  data-custom-class="body_text"
-                  style="line-height: 1.5"
-                >
+                <li class="MsoNormal" data-custom-class="body_text" style="line-height: 1.5">
                   <span style="font-size: 15px"
-                    >warrant that any such Submission<bdt
-                      class="block-component"
-                    ></bdt>
-                    are original to you or that you have the necessary rights
-                    and <bdt class="block-component"></bdt>licenses<bdt
+                    >warrant that any such Submission<bdt class="block-component"></bdt> are
+                    original to you or that you have the necessary rights and
+                    <bdt class="block-component"></bdt>licenses<bdt
                       class="statement-end-if-in-editor"
                     ></bdt>
-                    to submit such Submissions<bdt
-                      class="block-component"
-                    ></bdt>
-                    and that you have full authority to grant us the
-                    above-mentioned rights in relation to your Submissions<bdt
-                      class="block-component"
-                    ></bdt
-                    >; and</span
+                    to submit such Submissions<bdt class="block-component"></bdt> and that you have
+                    full authority to grant us the above-mentioned rights in relation to your
+                    Submissions<bdt class="block-component"></bdt>; and</span
                   >
                 </li>
-                <li
-                  class="MsoNormal"
-                  data-custom-class="body_text"
-                  style="line-height: 1.5"
-                >
+                <li class="MsoNormal" data-custom-class="body_text" style="line-height: 1.5">
                   <span style="font-size: 15px"
-                    >warrant and represent that your Submissions<bdt
-                      class="block-component"
-                    ></bdt>
+                    >warrant and represent that your Submissions<bdt class="block-component"></bdt>
                     do not constitute confidential information.</span
                   >
                 </li>
               </ul>
-              <div
-                class="MsoNormal"
-                data-custom-class="body_text"
-                style="line-height: 1.5"
-              >
-                You are solely responsible for your Submissions<bdt
-                  class="block-component"
-                ></bdt>
-                and you expressly agree to reimburse us for any and all losses
-                that we may suffer because of your breach of (a) this section,
-                (b) any third party’s intellectual property rights, or (c)
-                applicable law.<bdt class="block-component"></bdt
+              <div class="MsoNormal" data-custom-class="body_text" style="line-height: 1.5">
+                You are solely responsible for your Submissions<bdt class="block-component"></bdt>
+                and you expressly agree to reimburse us for any and all losses that we may suffer
+                because of your breach of (a) this section, (b) any third party’s intellectual
+                property rights, or (c) applicable law.<bdt class="block-component"></bdt
                 ><bdt class="block-component"></bdt>
               </div>
               <div class="MsoNormal" style="line-height: 1.5"><br /></div>
@@ -1012,33 +770,13 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
               >
                 <a name="_5hg7kgyv9l8z"></a
                 ><strong
-                  ><span
-                    style="
-                      line-height: 115%;
-                      font-family: Arial;
-                      font-size: 19px;
-                    "
+                  ><span style="line-height: 115%; font-family: Arial; font-size: 19px"
                     ><strong
-                      ><span
-                        style="
-                          line-height: 115%;
-                          font-family: Arial;
-                          font-size: 19px;
-                        "
+                      ><span style="line-height: 115%; font-family: Arial; font-size: 19px"
                         ><strong
-                          ><span
-                            style="
-                              line-height: 115%;
-                              font-family: Arial;
-                              font-size: 19px;
-                            "
+                          ><span style="line-height: 115%; font-family: Arial; font-size: 19px"
                             ><strong
-                              ><span
-                                style="
-                                  line-height: 115%;
-                                  font-family: Arial;
-                                  font-size: 19px;
-                                "
+                              ><span style="line-height: 115%; font-family: Arial; font-size: 19px"
                                 >3.</span
                               ></strong
                             ></span
@@ -1052,11 +790,7 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
             </div>
             <div align="center" style="line-height: 1.5"><br /></div>
             <div align="center" style="text-align: left">
-              <div
-                class="MsoNormal"
-                data-custom-class="body_text"
-                style="line-height: 1.5"
-              >
+              <div class="MsoNormal" data-custom-class="body_text" style="line-height: 1.5">
                 <span
                   style="font-size:11.0pt;line-height:115%;font-family:Arial;
 Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
@@ -1073,11 +807,10 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                     ></bdt
                     >&nbsp;</bdt
                   ><span style="color: rgb(89, 89, 89); font-size: 11pt">(</span
-                  ><span style="color: rgb(89, 89, 89); font-size: 14.6667px"
-                    >1</span
+                  ><span style="color: rgb(89, 89, 89); font-size: 14.6667px">1</span
                   ><span style="color: rgb(89, 89, 89); font-size: 11pt"
-                    >) you have the legal capacity and you agree to comply with
-                    these Legal Terms;</span
+                    >) you have the legal capacity and you agree to comply with these Legal
+                    Terms;</span
                   ><bdt
                     class="block-container if"
                     data-type="if"
@@ -1089,13 +822,10 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                         data-type="statement"
                       ></bdt
                       >&nbsp;</bdt
+                    ><span style="color: rgb(89, 89, 89); font-size: 11pt">(</span
+                    ><span style="color: rgb(89, 89, 89); font-size: 14.6667px">2</span
                     ><span style="color: rgb(89, 89, 89); font-size: 11pt"
-                      >(</span
-                    ><span style="color: rgb(89, 89, 89); font-size: 14.6667px"
-                      >2</span
-                    ><span style="color: rgb(89, 89, 89); font-size: 11pt"
-                      >) you are not a minor in the jurisdiction in which you
-                      reside<bdt
+                      >) you are not a minor in the jurisdiction in which you reside<bdt
                         class="block-container if"
                         data-type="if"
                         id="76948fab-ec9e-266a-bb91-948929c050c9"
@@ -1107,110 +837,69 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                           ></bdt></bdt
                         >; (</bdt
                       ></span
-                    ><span style="color: rgb(89, 89, 89); font-size: 14.6667px"
-                      >3</span
+                    ><span style="color: rgb(89, 89, 89); font-size: 14.6667px">3</span
                     ><span style="color: rgb(89, 89, 89); font-size: 11pt"
-                      >) you will not access the Services through automated or
-                      non-human means, whether through a bot, script or
-                      otherwise; (</span
-                    ><span style="color: rgb(89, 89, 89); font-size: 14.6667px"
-                      >4</span
+                      >) you will not access the Services through automated or non-human means,
+                      whether through a bot, script or otherwise; (</span
+                    ><span style="color: rgb(89, 89, 89); font-size: 14.6667px">4</span
                     ><span style="color: rgb(89, 89, 89); font-size: 11pt"
                       >) you will not use the Services for any illegal or
                       <bdt class="block-component"></bdt>unauthorized<bdt
                         class="statement-end-if-in-editor"
                       ></bdt>
                       purpose; and (</span
-                    ><span style="color: rgb(89, 89, 89); font-size: 14.6667px"
-                      >5</span
+                    ><span style="color: rgb(89, 89, 89); font-size: 14.6667px">5</span
                     ><span style="color: rgb(89, 89, 89); font-size: 11pt"
-                      >) your use of the Services will not violate any
-                      applicable law or regulation.</span
-                    ><span
-                      style="color: rgb(89, 89, 89); font-size: 14.6667px"
-                    ></span></bdt
+                      >) your use of the Services will not violate any applicable law or
+                      regulation.</span
+                    ><span style="color: rgb(89, 89, 89); font-size: 14.6667px"></span></bdt
                 ></bdt>
               </div>
             </div>
             <div align="center" style="line-height: 1.5"><br /></div>
             <div align="center" style="text-align: left">
-              <div
-                class="MsoNormal"
-                style="text-align: justify; line-height: 115%"
-              >
+              <div class="MsoNormal" style="text-align: justify; line-height: 115%">
                 <div class="MsoNormal" style="line-height: 17.25px">
                   <div
                     class="MsoNormal"
                     data-custom-class="body_text"
                     style="line-height: 1.5; text-align: left"
                   >
-                    <span
-                      style="
-                        font-size: 11pt;
-                        line-height: 16.8667px;
-                        color: rgb(89, 89, 89);
-                      "
-                      >If you provide any information that is untrue,
-                      inaccurate, not current, or incomplete, we have the right
-                      to suspend or terminate your account and refuse any and
-                      all current or future use of the Services (or any portion
+                    <span style="font-size: 11pt; line-height: 16.8667px; color: rgb(89, 89, 89)"
+                      >If you provide any information that is untrue, inaccurate, not current, or
+                      incomplete, we have the right to suspend or terminate your account and refuse
+                      any and all current or future use of the Services (or any portion
                       thereof).</span
                     >
                   </div>
-                  <div
-                    class="MsoNormal"
-                    style="line-height: 1.1; text-align: left"
-                  >
+                  <div class="MsoNormal" style="line-height: 1.1; text-align: left">
                     <bdt class="block-component"></bdt>
                   </div>
                 </div>
-                <div
-                  class="MsoNormal"
-                  style="line-height: 1.5; text-align: left"
-                >
-                  <bdt class="block-component"
-                    ><span style="font-size: 15px"></span></bdt
+                <div class="MsoNormal" style="line-height: 1.5; text-align: left">
+                  <bdt class="block-component"><span style="font-size: 15px"></span></bdt
                   ><span style="font-size: 15px"
                     ><bdt class="block-component"></bdt
                     ><bdt class="statement-end-if-in-editor"></bdt
                   ></span>
                 </div>
-                <div
-                  class="MsoNormal"
-                  style="line-height: 1.5; text-align: left"
-                >
-                  <bdt class="block-component"
-                    ><span style="font-size: 15px"></span
-                  ></bdt>
+                <div class="MsoNormal" style="line-height: 1.5; text-align: left">
+                  <bdt class="block-component"><span style="font-size: 15px"></span></bdt>
                 </div>
                 <div class="MsoNormal" style="line-height: 1.5">
-                  <bdt class="block-component"
-                    ><span style="font-size: 15px"></span></bdt
-                  ><bdt class="block-component"
-                    ><span style="font-size: 15px"></span
-                  ></bdt>
+                  <bdt class="block-component"><span style="font-size: 15px"></span></bdt
+                  ><bdt class="block-component"><span style="font-size: 15px"></span></bdt>
                 </div>
                 <div class="MsoNormal" style="line-height: 1.5">
                   <bdt class="block-component"></bdt>
                 </div>
-                <div
-                  class="MsoNormal"
-                  style="text-align: justify; line-height: 1.5"
-                >
-                  <span
-                    style="
-                      line-height: 115%;
-                      font-family: Arial;
-                      color: rgb(89, 89, 89);
-                    "
+                <div class="MsoNormal" style="text-align: justify; line-height: 1.5">
+                  <span style="line-height: 115%; font-family: Arial; color: rgb(89, 89, 89)"
                     ><bdt
                       data-type="conditional-block"
                       style="color: rgb(10, 54, 90); text-align: left"
                       ><bdt data-type="body"
-                        ><div
-                          class="MsoNormal"
-                          style="font-size: 15px; line-height: 1.5"
-                        >
+                        ><div class="MsoNormal" style="font-size: 15px; line-height: 1.5">
                           <br /></div></bdt></bdt
                   ></span>
                   <div
@@ -1222,26 +911,12 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                     <strong
                       ><span style="line-height: 24.5333px; font-size: 19px"
                         ><strong
-                          ><span
-                            style="
-                              line-height: 115%;
-                              font-family: Arial;
-                              font-size: 19px;
-                            "
+                          ><span style="line-height: 115%; font-family: Arial; font-size: 19px"
                             ><strong
-                              ><span
-                                style="
-                                  line-height: 115%;
-                                  font-family: Arial;
-                                  font-size: 19px;
-                                "
+                              ><span style="line-height: 115%; font-family: Arial; font-size: 19px"
                                 ><strong
                                   ><span
-                                    style="
-                                      line-height: 115%;
-                                      font-family: Arial;
-                                      font-size: 19px;
-                                    "
+                                    style="line-height: 115%; font-family: Arial; font-size: 19px"
                                     >4.</span
                                   ></strong
                                 ></span
@@ -1254,38 +929,25 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                   </div>
                 </div>
                 <div class="MsoNormal" style="line-height: 1.5"><br /></div>
-                <div
-                  class="MsoNormal"
-                  style="text-align: justify; line-height: 1"
-                >
+                <div class="MsoNormal" style="text-align: justify; line-height: 1">
                   <div
                     class="MsoNormal"
                     data-custom-class="body_text"
                     style="line-height: 1.5; text-align: left"
                   >
-                    <span
-                      style="
-                        font-size: 11pt;
-                        line-height: 16.8667px;
-                        color: rgb(89, 89, 89);
-                      "
-                      >You may not access or use the Services for any purpose
-                      other than that for which we make the Services available.
-                      The Services may not be used in connection with any
-                      commercial
+                    <span style="font-size: 11pt; line-height: 16.8667px; color: rgb(89, 89, 89)"
+                      >You may not access or use the Services for any purpose other than that for
+                      which we make the Services available. The Services may not be used in
+                      connection with any commercial
                       <bdt class="block-component"></bdt>endeavors<bdt
                         class="statement-end-if-in-editor"
                       ></bdt>
-                      except those that are specifically endorsed or approved by
-                      us.</span
+                      except those that are specifically endorsed or approved by us.</span
                     >
                   </div>
                 </div>
                 <div class="MsoNormal" style="line-height: 1.5"><br /></div>
-                <div
-                  class="MsoNormal"
-                  style="text-align: justify; line-height: 1"
-                >
+                <div class="MsoNormal" style="text-align: justify; line-height: 1">
                   <div class="MsoNormal" style="line-height: 17.25px">
                     <div class="MsoNormal" style="line-height: 1.1">
                       <div class="MsoNormal" style="line-height: 17.25px">
@@ -1295,11 +957,7 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                           style="line-height: 1.5; text-align: left"
                         >
                           <span
-                            style="
-                              font-size: 11pt;
-                              line-height: 16.8667px;
-                              color: rgb(89, 89, 89);
-                            "
+                            style="font-size: 11pt; line-height: 16.8667px; color: rgb(89, 89, 89)"
                             >As a user of the Services, you agree not to:</span
                           >
                         </div>
@@ -1311,11 +969,7 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                           style="line-height: 1.5; text-align: left"
                         >
                           <span
-                            style="
-                              font-size: 11pt;
-                              line-height: 16.8667px;
-                              color: rgb(89, 89, 89);
-                            "
+                            style="font-size: 11pt; line-height: 16.8667px; color: rgb(89, 89, 89)"
                             ><span
                               style="
                                 font-family: sans-serif;
@@ -1338,11 +992,9 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                                 text-decoration-color: initial;
                                 color: rgb(89, 89, 89);
                               "
-                              >Systematically retrieve data or other content
-                              from the Services to create or compile, directly
-                              or indirectly, a collection, compilation,
-                              database, or directory without written permission
-                              from us.</span
+                              >Systematically retrieve data or other content from the Services to
+                              create or compile, directly or indirectly, a collection, compilation,
+                              database, or directory without written permission from us.</span
                             ></span
                           >
                         </li>
@@ -1352,11 +1004,7 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                           style="line-height: 1.5; text-align: left"
                         >
                           <span style="font-size: 15px"
-                            ><span
-                              style="
-                                line-height: 16.8667px;
-                                color: rgb(89, 89, 89);
-                              "
+                            ><span style="line-height: 16.8667px; color: rgb(89, 89, 89)"
                               ><span
                                 style="
                                   font-family: sans-serif;
@@ -1378,11 +1026,7 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                                   text-decoration-color: initial;
                                   color: rgb(89, 89, 89);
                                 "
-                                ><span
-                                  style="
-                                    line-height: 16.8667px;
-                                    color: rgb(89, 89, 89);
-                                  "
+                                ><span style="line-height: 16.8667px; color: rgb(89, 89, 89)"
                                   ><span
                                     style="
                                       font-family: sans-serif;
@@ -1404,9 +1048,8 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                                       text-decoration-color: initial;
                                       color: rgb(89, 89, 89);
                                     "
-                                    >Trick, defraud, or mislead us and other
-                                    users, especially in any attempt to learn
-                                    sensitive account information such as user
+                                    >Trick, defraud, or mislead us and other users, especially in
+                                    any attempt to learn sensitive account information such as user
                                     passwords.</span
                                   ></span
                                 ></span
@@ -1420,11 +1063,7 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                           style="line-height: 1.5; text-align: left"
                         >
                           <span style="font-size: 15px"
-                            ><span
-                              style="
-                                line-height: 16.8667px;
-                                color: rgb(89, 89, 89);
-                              "
+                            ><span style="line-height: 16.8667px; color: rgb(89, 89, 89)"
                               ><span
                                 style="
                                   font-family: sans-serif;
@@ -1446,11 +1085,7 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                                   text-decoration-color: initial;
                                   color: rgb(89, 89, 89);
                                 "
-                                ><span
-                                  style="
-                                    line-height: 16.8667px;
-                                    color: rgb(89, 89, 89);
-                                  "
+                                ><span style="line-height: 16.8667px; color: rgb(89, 89, 89)"
                                   ><span
                                     style="
                                       font-family: sans-serif;
@@ -1472,13 +1107,11 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                                       text-decoration-color: initial;
                                       color: rgb(89, 89, 89);
                                     "
-                                    >Circumvent, disable, or otherwise interfere
-                                    with security-related features of the
-                                    Services, including features that prevent or
-                                    restrict the use or copying of any Content
-                                    or enforce limitations on the use of the
-                                    Services and/or the Content contained
-                                    therein.</span
+                                    >Circumvent, disable, or otherwise interfere with
+                                    security-related features of the Services, including features
+                                    that prevent or restrict the use or copying of any Content or
+                                    enforce limitations on the use of the Services and/or the
+                                    Content contained therein.</span
                                   ></span
                                 ></span
                               ></span
@@ -1491,11 +1124,7 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                           style="line-height: 1.5; text-align: left"
                         >
                           <span style="font-size: 15px"
-                            ><span
-                              style="
-                                line-height: 16.8667px;
-                                color: rgb(89, 89, 89);
-                              "
+                            ><span style="line-height: 16.8667px; color: rgb(89, 89, 89)"
                               ><span
                                 style="
                                   font-family: sans-serif;
@@ -1517,11 +1146,7 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                                   text-decoration-color: initial;
                                   color: rgb(89, 89, 89);
                                 "
-                                ><span
-                                  style="
-                                    line-height: 16.8667px;
-                                    color: rgb(89, 89, 89);
-                                  "
+                                ><span style="line-height: 16.8667px; color: rgb(89, 89, 89)"
                                   ><span
                                     style="
                                       font-family: sans-serif;
@@ -1543,8 +1168,8 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                                       text-decoration-color: initial;
                                       color: rgb(89, 89, 89);
                                     "
-                                    >Disparage, tarnish, or otherwise harm, in
-                                    our opinion, us and/or the Services.</span
+                                    >Disparage, tarnish, or otherwise harm, in our opinion, us
+                                    and/or the Services.</span
                                   ></span
                                 ></span
                               ></span
@@ -1557,11 +1182,7 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                           style="line-height: 1.5; text-align: left"
                         >
                           <span style="font-size: 15px"
-                            ><span
-                              style="
-                                line-height: 16.8667px;
-                                color: rgb(89, 89, 89);
-                              "
+                            ><span style="line-height: 16.8667px; color: rgb(89, 89, 89)"
                               ><span
                                 style="
                                   font-family: sans-serif;
@@ -1583,11 +1204,7 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                                   text-decoration-color: initial;
                                   color: rgb(89, 89, 89);
                                 "
-                                ><span
-                                  style="
-                                    line-height: 16.8667px;
-                                    color: rgb(89, 89, 89);
-                                  "
+                                ><span style="line-height: 16.8667px; color: rgb(89, 89, 89)"
                                   ><span
                                     style="
                                       font-family: sans-serif;
@@ -1609,9 +1226,8 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                                       text-decoration-color: initial;
                                       color: rgb(89, 89, 89);
                                     "
-                                    >Use any information obtained from the
-                                    Services in order to harass, abuse, or harm
-                                    another person.</span
+                                    >Use any information obtained from the Services in order to
+                                    harass, abuse, or harm another person.</span
                                   ></span
                                 ></span
                               ></span
@@ -1624,11 +1240,7 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                           style="line-height: 1.5; text-align: left"
                         >
                           <span style="font-size: 15px"
-                            ><span
-                              style="
-                                line-height: 16.8667px;
-                                color: rgb(89, 89, 89);
-                              "
+                            ><span style="line-height: 16.8667px; color: rgb(89, 89, 89)"
                               ><span
                                 style="
                                   font-family: sans-serif;
@@ -1650,11 +1262,7 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                                   text-decoration-color: initial;
                                   color: rgb(89, 89, 89);
                                 "
-                                ><span
-                                  style="
-                                    line-height: 16.8667px;
-                                    color: rgb(89, 89, 89);
-                                  "
+                                ><span style="line-height: 16.8667px; color: rgb(89, 89, 89)"
                                   ><span
                                     style="
                                       font-family: sans-serif;
@@ -1676,9 +1284,8 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                                       text-decoration-color: initial;
                                       color: rgb(89, 89, 89);
                                     "
-                                    >Make improper use of our support services
-                                    or submit false reports of abuse or
-                                    misconduct.</span
+                                    >Make improper use of our support services or submit false
+                                    reports of abuse or misconduct.</span
                                   ></span
                                 ></span
                               ></span
@@ -1691,11 +1298,7 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                           style="line-height: 1.5; text-align: left"
                         >
                           <span style="font-size: 15px"
-                            ><span
-                              style="
-                                line-height: 16.8667px;
-                                color: rgb(89, 89, 89);
-                              "
+                            ><span style="line-height: 16.8667px; color: rgb(89, 89, 89)"
                               ><span
                                 style="
                                   font-family: sans-serif;
@@ -1717,11 +1320,7 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                                   text-decoration-color: initial;
                                   color: rgb(89, 89, 89);
                                 "
-                                ><span
-                                  style="
-                                    line-height: 16.8667px;
-                                    color: rgb(89, 89, 89);
-                                  "
+                                ><span style="line-height: 16.8667px; color: rgb(89, 89, 89)"
                                   ><span
                                     style="
                                       font-family: sans-serif;
@@ -1743,9 +1342,8 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                                       text-decoration-color: initial;
                                       color: rgb(89, 89, 89);
                                     "
-                                    >Use the Services in a manner inconsistent
-                                    with any applicable laws or
-                                    regulations.</span
+                                    >Use the Services in a manner inconsistent with any applicable
+                                    laws or regulations.</span
                                   ></span
                                 ></span
                               ></span
@@ -1758,11 +1356,7 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                           style="line-height: 1.5; text-align: left"
                         >
                           <span style="font-size: 15px"
-                            ><span
-                              style="
-                                line-height: 16.8667px;
-                                color: rgb(89, 89, 89);
-                              "
+                            ><span style="line-height: 16.8667px; color: rgb(89, 89, 89)"
                               ><span
                                 style="
                                   font-family: sans-serif;
@@ -1784,11 +1378,7 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                                   text-decoration-color: initial;
                                   color: rgb(89, 89, 89);
                                 "
-                                ><span
-                                  style="
-                                    line-height: 16.8667px;
-                                    color: rgb(89, 89, 89);
-                                  "
+                                ><span style="line-height: 16.8667px; color: rgb(89, 89, 89)"
                                   ><span
                                     style="
                                       font-family: sans-serif;
@@ -1810,9 +1400,7 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                                       text-decoration-color: initial;
                                       color: rgb(89, 89, 89);
                                     "
-                                    >Engage in
-                                    <bdt class="block-component"></bdt
-                                    >unauthorized<bdt
+                                    >Engage in <bdt class="block-component"></bdt>unauthorized<bdt
                                       class="statement-end-if-in-editor"
                                     ></bdt>
                                     framing of or linking to the Services.</span
@@ -1828,11 +1416,7 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                           style="line-height: 1.5; text-align: left"
                         >
                           <span style="font-size: 15px"
-                            ><span
-                              style="
-                                line-height: 16.8667px;
-                                color: rgb(89, 89, 89);
-                              "
+                            ><span style="line-height: 16.8667px; color: rgb(89, 89, 89)"
                               ><span
                                 style="
                                   font-family: sans-serif;
@@ -1854,11 +1438,7 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                                   text-decoration-color: initial;
                                   color: rgb(89, 89, 89);
                                 "
-                                ><span
-                                  style="
-                                    line-height: 16.8667px;
-                                    color: rgb(89, 89, 89);
-                                  "
+                                ><span style="line-height: 16.8667px; color: rgb(89, 89, 89)"
                                   ><span
                                     style="
                                       font-family: sans-serif;
@@ -1880,17 +1460,13 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                                       text-decoration-color: initial;
                                       color: rgb(89, 89, 89);
                                     "
-                                    >Upload or transmit (or attempt to upload or
-                                    to transmit) viruses, Trojan horses, or
-                                    other material, including excessive use of
-                                    capital letters and spamming (continuous
-                                    posting of repetitive text), that interferes
-                                    with any party’s uninterrupted use and
-                                    enjoyment of the Services or modifies,
-                                    impairs, disrupts, alters, or interferes
-                                    with the use, features, functions,
-                                    operation, or maintenance of the
-                                    Services.</span
+                                    >Upload or transmit (or attempt to upload or to transmit)
+                                    viruses, Trojan horses, or other material, including excessive
+                                    use of capital letters and spamming (continuous posting of
+                                    repetitive text), that interferes with any party’s uninterrupted
+                                    use and enjoyment of the Services or modifies, impairs,
+                                    disrupts, alters, or interferes with the use, features,
+                                    functions, operation, or maintenance of the Services.</span
                                   ></span
                                 ></span
                               ></span
@@ -1903,11 +1479,7 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                           style="line-height: 1.5; text-align: left"
                         >
                           <span style="font-size: 15px"
-                            ><span
-                              style="
-                                line-height: 16.8667px;
-                                color: rgb(89, 89, 89);
-                              "
+                            ><span style="line-height: 16.8667px; color: rgb(89, 89, 89)"
                               ><span
                                 style="
                                   font-family: sans-serif;
@@ -1929,11 +1501,7 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                                   text-decoration-color: initial;
                                   color: rgb(89, 89, 89);
                                 "
-                                ><span
-                                  style="
-                                    line-height: 16.8667px;
-                                    color: rgb(89, 89, 89);
-                                  "
+                                ><span style="line-height: 16.8667px; color: rgb(89, 89, 89)"
                                   ><span
                                     style="
                                       font-family: sans-serif;
@@ -1955,11 +1523,9 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                                       text-decoration-color: initial;
                                       color: rgb(89, 89, 89);
                                     "
-                                    >Engage in any automated use of the system,
-                                    such as using scripts to send comments or
-                                    messages, or using any data mining, robots,
-                                    or similar data gathering and extraction
-                                    tools.</span
+                                    >Engage in any automated use of the system, such as using
+                                    scripts to send comments or messages, or using any data mining,
+                                    robots, or similar data gathering and extraction tools.</span
                                   ></span
                                 ></span
                               ></span
@@ -1972,11 +1538,7 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                           style="line-height: 1.5; text-align: left"
                         >
                           <span style="font-size: 15px"
-                            ><span
-                              style="
-                                line-height: 16.8667px;
-                                color: rgb(89, 89, 89);
-                              "
+                            ><span style="line-height: 16.8667px; color: rgb(89, 89, 89)"
                               ><span
                                 style="
                                   font-family: sans-serif;
@@ -1998,11 +1560,7 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                                   text-decoration-color: initial;
                                   color: rgb(89, 89, 89);
                                 "
-                                ><span
-                                  style="
-                                    line-height: 16.8667px;
-                                    color: rgb(89, 89, 89);
-                                  "
+                                ><span style="line-height: 16.8667px; color: rgb(89, 89, 89)"
                                   ><span
                                     style="
                                       font-family: sans-serif;
@@ -2024,8 +1582,8 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                                       text-decoration-color: initial;
                                       color: rgb(89, 89, 89);
                                     "
-                                    >Delete the copyright or other proprietary
-                                    rights notice from any Content.</span
+                                    >Delete the copyright or other proprietary rights notice from
+                                    any Content.</span
                                   ></span
                                 ></span
                               ></span
@@ -2038,11 +1596,7 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                           style="line-height: 1.5; text-align: left"
                         >
                           <span style="font-size: 15px"
-                            ><span
-                              style="
-                                line-height: 16.8667px;
-                                color: rgb(89, 89, 89);
-                              "
+                            ><span style="line-height: 16.8667px; color: rgb(89, 89, 89)"
                               ><span
                                 style="
                                   font-family: sans-serif;
@@ -2064,11 +1618,7 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                                   text-decoration-color: initial;
                                   color: rgb(89, 89, 89);
                                 "
-                                ><span
-                                  style="
-                                    line-height: 16.8667px;
-                                    color: rgb(89, 89, 89);
-                                  "
+                                ><span style="line-height: 16.8667px; color: rgb(89, 89, 89)"
                                   ><span
                                     style="
                                       font-family: sans-serif;
@@ -2090,9 +1640,8 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                                       text-decoration-color: initial;
                                       color: rgb(89, 89, 89);
                                     "
-                                    >Attempt to impersonate another user or
-                                    person or use the username of another
-                                    user.</span
+                                    >Attempt to impersonate another user or person or use the
+                                    username of another user.</span
                                   ></span
                                 ></span
                               ></span
@@ -2105,11 +1654,7 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                           style="line-height: 1.5; text-align: left"
                         >
                           <span style="font-size: 15px"
-                            ><span
-                              style="
-                                line-height: 16.8667px;
-                                color: rgb(89, 89, 89);
-                              "
+                            ><span style="line-height: 16.8667px; color: rgb(89, 89, 89)"
                               ><span
                                 style="
                                   font-family: sans-serif;
@@ -2131,11 +1676,7 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                                   text-decoration-color: initial;
                                   color: rgb(89, 89, 89);
                                 "
-                                ><span
-                                  style="
-                                    line-height: 16.8667px;
-                                    color: rgb(89, 89, 89);
-                                  "
+                                ><span style="line-height: 16.8667px; color: rgb(89, 89, 89)"
                                   ><span
                                     style="
                                       font-family: sans-serif;
@@ -2157,20 +1698,14 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                                       text-decoration-color: initial;
                                       color: rgb(89, 89, 89);
                                     "
-                                    >Upload or transmit (or attempt to upload or
-                                    to transmit) any material that acts as a
-                                    passive or active information collection or
-                                    transmission mechanism, including without
-                                    limitation, clear graphics interchange
-                                    formats (<bdt class="block-component"></bdt
-                                    >"gifs"<bdt
-                                      class="statement-end-if-in-editor"
-                                    ></bdt
-                                    >), 1×1 pixels, web bugs, cookies, or other
-                                    similar devices (sometimes referred to as
-                                    <bdt class="block-component"></bdt>"spyware"
-                                    or "passive collection mechanisms" or
-                                    "pcms"<bdt
+                                    >Upload or transmit (or attempt to upload or to transmit) any
+                                    material that acts as a passive or active information collection
+                                    or transmission mechanism, including without limitation, clear
+                                    graphics interchange formats (<bdt class="block-component"></bdt
+                                    >"gifs"<bdt class="statement-end-if-in-editor"></bdt>), 1×1
+                                    pixels, web bugs, cookies, or other similar devices (sometimes
+                                    referred to as <bdt class="block-component"></bdt>"spyware" or
+                                    "passive collection mechanisms" or "pcms"<bdt
                                       class="statement-end-if-in-editor"
                                     ></bdt
                                     >).</span
@@ -2186,11 +1721,7 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                           style="line-height: 1.5; text-align: left"
                         >
                           <span style="font-size: 15px"
-                            ><span
-                              style="
-                                line-height: 16.8667px;
-                                color: rgb(89, 89, 89);
-                              "
+                            ><span style="line-height: 16.8667px; color: rgb(89, 89, 89)"
                               ><span
                                 style="
                                   font-family: sans-serif;
@@ -2212,11 +1743,7 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                                   text-decoration-color: initial;
                                   color: rgb(89, 89, 89);
                                 "
-                                ><span
-                                  style="
-                                    line-height: 16.8667px;
-                                    color: rgb(89, 89, 89);
-                                  "
+                                ><span style="line-height: 16.8667px; color: rgb(89, 89, 89)"
                                   ><span
                                     style="
                                       font-family: sans-serif;
@@ -2238,280 +1765,8 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                                       text-decoration-color: initial;
                                       color: rgb(89, 89, 89);
                                     "
-                                    >Interfere with, disrupt, or create an undue
-                                    burden on the Services or the networks or
-                                    services connected to the Services.</span
-                                  ></span
-                                ></span
-                              ></span
-                            ></span
-                          >
-                        </li>
-                        <li
-                          class="MsoNormal"
-                          data-custom-class="body_text"
-                          style="line-height: 1.5; text-align: left"
-                        >
-                          <span style="font-size: 15px"
-                            ><span
-                              style="
-                                line-height: 16.8667px;
-                                color: rgb(89, 89, 89);
-                              "
-                              ><span
-                                style="
-                                  font-family: sans-serif;
-                                  font-style: normal;
-                                  font-variant-ligatures: normal;
-                                  font-variant-caps: normal;
-                                  font-weight: 400;
-                                  letter-spacing: normal;
-                                  orphans: 2;
-                                  text-align: justify;
-                                  text-indent: -29.4px;
-                                  text-transform: none;
-                                  white-space: normal;
-                                  widows: 2;
-                                  word-spacing: 0px;
-                                  -webkit-text-stroke-width: 0px;
-                                  background-color: rgb(255, 255, 255);
-                                  text-decoration-style: initial;
-                                  text-decoration-color: initial;
-                                  color: rgb(89, 89, 89);
-                                "
-                                ><span
-                                  style="
-                                    line-height: 16.8667px;
-                                    color: rgb(89, 89, 89);
-                                  "
-                                  ><span
-                                    style="
-                                      font-family: sans-serif;
-                                      font-style: normal;
-                                      font-variant-ligatures: normal;
-                                      font-variant-caps: normal;
-                                      font-weight: 400;
-                                      letter-spacing: normal;
-                                      orphans: 2;
-                                      text-align: justify;
-                                      text-indent: -29.4px;
-                                      text-transform: none;
-                                      white-space: normal;
-                                      widows: 2;
-                                      word-spacing: 0px;
-                                      -webkit-text-stroke-width: 0px;
-                                      background-color: rgb(255, 255, 255);
-                                      text-decoration-style: initial;
-                                      text-decoration-color: initial;
-                                      color: rgb(89, 89, 89);
-                                    "
-                                    >Harass, annoy, intimidate, or threaten any
-                                    of our employees or agents engaged in
-                                    providing any portion of the Services to
-                                    you.</span
-                                  ></span
-                                ></span
-                              ></span
-                            ></span
-                          >
-                        </li>
-                        <li
-                          class="MsoNormal"
-                          data-custom-class="body_text"
-                          style="line-height: 1.5; text-align: left"
-                        >
-                          <span style="font-size: 15px"
-                            ><span
-                              style="
-                                line-height: 16.8667px;
-                                color: rgb(89, 89, 89);
-                              "
-                              ><span
-                                style="
-                                  font-family: sans-serif;
-                                  font-style: normal;
-                                  font-variant-ligatures: normal;
-                                  font-variant-caps: normal;
-                                  font-weight: 400;
-                                  letter-spacing: normal;
-                                  orphans: 2;
-                                  text-align: justify;
-                                  text-indent: -29.4px;
-                                  text-transform: none;
-                                  white-space: normal;
-                                  widows: 2;
-                                  word-spacing: 0px;
-                                  -webkit-text-stroke-width: 0px;
-                                  background-color: rgb(255, 255, 255);
-                                  text-decoration-style: initial;
-                                  text-decoration-color: initial;
-                                  color: rgb(89, 89, 89);
-                                "
-                                ><span
-                                  style="
-                                    line-height: 16.8667px;
-                                    color: rgb(89, 89, 89);
-                                  "
-                                  ><span
-                                    style="
-                                      font-family: sans-serif;
-                                      font-style: normal;
-                                      font-variant-ligatures: normal;
-                                      font-variant-caps: normal;
-                                      font-weight: 400;
-                                      letter-spacing: normal;
-                                      orphans: 2;
-                                      text-align: justify;
-                                      text-indent: -29.4px;
-                                      text-transform: none;
-                                      white-space: normal;
-                                      widows: 2;
-                                      word-spacing: 0px;
-                                      -webkit-text-stroke-width: 0px;
-                                      background-color: rgb(255, 255, 255);
-                                      text-decoration-style: initial;
-                                      text-decoration-color: initial;
-                                      color: rgb(89, 89, 89);
-                                    "
-                                    >Attempt to bypass any measures of the
-                                    Services designed to prevent or restrict
-                                    access to the Services, or any portion of
-                                    the Services.</span
-                                  ></span
-                                ></span
-                              ></span
-                            ></span
-                          >
-                        </li>
-                        <li
-                          class="MsoNormal"
-                          data-custom-class="body_text"
-                          style="line-height: 1.5; text-align: left"
-                        >
-                          <span style="font-size: 15px"
-                            ><span
-                              style="
-                                line-height: 16.8667px;
-                                color: rgb(89, 89, 89);
-                              "
-                              ><span
-                                style="
-                                  font-family: sans-serif;
-                                  font-style: normal;
-                                  font-variant-ligatures: normal;
-                                  font-variant-caps: normal;
-                                  font-weight: 400;
-                                  letter-spacing: normal;
-                                  orphans: 2;
-                                  text-align: justify;
-                                  text-indent: -29.4px;
-                                  text-transform: none;
-                                  white-space: normal;
-                                  widows: 2;
-                                  word-spacing: 0px;
-                                  -webkit-text-stroke-width: 0px;
-                                  background-color: rgb(255, 255, 255);
-                                  text-decoration-style: initial;
-                                  text-decoration-color: initial;
-                                  color: rgb(89, 89, 89);
-                                "
-                                ><span
-                                  style="
-                                    line-height: 16.8667px;
-                                    color: rgb(89, 89, 89);
-                                  "
-                                  ><span
-                                    style="
-                                      font-family: sans-serif;
-                                      font-style: normal;
-                                      font-variant-ligatures: normal;
-                                      font-variant-caps: normal;
-                                      font-weight: 400;
-                                      letter-spacing: normal;
-                                      orphans: 2;
-                                      text-align: justify;
-                                      text-indent: -29.4px;
-                                      text-transform: none;
-                                      white-space: normal;
-                                      widows: 2;
-                                      word-spacing: 0px;
-                                      -webkit-text-stroke-width: 0px;
-                                      background-color: rgb(255, 255, 255);
-                                      text-decoration-style: initial;
-                                      text-decoration-color: initial;
-                                      color: rgb(89, 89, 89);
-                                    "
-                                    >Copy or adapt the Services' software,
-                                    including but not limited to Flash, PHP,
-                                    HTML, JavaScript, or other code.</span
-                                  ></span
-                                ></span
-                              ></span
-                            ></span
-                          >
-                        </li>
-                        <li
-                          class="MsoNormal"
-                          data-custom-class="body_text"
-                          style="line-height: 1.5; text-align: left"
-                        >
-                          <span style="font-size: 15px"
-                            ><span
-                              style="
-                                line-height: 16.8667px;
-                                color: rgb(89, 89, 89);
-                              "
-                              ><span
-                                style="
-                                  font-family: sans-serif;
-                                  font-style: normal;
-                                  font-variant-ligatures: normal;
-                                  font-variant-caps: normal;
-                                  font-weight: 400;
-                                  letter-spacing: normal;
-                                  orphans: 2;
-                                  text-align: justify;
-                                  text-indent: -29.4px;
-                                  text-transform: none;
-                                  white-space: normal;
-                                  widows: 2;
-                                  word-spacing: 0px;
-                                  -webkit-text-stroke-width: 0px;
-                                  background-color: rgb(255, 255, 255);
-                                  text-decoration-style: initial;
-                                  text-decoration-color: initial;
-                                  color: rgb(89, 89, 89);
-                                "
-                                ><span
-                                  style="
-                                    line-height: 16.8667px;
-                                    color: rgb(89, 89, 89);
-                                  "
-                                  ><span
-                                    style="
-                                      font-family: sans-serif;
-                                      font-style: normal;
-                                      font-variant-ligatures: normal;
-                                      font-variant-caps: normal;
-                                      font-weight: 400;
-                                      letter-spacing: normal;
-                                      orphans: 2;
-                                      text-align: justify;
-                                      text-indent: -29.4px;
-                                      text-transform: none;
-                                      white-space: normal;
-                                      widows: 2;
-                                      word-spacing: 0px;
-                                      -webkit-text-stroke-width: 0px;
-                                      background-color: rgb(255, 255, 255);
-                                      text-decoration-style: initial;
-                                      text-decoration-color: initial;
-                                      color: rgb(89, 89, 89);
-                                    "
-                                    >Except as permitted by applicable law,
-                                    decipher, decompile, disassemble, or reverse
-                                    engineer any of the software comprising or
-                                    in any way making up a part of the
+                                    >Interfere with, disrupt, or create an undue burden on the
+                                    Services or the networks or services connected to the
                                     Services.</span
                                   ></span
                                 ></span
@@ -2525,11 +1780,7 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                           style="line-height: 1.5; text-align: left"
                         >
                           <span style="font-size: 15px"
-                            ><span
-                              style="
-                                line-height: 16.8667px;
-                                color: rgb(89, 89, 89);
-                              "
+                            ><span style="line-height: 16.8667px; color: rgb(89, 89, 89)"
                               ><span
                                 style="
                                   font-family: sans-serif;
@@ -2551,11 +1802,7 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                                   text-decoration-color: initial;
                                   color: rgb(89, 89, 89);
                                 "
-                                ><span
-                                  style="
-                                    line-height: 16.8667px;
-                                    color: rgb(89, 89, 89);
-                                  "
+                                ><span style="line-height: 16.8667px; color: rgb(89, 89, 89)"
                                   ><span
                                     style="
                                       font-family: sans-serif;
@@ -2577,15 +1824,247 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                                       text-decoration-color: initial;
                                       color: rgb(89, 89, 89);
                                     "
-                                    >Except as may be the result of standard
-                                    search engine or Internet browser usage,
-                                    use, launch, develop, or distribute any
-                                    automated system, including without
-                                    limitation, any spider, robot, cheat
-                                    utility, scraper, or offline reader that
-                                    accesses the Services, or use or launch any
-                                    <bdt class="block-component"></bdt
-                                    >unauthorized<bdt
+                                    >Harass, annoy, intimidate, or threaten any of our employees or
+                                    agents engaged in providing any portion of the Services to
+                                    you.</span
+                                  ></span
+                                ></span
+                              ></span
+                            ></span
+                          >
+                        </li>
+                        <li
+                          class="MsoNormal"
+                          data-custom-class="body_text"
+                          style="line-height: 1.5; text-align: left"
+                        >
+                          <span style="font-size: 15px"
+                            ><span style="line-height: 16.8667px; color: rgb(89, 89, 89)"
+                              ><span
+                                style="
+                                  font-family: sans-serif;
+                                  font-style: normal;
+                                  font-variant-ligatures: normal;
+                                  font-variant-caps: normal;
+                                  font-weight: 400;
+                                  letter-spacing: normal;
+                                  orphans: 2;
+                                  text-align: justify;
+                                  text-indent: -29.4px;
+                                  text-transform: none;
+                                  white-space: normal;
+                                  widows: 2;
+                                  word-spacing: 0px;
+                                  -webkit-text-stroke-width: 0px;
+                                  background-color: rgb(255, 255, 255);
+                                  text-decoration-style: initial;
+                                  text-decoration-color: initial;
+                                  color: rgb(89, 89, 89);
+                                "
+                                ><span style="line-height: 16.8667px; color: rgb(89, 89, 89)"
+                                  ><span
+                                    style="
+                                      font-family: sans-serif;
+                                      font-style: normal;
+                                      font-variant-ligatures: normal;
+                                      font-variant-caps: normal;
+                                      font-weight: 400;
+                                      letter-spacing: normal;
+                                      orphans: 2;
+                                      text-align: justify;
+                                      text-indent: -29.4px;
+                                      text-transform: none;
+                                      white-space: normal;
+                                      widows: 2;
+                                      word-spacing: 0px;
+                                      -webkit-text-stroke-width: 0px;
+                                      background-color: rgb(255, 255, 255);
+                                      text-decoration-style: initial;
+                                      text-decoration-color: initial;
+                                      color: rgb(89, 89, 89);
+                                    "
+                                    >Attempt to bypass any measures of the Services designed to
+                                    prevent or restrict access to the Services, or any portion of
+                                    the Services.</span
+                                  ></span
+                                ></span
+                              ></span
+                            ></span
+                          >
+                        </li>
+                        <li
+                          class="MsoNormal"
+                          data-custom-class="body_text"
+                          style="line-height: 1.5; text-align: left"
+                        >
+                          <span style="font-size: 15px"
+                            ><span style="line-height: 16.8667px; color: rgb(89, 89, 89)"
+                              ><span
+                                style="
+                                  font-family: sans-serif;
+                                  font-style: normal;
+                                  font-variant-ligatures: normal;
+                                  font-variant-caps: normal;
+                                  font-weight: 400;
+                                  letter-spacing: normal;
+                                  orphans: 2;
+                                  text-align: justify;
+                                  text-indent: -29.4px;
+                                  text-transform: none;
+                                  white-space: normal;
+                                  widows: 2;
+                                  word-spacing: 0px;
+                                  -webkit-text-stroke-width: 0px;
+                                  background-color: rgb(255, 255, 255);
+                                  text-decoration-style: initial;
+                                  text-decoration-color: initial;
+                                  color: rgb(89, 89, 89);
+                                "
+                                ><span style="line-height: 16.8667px; color: rgb(89, 89, 89)"
+                                  ><span
+                                    style="
+                                      font-family: sans-serif;
+                                      font-style: normal;
+                                      font-variant-ligatures: normal;
+                                      font-variant-caps: normal;
+                                      font-weight: 400;
+                                      letter-spacing: normal;
+                                      orphans: 2;
+                                      text-align: justify;
+                                      text-indent: -29.4px;
+                                      text-transform: none;
+                                      white-space: normal;
+                                      widows: 2;
+                                      word-spacing: 0px;
+                                      -webkit-text-stroke-width: 0px;
+                                      background-color: rgb(255, 255, 255);
+                                      text-decoration-style: initial;
+                                      text-decoration-color: initial;
+                                      color: rgb(89, 89, 89);
+                                    "
+                                    >Copy or adapt the Services' software, including but not limited
+                                    to Flash, PHP, HTML, JavaScript, or other code.</span
+                                  ></span
+                                ></span
+                              ></span
+                            ></span
+                          >
+                        </li>
+                        <li
+                          class="MsoNormal"
+                          data-custom-class="body_text"
+                          style="line-height: 1.5; text-align: left"
+                        >
+                          <span style="font-size: 15px"
+                            ><span style="line-height: 16.8667px; color: rgb(89, 89, 89)"
+                              ><span
+                                style="
+                                  font-family: sans-serif;
+                                  font-style: normal;
+                                  font-variant-ligatures: normal;
+                                  font-variant-caps: normal;
+                                  font-weight: 400;
+                                  letter-spacing: normal;
+                                  orphans: 2;
+                                  text-align: justify;
+                                  text-indent: -29.4px;
+                                  text-transform: none;
+                                  white-space: normal;
+                                  widows: 2;
+                                  word-spacing: 0px;
+                                  -webkit-text-stroke-width: 0px;
+                                  background-color: rgb(255, 255, 255);
+                                  text-decoration-style: initial;
+                                  text-decoration-color: initial;
+                                  color: rgb(89, 89, 89);
+                                "
+                                ><span style="line-height: 16.8667px; color: rgb(89, 89, 89)"
+                                  ><span
+                                    style="
+                                      font-family: sans-serif;
+                                      font-style: normal;
+                                      font-variant-ligatures: normal;
+                                      font-variant-caps: normal;
+                                      font-weight: 400;
+                                      letter-spacing: normal;
+                                      orphans: 2;
+                                      text-align: justify;
+                                      text-indent: -29.4px;
+                                      text-transform: none;
+                                      white-space: normal;
+                                      widows: 2;
+                                      word-spacing: 0px;
+                                      -webkit-text-stroke-width: 0px;
+                                      background-color: rgb(255, 255, 255);
+                                      text-decoration-style: initial;
+                                      text-decoration-color: initial;
+                                      color: rgb(89, 89, 89);
+                                    "
+                                    >Except as permitted by applicable law, decipher, decompile,
+                                    disassemble, or reverse engineer any of the software comprising
+                                    or in any way making up a part of the Services.</span
+                                  ></span
+                                ></span
+                              ></span
+                            ></span
+                          >
+                        </li>
+                        <li
+                          class="MsoNormal"
+                          data-custom-class="body_text"
+                          style="line-height: 1.5; text-align: left"
+                        >
+                          <span style="font-size: 15px"
+                            ><span style="line-height: 16.8667px; color: rgb(89, 89, 89)"
+                              ><span
+                                style="
+                                  font-family: sans-serif;
+                                  font-style: normal;
+                                  font-variant-ligatures: normal;
+                                  font-variant-caps: normal;
+                                  font-weight: 400;
+                                  letter-spacing: normal;
+                                  orphans: 2;
+                                  text-align: justify;
+                                  text-indent: -29.4px;
+                                  text-transform: none;
+                                  white-space: normal;
+                                  widows: 2;
+                                  word-spacing: 0px;
+                                  -webkit-text-stroke-width: 0px;
+                                  background-color: rgb(255, 255, 255);
+                                  text-decoration-style: initial;
+                                  text-decoration-color: initial;
+                                  color: rgb(89, 89, 89);
+                                "
+                                ><span style="line-height: 16.8667px; color: rgb(89, 89, 89)"
+                                  ><span
+                                    style="
+                                      font-family: sans-serif;
+                                      font-style: normal;
+                                      font-variant-ligatures: normal;
+                                      font-variant-caps: normal;
+                                      font-weight: 400;
+                                      letter-spacing: normal;
+                                      orphans: 2;
+                                      text-align: justify;
+                                      text-indent: -29.4px;
+                                      text-transform: none;
+                                      white-space: normal;
+                                      widows: 2;
+                                      word-spacing: 0px;
+                                      -webkit-text-stroke-width: 0px;
+                                      background-color: rgb(255, 255, 255);
+                                      text-decoration-style: initial;
+                                      text-decoration-color: initial;
+                                      color: rgb(89, 89, 89);
+                                    "
+                                    >Except as may be the result of standard search engine or
+                                    Internet browser usage, use, launch, develop, or distribute any
+                                    automated system, including without limitation, any spider,
+                                    robot, cheat utility, scraper, or offline reader that accesses
+                                    the Services, or use or launch any
+                                    <bdt class="block-component"></bdt>unauthorized<bdt
                                       class="statement-end-if-in-editor"
                                     ></bdt>
                                     script or other software.</span
@@ -2601,11 +2080,7 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                           style="line-height: 1.5; text-align: left"
                         >
                           <span style="font-size: 15px"
-                            ><span
-                              style="
-                                line-height: 16.8667px;
-                                color: rgb(89, 89, 89);
-                              "
+                            ><span style="line-height: 16.8667px; color: rgb(89, 89, 89)"
                               ><span
                                 style="
                                   font-family: sans-serif;
@@ -2627,11 +2102,7 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                                   text-decoration-color: initial;
                                   color: rgb(89, 89, 89);
                                 "
-                                ><span
-                                  style="
-                                    line-height: 16.8667px;
-                                    color: rgb(89, 89, 89);
-                                  "
+                                ><span style="line-height: 16.8667px; color: rgb(89, 89, 89)"
                                   ><span
                                     style="
                                       font-family: sans-serif;
@@ -2653,8 +2124,8 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                                       text-decoration-color: initial;
                                       color: rgb(89, 89, 89);
                                     "
-                                    >Use a buying agent or purchasing agent to
-                                    make purchases on the Services.</span
+                                    >Use a buying agent or purchasing agent to make purchases on the
+                                    Services.</span
                                   ></span
                                 ></span
                               ></span
@@ -2667,11 +2138,7 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                           style="line-height: 1.5; text-align: left"
                         >
                           <span style="font-size: 15px"
-                            ><span
-                              style="
-                                line-height: 16.8667px;
-                                color: rgb(89, 89, 89);
-                              "
+                            ><span style="line-height: 16.8667px; color: rgb(89, 89, 89)"
                               ><span
                                 style="
                                   font-family: sans-serif;
@@ -2693,11 +2160,7 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                                   text-decoration-color: initial;
                                   color: rgb(89, 89, 89);
                                 "
-                                ><span
-                                  style="
-                                    line-height: 16.8667px;
-                                    color: rgb(89, 89, 89);
-                                  "
+                                ><span style="line-height: 16.8667px; color: rgb(89, 89, 89)"
                                   ><span
                                     style="
                                       font-family: sans-serif;
@@ -2719,18 +2182,14 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                                       text-decoration-color: initial;
                                       color: rgb(89, 89, 89);
                                     "
-                                    >Make any
-                                    <bdt class="block-component"></bdt
-                                    >unauthorized<bdt
+                                    >Make any <bdt class="block-component"></bdt>unauthorized<bdt
                                       class="statement-end-if-in-editor"
                                     ></bdt>
-                                    use of the Services, including collecting
-                                    usernames and/or email addresses of users by
-                                    electronic or other means for the purpose of
-                                    sending unsolicited email, or creating user
-                                    accounts by automated means or under false
-                                    <bdt class="block-component"></bdt
-                                    >pretenses<bdt
+                                    use of the Services, including collecting usernames and/or email
+                                    addresses of users by electronic or other means for the purpose
+                                    of sending unsolicited email, or creating user accounts by
+                                    automated means or under false
+                                    <bdt class="block-component"></bdt>pretenses<bdt
                                       class="statement-end-if-in-editor"
                                     ></bdt
                                     >.</span
@@ -2746,11 +2205,7 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                           style="line-height: 1.5; text-align: left"
                         >
                           <span style="font-size: 15px"
-                            ><span
-                              style="
-                                line-height: 16.8667px;
-                                color: rgb(89, 89, 89);
-                              "
+                            ><span style="line-height: 16.8667px; color: rgb(89, 89, 89)"
                               ><span
                                 style="
                                   font-family: sans-serif;
@@ -2772,11 +2227,7 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                                   text-decoration-color: initial;
                                   color: rgb(89, 89, 89);
                                 "
-                                ><span
-                                  style="
-                                    line-height: 16.8667px;
-                                    color: rgb(89, 89, 89);
-                                  "
+                                ><span style="line-height: 16.8667px; color: rgb(89, 89, 89)"
                                   ><span
                                     style="
                                       font-family: sans-serif;
@@ -2798,12 +2249,10 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                                       text-decoration-color: initial;
                                       color: rgb(89, 89, 89);
                                     "
-                                    >Use the Services as part of any effort to
-                                    compete with us or otherwise use the
-                                    Services and/or the Content for any
+                                    >Use the Services as part of any effort to compete with us or
+                                    otherwise use the Services and/or the Content for any
                                     revenue-generating
-                                    <bdt class="block-component"></bdt
-                                    >endeavor<bdt
+                                    <bdt class="block-component"></bdt>endeavor<bdt
                                       class="statement-end-if-in-editor"
                                     ></bdt>
                                     or commercial enterprise.</span
@@ -2838,19 +2287,13 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                         </li>
                       </ul>
                     </div>
-                    <div
-                      class="MsoNormal"
-                      style="line-height: 1.5; text-align: left"
-                    >
+                    <div class="MsoNormal" style="line-height: 1.5; text-align: left">
                       <br />
                     </div>
                   </div>
                   <div class="MsoNormal" style="line-height: 17.25px">
                     <div class="MsoNormal" style="line-height: 1">
-                      <bdt
-                        class="block-container if"
-                        data-type="if"
-                        style="text-align: left"
+                      <bdt class="block-container if" data-type="if" style="text-align: left"
                         ><bdt data-type="conditional-block"
                           ><bdt data-type="body"
                             ><div
@@ -2860,17 +2303,9 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                               style="line-height: 1.5"
                             >
                               <strong
-                                ><span
-                                  style="
-                                    line-height: 24.5333px;
-                                    font-size: 19px;
-                                  "
+                                ><span style="line-height: 24.5333px; font-size: 19px"
                                   ><strong
-                                    ><span
-                                      style="
-                                        line-height: 24.5333px;
-                                        font-size: 19px;
-                                      "
+                                    ><span style="line-height: 24.5333px; font-size: 19px"
                                       ><strong
                                         ><span
                                           style="
@@ -2899,17 +2334,11 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                         ></bdt
                       >
                     </div>
-                    <div
-                      class="MsoNormal"
-                      style="line-height: 1.5; text-align: left"
-                    >
+                    <div class="MsoNormal" style="line-height: 1.5; text-align: left">
                       <br />
                     </div>
                     <div class="MsoNormal" style="line-height: 1">
-                      <bdt
-                        class="block-container if"
-                        data-type="if"
-                        style="text-align: left"
+                      <bdt class="block-container if" data-type="if" style="text-align: left"
                         ><bdt data-type="conditional-block"
                           ><bdt data-type="body"
                             ><div
@@ -2940,31 +2369,23 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                                         line-height: 16.8667px;
                                         color: rgb(89, 89, 89);
                                       "
-                                      >The Services does not offer users to
-                                      submit or post content.<bdt
-                                        class="block-component"
-                                      ></bdt>
-                                      We may provide you with the opportunity to
-                                      create, submit, post, display, transmit,
-                                      perform, publish, distribute, or broadcast
-                                      content and materials to us or on the
-                                      Services, including but not limited to
-                                      text, writings, video, audio, photographs,
-                                      graphics, comments, suggestions, or
-                                      personal information or other material
-                                      (collectively,
-                                      <bdt class="block-component"></bdt
-                                      >"Contributions"<bdt
+                                      >The Services does not offer users to submit or post
+                                      content.<bdt class="block-component"></bdt>
+                                      We may provide you with the opportunity to create, submit,
+                                      post, display, transmit, perform, publish, distribute, or
+                                      broadcast content and materials to us or on the Services,
+                                      including but not limited to text, writings, video, audio,
+                                      photographs, graphics, comments, suggestions, or personal
+                                      information or other material (collectively,
+                                      <bdt class="block-component"></bdt>"Contributions"<bdt
                                         class="statement-end-if-in-editor"
                                       ></bdt
-                                      >). Contributions may be viewable by other
-                                      users of the Services and through
-                                      third-party websites.<bdt
+                                      >). Contributions may be viewable by other users of the
+                                      Services and through third-party websites.<bdt
                                         class="block-component"
                                       ></bdt>
-                                      When you create or make available any
-                                      Contributions, you thereby represent and
-                                      warrant that:<span
+                                      When you create or make available any Contributions, you
+                                      thereby represent and warrant that:<span
                                         style="
                                           font-size: 11pt;
                                           line-height: 16.8667px;
@@ -2978,14 +2399,8 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                       ></bdt>
                     </div>
                     <div class="MsoNormal" style="line-height: 1.5"><br /></div>
-                    <div
-                      class="MsoNormal"
-                      style="text-align: justify; line-height: 1"
-                    >
-                      <bdt
-                        class="block-container if"
-                        data-type="if"
-                        style="text-align: left"
+                    <div class="MsoNormal" style="text-align: justify; line-height: 1">
+                      <bdt class="block-container if" data-type="if" style="text-align: left"
                         ><bdt data-type="conditional-block"
                           ><bdt data-type="body"
                             ><div
@@ -2995,17 +2410,9 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                               style="line-height: 1.5"
                             >
                               <strong
-                                ><span
-                                  style="
-                                    line-height: 24.5333px;
-                                    font-size: 19px;
-                                  "
+                                ><span style="line-height: 24.5333px; font-size: 19px"
                                   ><strong
-                                    ><span
-                                      style="
-                                        line-height: 24.5333px;
-                                        font-size: 19px;
-                                      "
+                                    ><span style="line-height: 24.5333px; font-size: 19px"
                                       ><strong
                                         ><span
                                           style="
@@ -3026,8 +2433,7 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                                         ></strong
                                       ></span
                                     >&nbsp;</strong
-                                  >CONTRIBUTION
-                                  <bdt class="block-component"></bdt>LICENSE<bdt
+                                  >CONTRIBUTION <bdt class="block-component"></bdt>LICENSE<bdt
                                     class="statement-end-if-in-editor"
                                   ></bdt></span
                               ></strong></div></bdt></bdt
@@ -3048,124 +2454,57 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                           ></bdt></bdt
                       ></bdt>
                     </div>
-                    <div
-                      class="MsoNormal"
-                      data-custom-class="body_text"
-                      style="line-height: 1.5"
-                    >
-                      <span
-                        style="
-                          font-size: 11pt;
-                          line-height: 16.8667px;
-                          color: rgb(89, 89, 89);
-                        "
+                    <div class="MsoNormal" data-custom-class="body_text" style="line-height: 1.5">
+                      <span style="font-size: 11pt; line-height: 16.8667px; color: rgb(89, 89, 89)"
                         ><span
-                          style="
-                            font-size: 11pt;
-                            line-height: 16.8667px;
-                            color: rgb(89, 89, 89);
-                          "
-                          >You and Services agree that we may access, store,
-                          process, and use any information and personal data
-                          that you provide<bdt class="block-component"></bdt>
+                          style="font-size: 11pt; line-height: 16.8667px; color: rgb(89, 89, 89)"
+                          >You and Services agree that we may access, store, process, and use any
+                          information and personal data that you provide<bdt
+                            class="block-component"
+                          ></bdt>
                           and your choices (including settings).</span
                         ></span
                       >
                     </div>
                     <div class="MsoNormal" style="line-height: 1.5"><br /></div>
-                    <div
-                      class="MsoNormal"
-                      data-custom-class="body_text"
-                      style="line-height: 1.5"
-                    >
-                      <span
-                        style="
-                          font-size: 11pt;
-                          line-height: 16.8667px;
-                          color: rgb(89, 89, 89);
-                        "
-                        >By submitting suggestions or other feedback regarding
-                        the Services, you agree that we can use and share such
-                        feedback for any purpose without compensation to
-                        you.<bdt class="block-component"></bdt
+                    <div class="MsoNormal" data-custom-class="body_text" style="line-height: 1.5">
+                      <span style="font-size: 11pt; line-height: 16.8667px; color: rgb(89, 89, 89)"
+                        >By submitting suggestions or other feedback regarding the Services, you
+                        agree that we can use and share such feedback for any purpose without
+                        compensation to you.<bdt class="block-component"></bdt
                       ></span>
                     </div>
                     <div class="MsoNormal" style="line-height: 1.5"><br /></div>
-                    <div
-                      class="MsoNormal"
-                      data-custom-class="body_text"
-                      style="line-height: 1.5"
-                    >
-                      <span
-                        style="
-                          font-size: 11pt;
-                          line-height: 16.8667px;
-                          color: rgb(89, 89, 89);
-                        "
-                        >We do not assert any ownership over your Contributions.
-                        You retain full ownership of all of your Contributions
-                        and any intellectual property rights or other
-                        proprietary rights associated with your Contributions.
-                        We are not liable for any statements or representations
-                        in your Contributions provided by you in any area on the
-                        Services. You are solely responsible for your
-                        Contributions to the Services and you expressly agree to
-                        exonerate us from any and all responsibility and to
-                        refrain from any legal action against us regarding your
-                        Contributions.<bdt
-                          class="statement-end-if-in-editor"
-                        ></bdt
+                    <div class="MsoNormal" data-custom-class="body_text" style="line-height: 1.5">
+                      <span style="font-size: 11pt; line-height: 16.8667px; color: rgb(89, 89, 89)"
+                        >We do not assert any ownership over your Contributions. You retain full
+                        ownership of all of your Contributions and any intellectual property rights
+                        or other proprietary rights associated with your Contributions. We are not
+                        liable for any statements or representations in your Contributions provided
+                        by you in any area on the Services. You are solely responsible for your
+                        Contributions to the Services and you expressly agree to exonerate us from
+                        any and all responsibility and to refrain from any legal action against us
+                        regarding your Contributions.<bdt class="statement-end-if-in-editor"></bdt
                       ></span>
                     </div>
-                    <div
-                      class="MsoNormal"
-                      data-custom-class="body_text"
-                      style="line-height: 1.5"
-                    >
+                    <div class="MsoNormal" data-custom-class="body_text" style="line-height: 1.5">
                       <br />
                     </div>
-                    <div
-                      class="MsoNormal"
-                      data-custom-class="body_text"
-                      style="line-height: 1.5"
-                    >
-                      <span
-                        style="
-                          font-size: 11pt;
-                          line-height: 16.8667px;
-                          color: rgb(89, 89, 89);
-                        "
+                    <div class="MsoNormal" data-custom-class="body_text" style="line-height: 1.5">
+                      <span style="font-size: 11pt; line-height: 16.8667px; color: rgb(89, 89, 89)"
                         ><span
-                          style="
-                            font-size: 11pt;
-                            line-height: 16.8667px;
-                            color: rgb(89, 89, 89);
-                          "
+                          style="font-size: 11pt; line-height: 16.8667px; color: rgb(89, 89, 89)"
                           ><span
-                            style="
-                              font-size: 11pt;
-                              line-height: 16.8667px;
-                              color: rgb(89, 89, 89);
-                            "
-                            ><bdt
-                              class="block-container if"
-                              data-type="if"
-                              style="text-align: left"
+                            style="font-size: 11pt; line-height: 16.8667px; color: rgb(89, 89, 89)"
+                            ><bdt class="block-container if" data-type="if" style="text-align: left"
                               ><bdt
                                 class="statement-end-if-in-editor"
                                 data-type="close"
                               ></bdt></bdt></span></span
                       ></span>
                     </div>
-                    <div
-                      class="MsoNormal"
-                      data-custom-class="body_text"
-                      style="line-height: 1.5"
-                    >
-                      <bdt
-                        class="block-container if"
-                        data-type="if"
-                        style="text-align: left"
+                    <div class="MsoNormal" data-custom-class="body_text" style="line-height: 1.5">
+                      <bdt class="block-container if" data-type="if" style="text-align: left"
                         ><bdt data-type="conditional-block"
                           ><bdt
                             class="block-component"
@@ -3175,10 +2514,7 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                       ></bdt>
                     </div>
                     <div class="MsoNormal" style="line-height: 1.5">
-                      <bdt
-                        class="block-container if"
-                        data-type="if"
-                        style="text-align: left"
+                      <bdt class="block-container if" data-type="if" style="text-align: left"
                         ><bdt data-type="conditional-block"
                           ><bdt
                             class="block-component"
@@ -3188,10 +2524,7 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                       ></bdt>
                     </div>
                     <div class="MsoNormal" style="line-height: 1.5">
-                      <bdt
-                        class="block-container if"
-                        data-type="if"
-                        style="text-align: left"
+                      <bdt class="block-container if" data-type="if" style="text-align: left"
                         ><bdt data-type="conditional-block"
                           ><bdt
                             class="block-component"
@@ -3202,10 +2535,7 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                     </div>
                   </div>
                   <div class="MsoNormal" style="line-height: 1.5">
-                    <bdt
-                      class="block-container if"
-                      data-type="if"
-                      style="text-align: left"
+                    <bdt class="block-container if" data-type="if" style="text-align: left"
                       ><bdt data-type="conditional-block"
                         ><bdt
                           class="block-component"
@@ -3215,10 +2545,7 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                     ></bdt>
                   </div>
                   <div class="MsoNormal" style="line-height: 1.5">
-                    <bdt
-                      class="block-container if"
-                      data-type="if"
-                      style="text-align: left"
+                    <bdt class="block-container if" data-type="if" style="text-align: left"
                       ><bdt data-type="conditional-block"
                         ><bdt
                           class="block-component"
@@ -3238,19 +2565,10 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                         ><strong
                           ><span style="line-height: 24.5333px; font-size: 19px"
                             ><strong
-                              ><span
-                                style="
-                                  line-height: 115%;
-                                  font-family: Arial;
-                                  font-size: 19px;
-                                "
+                              ><span style="line-height: 115%; font-family: Arial; font-size: 19px"
                                 ><strong
                                   ><span
-                                    style="
-                                      line-height: 115%;
-                                      font-family: Arial;
-                                      font-size: 19px;
-                                    "
+                                    style="line-height: 115%; font-family: Arial; font-size: 19px"
                                     >7.</span
                                   ></strong
                                 ></span
@@ -3262,34 +2580,23 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                     >
                   </div>
                   <div class="MsoNormal" style="line-height: 1.5"><br /></div>
-                  <div
-                    class="MsoNormal"
-                    data-custom-class="body_text"
-                    style="line-height: 1.5"
-                  >
-                    We reserve the right, but not the obligation, to: (1)
-                    monitor the Services for violations of these Legal Terms;
-                    (2) take appropriate legal action against anyone who, in our
-                    sole discretion, violates the law or these Legal Terms,
-                    including without limitation, reporting such user to law
-                    enforcement authorities; (3) in our sole discretion and
-                    without limitation, refuse, restrict access to, limit the
-                    availability of, or disable (to the extent technologically
-                    feasible) any of your Contributions or any portion thereof;
-                    (4) in our sole discretion and without limitation, notice,
-                    or liability, to remove from the Services or otherwise
-                    disable all files and content that are excessive in size or
-                    are in any way burdensome to our systems; and (5) otherwise
-                    manage the Services in a manner designed to protect our
-                    rights and property and to facilitate the proper functioning
-                    of the Services.
+                  <div class="MsoNormal" data-custom-class="body_text" style="line-height: 1.5">
+                    We reserve the right, but not the obligation, to: (1) monitor the Services for
+                    violations of these Legal Terms; (2) take appropriate legal action against
+                    anyone who, in our sole discretion, violates the law or these Legal Terms,
+                    including without limitation, reporting such user to law enforcement
+                    authorities; (3) in our sole discretion and without limitation, refuse, restrict
+                    access to, limit the availability of, or disable (to the extent technologically
+                    feasible) any of your Contributions or any portion thereof; (4) in our sole
+                    discretion and without limitation, notice, or liability, to remove from the
+                    Services or otherwise disable all files and content that are excessive in size
+                    or are in any way burdensome to our systems; and (5) otherwise manage the
+                    Services in a manner designed to protect our rights and property and to
+                    facilitate the proper functioning of the Services.
                   </div>
                   <div class="MsoNormal" style="line-height: 1.5"><br /></div>
                   <div class="MsoNormal" style="line-height: 1.5">
-                    <bdt
-                      class="block-container if"
-                      data-type="if"
-                      style="text-align: left"
+                    <bdt class="block-container if" data-type="if" style="text-align: left"
                       ><bdt data-type="conditional-block"
                         ><bdt
                           class="block-component"
@@ -3307,10 +2614,7 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                     ></bdt>
                   </div>
                   <div class="MsoNormal" style="line-height: 1.5">
-                    <bdt
-                      class="block-container if"
-                      data-type="if"
-                      style="text-align: left"
+                    <bdt class="block-container if" data-type="if" style="text-align: left"
                       ><bdt data-type="conditional-block"
                         ><bdt
                           class="block-component"
@@ -3319,10 +2623,7 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                           ><bdt class="block-component"></bdt></bdt></bdt
                     ></bdt>
                   </div>
-                  <div
-                    class="MsoNormal"
-                    style="line-height: 1.5; text-align: left"
-                  >
+                  <div class="MsoNormal" style="line-height: 1.5; text-align: left">
                     <bdt class="block-component"></bdt>
                   </div>
                   <div
@@ -3336,19 +2637,10 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                         ><strong
                           ><span style="line-height: 24.5333px; font-size: 19px"
                             ><strong
-                              ><span
-                                style="
-                                  line-height: 115%;
-                                  font-family: Arial;
-                                  font-size: 19px;
-                                "
+                              ><span style="line-height: 115%; font-family: Arial; font-size: 19px"
                                 ><strong
                                   ><span
-                                    style="
-                                      line-height: 115%;
-                                      font-family: Arial;
-                                      font-size: 19px;
-                                    "
+                                    style="line-height: 115%; font-family: Arial; font-size: 19px"
                                     >8.</span
                                   ></strong
                                 ></span
@@ -3359,10 +2651,7 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                       ></strong
                     >
                   </div>
-                  <div
-                    class="MsoNormal"
-                    style="line-height: 1.5; text-align: left"
-                  >
+                  <div class="MsoNormal" style="line-height: 1.5; text-align: left">
                     <br />
                   </div>
                   <div
@@ -3370,23 +2659,15 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                     data-custom-class="body_text"
                     style="line-height: 1.5; text-align: left"
                   >
-                    <span
-                      style="
-                        font-size: 11pt;
-                        line-height: 16.8667px;
-                        color: rgb(89, 89, 89);
-                      "
-                      >These Legal Terms shall remain in full force and effect
-                      while you use the Services. WITHOUT LIMITING ANY OTHER
-                      PROVISION OF THESE LEGAL TERMS, WE RESERVE THE RIGHT TO,
-                      IN OUR SOLE DISCRETION AND WITHOUT NOTICE OR LIABILITY,
-                      DENY ACCESS TO AND USE OF THE SERVICES (INCLUDING BLOCKING
-                      CERTAIN IP ADDRESSES), TO ANY PERSON FOR ANY REASON OR FOR
-                      NO REASON, INCLUDING WITHOUT LIMITATION FOR BREACH OF ANY
-                      REPRESENTATION, WARRANTY, OR COVENANT CONTAINED IN THESE
-                      LEGAL TERMS OR OF ANY APPLICABLE LAW OR REGULATION. WE MAY
-                      TERMINATE YOUR USE OR PARTICIPATION IN THE SERVICES OR
-                      DELETE
+                    <span style="font-size: 11pt; line-height: 16.8667px; color: rgb(89, 89, 89)"
+                      >These Legal Terms shall remain in full force and effect while you use the
+                      Services. WITHOUT LIMITING ANY OTHER PROVISION OF THESE LEGAL TERMS, WE
+                      RESERVE THE RIGHT TO, IN OUR SOLE DISCRETION AND WITHOUT NOTICE OR LIABILITY,
+                      DENY ACCESS TO AND USE OF THE SERVICES (INCLUDING BLOCKING CERTAIN IP
+                      ADDRESSES), TO ANY PERSON FOR ANY REASON OR FOR NO REASON, INCLUDING WITHOUT
+                      LIMITATION FOR BREACH OF ANY REPRESENTATION, WARRANTY, OR COVENANT CONTAINED
+                      IN THESE LEGAL TERMS OR OF ANY APPLICABLE LAW OR REGULATION. WE MAY TERMINATE
+                      YOUR USE OR PARTICIPATION IN THE SERVICES OR DELETE
                       <bdt
                         class="block-container if"
                         data-type="if"
@@ -3397,15 +2678,12 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                             data-record-question-key="user_account_option"
                             data-type="statement"
                           ></bdt></bdt
-                        >ANY CONTENT OR INFORMATION THAT YOU POSTED AT ANY TIME,
-                        WITHOUT WARNING, IN OUR SOLE DISCRETION.</bdt
+                        >ANY CONTENT OR INFORMATION THAT YOU POSTED AT ANY TIME, WITHOUT WARNING, IN
+                        OUR SOLE DISCRETION.</bdt
                       ></span
                     >
                   </div>
-                  <div
-                    class="MsoNormal"
-                    style="line-height: 1.5; text-align: left"
-                  >
+                  <div class="MsoNormal" style="line-height: 1.5; text-align: left">
                     <br />
                   </div>
                   <div
@@ -3413,26 +2691,16 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                     data-custom-class="body_text"
                     style="line-height: 1.5; text-align: left"
                   >
-                    <span
-                      style="
-                        font-size: 11pt;
-                        line-height: 16.8667px;
-                        color: rgb(89, 89, 89);
-                      "
-                      >If we terminate or suspend your account for any reason,
-                      you are prohibited from registering and creating a new
-                      account under your name, a fake or borrowed name, or the
-                      name of any third party, even if you may be acting on
-                      behalf of the third party. In addition to terminating or
-                      suspending your account, we reserve the right to take
-                      appropriate legal action, including without limitation
-                      pursuing civil, criminal, and injunctive redress.</span
+                    <span style="font-size: 11pt; line-height: 16.8667px; color: rgb(89, 89, 89)"
+                      >If we terminate or suspend your account for any reason, you are prohibited
+                      from registering and creating a new account under your name, a fake or
+                      borrowed name, or the name of any third party, even if you may be acting on
+                      behalf of the third party. In addition to terminating or suspending your
+                      account, we reserve the right to take appropriate legal action, including
+                      without limitation pursuing civil, criminal, and injunctive redress.</span
                     >
                   </div>
-                  <div
-                    class="MsoNormal"
-                    style="line-height: 1.5; text-align: left"
-                  >
+                  <div class="MsoNormal" style="line-height: 1.5; text-align: left">
                     <br />
                   </div>
                   <div
@@ -3446,19 +2714,10 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                         ><strong
                           ><span style="line-height: 24.5333px; font-size: 19px"
                             ><strong
-                              ><span
-                                style="
-                                  line-height: 115%;
-                                  font-family: Arial;
-                                  font-size: 19px;
-                                "
+                              ><span style="line-height: 115%; font-family: Arial; font-size: 19px"
                                 ><strong
                                   ><span
-                                    style="
-                                      line-height: 115%;
-                                      font-family: Arial;
-                                      font-size: 19px;
-                                    "
+                                    style="line-height: 115%; font-family: Arial; font-size: 19px"
                                     >9.</span
                                   ></strong
                                 ></span
@@ -3469,10 +2728,7 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                       ></strong
                     >
                   </div>
-                  <div
-                    class="MsoNormal"
-                    style="line-height: 1.5; text-align: left"
-                  >
+                  <div class="MsoNormal" style="line-height: 1.5; text-align: left">
                     <br />
                   </div>
                   <div
@@ -3480,27 +2736,17 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                     data-custom-class="body_text"
                     style="line-height: 1.5; text-align: left"
                   >
-                    <span
-                      style="
-                        font-size: 11pt;
-                        line-height: 16.8667px;
-                        color: rgb(89, 89, 89);
-                      "
-                      >We reserve the right to change, modify, or remove the
-                      contents of the Services at any time or for any reason at
-                      our sole discretion without notice. However, we have no
-                      obligation to update any information on our Services.<bdt
+                    <span style="font-size: 11pt; line-height: 16.8667px; color: rgb(89, 89, 89)"
+                      >We reserve the right to change, modify, or remove the contents of the
+                      Services at any time or for any reason at our sole discretion without notice.
+                      However, we have no obligation to update any information on our Services.<bdt
                         class="block-component"
                       ></bdt>
-                      We will not be liable to you or any third party for any
-                      modification, price change, suspension, or discontinuance
-                      of the Services.</span
+                      We will not be liable to you or any third party for any modification, price
+                      change, suspension, or discontinuance of the Services.</span
                     >
                   </div>
-                  <div
-                    class="MsoNormal"
-                    style="line-height: 1.5; text-align: left"
-                  >
+                  <div class="MsoNormal" style="line-height: 1.5; text-align: left">
                     <br />
                   </div>
                   <div
@@ -3508,32 +2754,20 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                     data-custom-class="body_text"
                     style="line-height: 1.5; text-align: left"
                   >
-                    <span
-                      style="
-                        font-size: 11pt;
-                        line-height: 16.8667px;
-                        color: rgb(89, 89, 89);
-                      "
-                      >We cannot guarantee the Services will be available at all
-                      times. We may experience hardware, software, or other
-                      problems or need to perform maintenance related to the
-                      Services, resulting in interruptions, delays, or errors.
-                      We reserve the right to change, revise, update, suspend,
-                      discontinue, or otherwise modify the Services at any time
-                      or for any reason without notice to you. You agree that we
-                      have no liability whatsoever for any loss, damage, or
-                      inconvenience caused by your inability to access or use
-                      the Services during any downtime or discontinuance of the
-                      Services. Nothing in these Legal Terms will be construed
-                      to obligate us to maintain and support the Services or to
-                      supply any corrections, updates, or releases in connection
-                      therewith.</span
+                    <span style="font-size: 11pt; line-height: 16.8667px; color: rgb(89, 89, 89)"
+                      >We cannot guarantee the Services will be available at all times. We may
+                      experience hardware, software, or other problems or need to perform
+                      maintenance related to the Services, resulting in interruptions, delays, or
+                      errors. We reserve the right to change, revise, update, suspend, discontinue,
+                      or otherwise modify the Services at any time or for any reason without notice
+                      to you. You agree that we have no liability whatsoever for any loss, damage,
+                      or inconvenience caused by your inability to access or use the Services during
+                      any downtime or discontinuance of the Services. Nothing in these Legal Terms
+                      will be construed to obligate us to maintain and support the Services or to
+                      supply any corrections, updates, or releases in connection therewith.</span
                     >
                   </div>
-                  <div
-                    class="MsoNormal"
-                    style="line-height: 1.5; text-align: left"
-                  >
+                  <div class="MsoNormal" style="line-height: 1.5; text-align: left">
                     <br />
                   </div>
                   <div
@@ -3547,19 +2781,10 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                         ><strong
                           ><span style="line-height: 24.5333px; font-size: 19px"
                             ><strong
-                              ><span
-                                style="
-                                  line-height: 115%;
-                                  font-family: Arial;
-                                  font-size: 19px;
-                                "
+                              ><span style="line-height: 115%; font-family: Arial; font-size: 19px"
                                 ><strong
                                   ><span
-                                    style="
-                                      line-height: 115%;
-                                      font-family: Arial;
-                                      font-size: 19px;
-                                    "
+                                    style="line-height: 115%; font-family: Arial; font-size: 19px"
                                     >10.</span
                                   ></strong
                                 ></span
@@ -3570,22 +2795,11 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                       ></strong
                     >
                   </div>
-                  <div
-                    class="MsoNormal"
-                    style="line-height: 1.5; text-align: left"
-                  >
+                  <div class="MsoNormal" style="line-height: 1.5; text-align: left">
                     <br />
                   </div>
-                  <div
-                    class="MsoNormal"
-                    style="line-height: 1.5; text-align: left"
-                  >
-                    <span
-                      style="
-                        font-size: 11pt;
-                        line-height: 16.8667px;
-                        color: rgb(89, 89, 89);
-                      "
+                  <div class="MsoNormal" style="line-height: 1.5; text-align: left">
+                    <span style="font-size: 11pt; line-height: 16.8667px; color: rgb(89, 89, 89)"
                       ><bdt class="block-component"></bdt
                     ></span>
                   </div>
@@ -3594,50 +2808,26 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                     data-custom-class="body_text"
                     style="line-height: 1.5; text-align: left"
                   >
-                    <span
-                      style="
-                        font-size: 11pt;
-                        line-height: 16.8667px;
-                        color: rgb(89, 89, 89);
-                      "
-                      >These Legal Terms shall be governed by and defined
-                      following the laws of <bdt class="block-component"></bdt
-                      ><bdt class="question">__________</bdt
-                      ><span
-                        style="
-                          font-size: 11pt;
-                          line-height: 16.8667px;
-                          color: rgb(89, 89, 89);
-                        "
+                    <span style="font-size: 11pt; line-height: 16.8667px; color: rgb(89, 89, 89)"
+                      >These Legal Terms shall be governed by and defined following the laws of
+                      <bdt class="block-component"></bdt><bdt class="question">__________</bdt
+                      ><span style="font-size: 11pt; line-height: 16.8667px; color: rgb(89, 89, 89)"
                         ><bdt class="statement-end-if-in-editor"></bdt></span
-                      >. <bdt class="question">__________</bdt> and yourself
-                      irrevocably consent that the courts of
-                      <span
-                        style="
-                          font-size: 11pt;
-                          line-height: 16.8667px;
-                          color: rgb(89, 89, 89);
-                        "
-                        ><bdt class="block-component"></bdt
-                        ><bdt class="question">__________</bdt
+                      >. <bdt class="question">__________</bdt> and yourself irrevocably consent
+                      that the courts of
+                      <span style="font-size: 11pt; line-height: 16.8667px; color: rgb(89, 89, 89)"
+                        ><bdt class="block-component"></bdt><bdt class="question">__________</bdt
                         ><span
-                          style="
-                            font-size: 11pt;
-                            line-height: 16.8667px;
-                            color: rgb(89, 89, 89);
-                          "
+                          style="font-size: 11pt; line-height: 16.8667px; color: rgb(89, 89, 89)"
                           ><bdt class="statement-end-if-in-editor"></bdt></span
                       ></span>
-                      shall have exclusive jurisdiction to resolve any dispute
-                      which may arise in connection with these Legal Terms.<bdt
+                      shall have exclusive jurisdiction to resolve any dispute which may arise in
+                      connection with these Legal Terms.<bdt
                         class="statement-end-if-in-editor"
                       ></bdt
                     ></span>
                   </div>
-                  <div
-                    class="MsoNormal"
-                    style="line-height: 1.5; text-align: left"
-                  >
+                  <div class="MsoNormal" style="line-height: 1.5; text-align: left">
                     <br />
                   </div>
                   <div
@@ -3651,19 +2841,10 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                         ><strong
                           ><span style="line-height: 24.5333px; font-size: 19px"
                             ><strong
-                              ><span
-                                style="
-                                  line-height: 115%;
-                                  font-family: Arial;
-                                  font-size: 19px;
-                                "
+                              ><span style="line-height: 115%; font-family: Arial; font-size: 19px"
                                 ><strong
                                   ><span
-                                    style="
-                                      line-height: 115%;
-                                      font-family: Arial;
-                                      font-size: 19px;
-                                    "
+                                    style="line-height: 115%; font-family: Arial; font-size: 19px"
                                     >11.</span
                                   ></strong
                                 ></span
@@ -3674,22 +2855,13 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                       ></strong
                     >
                   </div>
-                  <div
-                    class="MsoNormal"
-                    style="line-height: 1.5; text-align: left"
-                  >
+                  <div class="MsoNormal" style="line-height: 1.5; text-align: left">
                     <br />
                   </div>
-                  <div
-                    class="MsoNormal"
-                    style="line-height: 1.5; text-align: left"
-                  >
+                  <div class="MsoNormal" style="line-height: 1.5; text-align: left">
                     <bdt class="block-component"></bdt>
                   </div>
-                  <div
-                    class="MsoNormal"
-                    style="line-height: 1.5; text-align: left"
-                  >
+                  <div class="MsoNormal" style="line-height: 1.5; text-align: left">
                     <bdt class="block-component"></bdt>
                   </div>
                   <div
@@ -3699,10 +2871,7 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                   >
                     <strong>Informal Negotiations</strong>
                   </div>
-                  <div
-                    class="MsoNormal"
-                    style="line-height: 1.5; text-align: left"
-                  >
+                  <div class="MsoNormal" style="line-height: 1.5; text-align: left">
                     <br />
                   </div>
                   <div
@@ -3711,36 +2880,23 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                     style="line-height: 1.5; text-align: left"
                   >
                     <span style="font-size: 15px"
-                      >To expedite resolution and control the cost of any
-                      dispute, controversy, or claim related to these Legal
-                      Terms (each a <bdt class="block-component"></bdt>"Dispute"
-                      and collectively, the "Disputes"<bdt
-                        class="statement-end-if-in-editor"
-                      ></bdt
-                      >) brought by either you or us (individually, a
-                      <bdt class="block-component"></bdt>"Party" and
-                      collectively, the "Parties"<bdt
-                        class="statement-end-if-in-editor"
-                      ></bdt
-                      >), the Parties agree to first attempt to negotiate any
-                      Dispute (except those Disputes expressly provided below)
-                      informally for at least
-                      <bdt class="question">__________</bdt> days before
-                      initiating arbitration. Such informal negotiations
-                      commence upon written notice from one Party to the other
-                      Party.</span
+                      >To expedite resolution and control the cost of any dispute, controversy, or
+                      claim related to these Legal Terms (each a
+                      <bdt class="block-component"></bdt>"Dispute" and collectively, the
+                      "Disputes"<bdt class="statement-end-if-in-editor"></bdt>) brought by either
+                      you or us (individually, a <bdt class="block-component"></bdt>"Party" and
+                      collectively, the "Parties"<bdt class="statement-end-if-in-editor"></bdt>),
+                      the Parties agree to first attempt to negotiate any Dispute (except those
+                      Disputes expressly provided below) informally for at least
+                      <bdt class="question">__________</bdt> days before initiating arbitration.
+                      Such informal negotiations commence upon written notice from one Party to the
+                      other Party.</span
                     >
                   </div>
-                  <div
-                    class="MsoNormal"
-                    style="line-height: 1.5; text-align: left"
-                  >
+                  <div class="MsoNormal" style="line-height: 1.5; text-align: left">
                     <br />
                   </div>
-                  <div
-                    class="MsoNormal"
-                    style="line-height: 1.5; text-align: left"
-                  >
+                  <div class="MsoNormal" style="line-height: 1.5; text-align: left">
                     <bdt class="statement-end-if-in-editor"></bdt>
                   </div>
                   <div
@@ -3750,10 +2906,7 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                   >
                     <strong>Binding Arbitration</strong>
                   </div>
-                  <div
-                    class="MsoNormal"
-                    style="line-height: 1.5; text-align: left"
-                  >
+                  <div class="MsoNormal" style="line-height: 1.5; text-align: left">
                     <br />
                   </div>
                   <div
@@ -3761,48 +2914,36 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                     data-custom-class="body_text"
                     style="line-height: 1.5; text-align: left"
                   >
-                    <bdt class="block-component"
-                      ><span style="font-size: 15px"></span
-                    ></bdt>
+                    <bdt class="block-component"><span style="font-size: 15px"></span></bdt>
                   </div>
                   <div
                     class="MsoNormal"
                     data-custom-class="body_text"
                     style="line-height: 1.5; text-align: left"
                   >
-                    Any dispute arising out of or in connection with these Legal
-                    Terms, including any question regarding its existence,
-                    validity, or termination, shall be referred to and finally
-                    resolved by the International Commercial Arbitration Court
-                    under the European Arbitration Chamber (Belgium, Brussels,
-                    Avenue Louise, 146) according to the Rules of this ICAC,
-                    which, as a result of referring to it, is considered as the
-                    part of this clause. The number of arbitrators shall be
-                    <bdt class="question">__________</bdt>. The seat, or legal
-                    place, or arbitration shall be
-                    <bdt class="block-component"></bdt
-                    ><bdt class="block-component"></bdt
-                    ><bdt class="block-component"></bdt
-                    ><bdt class="question">__________</bdt
+                    Any dispute arising out of or in connection with these Legal Terms, including
+                    any question regarding its existence, validity, or termination, shall be
+                    referred to and finally resolved by the International Commercial Arbitration
+                    Court under the European Arbitration Chamber (Belgium, Brussels, Avenue Louise,
+                    146) according to the Rules of this ICAC, which, as a result of referring to it,
+                    is considered as the part of this clause. The number of arbitrators shall be
+                    <bdt class="question">__________</bdt>. The seat, or legal place, or arbitration
+                    shall be <bdt class="block-component"></bdt><bdt class="block-component"></bdt
+                    ><bdt class="block-component"></bdt><bdt class="question">__________</bdt
                     ><bdt class="statement-end-if-in-editor"
                       ><bdt class="statement-end-if-in-editor"></bdt
                       ><bdt class="statement-end-if-in-editor"></bdt></bdt
                     >. The language of the proceedings shall be
-                    <bdt class="question">__________</bdt>. The governing law of
-                    these Legal Terms shall be substantive law of
-                    <bdt class="block-component"></bdt
-                    ><bdt class="block-component"></bdt
-                    ><bdt class="question">__________</bdt
+                    <bdt class="question">__________</bdt>. The governing law of these Legal Terms
+                    shall be substantive law of <bdt class="block-component"></bdt
+                    ><bdt class="block-component"></bdt><bdt class="question">__________</bdt
                     ><bdt class="statement-end-if-in-editor"
                       ><bdt class="statement-end-if-in-editor"></bdt></bdt
                     >.<bdt class="statement-end-if-in-editor"
                       ><bdt class="statement-end-if-in-editor"></bdt
                     ></bdt>
                   </div>
-                  <div
-                    class="MsoNormal"
-                    style="line-height: 1.5; text-align: left"
-                  >
+                  <div class="MsoNormal" style="line-height: 1.5; text-align: left">
                     <br />
                   </div>
                   <div
@@ -3812,10 +2953,7 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                   >
                     <strong>Restrictions</strong>
                   </div>
-                  <div
-                    class="MsoNormal"
-                    style="line-height: 1.5; text-align: left"
-                  >
+                  <div class="MsoNormal" style="line-height: 1.5; text-align: left">
                     <br />
                   </div>
                   <div
@@ -3823,23 +2961,18 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                     data-custom-class="body_text"
                     style="line-height: 1.5; text-align: left"
                   >
-                    The Parties agree that any arbitration shall be limited to
-                    the Dispute between the Parties individually. To the full
-                    extent permitted by law, (a) no arbitration shall be joined
-                    with any other proceeding; (b) there is no right or
-                    authority for any Dispute to be arbitrated on a class-action
-                    basis or to <bdt class="block-component"></bdt>utilize<bdt
+                    The Parties agree that any arbitration shall be limited to the Dispute between
+                    the Parties individually. To the full extent permitted by law, (a) no
+                    arbitration shall be joined with any other proceeding; (b) there is no right or
+                    authority for any Dispute to be arbitrated on a class-action basis or to
+                    <bdt class="block-component"></bdt>utilize<bdt
                       class="statement-end-if-in-editor"
                     ></bdt>
-                    class action procedures; and (c) there is no right or
-                    authority for any Dispute to be brought in a purported
-                    representative capacity on behalf of the general public or
-                    any other persons.
+                    class action procedures; and (c) there is no right or authority for any Dispute
+                    to be brought in a purported representative capacity on behalf of the general
+                    public or any other persons.
                   </div>
-                  <div
-                    class="MsoNormal"
-                    style="line-height: 1.5; text-align: left"
-                  >
+                  <div class="MsoNormal" style="line-height: 1.5; text-align: left">
                     <br />
                   </div>
                   <div
@@ -3848,15 +2981,10 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                     style="line-height: 1.5; text-align: left"
                   >
                     <bdt class="block-component"></bdt
-                    ><strong
-                      >Exceptions to Informal Negotiations and
-                      Arbitration</strong
+                    ><strong>Exceptions to Informal Negotiations and Arbitration</strong
                     ><bdt class="statement-end-if-in-editor"></bdt>
                   </div>
-                  <div
-                    class="MsoNormal"
-                    style="line-height: 1.5; text-align: left"
-                  >
+                  <div class="MsoNormal" style="line-height: 1.5; text-align: left">
                     <br />
                   </div>
                   <div
@@ -3864,40 +2992,29 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                     data-custom-class="body_text"
                     style="line-height: 1.5; text-align: left"
                   >
-                    <bdt class="block-component"></bdt>The Parties agree that
-                    the following Disputes are not subject to the above
-                    provisions concerning informal negotiations binding
-                    arbitration: (a) any Disputes seeking to enforce or protect,
-                    or concerning the validity of, any of the intellectual
-                    property rights of a Party; (b) any Dispute related to, or
-                    arising from, allegations of theft, piracy, invasion of
-                    privacy, or
-                    <bdt class="block-component"></bdt>unauthorized<bdt
+                    <bdt class="block-component"></bdt>The Parties agree that the following Disputes
+                    are not subject to the above provisions concerning informal negotiations binding
+                    arbitration: (a) any Disputes seeking to enforce or protect, or concerning the
+                    validity of, any of the intellectual property rights of a Party; (b) any Dispute
+                    related to, or arising from, allegations of theft, piracy, invasion of privacy,
+                    or <bdt class="block-component"></bdt>unauthorized<bdt
                       class="statement-end-if-in-editor"
                     ></bdt>
-                    use; and (c) any claim for injunctive relief. If this
-                    provision is found to be illegal or unenforceable, then
-                    neither Party will elect to arbitrate any Dispute falling
-                    within that portion of this provision found to be illegal or
-                    unenforceable and such Dispute shall be decided by a court
-                    of competent jurisdiction within the courts listed for
-                    jurisdiction above, and the Parties agree to submit to the
-                    personal jurisdiction of that court.<bdt
+                    use; and (c) any claim for injunctive relief. If this provision is found to be
+                    illegal or unenforceable, then neither Party will elect to arbitrate any Dispute
+                    falling within that portion of this provision found to be illegal or
+                    unenforceable and such Dispute shall be decided by a court of competent
+                    jurisdiction within the courts listed for jurisdiction above, and the Parties
+                    agree to submit to the personal jurisdiction of that court.<bdt
                       class="statement-end-if-in-editor"
                     ></bdt>
                   </div>
-                  <div
-                    class="MsoNormal"
-                    style="line-height: 1.5; text-align: left"
-                  >
+                  <div class="MsoNormal" style="line-height: 1.5; text-align: left">
                     <bdt class="statement-end-if-in-editor"
                       ><bdt class="statement-end-if-in-editor"></bdt
                     ></bdt>
                   </div>
-                  <div
-                    class="MsoNormal"
-                    style="line-height: 1.5; text-align: left"
-                  >
+                  <div class="MsoNormal" style="line-height: 1.5; text-align: left">
                     <br />
                   </div>
                   <div
@@ -3911,19 +3028,10 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                         ><strong
                           ><span style="line-height: 24.5333px; font-size: 19px"
                             ><strong
-                              ><span
-                                style="
-                                  line-height: 115%;
-                                  font-family: Arial;
-                                  font-size: 19px;
-                                "
+                              ><span style="line-height: 115%; font-family: Arial; font-size: 19px"
                                 ><strong
                                   ><span
-                                    style="
-                                      line-height: 115%;
-                                      font-family: Arial;
-                                      font-size: 19px;
-                                    "
+                                    style="line-height: 115%; font-family: Arial; font-size: 19px"
                                     >12.</span
                                   ></strong
                                 ></span
@@ -3934,10 +3042,7 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                       ></strong
                     >
                   </div>
-                  <div
-                    class="MsoNormal"
-                    style="line-height: 1.5; text-align: left"
-                  >
+                  <div class="MsoNormal" style="line-height: 1.5; text-align: left">
                     <br />
                   </div>
                   <div
@@ -3945,18 +3050,13 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                     data-custom-class="body_text"
                     style="line-height: 1.5; text-align: left"
                   >
-                    There may be information on the Services that contains
-                    typographical errors, inaccuracies, or omissions, including
-                    descriptions, pricing, availability, and various other
-                    information. We reserve the right to correct any errors,
-                    inaccuracies, or omissions and to change or update the
-                    information on the Services at any time, without prior
-                    notice.
+                    There may be information on the Services that contains typographical errors,
+                    inaccuracies, or omissions, including descriptions, pricing, availability, and
+                    various other information. We reserve the right to correct any errors,
+                    inaccuracies, or omissions and to change or update the information on the
+                    Services at any time, without prior notice.
                   </div>
-                  <div
-                    class="MsoNormal"
-                    style="line-height: 1.5; text-align: left"
-                  >
+                  <div class="MsoNormal" style="line-height: 1.5; text-align: left">
                     <br />
                   </div>
                   <div
@@ -3969,19 +3069,10 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                       ><strong
                         ><span style="line-height: 24.5333px; font-size: 19px"
                           ><strong
-                            ><span
-                              style="
-                                line-height: 115%;
-                                font-family: Arial;
-                                font-size: 19px;
-                              "
+                            ><span style="line-height: 115%; font-family: Arial; font-size: 19px"
                               ><strong
                                 ><span
-                                  style="
-                                    line-height: 115%;
-                                    font-family: Arial;
-                                    font-size: 19px;
-                                  "
+                                  style="line-height: 115%; font-family: Arial; font-size: 19px"
                                   >13.</span
                                 ></strong
                               ></span
@@ -3992,10 +3083,7 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                       ></span
                     >
                   </div>
-                  <div
-                    class="MsoNormal"
-                    style="line-height: 1.5; text-align: left"
-                  >
+                  <div class="MsoNormal" style="line-height: 1.5; text-align: left">
                     <br />
                   </div>
                   <div
@@ -4006,53 +3094,41 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                     <span
                       style="font-size:11.0pt;line-height:115%;font-family:Arial;
 Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
-                      >THE SERVICES ARE PROVIDED ON AN AS-IS AND AS-AVAILABLE
-                      BASIS. YOU AGREE THAT YOUR USE OF THE SERVICES WILL BE AT
-                      YOUR SOLE RISK. TO THE FULLEST EXTENT PERMITTED BY LAW, WE
-                      DISCLAIM ALL WARRANTIES, EXPRESS OR IMPLIED, IN CONNECTION
-                      WITH THE SERVICES AND YOUR USE THEREOF, INCLUDING, WITHOUT
-                      LIMITATION, THE IMPLIED WARRANTIES OF MERCHANTABILITY,
-                      FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT. WE
-                      MAKE NO WARRANTIES OR REPRESENTATIONS ABOUT THE ACCURACY
-                      OR COMPLETENESS OF THE SERVICES' CONTENT OR THE CONTENT OF
-                      ANY WEBSITES OR MOBILE APPLICATIONS LINKED TO THE SERVICES
-                      AND WE WILL ASSUME NO LIABILITY OR RESPONSIBILITY FOR ANY
-                      (1) ERRORS, MISTAKES, OR INACCURACIES OF CONTENT AND
-                      MATERIALS, (2) PERSONAL INJURY OR PROPERTY DAMAGE, OF ANY
-                      NATURE WHATSOEVER, RESULTING FROM YOUR ACCESS TO AND USE
-                      OF THE SERVICES, (3) ANY
-                      <bdt class="block-component"></bdt>UNAUTHORIZED<bdt
+                      >THE SERVICES ARE PROVIDED ON AN AS-IS AND AS-AVAILABLE BASIS. YOU AGREE THAT
+                      YOUR USE OF THE SERVICES WILL BE AT YOUR SOLE RISK. TO THE FULLEST EXTENT
+                      PERMITTED BY LAW, WE DISCLAIM ALL WARRANTIES, EXPRESS OR IMPLIED, IN
+                      CONNECTION WITH THE SERVICES AND YOUR USE THEREOF, INCLUDING, WITHOUT
+                      LIMITATION, THE IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+                      PARTICULAR PURPOSE, AND NON-INFRINGEMENT. WE MAKE NO WARRANTIES OR
+                      REPRESENTATIONS ABOUT THE ACCURACY OR COMPLETENESS OF THE SERVICES' CONTENT OR
+                      THE CONTENT OF ANY WEBSITES OR MOBILE APPLICATIONS LINKED TO THE SERVICES AND
+                      WE WILL ASSUME NO LIABILITY OR RESPONSIBILITY FOR ANY (1) ERRORS, MISTAKES, OR
+                      INACCURACIES OF CONTENT AND MATERIALS, (2) PERSONAL INJURY OR PROPERTY DAMAGE,
+                      OF ANY NATURE WHATSOEVER, RESULTING FROM YOUR ACCESS TO AND USE OF THE
+                      SERVICES, (3) ANY <bdt class="block-component"></bdt>UNAUTHORIZED<bdt
                         class="statement-end-if-in-editor"
                       ></bdt>
-                      ACCESS TO OR USE OF OUR SECURE SERVERS AND/OR ANY AND ALL
-                      PERSONAL INFORMATION AND/OR FINANCIAL INFORMATION STORED
-                      THEREIN, (4) ANY INTERRUPTION OR CESSATION OF TRANSMISSION
-                      TO OR FROM THE SERVICES, (5) ANY BUGS, VIRUSES, TROJAN
-                      HORSES, OR THE LIKE WHICH MAY BE TRANSMITTED TO OR THROUGH
-                      THE SERVICES BY ANY THIRD PARTY, AND/OR (6) ANY ERRORS OR
-                      OMISSIONS IN ANY CONTENT AND MATERIALS OR FOR ANY LOSS OR
-                      DAMAGE OF ANY KIND INCURRED AS A RESULT OF THE USE OF ANY
-                      CONTENT POSTED, TRANSMITTED, OR OTHERWISE MADE AVAILABLE
-                      VIA THE SERVICES. WE DO NOT WARRANT, ENDORSE, GUARANTEE,
-                      OR ASSUME RESPONSIBILITY FOR ANY PRODUCT OR SERVICE
-                      ADVERTISED OR OFFERED BY A THIRD PARTY THROUGH THE
-                      SERVICES, ANY HYPERLINKED WEBSITE, OR ANY WEBSITE OR
-                      MOBILE APPLICATION FEATURED IN ANY BANNER OR OTHER
-                      ADVERTISING, AND WE WILL NOT BE A PARTY TO OR IN ANY WAY
-                      BE RESPONSIBLE FOR MONITORING ANY TRANSACTION BETWEEN YOU
-                      AND ANY THIRD-PARTY PROVIDERS OF PRODUCTS OR SERVICES. AS
-                      WITH THE PURCHASE OF A PRODUCT OR SERVICE THROUGH ANY
-                      MEDIUM OR IN ANY ENVIRONMENT, YOU SHOULD USE YOUR BEST
+                      ACCESS TO OR USE OF OUR SECURE SERVERS AND/OR ANY AND ALL PERSONAL INFORMATION
+                      AND/OR FINANCIAL INFORMATION STORED THEREIN, (4) ANY INTERRUPTION OR CESSATION
+                      OF TRANSMISSION TO OR FROM THE SERVICES, (5) ANY BUGS, VIRUSES, TROJAN HORSES,
+                      OR THE LIKE WHICH MAY BE TRANSMITTED TO OR THROUGH THE SERVICES BY ANY THIRD
+                      PARTY, AND/OR (6) ANY ERRORS OR OMISSIONS IN ANY CONTENT AND MATERIALS OR FOR
+                      ANY LOSS OR DAMAGE OF ANY KIND INCURRED AS A RESULT OF THE USE OF ANY CONTENT
+                      POSTED, TRANSMITTED, OR OTHERWISE MADE AVAILABLE VIA THE SERVICES. WE DO NOT
+                      WARRANT, ENDORSE, GUARANTEE, OR ASSUME RESPONSIBILITY FOR ANY PRODUCT OR
+                      SERVICE ADVERTISED OR OFFERED BY A THIRD PARTY THROUGH THE SERVICES, ANY
+                      HYPERLINKED WEBSITE, OR ANY WEBSITE OR MOBILE APPLICATION FEATURED IN ANY
+                      BANNER OR OTHER ADVERTISING, AND WE WILL NOT BE A PARTY TO OR IN ANY WAY BE
+                      RESPONSIBLE FOR MONITORING ANY TRANSACTION BETWEEN YOU AND ANY THIRD-PARTY
+                      PROVIDERS OF PRODUCTS OR SERVICES. AS WITH THE PURCHASE OF A PRODUCT OR
+                      SERVICE THROUGH ANY MEDIUM OR IN ANY ENVIRONMENT, YOU SHOULD USE YOUR BEST
                       <bdt class="block-component"></bdt>JUDGMENT<bdt
                         class="statement-end-if-in-editor"
                       ></bdt>
                       AND EXERCISE CAUTION WHERE APPROPRIATE.</span
                     >
                   </div>
-                  <div
-                    class="MsoNormal"
-                    style="line-height: 1.5; text-align: left"
-                  >
+                  <div class="MsoNormal" style="line-height: 1.5; text-align: left">
                     <br />
                   </div>
                   <div
@@ -4062,28 +3138,14 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                     style="line-height: 1.5; text-align: left"
                   >
                     <strong
-                      ><span
-                        style="
-                          line-height: 115%;
-                          font-family: Arial;
-                          font-size: 19px;
-                        "
+                      ><span style="line-height: 115%; font-family: Arial; font-size: 19px"
                         ><strong
                           ><span style="line-height: 24.5333px; font-size: 19px"
                             ><strong
-                              ><span
-                                style="
-                                  line-height: 115%;
-                                  font-family: Arial;
-                                  font-size: 19px;
-                                "
+                              ><span style="line-height: 115%; font-family: Arial; font-size: 19px"
                                 ><strong
                                   ><span
-                                    style="
-                                      line-height: 115%;
-                                      font-family: Arial;
-                                      font-size: 19px;
-                                    "
+                                    style="line-height: 115%; font-family: Arial; font-size: 19px"
                                     >14.</span
                                   ></strong
                                 ></span
@@ -4094,27 +3156,20 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                       ></strong
                     >
                   </div>
-                  <div
-                    class="MsoNormal"
-                    style="line-height: 1.5; text-align: left"
-                  >
+                  <div class="MsoNormal" style="line-height: 1.5; text-align: left">
                     <br />
                   </div>
-                  <div
-                    class="MsoNormal"
-                    style="line-height: 1.5; text-align: left"
-                  >
+                  <div class="MsoNormal" style="line-height: 1.5; text-align: left">
                     <span
                       style="font-size:11.0pt;line-height:115%;font-family:Arial;
 Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                       ><span data-custom-class="body_text"
-                        >IN NO EVENT WILL WE OR OUR DIRECTORS, EMPLOYEES, OR
-                        AGENTS BE LIABLE TO YOU OR ANY THIRD PARTY FOR ANY
-                        DIRECT, INDIRECT, CONSEQUENTIAL, EXEMPLARY, INCIDENTAL,
-                        SPECIAL, OR PUNITIVE DAMAGES, INCLUDING LOST PROFIT,
-                        LOST REVENUE, LOSS OF DATA, OR OTHER DAMAGES ARISING
-                        FROM YOUR USE OF THE SERVICES, EVEN IF WE HAVE BEEN
-                        ADVISED OF THE POSSIBILITY OF SUCH DAMAGES.</span
+                        >IN NO EVENT WILL WE OR OUR DIRECTORS, EMPLOYEES, OR AGENTS BE LIABLE TO YOU
+                        OR ANY THIRD PARTY FOR ANY DIRECT, INDIRECT, CONSEQUENTIAL, EXEMPLARY,
+                        INCIDENTAL, SPECIAL, OR PUNITIVE DAMAGES, INCLUDING LOST PROFIT, LOST
+                        REVENUE, LOSS OF DATA, OR OTHER DAMAGES ARISING FROM YOUR USE OF THE
+                        SERVICES, EVEN IF WE HAVE BEEN ADVISED OF THE POSSIBILITY OF SUCH
+                        DAMAGES.</span
                       >
                       <bdt
                         class="block-container if"
@@ -4128,10 +3183,9 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                               data-type="statement"
                             ></bdt
                             ><bdt data-type="body"
-                              >NOTWITHSTANDING ANYTHING TO THE CONTRARY
-                              CONTAINED HEREIN, OUR LIABILITY TO YOU FOR ANY
-                              CAUSE WHATSOEVER AND REGARDLESS OF THE FORM OF THE
-                              ACTION, WILL AT ALL TIMES BE LIMITED TO
+                              >NOTWITHSTANDING ANYTHING TO THE CONTRARY CONTAINED HEREIN, OUR
+                              LIABILITY TO YOU FOR ANY CAUSE WHATSOEVER AND REGARDLESS OF THE FORM
+                              OF THE ACTION, WILL AT ALL TIMES BE LIMITED TO
                               <bdt
                                 class="block-container if"
                                 data-type="if"
@@ -4143,17 +3197,15 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                                     data-type="statement"
                                   ></bdt
                                   ><bdt data-type="body"
-                                    >THE LESSER OF THE AMOUNT PAID, IF ANY, BY
-                                    YOU TO US<bdt data-type="conditional-block"
+                                    >THE LESSER OF THE AMOUNT PAID, IF ANY, BY YOU TO US<bdt
+                                      data-type="conditional-block"
                                       ><bdt
                                         class="block-component"
                                         data-record-question-key="limilation_liability_time_option"
                                         data-type="statement"
                                       ></bdt>
                                       OR <bdt class="block-component"></bdt
-                                      ><bdt
-                                        class="block-component"
-                                      ></bdt></bdt></bdt></bdt
+                                      ><bdt class="block-component"></bdt></bdt></bdt></bdt
                                 ><span
                                   style="font-size:11.0pt;line-height:115%;font-family:Arial;
 Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
@@ -4161,38 +3213,25 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                                     class="block-container if"
                                     data-type="if"
                                     id="3c3071ce-c603-4812-b8ca-ac40b91b9943"
-                                    ><bdt
-                                      class="statement-end-if-in-editor"
-                                      data-type="close"
-                                      ><span data-custom-class="body_text"
-                                        >.</span
-                                      ></bdt
+                                    ><bdt class="statement-end-if-in-editor" data-type="close"
+                                      ><span data-custom-class="body_text">.</span></bdt
                                     >&nbsp;</bdt
                                   ></span
                                 ><span data-custom-class="body_text"
-                                  >CERTAIN US STATE LAWS AND INTERNATIONAL LAWS
-                                  DO NOT ALLOW LIMITATIONS ON IMPLIED WARRANTIES
-                                  OR THE EXCLUSION OR LIMITATION OF CERTAIN
-                                  DAMAGES. IF THESE LAWS APPLY TO YOU, SOME OR
-                                  ALL OF THE ABOVE DISCLAIMERS OR LIMITATIONS
-                                  MAY NOT APPLY TO YOU, AND YOU MAY HAVE
-                                  ADDITIONAL RIGHTS.</span
+                                  >CERTAIN US STATE LAWS AND INTERNATIONAL LAWS DO NOT ALLOW
+                                  LIMITATIONS ON IMPLIED WARRANTIES OR THE EXCLUSION OR LIMITATION
+                                  OF CERTAIN DAMAGES. IF THESE LAWS APPLY TO YOU, SOME OR ALL OF THE
+                                  ABOVE DISCLAIMERS OR LIMITATIONS MAY NOT APPLY TO YOU, AND YOU MAY
+                                  HAVE ADDITIONAL RIGHTS.</span
                                 ></bdt
                               ></bdt
                             ></bdt
                           ></span
-                        ><bdt
-                          class="statement-end-if-in-editor"
-                          data-type="close"
-                          ><span
-                            data-custom-class="body_text"
-                          ></span></bdt></bdt
+                        ><bdt class="statement-end-if-in-editor" data-type="close"
+                          ><span data-custom-class="body_text"></span></bdt></bdt
                     ></span>
                   </div>
-                  <div
-                    class="MsoNormal"
-                    style="line-height: 1.5; text-align: left"
-                  >
+                  <div class="MsoNormal" style="line-height: 1.5; text-align: left">
                     <br />
                   </div>
                   <div
@@ -4202,28 +3241,14 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                     style="line-height: 1.5; text-align: left"
                   >
                     <strong
-                      ><span
-                        style="
-                          line-height: 115%;
-                          font-family: Arial;
-                          font-size: 19px;
-                        "
+                      ><span style="line-height: 115%; font-family: Arial; font-size: 19px"
                         ><strong
                           ><span style="line-height: 24.5333px; font-size: 19px"
                             ><strong
-                              ><span
-                                style="
-                                  line-height: 115%;
-                                  font-family: Arial;
-                                  font-size: 19px;
-                                "
+                              ><span style="line-height: 115%; font-family: Arial; font-size: 19px"
                                 ><strong
                                   ><span
-                                    style="
-                                      line-height: 115%;
-                                      font-family: Arial;
-                                      font-size: 19px;
-                                    "
+                                    style="line-height: 115%; font-family: Arial; font-size: 19px"
                                     >15.</span
                                   ></strong
                                 ></span
@@ -4234,10 +3259,7 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                       ></strong
                     >
                   </div>
-                  <div
-                    class="MsoNormal"
-                    style="line-height: 1.5; text-align: left"
-                  >
+                  <div class="MsoNormal" style="line-height: 1.5; text-align: left">
                     <br />
                   </div>
                   <div
@@ -4248,12 +3270,11 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                     <span
                       style="font-size:11.0pt;line-height:115%;font-family:Arial;
 Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
-                      >You agree to defend, indemnify, and hold us harmless,
-                      including our subsidiaries, affiliates, and all of our
-                      respective officers, agents, partners, and employees, from
-                      and against any loss, damage, liability, claim, or demand,
-                      including reasonable attorneys’ fees and expenses, made by
-                      any third party due to or arising out of:
+                      >You agree to defend, indemnify, and hold us harmless, including our
+                      subsidiaries, affiliates, and all of our respective officers, agents,
+                      partners, and employees, from and against any loss, damage, liability, claim,
+                      or demand, including reasonable attorneys’ fees and expenses, made by any
+                      third party due to or arising out of:
                       <bdt
                         class="block-container if"
                         data-type="if"
@@ -4264,43 +3285,32 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                             data-record-question-key="user_post_content_option"
                             data-type="statement"
                           ></bdt></bdt
-                        >(<span style="font-size: 14.6667px">1</span>) use of
-                        the Services; (<span style="font-size: 14.6667px"
+                        >(<span style="font-size: 14.6667px">1</span>) use of the Services; (<span
+                          style="font-size: 14.6667px"
                           >2</span
-                        >) breach of these Legal Terms; (<span
-                          style="font-size: 14.6667px"
-                          >3</span
-                        >) any breach of your representations and warranties set
-                        forth in these Legal Terms; (<span
-                          style="font-size: 14.6667px"
-                          >4</span
-                        >) your violation of the rights of a third party,
-                        including but not limited to intellectual property
-                        rights; or (<span style="font-size: 14.6667px">5</span>)
-                        any overt harmful act toward any other user of the
-                        Services with whom you connected via the Services.
-                        Notwithstanding the foregoing, we reserve the right, at
+                        >) breach of these Legal Terms; (<span style="font-size: 14.6667px">3</span
+                        >) any breach of your representations and warranties set forth in these
+                        Legal Terms; (<span style="font-size: 14.6667px">4</span>) your violation of
+                        the rights of a third party, including but not limited to intellectual
+                        property rights; or (<span style="font-size: 14.6667px">5</span>) any overt
+                        harmful act toward any other user of the Services with whom you connected
+                        via the Services. Notwithstanding the foregoing, we reserve the right, at
                         your expense, to assume the exclusive
                         <bdt class="block-component"></bdt>defense<bdt
                           class="statement-end-if-in-editor"
                         ></bdt>
-                        and control of any matter for which you are required to
-                        indemnify us, and you agree to cooperate, at your
-                        expense, with our
+                        and control of any matter for which you are required to indemnify us, and
+                        you agree to cooperate, at your expense, with our
                         <bdt class="block-component"></bdt>defense<bdt
                           class="statement-end-if-in-editor"
                         ></bdt>
-                        of such claims. We will use reasonable efforts to notify
-                        you of any such claim, action, or proceeding which is
-                        subject to this indemnification upon becoming aware of
-                        it.</bdt
+                        of such claims. We will use reasonable efforts to notify you of any such
+                        claim, action, or proceeding which is subject to this indemnification upon
+                        becoming aware of it.</bdt
                       ></span
                     >
                   </div>
-                  <div
-                    class="MsoNormal"
-                    style="line-height: 1.5; text-align: left"
-                  >
+                  <div class="MsoNormal" style="line-height: 1.5; text-align: left">
                     <br />
                   </div>
                   <div
@@ -4310,28 +3320,14 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                     style="line-height: 1.5; text-align: left"
                   >
                     <strong
-                      ><span
-                        style="
-                          line-height: 115%;
-                          font-family: Arial;
-                          font-size: 19px;
-                        "
+                      ><span style="line-height: 115%; font-family: Arial; font-size: 19px"
                         ><strong
                           ><span style="line-height: 24.5333px; font-size: 19px"
                             ><strong
-                              ><span
-                                style="
-                                  line-height: 115%;
-                                  font-family: Arial;
-                                  font-size: 19px;
-                                "
+                              ><span style="line-height: 115%; font-family: Arial; font-size: 19px"
                                 ><strong
                                   ><span
-                                    style="
-                                      line-height: 115%;
-                                      font-family: Arial;
-                                      font-size: 19px;
-                                    "
+                                    style="line-height: 115%; font-family: Arial; font-size: 19px"
                                     >16.</span
                                   ></strong
                                 ></span
@@ -4342,10 +3338,7 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                       ></strong
                     >
                   </div>
-                  <div
-                    class="MsoNormal"
-                    style="line-height: 1.5; text-align: left"
-                  >
+                  <div class="MsoNormal" style="line-height: 1.5; text-align: left">
                     <br />
                   </div>
                   <div
@@ -4356,23 +3349,17 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                     <span
                       style="font-size:11.0pt;line-height:115%;font-family:Arial;
 Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
-                      >We will maintain certain data that you transmit to the
-                      Services for the purpose of managing the performance of
-                      the Services, as well as data relating to your use of the
-                      Services. Although we perform regular routine backups of
-                      data, you are solely responsible for all data that you
-                      transmit or that relates to any activity you have
-                      undertaken using the Services. You agree that we shall
-                      have no liability to you for any loss or corruption of any
-                      such data, and you hereby waive any right of action
-                      against us arising from any such loss or corruption of
-                      such data.</span
+                      >We will maintain certain data that you transmit to the Services for the
+                      purpose of managing the performance of the Services, as well as data relating
+                      to your use of the Services. Although we perform regular routine backups of
+                      data, you are solely responsible for all data that you transmit or that
+                      relates to any activity you have undertaken using the Services. You agree that
+                      we shall have no liability to you for any loss or corruption of any such data,
+                      and you hereby waive any right of action against us arising from any such loss
+                      or corruption of such data.</span
                     >
                   </div>
-                  <div
-                    class="MsoNormal"
-                    style="line-height: 1.5; text-align: left"
-                  >
+                  <div class="MsoNormal" style="line-height: 1.5; text-align: left">
                     <br />
                   </div>
                   <div
@@ -4382,43 +3369,25 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                     style="line-height: 1.5; text-align: left"
                   >
                     <strong
-                      ><span
-                        style="
-                          line-height: 115%;
-                          font-family: Arial;
-                          font-size: 19px;
-                        "
+                      ><span style="line-height: 115%; font-family: Arial; font-size: 19px"
                         ><strong
                           ><span style="line-height: 24.5333px; font-size: 19px"
                             ><strong
-                              ><span
-                                style="
-                                  line-height: 115%;
-                                  font-family: Arial;
-                                  font-size: 19px;
-                                "
+                              ><span style="line-height: 115%; font-family: Arial; font-size: 19px"
                                 ><strong
                                   ><span
-                                    style="
-                                      line-height: 115%;
-                                      font-family: Arial;
-                                      font-size: 19px;
-                                    "
+                                    style="line-height: 115%; font-family: Arial; font-size: 19px"
                                     >17.</span
                                   ></strong
                                 ></span
                               ></strong
                             ></span
                           >&nbsp;</strong
-                        >ELECTRONIC COMMUNICATIONS, TRANSACTIONS, AND
-                        SIGNATURES</span
+                        >ELECTRONIC COMMUNICATIONS, TRANSACTIONS, AND SIGNATURES</span
                       ></strong
                     >
                   </div>
-                  <div
-                    class="MsoNormal"
-                    style="line-height: 1.5; text-align: left"
-                  >
+                  <div class="MsoNormal" style="line-height: 1.5; text-align: left">
                     <br />
                   </div>
                   <div
@@ -4429,36 +3398,25 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                     <span
                       style="font-size:11.0pt;line-height:115%;font-family:Arial;
 Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
-                      >Visiting the Services, sending us emails, and completing
-                      online forms constitute electronic communications. You
-                      consent to receive electronic communications, and you
-                      agree that all agreements, notices, disclosures, and other
-                      communications we provide to you electronically, via email
-                      and on the Services, satisfy any legal requirement that
-                      such communication be in writing. YOU HEREBY AGREE TO THE
-                      USE OF ELECTRONIC SIGNATURES, CONTRACTS, ORDERS, AND OTHER
-                      RECORDS, AND TO ELECTRONIC DELIVERY OF NOTICES, POLICIES,
-                      AND RECORDS OF TRANSACTIONS INITIATED OR COMPLETED BY US
-                      OR VIA THE SERVICES. You hereby waive any rights or
-                      requirements under any statutes, regulations, rules,
-                      ordinances, or other laws in any jurisdiction which
-                      require an original signature or delivery or retention of
-                      non-electronic records, or to payments or the granting of
-                      credits by any means other than electronic means.</span
+                      >Visiting the Services, sending us emails, and completing online forms
+                      constitute electronic communications. You consent to receive electronic
+                      communications, and you agree that all agreements, notices, disclosures, and
+                      other communications we provide to you electronically, via email and on the
+                      Services, satisfy any legal requirement that such communication be in writing.
+                      YOU HEREBY AGREE TO THE USE OF ELECTRONIC SIGNATURES, CONTRACTS, ORDERS, AND
+                      OTHER RECORDS, AND TO ELECTRONIC DELIVERY OF NOTICES, POLICIES, AND RECORDS OF
+                      TRANSACTIONS INITIATED OR COMPLETED BY US OR VIA THE SERVICES. You hereby
+                      waive any rights or requirements under any statutes, regulations, rules,
+                      ordinances, or other laws in any jurisdiction which require an original
+                      signature or delivery or retention of non-electronic records, or to payments
+                      or the granting of credits by any means other than electronic means.</span
                     >
                   </div>
-                  <div
-                    class="MsoNormal"
-                    style="line-height: 1.5; text-align: left"
-                  >
+                  <div class="MsoNormal" style="line-height: 1.5; text-align: left">
                     <br />
                   </div>
-                  <div
-                    class="MsoNormal"
-                    style="line-height: 1.5; text-align: left"
-                  >
-                    <bdt class="block-component"
-                      ><span style="font-size: 15px"></span></bdt
+                  <div class="MsoNormal" style="line-height: 1.5; text-align: left">
+                    <bdt class="block-component"><span style="font-size: 15px"></span></bdt
                     ><bdt class="block-component"></bdt>
                   </div>
                   <div
@@ -4468,28 +3426,14 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                     style="line-height: 1.5; text-align: left"
                   >
                     <strong
-                      ><span
-                        style="
-                          line-height: 115%;
-                          font-family: Arial;
-                          font-size: 19px;
-                        "
+                      ><span style="line-height: 115%; font-family: Arial; font-size: 19px"
                         ><strong
                           ><span style="line-height: 24.5333px; font-size: 19px"
                             ><strong
-                              ><span
-                                style="
-                                  line-height: 115%;
-                                  font-family: Arial;
-                                  font-size: 19px;
-                                "
+                              ><span style="line-height: 115%; font-family: Arial; font-size: 19px"
                                 ><strong
                                   ><span
-                                    style="
-                                      line-height: 115%;
-                                      font-family: Arial;
-                                      font-size: 19px;
-                                    "
+                                    style="line-height: 115%; font-family: Arial; font-size: 19px"
                                     >18.</span
                                   ></strong
                                 ></span
@@ -4500,10 +3444,7 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                       ></strong
                     >
                   </div>
-                  <div
-                    class="MsoNormal"
-                    style="line-height: 1.5; text-align: left"
-                  >
+                  <div class="MsoNormal" style="line-height: 1.5; text-align: left">
                     <br />
                   </div>
                   <div
@@ -4514,47 +3455,32 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                     <span
                       style="font-size:11.0pt;line-height:115%;font-family:Arial;
 Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
-                      >These Legal Terms and any policies or operating rules
-                      posted by us on the Services or in respect to the Services
-                      constitute the entire agreement and understanding between
-                      you and us. Our failure to exercise or enforce any right
-                      or provision of these Legal Terms shall not operate as a
-                      waiver of such right or provision. These Legal Terms
-                      operate to the fullest extent permissible by law. We may
-                      assign any or all of our rights and obligations to others
-                      at any time. We shall not be responsible or liable for any
-                      loss, damage, delay, or failure to act caused by any cause
-                      beyond our reasonable control. If any provision or part of
-                      a provision of these Legal Terms is determined to be
-                      unlawful, void, or unenforceable, that provision or part
-                      of the provision is deemed severable from these Legal
-                      Terms and does not affect the validity and enforceability
-                      of any remaining provisions. There is no joint venture,
-                      partnership, employment or agency relationship created
-                      between you and us as a result of these Legal Terms or use
-                      of the Services. You agree that these Legal Terms will not
-                      be construed against us by virtue of having drafted them.
-                      You hereby waive any and all
-                      <bdt class="block-component"></bdt>defenses<bdt
+                      >These Legal Terms and any policies or operating rules posted by us on the
+                      Services or in respect to the Services constitute the entire agreement and
+                      understanding between you and us. Our failure to exercise or enforce any right
+                      or provision of these Legal Terms shall not operate as a waiver of such right
+                      or provision. These Legal Terms operate to the fullest extent permissible by
+                      law. We may assign any or all of our rights and obligations to others at any
+                      time. We shall not be responsible or liable for any loss, damage, delay, or
+                      failure to act caused by any cause beyond our reasonable control. If any
+                      provision or part of a provision of these Legal Terms is determined to be
+                      unlawful, void, or unenforceable, that provision or part of the provision is
+                      deemed severable from these Legal Terms and does not affect the validity and
+                      enforceability of any remaining provisions. There is no joint venture,
+                      partnership, employment or agency relationship created between you and us as a
+                      result of these Legal Terms or use of the Services. You agree that these Legal
+                      Terms will not be construed against us by virtue of having drafted them. You
+                      hereby waive any and all <bdt class="block-component"></bdt>defenses<bdt
                         class="statement-end-if-in-editor"
                       ></bdt>
-                      you may have based on the electronic form of these Legal
-                      Terms and the lack of signing by the parties hereto to
-                      execute these Legal Terms.</span
+                      you may have based on the electronic form of these Legal Terms and the lack of
+                      signing by the parties hereto to execute these Legal Terms.</span
                     >
                   </div>
-                  <div
-                    class="MsoNormal"
-                    style="line-height: 1.5; text-align: left"
-                  >
-                    <bdt class="block-component"
-                      ><span style="font-size: 15px"></span
-                    ></bdt>
+                  <div class="MsoNormal" style="line-height: 1.5; text-align: left">
+                    <bdt class="block-component"><span style="font-size: 15px"></span></bdt>
                   </div>
-                  <div
-                    class="MsoNormal"
-                    style="line-height: 1.5; text-align: left"
-                  >
+                  <div class="MsoNormal" style="line-height: 1.5; text-align: left">
                     <br />
                   </div>
                   <div
@@ -4567,22 +3493,13 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                       ><span style="line-height: 115%; font-family: Arial"
                         ><span style="font-size: 19px"
                           ><strong
-                            ><span
-                              style="line-height: 24.5333px; font-size: 19px"
+                            ><span style="line-height: 24.5333px; font-size: 19px"
                               ><strong
                                 ><span
-                                  style="
-                                    line-height: 115%;
-                                    font-family: Arial;
-                                    font-size: 19px;
-                                  "
+                                  style="line-height: 115%; font-family: Arial; font-size: 19px"
                                   ><strong
                                     ><span
-                                      style="
-                                        line-height: 115%;
-                                        font-family: Arial;
-                                        font-size: 19px;
-                                      "
+                                      style="line-height: 115%; font-family: Arial; font-size: 19px"
                                       >19.</span
                                     ></strong
                                   ></span
@@ -4594,10 +3511,7 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                       ></strong
                     >
                   </div>
-                  <div
-                    class="MsoNormal"
-                    style="line-height: 1.5; text-align: left"
-                  >
+                  <div class="MsoNormal" style="line-height: 1.5; text-align: left">
                     <br />
                   </div>
                   <div
@@ -4608,24 +3522,16 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                     <span
                       style="font-size:11.0pt;line-height:115%;font-family:Arial;
 Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
-                      >In order to resolve a complaint regarding the Services or
-                      to receive further information regarding use of the
-                      Services, please contact us at:
-                      <a
-                        data-custom-class="link"
-                        href="mailto:support@bindle.co.uk"
-                        ><span
-                          data-custom-class="body_text"
-                          style="color: rgb(0, 58, 250)"
+                      >In order to resolve a complaint regarding the Services or to receive further
+                      information regarding use of the Services, please contact us at:
+                      <a data-custom-class="link" href="mailto:support@bindle.co.uk"
+                        ><span data-custom-class="body_text" style="color: rgb(0, 58, 250)"
                           >support@bindle.co.uk</span
                         ></a
                       >
                     </span>
                   </div>
-                  <div
-                    class="MsoNormal"
-                    style="line-height: 1.5; text-align: left"
-                  >
+                  <div class="MsoNormal" style="line-height: 1.5; text-align: left">
                     <br />
                   </div>
 
@@ -4638,15 +3544,12 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                       ><span style="font-size: 15px"
                         ><strong
                           ><span style="color: rgb(89, 89, 89)"
-                            ><bdt class="question"
-                              ><bdt class="block-component"></bdt></bdt
+                            ><bdt class="question"><bdt class="block-component"></bdt></bdt
                             ><bdt class="block-component"></bdt
                             ><bdt class="block-component"></bdt></span></strong
                         ><strong
                           ><span style="color: rgb(89, 89, 89)"
-                            ><bdt
-                              class="block-component"
-                            ></bdt></span></strong></span
+                            ><bdt class="block-component"></bdt></span></strong></span
                     ></strong>
                   </div>
                   <div
@@ -4659,8 +3562,7 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                         ><span
                           style="font-size:11.0pt;line-height:115%;font-family:Arial;
 Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
-                          ><strong
-                            ><bdt class="block-component"></bdt></strong></span
+                          ><strong><bdt class="block-component"></bdt></strong></span
                         >&nbsp;</strong
                       ></strong
                     >
@@ -4675,10 +3577,7 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                         ><span
                           style="font-size:11.0pt;line-height:115%;font-family:Arial;
 Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
-                          ><strong
-                            ><bdt
-                              class="block-component"
-                            ></bdt></strong></span></strong
+                          ><strong><bdt class="block-component"></bdt></strong></span></strong
                     ></strong>
                   </div>
                   <div
@@ -4692,9 +3591,7 @@ Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
 Calibri;color:#595959;mso-themecolor:text1;mso-themetint:166;"
                         ><strong
                           ><bdt class="question"
-                            ><bdt
-                              class="block-component"
-                            ></bdt></bdt></strong></span
+                            ><bdt class="block-component"></bdt></bdt></strong></span
                     ></strong>
                   </div>
                 </div>

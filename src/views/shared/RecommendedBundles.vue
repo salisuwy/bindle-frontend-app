@@ -1,12 +1,12 @@
 <script setup>
-import { computed, onMounted, ref } from "vue";
-import { useRoute } from "vue-router";
-import { useBindleApiStore } from "@/store/bindle-api.js";
-import Bundle from "@/views/shared/Bundle.vue";
-import "vue3-carousel/dist/carousel.css";
-import { Carousel, Slide, Navigation } from "vue3-carousel";
-import { useWindowSize } from "@vueuse/core";
-import CarouselNav from "./CarouselNav.vue";
+import { computed, onMounted, ref } from 'vue';
+import { useRoute } from 'vue-router';
+import { useBindleApiStore } from '@/store/bindle-api.js';
+import Bundle from '@/views/shared/Bundle.vue';
+import 'vue3-carousel/dist/carousel.css';
+import { Carousel, Slide, Navigation } from 'vue3-carousel';
+import { useWindowSize } from '@vueuse/core';
+import CarouselNav from './CarouselNav.vue';
 
 const route = useRoute();
 
@@ -30,20 +30,13 @@ onMounted(async () => {
   await bindleApiStore.getLevels();
   await bindleApiStore.getBundles();
   const level = bindleApiStore.getLevelBySlug(route.name);
-  levelFilter.value =
-    route.name === "generic-level" ? route.params.level : level.slug;
+  levelFilter.value = route.name === 'generic-level' ? route.params.level : level.slug;
   levelName.value = level.name;
-  popularBundles.value = await bindleApiStore.getPopularBundles(
-    6,
-    null,
-    levelFilter.value
-  );
+  popularBundles.value = await bindleApiStore.getPopularBundles(6, null, levelFilter.value);
 });
 
 const getPopularBundles = computed(() => {
-  return popularBundles.value.length > 0
-    ? popularBundles.value
-    : Object.assign(new Array(5), null);
+  return popularBundles.value.length > 0 ? popularBundles.value : Object.assign(new Array(5), null);
 });
 
 const { width } = useWindowSize();
@@ -61,10 +54,7 @@ const itemsToShow = computed(() => {
 });
 </script>
 <template>
-  <div
-    class="recommended-bundles max-w-8xl mx-auto mt-6 md:mt-10"
-    v-if="popularBundles.length > 0"
-  >
+  <div class="recommended-bundles max-w-8xl mx-auto mt-6 md:mt-10" v-if="popularBundles.length > 0">
     <h2 class="mb-3 md:mb-6">Recommended {{ levelName }} Bundles</h2>
     <carousel
       class="py-2"

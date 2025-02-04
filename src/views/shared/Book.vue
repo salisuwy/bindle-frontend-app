@@ -1,15 +1,15 @@
 <script setup>
-import ChevronIcon from "@/components/icons/ChevronIcon.vue";
-import { Util } from "@/components/helpers/Util.js";
-import { onMounted, ref, computed } from "vue";
-import { useBindleApiStore } from "@/store/bindle-api.js";
-import { toast } from "vue3-toastify";
-import { trackEvent } from "../../components/helpers/analytics";
-import { useMutation, useQueryClient, useQuery } from "@tanstack/vue-query";
-import { addToCart, setUuid, getOrderCart } from "@/store/cart-api";
-import AddToCartErrorNotification from "../shop/components/AddToCartErrorNotification.vue";
-import AddToCartNotification from "../shop/components/AddToCartNotification.vue";
-import SpinnerIcon from "../../components/icons/SpinnerIcon.vue";
+import ChevronIcon from '@/components/icons/ChevronIcon.vue';
+import { Util } from '@/components/helpers/Util.js';
+import { onMounted, ref, computed } from 'vue';
+import { useBindleApiStore } from '@/store/bindle-api.js';
+import { toast } from 'vue3-toastify';
+import { trackEvent } from '../../components/helpers/analytics';
+import { useMutation, useQueryClient, useQuery } from '@tanstack/vue-query';
+import { addToCart, setUuid, getOrderCart } from '@/store/cart-api';
+import AddToCartErrorNotification from '../shop/components/AddToCartErrorNotification.vue';
+import AddToCartNotification from '../shop/components/AddToCartNotification.vue';
+import SpinnerIcon from '../../components/icons/SpinnerIcon.vue';
 
 const props = defineProps({
   product: { type: Object },
@@ -22,11 +22,11 @@ const props = defineProps({
 const queryClient = useQueryClient();
 
 const { data: order } = useQuery({
-  queryKey: ["cartItems"],
+  queryKey: ['cartItems'],
   queryFn: getOrderCart,
 });
 
-const ebookSelected = props.product["is_ebook"] ? true : false;
+const ebookSelected = props.product['is_ebook'] ? true : false;
 
 const bookStock = computed(() => {
   return order.value?.order?.book_stock ?? {};
@@ -37,45 +37,43 @@ const itemsInStock = computed(() => {
     return 0;
   }
 
-  if (props.product["id"] in bookStock.value) {
-    return bookStock.value[props.product["id"]];
+  if (props.product['id'] in bookStock.value) {
+    return bookStock.value[props.product['id']];
   }
-  return props.product["quantity_in_stock"];
+  return props.product['quantity_in_stock'];
 });
 
 const { isPending, mutate } = useMutation({
   mutationFn: addToCart,
   onMutate: () => {
-    console.log("mutating");
+    console.log('mutating');
   },
   onError: (error) => {
-    console.error("mutation error", error);
+    console.error('mutation error', error);
     toast(AddToCartErrorNotification);
   },
   onSuccess: ({ data }) => {
-    console.log("mutation success", data);
+    console.log('mutation success', data);
     setUuid(data?.order?.uuid);
     toast(AddToCartNotification);
   },
   onSettled: () => {
-    queryClient.invalidateQueries(["cartItems"]);
+    queryClient.invalidateQueries(['cartItems']);
   },
 });
 
 const addToBasket = () => {
-  const item_id = props.product["id"];
-  const item_name = props.product["title"];
-  const item_type = "book";
-  const currency = "GBP";
-  const is_ebook = props.product["is_ebook"] ? true : false;
+  const item_id = props.product['id'];
+  const item_name = props.product['title'];
+  const item_type = 'book';
+  const currency = 'GBP';
+  const is_ebook = props.product['is_ebook'] ? true : false;
   const value = Util.toFixedDisplay(
-    props.product["is_ebook"]
-      ? props.product["price_ebook"]
-      : props.product["price_amount"],
+    props.product['is_ebook'] ? props.product['price_ebook'] : props.product['price_amount'],
     2
   );
 
-  trackEvent("addToBasket", {
+  trackEvent('addToBasket', {
     item_id: item_id,
     item_type: item_type,
     item_name: item_name,
@@ -87,8 +85,8 @@ const addToBasket = () => {
     item_type: item_type,
     item_id: item_id,
     is_ebook: is_ebook,
-    anonid: localStorage.getItem("anonid"),
-    uuid: localStorage.getItem("uuid"),
+    anonid: localStorage.getItem('anonid'),
+    uuid: localStorage.getItem('uuid'),
   });
 };
 
@@ -144,7 +142,7 @@ onMounted(async () => {
     </div>
     <div class="text-theme-navyblue font-bold text-left pt-4 pb-2 h-12">
       <div v-for="type in productTypes" :key="type" class="uppercase">
-        {{ type["name"] }}
+        {{ type['name'] }}
       </div>
     </div>
 
@@ -161,12 +159,8 @@ onMounted(async () => {
         :disabled="isPending || (!ebookSelected && itemsInStock <= 0)"
       >
         <!-- <span>{{ itemsInStock }}</span> -->
-        <span v-if="!isPending && (ebookSelected || itemsInStock > 0)">
-          Add to Cart
-        </span>
-        <span v-if="!isPending && !ebookSelected && itemsInStock <= 0">
-          Out of stock
-        </span>
+        <span v-if="!isPending && (ebookSelected || itemsInStock > 0)"> Add to Cart </span>
+        <span v-if="!isPending && !ebookSelected && itemsInStock <= 0"> Out of stock </span>
         <span v-if="isPending" class="flex gap-4 justify-center items-center">
           <SpinnerIcon class="w-5 h-5 text-white" />
           Adding...
@@ -179,7 +173,7 @@ onMounted(async () => {
       :title="props.product['title']"
     >
       <router-link :to="product.product_url" class="font-normal">
-        {{ props.product["title"] }}
+        {{ props.product['title'] }}
       </router-link>
     </p>
 
@@ -204,9 +198,9 @@ onMounted(async () => {
         <router-link :to="product.product_url">
           £{{
             Util.toFixedDisplay(
-              props.product["is_ebook"]
-                ? props.product["price_ebook"]
-                : props.product["price_amount"],
+              props.product['is_ebook']
+                ? props.product['price_ebook']
+                : props.product['price_amount'],
               2
             )
           }}

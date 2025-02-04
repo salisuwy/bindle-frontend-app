@@ -28,7 +28,7 @@ export default [
       'vue/block-lang': [
         'error',
         {
-          script: { allowNoLang: true },
+          script: { allowNoLang: true, lang: 'ts' },
         },
       ],
     },

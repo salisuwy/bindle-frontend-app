@@ -1,7 +1,7 @@
 <script setup>
-import { useRoute, useRouter } from "vue-router";
-import { computed } from "vue";
-import { Util } from "@/components/helpers/Util.js";
+import { useRoute, useRouter } from 'vue-router';
+import { computed } from 'vue';
+import { Util } from '@/components/helpers/Util.js';
 
 const props = defineProps({
   class: { type: [String, Array, Object], default: null },
@@ -14,16 +14,15 @@ const router = useRouter();
 const path = computed(() => route.path);
 
 const breadcrumbs = computed(() => {
-  const pathSegments = route.path.split("/");
+  const pathSegments = route.path.split('/');
   const build = [];
 
   for (let idx = 0; idx < pathSegments.length; idx++) {
-    const matchPath =
-      idx === 0 ? "/" : pathSegments.slice(0, idx + 1).join("/");
+    const matchPath = idx === 0 ? '/' : pathSegments.slice(0, idx + 1).join('/');
     let matchingRoute = router.resolve(matchPath);
     if (matchingRoute) {
       let text;
-      if (typeof matchingRoute.meta.breadcrumb === "function") {
+      if (typeof matchingRoute.meta.breadcrumb === 'function') {
         text = matchingRoute.meta.breadcrumb(route);
       } else if (Util.isString(typeof matchingRoute.meta.breadcrumb)) {
         text = matchingRoute.meta.breadcrumb;
@@ -42,7 +41,7 @@ const breadcrumbs = computed(() => {
   }
   return build;
 });
-const getClass = Util.ensureDefault(props.class, "breadcrumbs-nav");
+const getClass = Util.ensureDefault(props.class, 'breadcrumbs-nav');
 </script>
 <template>
   <nav aria-label="breadcrumb" :style="props.style" :class="getClass">
@@ -53,16 +52,12 @@ const getClass = Util.ensureDefault(props.class, "breadcrumbs-nav");
         class="breadcrumb-item inline text-sm"
       >
         <span v-if="index > 0" class="mr-3">/</span>
-        <router-link
-          v-if="breadcrumb.path !== path"
-          :to="breadcrumb.path"
-          >{{ breadcrumb.text.length <= 3 ? breadcrumb.text.toUpperCase() : breadcrumb.text }}</router-link
-        >
-        <span
-          v-else
-          class="text-theme-darkgray"
-          >{{ breadcrumb.text.length <= 3 ? breadcrumb.text.toUpperCase() : breadcrumb.text }}</span
-        >
+        <router-link v-if="breadcrumb.path !== path" :to="breadcrumb.path">{{
+          breadcrumb.text.length <= 3 ? breadcrumb.text.toUpperCase() : breadcrumb.text
+        }}</router-link>
+        <span v-else class="text-theme-darkgray">{{
+          breadcrumb.text.length <= 3 ? breadcrumb.text.toUpperCase() : breadcrumb.text
+        }}</span>
       </li>
     </ol>
   </nav>

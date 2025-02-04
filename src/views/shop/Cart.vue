@@ -1,23 +1,23 @@
 <script setup>
-import ChevronIcon from "@/components/icons/ChevronIcon.vue";
-import { useQueryClient, useQuery } from "@tanstack/vue-query";
-import { getOrderCart } from "@/store/cart-api";
-import { computed } from "vue";
-import CartDrawer from "./components/CartDrawer.vue";
-import { useRouter } from "vue-router";
-import { defineEmits } from "vue";
+import ChevronIcon from '@/components/icons/ChevronIcon.vue';
+import { useQueryClient, useQuery } from '@tanstack/vue-query';
+import { getOrderCart } from '@/store/cart-api';
+import { computed } from 'vue';
+import CartDrawer from './components/CartDrawer.vue';
+import { useRouter } from 'vue-router';
+import { defineEmits } from 'vue';
 
-const emits = defineEmits(["checkoutLinkClicked"]);
+const emits = defineEmits(['checkoutLinkClicked']);
 
 const router = useRouter();
 
 const gotoCheckout = () => {
-  emits("checkoutLinkClicked");
-  router.push("/checkout");
+  emits('checkoutLinkClicked');
+  router.push('/checkout');
 };
 
 const { data, isLoading, isPending, error } = useQuery({
-  queryKey: ["cartItems"],
+  queryKey: ['cartItems'],
   queryFn: getOrderCart,
 });
 
@@ -50,12 +50,8 @@ const orderTotalPlusShipping = computed(() => {
 <template>
   <div v-if="cartItems.length === 0">
     <h3>Basket</h3>
-    <router-link
-      to="/checkout"
-      class="bg-theme-teal mt-8 block buttonlike"
-      @click="gotoCheckout"
-      >Continue to Checkout
-      <chevron-icon height="20" width="20" right class="inline"></chevron-icon
+    <router-link to="/checkout" class="bg-theme-teal mt-8 block buttonlike" @click="gotoCheckout"
+      >Continue to Checkout <chevron-icon height="20" width="20" right class="inline"></chevron-icon
     ></router-link>
   </div>
 
