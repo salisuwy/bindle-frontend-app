@@ -1,29 +1,26 @@
 <script setup>
-import Layout from "@/views/shared/Layout.vue";
-import Breadcrumbs from "@/components/Breadcrumbs.vue";
-import BenefitsBanner from "@/views/index/BenefitsBanner.vue";
-import { onMounted, ref } from "vue";
-import { useForm, Field, ErrorMessage } from "vee-validate";
-import * as yup from "yup";
-import { saveMessage } from "@/store/cart-api";
-import SpinnerIcon from "@/components/icons/SpinnerIcon.vue";
-import { trackEvent } from "../../components/helpers/analytics";
+import Layout from '@/views/shared/Layout.vue';
+import Breadcrumbs from '@/components/Breadcrumbs.vue';
+import BenefitsBanner from '@/views/index/BenefitsBanner.vue';
+import { onMounted, ref } from 'vue';
+import { useForm, Field, ErrorMessage } from 'vee-validate';
+import * as yup from 'yup';
+import { saveMessage } from '@/store/cart-api';
+import SpinnerIcon from '@/components/icons/SpinnerIcon.vue';
+import { trackEvent } from '../../components/helpers/analytics';
 
 const showForm = ref(true);
 const isProcessing = ref(false);
 
 const schema = yup.object({
-  name: yup.string().required("Name is required"),
-  phone_number: yup.string().required("Phone number is required"),
+  name: yup.string().required('Name is required'),
+  phone_number: yup.string().required('Phone number is required'),
   email: yup
     .string()
-    .email("Email is invalid")
-    .required("Email is required")
-    .matches(
-      /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
-      "Invalid email format"
-    ),
-  message: yup.string().required("Message is required"),
+    .email('Email is invalid')
+    .required('Email is required')
+    .matches(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/, 'Invalid email format'),
+  message: yup.string().required('Message is required'),
 });
 
 const { handleSubmit, values, setFieldValue, setFieldError, errors } = useForm({
@@ -31,9 +28,9 @@ const { handleSubmit, values, setFieldValue, setFieldError, errors } = useForm({
 });
 
 async function sendMessage() {
-  trackEvent("contact", {
-    contact_method: "email",
-    message_subject: "Support Inquiry",
+  trackEvent('contact', {
+    contact_method: 'email',
+    message_subject: 'Support Inquiry',
   });
 
   isProcessing.value = true;
@@ -41,7 +38,7 @@ async function sendMessage() {
     await schema.validate(values, { abortEarly: false });
     await saveMessage(values);
     showForm.value = false;
-    console.log("form submitted");
+    console.log('form submitted');
   } catch (err) {
     err.inner.forEach((error) => {
       setFieldError(error.path, error.message);
@@ -55,19 +52,13 @@ async function sendMessage() {
     <div class="bg-theme-white relative">
       <div class="bg-theme-verylightteal py-10">
         <div class="mx-auto max-w-8xl w-full px-6 text-left mb-8">
-          <breadcrumbs
-            class="text-left w-full col-start-1 md:col-span-4 mb-4"
-          />
+          <breadcrumbs class="text-left w-full col-start-1 md:col-span-4 mb-4" />
           <h1 class="mt-12">Contact Us</h1>
-          <div class="my-6 text-xl">
-            If you have any questions, be sure to let us know!
-          </div>
+          <div class="my-6 text-xl">If you have any questions, be sure to let us know!</div>
         </div>
       </div>
       <div class="bg-theme-white py-10 px-6">
-        <div
-          class="max-w-8xl mx-auto flex flex-col md:flex-row w-full gap-6 pt-10 pb-20"
-        >
+        <div class="max-w-8xl mx-auto flex flex-col md:flex-row w-full gap-6 pt-10 pb-20">
           <div class="w-full flex flex-col">
             <div class="w-full px-6 pt-6 pb-20 grow text-left relative">
               <h1 class="text-4xl mb-12">Get in touch with us.</h1>
@@ -88,9 +79,7 @@ async function sendMessage() {
                   />
                 </svg>
                 <h2 class="text-gray-600 font-medium">
-                  <a
-                    class="text-gray-600 font-medium"
-                    href="mailto:support@bindle.co.uk"
+                  <a class="text-gray-600 font-medium" href="mailto:support@bindle.co.uk"
                     >support@bindle.co.uk</a
                   >
                 </h2>
@@ -150,9 +139,7 @@ async function sendMessage() {
               <form @submit.prevent="sendMessage" class="space-y-6" novalidate>
                 <!-- Name Field -->
                 <div>
-                  <label for="name" class="block text-xl font-medium text-white"
-                    >Name</label
-                  >
+                  <label for="name" class="block text-xl font-medium text-white">Name</label>
                   <Field
                     type="text"
                     id="name"
@@ -168,11 +155,7 @@ async function sendMessage() {
 
                 <!-- Email Field -->
                 <div>
-                  <label
-                    for="email"
-                    class="block text-xl font-medium text-white"
-                    >Email</label
-                  >
+                  <label for="email" class="block text-xl font-medium text-white">Email</label>
                   <Field
                     type="email"
                     id="email"
@@ -188,9 +171,7 @@ async function sendMessage() {
 
                 <!-- Phone Number Field -->
                 <div>
-                  <label
-                    for="phone_number"
-                    class="block text-xl font-medium text-white"
+                  <label for="phone_number" class="block text-xl font-medium text-white"
                     >Phone Number</label
                   >
                   <Field
@@ -203,19 +184,12 @@ async function sendMessage() {
                       'border-red-500 bg-red-100': errors.phone_number,
                     }"
                   />
-                  <ErrorMessage
-                    name="phone_number"
-                    class="text-red-500 mx-1 mt-1"
-                  />
+                  <ErrorMessage name="phone_number" class="text-red-500 mx-1 mt-1" />
                 </div>
 
                 <!-- Message Field -->
                 <div>
-                  <label
-                    for="message"
-                    class="block text-xl font-medium text-white"
-                    >Message</label
-                  >
+                  <label for="message" class="block text-xl font-medium text-white">Message</label>
                   <Field
                     as="textarea"
                     id="message"
@@ -237,9 +211,7 @@ async function sendMessage() {
                     class="w-full bg-theme-teal text-white py-2 px-4 rounded-md shadow-md hover:bg-teal-500 focus:outline-none focus:ring-2 focus:bg-theme-teal focus:ring-offset-2 text-xl flex justify-center items-center"
                     :disabled="isProcessing"
                   >
-                    <span v-show="isProcessing"
-                      ><SpinnerIcon class="w-5 h-5 text-white" />
-                    </span>
+                    <span v-show="isProcessing"><SpinnerIcon class="w-5 h-5 text-white" /> </span>
                     <span v-show="!isProcessing">Submit</span>
                   </button>
                 </div>

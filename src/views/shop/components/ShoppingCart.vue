@@ -1,9 +1,9 @@
 <script setup>
-import { computed, watch } from "vue";
-import CartItem from "./CartItem.vue";
-import { defineProps, defineEmits } from "vue";
-import clsx from "clsx";
-import { PerfectScrollbar } from "vue3-perfect-scrollbar";
+import { computed, watch } from 'vue';
+import CartItem from './CartItem.vue';
+import { defineProps, defineEmits } from 'vue';
+import clsx from 'clsx';
+import { PerfectScrollbar } from 'vue3-perfect-scrollbar';
 
 const props = defineProps({
   items: Array,
@@ -12,14 +12,13 @@ const props = defineProps({
   editable: Boolean,
   title: {
     type: String,
-    default: "My Cart",
+    default: 'My Cart',
   },
   showTotalItemsCount: { type: Boolean, default: false },
   showScrollBar: { type: Boolean, default: false },
-  orderId: { type: String, default: "" },
-  cssClasses: { type: String, default: "" },
+  orderId: { type: String, default: '' },
+  cssClasses: { type: String, default: '' },
 });
-
 
 const cartItemsCount = computed(() => {
   const items = props.items ?? [];
@@ -27,15 +26,14 @@ const cartItemsCount = computed(() => {
 });
 
 const mergedCssClass = computed(() => {
-  console.log("props.cssClasses", props.cssClasses);
+  console.log('props.cssClasses', props.cssClasses);
   const merged = clsx(
-    "flex flex-col px-6 py-8 w-full bg-white rounded-md border border-solid border-zinc-200 max-md:px-5 max-md:mt-9 max-md:max-w-full",
+    'flex flex-col px-6 py-8 w-full bg-white rounded-md border border-solid border-zinc-200 max-md:px-5 max-md:mt-9 max-md:max-w-full',
     props.cssClasses
   );
-  console.log("merged", merged);
+  console.log('merged', merged);
   return merged;
 });
-
 </script>
 
 <template>
@@ -47,20 +45,17 @@ const mergedCssClass = computed(() => {
       )
     "
   >
-    <header
-      class="flex gap-2 items-center self-start pt-2.5 pb-0.5 font-medium"
-    >
+    <header class="flex gap-2 items-center self-start pt-2.5 pb-0.5 font-medium">
       <h1 class="grow text-xl leading-7 text-gray-700">{{ props.title }}</h1>
       <span
         class="text-sm leading-5 text-teal-500"
-        v-if="
-          props.items.length > 0 &&
-          (props.editable || props.showTotalItemsCount)
-        "
-        >({{ cartItemsCount }} Item{{ cartItemsCount > 1 ? "s" : "" }})</span
+        v-if="props.items.length > 0 && (props.editable || props.showTotalItemsCount)"
+        >({{ cartItemsCount }} Item{{ cartItemsCount > 1 ? 's' : '' }})</span
       >
     </header>
-    <p v-if="props.orderId && props.orderId.trim().length > 0" class="text-gray-400">Order ID: {{ props.orderId }}</p>
+    <p v-if="props.orderId && props.orderId.trim().length > 0" class="text-gray-400">
+      Order ID: {{ props.orderId }}
+    </p>
     <hr class="mt-4 h-px border border-zinc-200" />
     <template v-if="props.showScrollBar">
       <PerfectScrollbar class="px-2">
@@ -88,7 +83,7 @@ const mergedCssClass = computed(() => {
 </template>
 
 <style>
-@import "vue3-perfect-scrollbar/style.css";
+@import 'vue3-perfect-scrollbar/style.css';
 
 .ps {
   max-height: 500px;

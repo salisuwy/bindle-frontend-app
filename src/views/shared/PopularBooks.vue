@@ -1,15 +1,15 @@
 <script setup>
-import { ref, onBeforeMount, computed } from "vue";
-import { useBindleApiStore } from "@/store/bindle-api.js";
-import "vue3-carousel/dist/carousel.css";
-import { Carousel, Slide, Navigation } from "vue3-carousel";
-import Book from "@/views/shared/Book.vue";
-import { useWindowSize } from "@vueuse/core";
-import Bundle from "@/views/shared/Bundle.vue";
-import CarouselNav from "./CarouselNav.vue";
+import { ref, onBeforeMount, computed } from 'vue';
+import { useBindleApiStore } from '@/store/bindle-api.js';
+import 'vue3-carousel/dist/carousel.css';
+import { Carousel, Slide, Navigation } from 'vue3-carousel';
+import Book from '@/views/shared/Book.vue';
+import { useWindowSize } from '@vueuse/core';
+import Bundle from '@/views/shared/Bundle.vue';
+import CarouselNav from './CarouselNav.vue';
 
 const props = defineProps({
-  title: { type: String, default: "Popular Products" },
+  title: { type: String, default: 'Popular Products' },
   count: { type: Number, default: 8 },
   level_id: { type: String, default: null },
   subject_id: { type: String, default: null },
@@ -27,12 +27,10 @@ const loaded = ref(false);
 const bindleApiStore = useBindleApiStore();
 const products = ref([]);
 onBeforeMount(() => {
-  bindleApiStore
-    .getPopularBooks(props.count, props.level_id, props.subject_id)
-    .then((results) => {
-      products.value = results;
-      loaded.value = true;
-    });
+  bindleApiStore.getPopularBooks(props.count, props.level_id, props.subject_id).then((results) => {
+    products.value = results;
+    loaded.value = true;
+  });
 });
 
 const { width } = useWindowSize();
@@ -48,16 +46,11 @@ const itemsToShow = computed(() => {
 });
 </script>
 <template>
-  <div
-    class="py-4 max-w-8xl mx-auto grid lg:grid-cols-4"
-    v-if="products.length > 0"
-  >
+  <div class="py-4 max-w-8xl mx-auto grid lg:grid-cols-4" v-if="products.length > 0">
     <section class="">
       <div class="lg:w-[70%] flex flex-col gap-2 lg:gap-5 p-4 lg:px-8">
         <h2 class="text-4xl text-center lg:text-left">{{ props.title }}</h2>
-        <p class="text-center lg:text-left">
-          Check out our top best-sellers right now!
-        </p>
+        <p class="text-center lg:text-left">Check out our top best-sellers right now!</p>
       </div>
     </section>
     <section class="lg:col-span-3">
@@ -76,11 +69,7 @@ const itemsToShow = computed(() => {
       :wrap-around="true"
       :items-to-show="itemsToShow"
     > -->
-        <slide
-          v-for="(product, index) in products"
-          :key="index"
-          class="bg-theme-white"
-        >
+        <slide v-for="(product, index) in products" :key="index" class="bg-theme-white">
           <book :product="product" :showBestSeller="true" />
         </slide>
       </carousel>
@@ -91,15 +80,8 @@ const itemsToShow = computed(() => {
         @nextSlide="nextSlide"
       />
 
-      <div
-        v-else
-        class="grid grid-cols-2 lg:grid-cols-4 gap-4 px-8 max-w-screen-xl mx-auto"
-      >
-        <div
-          v-for="(product, index) in products"
-          :key="index"
-          class="bg-theme-white"
-        >
+      <div v-else class="grid grid-cols-2 lg:grid-cols-4 gap-4 px-8 max-w-screen-xl mx-auto">
+        <div v-for="(product, index) in products" :key="index" class="bg-theme-white">
           <book :product="product" />
         </div>
       </div>

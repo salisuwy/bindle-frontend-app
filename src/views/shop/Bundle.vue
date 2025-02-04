@@ -1,30 +1,30 @@
 <script setup>
-import { computed, onMounted, ref, watch } from "vue";
-import { useRoute } from "vue-router";
-import { useBindleApiStore } from "@/store/bindle-api.js";
-import { Util } from "@/components/helpers/Util.js";
-import { trackEvent } from "@/components/helpers/analytics";
-import Layout from "@/views/shared/Layout.vue";
-import Breadcrumbs from "@/components/Breadcrumbs.vue";
-import Book from "@/views/shared/Book.vue";
-import BundleBook from "@/views/shared/BundleBook.vue";
-import Accordion from "@/components/Accordion.vue";
-import ChevronIcon from "@/components/icons/ChevronIcon.vue";
-import PlusIcon from "@/components/icons/PlusIcon.vue";
-import PopularBundles from "@/views/shared/PopularBundles.vue";
-import FeaturedBooks from "@/views/shared/FeaturedBooks.vue";
-import "vue3-carousel/dist/carousel.css";
-import { Carousel, Slide, Navigation } from "vue3-carousel";
+import { computed, onMounted, ref, watch } from 'vue';
+import { useRoute } from 'vue-router';
+import { useBindleApiStore } from '@/store/bindle-api.js';
+import { Util } from '@/components/helpers/Util.js';
+import { trackEvent } from '@/components/helpers/analytics';
+import Layout from '@/views/shared/Layout.vue';
+import Breadcrumbs from '@/components/Breadcrumbs.vue';
+import Book from '@/views/shared/Book.vue';
+import BundleBook from '@/views/shared/BundleBook.vue';
+import Accordion from '@/components/Accordion.vue';
+import ChevronIcon from '@/components/icons/ChevronIcon.vue';
+import PlusIcon from '@/components/icons/PlusIcon.vue';
+import PopularBundles from '@/views/shared/PopularBundles.vue';
+import FeaturedBooks from '@/views/shared/FeaturedBooks.vue';
+import 'vue3-carousel/dist/carousel.css';
+import { Carousel, Slide, Navigation } from 'vue3-carousel';
 
-import { toast } from "vue3-toastify";
-import AddToCartNotification from "./components/AddToCartNotification.vue";
-import AddToCartErrorNotification from "./components/AddToCartErrorNotification.vue";
-import SpinnerIcon from "../../components/icons/SpinnerIcon.vue";
-import { useMutation, useQueryClient, useQuery } from "@tanstack/vue-query";
-import { addToCart, setUuid, getOrderCart } from "@/store/cart-api";
-import { useHead } from "@unhead/vue";
-import { useWindowSize } from "@vueuse/core";
-import CarouselNav from "../shared/CarouselNav.vue";
+import { toast } from 'vue3-toastify';
+import AddToCartNotification from './components/AddToCartNotification.vue';
+import AddToCartErrorNotification from './components/AddToCartErrorNotification.vue';
+import SpinnerIcon from '../../components/icons/SpinnerIcon.vue';
+import { useMutation, useQueryClient, useQuery } from '@tanstack/vue-query';
+import { addToCart, setUuid, getOrderCart } from '@/store/cart-api';
+import { useHead } from '@unhead/vue';
+import { useWindowSize } from '@vueuse/core';
+import CarouselNav from '../shared/CarouselNav.vue';
 
 const { width } = useWindowSize();
 
@@ -47,7 +47,7 @@ const itemsToShow = computed(() => {
 const queryClient = useQueryClient();
 
 const { data: order } = useQuery({
-  queryKey: ["cartItems"],
+  queryKey: ['cartItems'],
   queryFn: getOrderCart,
 });
 
@@ -159,14 +159,14 @@ const getBookTypes = (bookIdx) => {
 };
 
 const getBundlePrice = computed(() => {
-  if (bundle.value === null) return "";
+  if (bundle.value === null) return '';
   return ebookSelected.value
     ? Util.toFixedDisplay(bundle.value.price_ebook, 2)
     : Util.toFixedDisplay(bundle.value.price_amount, 2);
 });
 
 const getBundlePriceTotalBooks = computed(() => {
-  if (bundle.value === null) return "";
+  if (bundle.value === null) return '';
   return ebookSelected.value
     ? Util.toFixedDisplay(bundle.value.price_ebook_total_of_books, 2)
     : Util.toFixedDisplay(bundle.value.price_total_of_books, 2);
@@ -190,15 +190,9 @@ const bundleImages = computed(() => {
     ];
   } else {
     return [
-      0 in bundle.value.books
-        ? bundle.value.books[0].image_url
-        : Util.getPlaceholderBookImage(0),
-      1 in bundle.value.books
-        ? bundle.value.books[1].image_url
-        : Util.getPlaceholderBookImage(1),
-      2 in bundle.value.books
-        ? bundle.value.books[2].image_url
-        : Util.getPlaceholderBookImage(2),
+      0 in bundle.value.books ? bundle.value.books[0].image_url : Util.getPlaceholderBookImage(0),
+      1 in bundle.value.books ? bundle.value.books[1].image_url : Util.getPlaceholderBookImage(1),
+      2 in bundle.value.books ? bundle.value.books[2].image_url : Util.getPlaceholderBookImage(2),
     ];
   }
 });
@@ -206,42 +200,42 @@ const bundleImages = computed(() => {
 const { isPending, mutate } = useMutation({
   mutationFn: addToCart,
   onMutate: () => {
-    console.log("mutating");
+    console.log('mutating');
   },
   onError: (error) => {
-    console.error("mutation error", error);
+    console.error('mutation error', error);
     toast(AddToCartErrorNotification);
   },
   onSuccess: ({ data }) => {
-    console.log("mutation success", data);
+    console.log('mutation success', data);
     setUuid(data?.order?.uuid);
     toast(AddToCartNotification);
   },
   onSettled: () => {
-    queryClient.invalidateQueries(["cartItems"]);
+    queryClient.invalidateQueries(['cartItems']);
   },
 });
 
 const addToBasket = () => {
-  trackEvent("addToBasket", {
+  trackEvent('addToBasket', {
     item_id: bundle.value?.id,
-    item_type: "bundle",
+    item_type: 'bundle',
     item_name: bundle.value?.title,
     value: getBundlePrice.value,
-    currency: "GBP",
+    currency: 'GBP',
   });
 
   mutate({
-    item_type: "bundle",
+    item_type: 'bundle',
     item_id: bundle.value?.id,
     is_ebook: ebookSelected.value,
-    anonid: localStorage.getItem("anonid"),
-    uuid: localStorage.getItem("uuid"),
+    anonid: localStorage.getItem('anonid'),
+    uuid: localStorage.getItem('uuid'),
   });
 };
 
 const getBundle = async () => {
-  const slug = route.path.split("/").slice(-1)[0];
+  const slug = route.path.split('/').slice(-1)[0];
   bundle.value = await bindleApiStore.getBundleBySlug(slug);
 };
 
@@ -257,9 +251,7 @@ onMounted(async () => {
   await bindleApiStore.getSubjects();
   await bindleApiStore.getTypes();
   ebookSelected.value = bundle.value && bundle.value.is_ebook;
-  books.value = Object.values(
-    await bindleApiStore.getBooksById(bundle.value.book_ids)
-  );
+  books.value = Object.values(await bindleApiStore.getBooksById(bundle.value.book_ids));
   for (let idx = 0; idx < books.value.length; idx++) {
     books.value[idx].url = await bindleApiStore.getBookUrl(books.value[idx].id);
   }
@@ -268,12 +260,12 @@ onMounted(async () => {
   // TODO: Add subject, level and examboard
   // TODO: hide additional subjects (left bar, buttons (gcse/aqa))
   // console.log(">>> BUNDLE: ", bundle.value);
-  trackEvent("viewContent", {
+  trackEvent('viewContent', {
     item_id: bundle.value?.id,
-    item_type: "bundle",
+    item_type: 'bundle',
     item_name: bundle.value?.title,
     value: getBundlePrice.value,
-    currency: "GBP",
+    currency: 'GBP',
   });
 });
 
@@ -293,13 +285,9 @@ watch(
   async () => {
     await getBundle();
 
-    books.value = Object.values(
-      await bindleApiStore.getBooksById(bundle.value.book_ids)
-    );
+    books.value = Object.values(await bindleApiStore.getBooksById(bundle.value.book_ids));
     for (let idx = 0; idx < books.value.length; idx++) {
-      books.value[idx].url = await bindleApiStore.getBookUrl(
-        books.value[idx].id
-      );
+      books.value[idx].url = await bindleApiStore.getBookUrl(books.value[idx].id);
     }
   }
 );
@@ -309,16 +297,11 @@ watch(
     <div class="bundle bg-theme-white py-10 relative">
       <div class="mx-auto max-w-8xl w-full px-6 text-left mb-16">
         <div class="flex flex-col md:flex-row">
-          <breadcrumbs
-            class="text-left w-full col-start-1 md:col-span-4 mb-4 grow"
-          />
+          <breadcrumbs class="text-left w-full col-start-1 md:col-span-4 mb-4 grow" />
           <div
             class="flex flex-row gap-1 md:gap-4 relative -top-2 md:-top-3 ml-auto md:ml-0 whitespace-nowrap"
           >
-            <div
-              v-for="tag in getTags"
-              class="bg-theme-pale px-2 md:px-4 py-2 h-fit"
-            >
+            <div v-for="tag in getTags" class="bg-theme-pale px-2 md:px-4 py-2 h-fit">
               {{ tag }}
             </div>
           </div>
@@ -326,9 +309,7 @@ watch(
 
         <div class="flex flex-col md:flex-row gap-4 w-full">
           <div class="w-full md:w-1/2 p-8 relative">
-            <div
-              class="flex flex-row h-fit sticky top-12 bg-theme-pale w-full py-6"
-            >
+            <div class="flex flex-row h-fit sticky top-12 bg-theme-pale w-full py-6">
               <img
                 :src="bundle?.image_url?.main"
                 :alt="bundle?.title"
@@ -353,7 +334,7 @@ watch(
           </div>
           <div v-if="bundle" class="w-full md:w-1/2 p-8">
             <h3 class="text-theme-teal uppercase">
-              {{ bundle.is_core_bundle ? "Core " : "" }}Bundle
+              {{ bundle.is_core_bundle ? 'Core ' : '' }}Bundle
             </h3>
             <h1>{{ bundle.title }}</h1>
             <div class="text-theme-darkgray mb-4">Bindle Experts</div>
@@ -364,9 +345,7 @@ watch(
               &pound;{{ getBundlePriceTotalBooks }}
             </div>
             <div class="flex flex-row gap-2 my-4 items-end">
-              <div class="text-3xl font-semibold">
-                &pound;{{ getBundlePrice }}
-              </div>
+              <div class="text-3xl font-semibold">&pound;{{ getBundlePrice }}</div>
               <div v-if="'active_discount' in bundle && bundle.active_discount">
                 <div
                   class="bg-red-600 text-white px-2 py-1 relative rounded text-xs"
@@ -384,29 +363,21 @@ watch(
                 @click="ebookSelected = true"
                 :class="
                   'format-selector text-center cursor-pointer w-36 border-2 rounded px-8 py-2 ' +
-                  (ebookSelected
-                    ? 'selected bg-theme-pale border-theme-teal'
-                    : '')
+                  (ebookSelected ? 'selected bg-theme-pale border-theme-teal' : '')
                 "
               >
                 <div>E-book</div>
-                <div>
-                  &pound; {{ Util.toFixedDisplay(bundle.price_ebook, 2) }}
-                </div>
+                <div>&pound; {{ Util.toFixedDisplay(bundle.price_ebook, 2) }}</div>
               </div>
               <div
                 @click="ebookSelected = false"
                 :class="
                   'format-selector text-center cursor-pointer w-36 border-2 rounded px-8 py-2 ' +
-                  (ebookSelected
-                    ? ''
-                    : 'selected bg-theme-pale border-theme-teal')
+                  (ebookSelected ? '' : 'selected bg-theme-pale border-theme-teal')
                 "
               >
                 <div>Paperback</div>
-                <div>
-                  &pound; {{ Util.toFixedDisplay(bundle.price_amount, 2) }}
-                </div>
+                <div>&pound; {{ Util.toFixedDisplay(bundle.price_amount, 2) }}</div>
               </div>
             </div>
 
@@ -425,13 +396,8 @@ watch(
                 <span v-if="!isPending && (ebookSelected || itemsInStock > 0)">
                   Add to basket - &pound;{{ getBundlePrice }}
                 </span>
-                <span v-if="!isPending && !ebookSelected && itemsInStock <= 0">
-                  Out of stock
-                </span>
-                <span
-                  v-if="isPending"
-                  class="flex gap-4 justify-center items-center"
-                >
+                <span v-if="!isPending && !ebookSelected && itemsInStock <= 0"> Out of stock </span>
+                <span v-if="isPending" class="flex gap-4 justify-center items-center">
                   <SpinnerIcon class="w-5 h-5 text-white" />
                   Adding to basket...
                 </span>
@@ -446,15 +412,11 @@ watch(
                 open
               >
                 <template #title
-                  ><h3 class="inline-block text-2xl">
-                    Product Description
-                  </h3></template
+                  ><h3 class="inline-block text-2xl">Product Description</h3></template
                 >
-                <template #indicator
-                  ><chevron-icon down class="inline-block"
-                /></template>
+                <template #indicator><chevron-icon down class="inline-block" /></template>
                 <div>
-                  {{ bundle.description ?? "" }}
+                  {{ bundle.description ?? '' }}
                   <!-- Currently the bundle descriptions from the database/api are
                   all null. -->
                 </div>
@@ -470,29 +432,25 @@ watch(
                 indicator-class="float-right"
               >
                 <template #title
-                  ><h3 class="inline-block text-2xl">
-                    Item Specification
-                  </h3></template
+                  ><h3 class="inline-block text-2xl">Item Specification</h3></template
                 >
-                <template #indicator
-                  ><chevron-icon down class="inline-block"
-                /></template>
+                <template #indicator><chevron-icon down class="inline-block" /></template>
                 <table class="info">
                   <tr>
-                    <td>Level{{ getLevels.length > 1 ? "s" : "" }}</td>
-                    <td>{{ getLevels.join(", ") }}</td>
+                    <td>Level{{ getLevels.length > 1 ? 's' : '' }}</td>
+                    <td>{{ getLevels.join(', ') }}</td>
                   </tr>
                   <tr>
-                    <td>Exam Board{{ getExamboards.length > 1 ? "s" : "" }}</td>
-                    <td>{{ getExamboards.join(", ") }}</td>
+                    <td>Exam Board{{ getExamboards.length > 1 ? 's' : '' }}</td>
+                    <td>{{ getExamboards.join(', ') }}</td>
                   </tr>
                   <tr>
-                    <td>Subject{{ getSubjects.length > 1 ? "s" : "" }}</td>
-                    <td>{{ getSubjects.join(", ") }}</td>
+                    <td>Subject{{ getSubjects.length > 1 ? 's' : '' }}</td>
+                    <td>{{ getSubjects.join(', ') }}</td>
                   </tr>
                   <tr>
-                    <td>Type{{ getTypes.length > 1 ? "s" : "" }}</td>
-                    <td>{{ getTypes.join(", ") }}</td>
+                    <td>Type{{ getTypes.length > 1 ? 's' : '' }}</td>
+                    <td>{{ getTypes.join(', ') }}</td>
                   </tr>
                 </table>
               </accordion>
@@ -524,21 +482,19 @@ watch(
           <h2 class="text3xl">What's inside?</h2>
           <div class="max-w-2/3 md:w-1/2 mx-auto my-4">
             Tailored for
-            {{ Array.from(new Set(getExamboards)).join(" / ") }} Exam Board{{
-              getExamboards.length > 0 ? "s" : ""
+            {{ Array.from(new Set(getExamboards)).join(' / ') }} Exam Board{{
+              getExamboards.length > 0 ? 's' : ''
             }}
-            deep dive into {{ Array.from(new Set(getLevels)).join(" / ") }}
-            {{ Array.from(new Set(getSubjects)).join(" / ") }} to ensure you're
-            well prepared for exam success.
+            deep dive into {{ Array.from(new Set(getLevels)).join(' / ') }}
+            {{ Array.from(new Set(getSubjects)).join(' / ') }} to ensure you're well prepared for
+            exam success.
           </div>
           <div
             class="md:mx-8 flex flex-col md:flex-row items-center justify-center md:items-start mx-auto gap-4 md:gap-10 border-none border-red-600"
           >
             <template v-if="books && books?.length <= 3">
               <div v-for="book in books" class="w-1/2 md:w-4/12 flex flex-col">
-                <div
-                  class="w-full h-auto md:h-[330px] lg:h-[400px] xl:h-[580px]"
-                >
+                <div class="w-full h-auto md:h-[330px] lg:h-[400px] xl:h-[580px]">
                   <img
                     :src="book.image_url"
                     alt="book image"
@@ -547,13 +503,10 @@ watch(
                 </div>
                 <div class="mt-5">
                   <div class="text-theme-navyblue">
-                    {{ getBookTypes(0).join("/") }}
+                    {{ getBookTypes(0).join('/') }}
                   </div>
                   <div class="mb-4 text-2xl">{{ book.title }}</div>
-                  <router-link
-                    v-if="book.url"
-                    :to="book.url"
-                    class="text-theme-teal"
+                  <router-link v-if="book.url" :to="book.url" class="text-theme-teal"
                     >View Product</router-link
                   >
                 </div>
@@ -572,9 +525,7 @@ watch(
                   <!-- <div class="w-full h-auto md:h-[330px] lg:h-[400px] xl:h-[580px]"></div> -->
                   <div class="border-none border-blue-600 grow mx-6">
                     <!-- <div class="w-full h-[550px] border border-red-500"> -->
-                    <div
-                      class="w-full h-auto md:h-[330px] lg:h-[400px] xl:h-[580px]"
-                    >
+                    <div class="w-full h-auto md:h-[330px] lg:h-[400px] xl:h-[580px]">
                       <img
                         :src="book.image_url"
                         alt="book image"
@@ -583,13 +534,10 @@ watch(
                     </div>
                     <div class="mt-5">
                       <div class="text-theme-navyblue">
-                        {{ getBookTypes(0).join("/") }}
+                        {{ getBookTypes(0).join('/') }}
                       </div>
                       <div class="mb-4 text-2xl">{{ book.title }}</div>
-                      <router-link
-                        v-if="book.url"
-                        :to="book.url"
-                        class="text-theme-teal"
+                      <router-link v-if="book.url" :to="book.url" class="text-theme-teal"
                         >View Product</router-link
                       >
                     </div>
@@ -604,7 +552,6 @@ watch(
             @prevSlide="prevSlide"
             @nextSlide="nextSlide"
           />
-          
         </div>
         <popular-bundles title="You may also like" />
         <featured-books title="Recommended Resources" />

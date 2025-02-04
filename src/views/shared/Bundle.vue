@@ -1,15 +1,15 @@
 <script setup>
-import ChevronIcon from "@/components/icons/ChevronIcon.vue";
-import { computed, onMounted, ref } from "vue";
-import { Util } from "@/components/helpers/Util.js";
-import { useBindleApiStore } from "@/store/bindle-api.js";
-import { toast } from "vue3-toastify";
-import { trackEvent } from "../../components/helpers/analytics";
-import { useMutation, useQueryClient, useQuery } from "@tanstack/vue-query";
-import { addToCart, setUuid, getOrderCart } from "@/store/cart-api";
-import AddToCartErrorNotification from "../shop/components/AddToCartErrorNotification.vue";
-import AddToCartNotification from "../shop/components/AddToCartNotification.vue";
-import SpinnerIcon from "../../components/icons/SpinnerIcon.vue";
+import ChevronIcon from '@/components/icons/ChevronIcon.vue';
+import { computed, onMounted, ref } from 'vue';
+import { Util } from '@/components/helpers/Util.js';
+import { useBindleApiStore } from '@/store/bindle-api.js';
+import { toast } from 'vue3-toastify';
+import { trackEvent } from '../../components/helpers/analytics';
+import { useMutation, useQueryClient, useQuery } from '@tanstack/vue-query';
+import { addToCart, setUuid, getOrderCart } from '@/store/cart-api';
+import AddToCartErrorNotification from '../shop/components/AddToCartErrorNotification.vue';
+import AddToCartNotification from '../shop/components/AddToCartNotification.vue';
+import SpinnerIcon from '../../components/icons/SpinnerIcon.vue';
 
 const props = defineProps({
   bundle: { type: Object },
@@ -21,11 +21,11 @@ const props = defineProps({
 const queryClient = useQueryClient();
 
 const { data: order } = useQuery({
-  queryKey: ["cartItems"],
+  queryKey: ['cartItems'],
   queryFn: getOrderCart,
 });
 
-const ebookSelected = props.bundle["is_ebook"] ? true : false;
+const ebookSelected = props.bundle['is_ebook'] ? true : false;
 
 const bundleStock = computed(() => {
   return order.value?.order?.bundle_stock ?? {};
@@ -36,45 +36,43 @@ const itemsInStock = computed(() => {
     return 0;
   }
 
-  if (props.bundle["id"] in bundleStock.value) {
-    return bundleStock.value[props.bundle["id"]];
+  if (props.bundle['id'] in bundleStock.value) {
+    return bundleStock.value[props.bundle['id']];
   }
-  return props.bundle["quantity_in_stock"];
+  return props.bundle['quantity_in_stock'];
 });
 
 const { isPending, mutate } = useMutation({
   mutationFn: addToCart,
   onMutate: () => {
-    console.log("mutating");
+    console.log('mutating');
   },
   onError: (error) => {
-    console.error("mutation error", error);
+    console.error('mutation error', error);
     toast(AddToCartErrorNotification);
   },
   onSuccess: ({ data }) => {
-    console.log("mutation success", data);
+    console.log('mutation success', data);
     setUuid(data?.order?.uuid);
     toast(AddToCartNotification);
   },
   onSettled: () => {
-    queryClient.invalidateQueries(["cartItems"]);
+    queryClient.invalidateQueries(['cartItems']);
   },
 });
 
 const addToBasket = () => {
-  const item_id = props.bundle["id"];
-  const item_name = props.bundle["title"];
-  const item_type = "bundle";
-  const currency = "GBP";
-  const is_ebook = props.bundle["is_ebook"] ? true : false;
+  const item_id = props.bundle['id'];
+  const item_name = props.bundle['title'];
+  const item_type = 'bundle';
+  const currency = 'GBP';
+  const is_ebook = props.bundle['is_ebook'] ? true : false;
   const value = Util.toFixedDisplay(
-    props.bundle["is_ebook"]
-      ? props.bundle["price_ebook"]
-      : props.bundle["price_amount"],
+    props.bundle['is_ebook'] ? props.bundle['price_ebook'] : props.bundle['price_amount'],
     2
   );
 
-  trackEvent("addToBasket", {
+  trackEvent('addToBasket', {
     item_id: item_id,
     item_type: item_type,
     item_name: item_name,
@@ -86,8 +84,8 @@ const addToBasket = () => {
     item_type: item_type,
     item_id: item_id,
     is_ebook: is_ebook,
-    anonid: localStorage.getItem("anonid"),
-    uuid: localStorage.getItem("uuid"),
+    anonid: localStorage.getItem('anonid'),
+    uuid: localStorage.getItem('uuid'),
   });
 };
 
@@ -95,14 +93,14 @@ const addToBasket = () => {
 
 const bindleApiStore = useBindleApiStore();
 const slug = computed(() => {
-  return Util.snakeCase(props.bundle["title"]);
+  return Util.snakeCase(props.bundle['title']);
 });
 const getClasses = computed(() => {
-  let classes = ["bindle", "w-full", "h-full", "grid"];
+  const classes = ['bindle', 'w-full', 'h-full', 'grid'];
   if (props.useRowLayout) {
-    classes.push("grid-cols-2", "auto-rows-min", "md:grid-cols-1");
+    classes.push('grid-cols-2', 'auto-rows-min', 'md:grid-cols-1');
   } else {
-    classes.push("grid-cols-1", "auto-rows-min");
+    classes.push('grid-cols-1', 'auto-rows-min');
   }
   return classes;
 });
@@ -117,28 +115,22 @@ onMounted(async () => {
 });
 
 const getBundleType = computed(() => {
-  return props.bundle.is_core_bundle ? "CORE BUNDLE" : "BUNDLE";
+  return props.bundle.is_core_bundle ? 'CORE BUNDLE' : 'BUNDLE';
 });
 
 const getImagesClass = (book_ids) => {
   if (book_ids.length === 3) {
     const type = 1 + ((book_ids[0] + book_ids[1] + book_ids[2]) % 3);
-    return "three-images three-images-" + type;
+    return 'three-images three-images-' + type;
   } else {
-    return "images";
+    return 'images';
   }
 };
 </script>
 <template>
-  <div
-    v-if="props.bundle"
-    :class="getClasses"
-    class="group py-4 bg-white hover:bg-slate-50"
-  >
+  <div v-if="props.bundle" :class="getClasses" class="group py-4 bg-white hover:bg-slate-50">
     <div class="col-start-1 row-start-1">
-      <div
-        class="relative h-72 bg-white group-hover:bg-slate-50 overflow-hidden"
-      >
+      <div class="relative h-72 bg-white group-hover:bg-slate-50 overflow-hidden">
         <img
           :src="bundle?.image_url?.thumb"
           :alt="bundle?.title"
@@ -178,12 +170,8 @@ const getImagesClass = (book_ids) => {
           :disabled="isPending || (!ebookSelected && itemsInStock <= 0)"
         >
           <!-- {{ itemsInStock }} - {{ bundle.quantity_in_stock }} -->
-          <span v-if="!isPending && (ebookSelected || itemsInStock > 0)">
-            Add to Cart
-          </span>
-          <span v-if="!isPending && !ebookSelected && itemsInStock <= 0">
-            Out of stock
-          </span>
+          <span v-if="!isPending && (ebookSelected || itemsInStock > 0)"> Add to Cart </span>
+          <span v-if="!isPending && !ebookSelected && itemsInStock <= 0"> Out of stock </span>
           <span v-if="isPending" class="flex gap-4 justify-center items-center">
             <SpinnerIcon class="w-5 h-5 text-white" />
             Adding...
@@ -191,12 +179,9 @@ const getImagesClass = (book_ids) => {
         </button>
       </div>
 
-      <p
-        class="text-2xl text-left font-normal my-4 md:line-clamp-2"
-        :title="props.bundle['name']"
-      >
+      <p class="text-2xl text-left font-normal my-4 md:line-clamp-2" :title="props.bundle['name']">
         <router-link class="font-normal" :to="'/bundles/' + slug">
-          {{ props.bundle["title"] }}
+          {{ props.bundle['title'] }}
         </router-link>
       </p>
 
@@ -220,18 +205,16 @@ const getImagesClass = (book_ids) => {
         <div
           :class="
             'flex items-end ' +
-            (props.useRowLayout
-              ? 'flex-col xs:gap-4 xs:flex-row'
-              : 'flex-row gap-4')
+            (props.useRowLayout ? 'flex-col xs:gap-4 xs:flex-row' : 'flex-row gap-4')
           "
         >
           <div class="text-3xl">
             <router-link :to="'/bundles/' + slug">
               £{{
                 Util.toFixedDisplay(
-                  props.bundle["is_ebook"]
-                    ? props.bundle["price_ebook"]
-                    : props.bundle["price_amount"],
+                  props.bundle['is_ebook']
+                    ? props.bundle['price_ebook']
+                    : props.bundle['price_amount'],
                   2
                 )
               }}
@@ -240,25 +223,20 @@ const getImagesClass = (book_ids) => {
           <div class="line-through text-theme-darkgray">
             £{{
               Util.toFixedDisplay(
-                props.bundle["is_ebook"]
-                  ? props.bundle["price_ebook_total_of_books"]
-                  : props.bundle["price_total_of_books"],
+                props.bundle['is_ebook']
+                  ? props.bundle['price_ebook_total_of_books']
+                  : props.bundle['price_total_of_books'],
                 2
               )
             }}
           </div>
         </div>
-        <div
-          v-if="!props.fullWidthButton"
-          class="text-right grow"
-          draggable="false"
-        >
+        <div v-if="!props.fullWidthButton" class="text-right grow" draggable="false">
           <router-link
             :to="'/bundles/' + slug"
             class="text-theme-teal whitespace-nowrap"
             draggable="false"
-            >View Product
-            <chevron-icon right width="12px" height="12px" class="inline"
+            >View Product <chevron-icon right width="12px" height="12px" class="inline"
           /></router-link>
         </div>
       </div>
@@ -276,8 +254,7 @@ const getImagesClass = (book_ids) => {
         :to="'/bundles/' + slug"
         class="bg-theme-teal text-white buttonlike w-full inline-block"
         draggable="false"
-        >View Product
-        <chevron-icon right width="12px" height="12px" class="inline"
+        >View Product <chevron-icon right width="12px" height="12px" class="inline"
       /></router-link>
     </div>
   </div>

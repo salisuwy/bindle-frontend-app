@@ -1,12 +1,12 @@
 <script setup>
-import CartDrawerItem from "./CartDrawerItem.vue";
-import { defineProps, defineEmits, ref, computed } from "vue";
-import { useRoute } from "vue-router";
+import CartDrawerItem from './CartDrawerItem.vue';
+import { defineProps, defineEmits, ref, computed } from 'vue';
+import { useRoute } from 'vue-router';
 
-const emits = defineEmits(["checkoutLinkClicked"]);
+const emits = defineEmits(['checkoutLinkClicked']);
 const route = useRoute();
 const editable = computed(() => {
-  if (route.name === "checkout-payment" || route.name === "checkout-address") {
+  if (route.name === 'checkout-payment' || route.name === 'checkout-address') {
     return false;
   }
   return true;
@@ -21,7 +21,7 @@ const props = defineProps({
 });
 
 const gotoCheckout = () => {
-  emits("checkoutLinkClicked");
+  emits('checkoutLinkClicked');
 };
 </script>
 
@@ -30,12 +30,10 @@ const gotoCheckout = () => {
     <header
       class="flex gap-5 justify-start items-center self-stretch px-0 w-full bg-white border-b border-solid border-zinc-200 pb-4"
     >
-      <h1
-        class="flex px-2 gap-1 items-center h-full font-medium min-w-[240px] w-full"
-      >
+      <h1 class="flex px-2 gap-1 items-center h-full font-medium min-w-[240px] w-full">
         <span class="text-2xl leading-none text-zinc-950">My Cart</span>
         <span class="text-sm leading-loose text-teal-500 ml-2"
-          >({{ count }} Item{{ count > 1 ? "s" : "" }})</span
+          >({{ count }} Item{{ count > 1 ? 's' : '' }})</span
         >
       </h1>
     </header>
@@ -46,8 +44,8 @@ const gotoCheckout = () => {
       >
         <p class="tracking-tight leading-5 text-gray-400 text-wrap text-left">
           Your order is eligible for
-          <strong class="font-medium text-teal-500">FREE Delivery</strong>.
-          Select this option at checkout.
+          <strong class="font-medium text-teal-500">FREE Delivery</strong>. Select this option at
+          checkout.
         </p>
         <div class="flex flex-col mt-6 w-full text-neutral-800">
           <div class="flex gap-5 justify-between items-start w-full">
