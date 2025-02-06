@@ -36,9 +36,15 @@ import UserProfileAddresses from '@/views/user-profile/UserProfileAddresses.vue'
 import UserProfileAddressPage from '@/views/user-profile/UserProfileAddressPage.vue';
 import AuthSuccess from '@/views/AuthSuccess.vue';
 
+// dev routes
+import AddressFormTest from '@/views/dev/AddressFormTest.vue';
+
 import { useHead } from '@unhead/vue';
 
 const routes = [
+  ...(import.meta.env['DEV']
+    ? [{ name: 'dev', path: '/dev/address-form', component: AddressFormTest }]
+    : []),
   {
     name: 'index',
     path: '/',
