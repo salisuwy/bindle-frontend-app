@@ -14,13 +14,13 @@ import type {
 import { typedKeys } from '@/components/helpers/tsUtils';
 
 export const convertToDeliveryAddress = (address: Address): OrderDeliveryAddress =>
-  typedKeys(address).reduce((deliveryAddress, key: keyof Address) => {
+  typedKeys(address).reduce((deliveryAddress, key) => {
     deliveryAddress[`delivery_${key}`] = address[key] || '';
     return deliveryAddress;
   }, {} as Partial<OrderDeliveryAddress>) as OrderDeliveryAddress;
 
 export const convertToBillingAddress = (address: Address): OrderBillingAddress =>
-  typedKeys(address).reduce((billingAddress, key: keyof Address) => {
+  typedKeys(address).reduce((billingAddress, key) => {
     billingAddress[`billing_${key}`] = address[key] || '';
     return billingAddress;
   }, {} as Partial<OrderBillingAddress>) as OrderBillingAddress;

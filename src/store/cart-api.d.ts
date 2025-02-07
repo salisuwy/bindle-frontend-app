@@ -1,4 +1,5 @@
-/* eslint @typescript-eslint/no-explicit-any: 0 */
+import type { PaymentIntent } from '@stripe/stripe-js';
+
 declare module '@/store/cart-api' {
   export type OrderIdentifiers = {
     uuid: string;
@@ -110,9 +111,12 @@ declare module '@/store/cart-api' {
   // Note: email addresses must be valid emails
   export function setOrderAddress(arg: OrderAddressArg): Promise<OrderAddressResponse>;
 
-  // GET https://service.bindle.co.uk/api/orders/cart
+  // GET /api/orders/cart
   export type OrderCartResponse = OrderAddressResponse & { order: OrderDetailsExtended };
   export function getOrderCart(): Promise<OrderCartResponse>;
 
   export function setUuid(uuid: string): string;
+
+  // POST /api/orders/cart/payment/pre-confirm
+  export function preConfirmPayment(arg: { payment_intent: PaymentIntent }): Promise<void>;
 }

@@ -22,11 +22,22 @@ defineProps<Props>();
             class="flex flex-col w-[68%] max-md:ml-0 max-md:w-full order-2 md:order-1 max-md:gap-9 gap-8"
           >
             <slot name="form"></slot>
+            <p class="text-[16px] text-gray-400 font-light">
+              Your personal data will be used to process your order, support your experience
+              throughout this website, and for other purposes described in our
+              <router-link to="/privacy-policy" class="underline text-theme-teal"
+                >privacy policy.</router-link
+              >
+            </p>
           </section>
           <aside
             class="md:sticky md:top-0 flex flex-col ml-5 w-[32%] max-md:ml-0 max-md:w-full h-fit order-1 md:order-2"
           >
-            <slot name="order"></slot>
+            <div
+              class="flex flex-col grow px-4 py-6 mx-auto w-full bg-white rounded-md border border-solid border-zinc-200 max-md:mt-9"
+            >
+              <slot name="order"></slot>
+            </div>
           </aside>
         </div>
       </div>

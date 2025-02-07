@@ -3,13 +3,17 @@ import { ref, watch } from 'vue';
 import type { Ref, ComputedRef } from 'vue';
 import { isEqual } from 'lodash-es';
 
-import CheckoutLayout from './CheckoutLayout.vue';
 import AddressForm from '@/components/forms/AddressForm.vue';
 import SpinnerIcon from '@/components/icons/SpinnerIcon.vue';
+
+import CheckoutLayout from './CheckoutLayout.vue';
+import ShoppingCart from './components/ShoppingCart.vue';
+import PriceDetails from './components/PriceDetails.vue';
 
 import { useCurrentOrder } from '@/composables/useCurrentOrder';
 import { useValidatedObject } from '@/composables/useValidatedObject';
 import type { Address } from '@/composables/useAddressForm';
+import { DeferredPromise } from '@/components/helpers/tsUtils';
 
 const breadcrumbs = [
   { text: 'Home', path: '/' },
@@ -37,6 +41,10 @@ const useObjectSync = <T,>(
 
 const {
   isLoading,
+  order,
+  cartItems,
+  bookStock,
+  bundleStock,
   deliveryAddress,
   billingAddress,
   setPartialDeliveryAddress,
@@ -62,14 +70,23 @@ useObjectSync(_billingAddress, billingAddress, (newAddress: Address) => {
 });
 
 const disable = ref(false);
+const paymentTransition = ref(0);
+let paymentProcessingPromise = new DeferredPromise<void>();
+const handleStartPayment = () => {
+  console.log('handleStartPayment');
+};
+const handleEndPayment = () => {
+  console.log('handleStartPayment');
+  paymentProcessingPromise.resolve();
+};
 
 /*
 Our validation logic relies on the fact that address validation takes place
 on blur and that blur events and handlers will complete before click events.
-Therefore, it's important that the form validation remain synchronous. Any async
-functions in the chain will break this guarantee!
+Therefore, it's important that the form validation remains synchronous. Any async
+functions in the chain will break this guarantee.
 */
-const handleClick = () => {
+const handleClick = async () => {
   console.log('Button clicked!');
   if (!isDeliveryAddressValid.value) {
     showDeliveryAddressErrors.value = true;
@@ -79,6 +96,10 @@ const handleClick = () => {
     document.getElementById('billing_address')?.scrollIntoView({ behavior: 'smooth' });
   } else {
     console.log('We can place the order!');
+    paymentProcessingPromise = new DeferredPromise<void>();
+    paymentTransition.value += 1;
+    await paymentProcessingPromise.promise;
+    console.log('Payment flow finished');
   }
 };
 </script>
@@ -107,6 +128,7 @@ const handleClick = () => {
         <button
           class="flex justify-center items-center px-3.5 py-2.5 text-sm font-semibold text-white bg-teal-500 rounded-sm max-md:px-5 w-full md:w-full"
           @click="handleClick"
+          :disabled="disable"
         >
           <SpinnerIcon v-if="disable" class="w-5 h-5 mr-2 animate-spin" />
           <span v-if="!disable"> Place Order </span>
@@ -114,8 +136,17 @@ const handleClick = () => {
       </div>
     </template>
     <template #order>
-      <p>I'm the order</p>
-      <p>isLoading: {{ isLoading }}</p>
+      <ShoppingCart
+        :items="cartItems"
+        :bookStock="bookStock"
+        :bundleStock="bundleStock"
+        :editable="false"
+        :showTotalItemsCount="true"
+        title="Order Summary"
+        :showScrollBar="true"
+        cssClasses="border-none !px-0 !py-0"
+      />
+      <PriceDetails class="mt-5" :order="order" :showDivider="false" :showAsAccordion="true" />
     </template>
   </CheckoutLayout>
 </template>
