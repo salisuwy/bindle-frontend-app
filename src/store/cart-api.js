@@ -108,11 +108,12 @@ export async function setOrderAddress(data) {
 
   console.log('setOrderAddress', data);
 
-  return axios.post(`${API_ENDPOINT}orders/cart/address`, newData, {
+  const resp = await axios.post(`${API_ENDPOINT}orders/cart/address`, newData, {
     headers: {
       'Content-Type': 'application/json',
     },
   });
+  return resp.data;
 }
 
 export async function setOrderAddressPartial(data) {
@@ -123,11 +124,12 @@ export async function setOrderAddressPartial(data) {
 
   console.log('setOrderAddressPartial', data);
 
-  return axios.post(`${API_ENDPOINT}orders/cart/address-partial`, newData, {
+  const resp = await axios.post(`${API_ENDPOINT}orders/cart/address-partial`, newData, {
     headers: {
       'Content-Type': 'application/json',
     },
   });
+  return resp.data;
 }
 
 export async function createPaymentIntent(data) {

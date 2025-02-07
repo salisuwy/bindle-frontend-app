@@ -18,10 +18,10 @@ import Explore from '@/views/resources/Explore.vue';
 import PageNotFound from '@/views/PageNotFound.vue';
 import Tokens from '@/views/Tokens.vue';
 import Test from '@/views/Test.vue';
-import Checkout from '@/views/shop/Checkout.vue';
+//import Checkout from '@/views/shop/Checkout.vue';
 import CheckoutV2 from '@/views/shop/CheckoutV2.vue';
 import CheckoutAddress from '@/views/shop/CheckoutAddress.vue';
-import CheckoutPayment from '@/views/shop/CheckoutPayment.vue';
+//import CheckoutPayment from '@/views/shop/CheckoutPayment.vue';
 import CheckoutPaymentV2 from '@/views/shop/CheckoutPaymentV2.vue';
 import Invoice from '@/views/shop/Invoice.vue';
 import Signup from '@/views/user-profile/Signup.vue';
@@ -38,6 +38,7 @@ import AuthSuccess from '@/views/AuthSuccess.vue';
 
 // dev routes
 import AddressFormTest from '@/views/dev/AddressFormTest.vue';
+import CheckoutPaymentV3 from '@/views/shop/CheckoutPaymentV3.vue';
 
 import { useHead } from '@unhead/vue';
 
@@ -138,6 +139,12 @@ const routes = [
     path: '/checkout-payment',
     component: CheckoutPaymentV2,
     meta: { breadcrumb: 'Checkout', title: 'Checkout Payment' },
+  },
+  {
+    name: 'checkout-payment-dev',
+    path: '/checkout-payment-dev',
+    component: CheckoutPaymentV3,
+    meta: { breadcrumb: 'Checkout dev', title: 'Checkout Payment Dev' },
   },
   {
     name: 'invoice',

@@ -20,7 +20,7 @@ const emit = defineEmits<{
 }>();
 
 const innerModel = computed({
-  get: () => props.modelValue,
+  get: () => props.modelValue || '',
   set: (value?: string) => emit('update:modelValue', value),
 });
 </script>
@@ -38,8 +38,8 @@ const innerModel = computed({
       :class="{
         'border-zinc-200': errorMessage === undefined,
         'border-red-500': errorMessage !== undefined,
-        'text-neutral-400': modelValue.length > 0,
-        'text-neutral-300': modelValue === undefined || modelValue.length == 0,
+        'text-neutral-400': innerModel.length > 0,
+        'text-neutral-300': innerModel.length == 0,
       }"
     >
       <select

@@ -4,11 +4,11 @@ import { ref } from 'vue';
 import Layout from '@/views/shared/Layout.vue';
 import AddressForm from '@/components/forms/AddressForm.vue';
 
-import type { Address } from '@/composables/useAddressForm';
+import { EMPTY_ADDRESS, type Address } from '@/composables/useAddressForm';
 import { useValidatedObject } from '@/composables/useValidatedObject';
 
-const deliveryAddress = ref<Address>({});
-const { isValid, handleUpdated } = useValidatedObject<Address>(deliveryAddress);
+const deliveryAddress = ref<Address>({ ...EMPTY_ADDRESS });
+const { isValid, handleUpdated } = useValidatedObject<Address>({ object: deliveryAddress });
 
 const showErrors = ref(false);
 
@@ -19,6 +19,7 @@ const handleSetAddress = () => {
     email: 'fake@fake.com',
     phone: '123456',
     address1: '123 Fake Street',
+    address2: undefined,
     city: 'FakeTown',
     zip: 'FK1 FAK',
     country: 'Finland',
@@ -26,7 +27,7 @@ const handleSetAddress = () => {
 };
 
 const handleClearAddress = () => {
-  deliveryAddress.value = {};
+  deliveryAddress.value = { ...EMPTY_ADDRESS };
 };
 </script>
 
@@ -38,6 +39,7 @@ const handleClearAddress = () => {
           <section class="flex flex-col w-[68%] max-md:ml-0 max-md:w-full order-2 md:order-1">
             <AddressForm
               id="delivery_address"
+              title="Delivery Address"
               :address="deliveryAddress"
               :showAllErrors="showErrors"
               @updated="handleUpdated"

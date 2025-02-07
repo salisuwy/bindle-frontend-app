@@ -9,20 +9,25 @@ import FormRowContainer from './FormRowContainer.vue';
 import { useAddressForm } from '@/composables/useAddressForm';
 import type { Address } from '@/composables/useAddressForm';
 
+import { typedKeys } from '../helpers/tsUtils';
+
 interface Props {
   id: string;
+  title: string;
   address: Address;
   showAllErrors?: boolean;
 }
 const props = defineProps<Props>();
 
 const emit = defineEmits<{
-  updated: [value: [isValid: boolean, address: Address]];
+  updated: [value: [isValid: boolean, address: Address, key: number]];
 }>();
 
 const concatId = (id: string) => `${props.id}_${id}`;
 
 const {
+  //meta,
+  //errors,
   values,
   validate,
   setValues,
@@ -47,24 +52,34 @@ const {
   countryAttrs,
 } = useAddressForm(toRef(props, 'showAllErrors'));
 
-const handleUpdated = async () => {
+const handleUpdated = async (keyVal: number) => {
   const res = await validate();
-  emit('updated', [res.valid, { ...values }]);
+  emit('updated', [res.valid, { ...values }, keyVal]);
 };
+
+// for debugging purposes only
+// TODO: remove this!
+let key = 0;
 
 watch(
   () => props.address,
-  async () => {
-    resetForm();
-    setValues(props.address);
-    await handleUpdated();
+  async (newVal, oldVal) => {
+    key += 1;
+    console.log(key, 'ADDRESS CHANGED FROM ', oldVal, ' TO ', newVal);
+    if (typedKeys(props.address).every((k) => props.address[k] === undefined)) {
+      resetForm();
+    }
+    setValues({
+      ...props.address,
+    });
+    await handleUpdated(key);
   },
   { immediate: true }
 );
 </script>
 
 <template>
-  <FormContainer title="Delivery Address">
+  <FormContainer :title="title">
     <FormRowContainer>
       <FormTextField
         :id="concatId('first_name')"

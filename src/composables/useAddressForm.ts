@@ -5,15 +5,27 @@ import * as yup from 'yup';
 import { useForm, type PublicPathState } from 'vee-validate';
 
 export type Address = {
-  first_name?: string;
-  last_name?: string;
-  phone?: string;
-  email?: string;
-  address1?: string;
-  address2?: string;
-  city?: string;
-  zip?: string;
-  country?: string;
+  first_name: string | undefined;
+  last_name: string | undefined;
+  phone: string | undefined;
+  email: string | undefined;
+  address1: string | undefined;
+  address2: string | undefined;
+  city: string | undefined;
+  zip: string | undefined;
+  country: string | undefined;
+};
+
+export const EMPTY_ADDRESS: Address = {
+  first_name: undefined,
+  last_name: undefined,
+  phone: undefined,
+  email: undefined,
+  address1: undefined,
+  address2: undefined,
+  city: undefined,
+  zip: undefined,
+  country: undefined,
 };
 
 export const useAddressForm = (showAllErrors: Ref<boolean | undefined>) => {
@@ -25,7 +37,7 @@ export const useAddressForm = (showAllErrors: Ref<boolean | undefined>) => {
       .string()
       .email('Email is invalid')
       .required('Email is required')
-      .matches(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/, 'Invalid email format'),
+      .matches(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/, 'Email is invalid'),
     address1: yup.string().required('Address line 1 is required'),
     address2: yup.string(),
     city: yup.string().required('Town/City is required'),
@@ -33,12 +45,10 @@ export const useAddressForm = (showAllErrors: Ref<boolean | undefined>) => {
     country: yup.string().required('Country is required'),
   });
 
-  const { values, errors, validate, resetForm, defineField, setValues } = useForm<Address>({
-    validationSchema: schema,
-    initialValues: {
-      country: '',
-    },
-  });
+  const { values, errors, validate, resetForm, defineField, setValues, setErrors, meta } =
+    useForm<Address>({
+      validationSchema: schema,
+    });
 
   const unwatch = watch(showAllErrors, async () => {
     if (showAllErrors.value) {
@@ -66,9 +76,11 @@ export const useAddressForm = (showAllErrors: Ref<boolean | undefined>) => {
   return {
     values,
     errors,
+    meta,
     validate,
     resetForm,
     setValues,
+    setErrors,
     firstName,
     firstNameAttrs,
     lastName,

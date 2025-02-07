@@ -11,13 +11,14 @@ export const useValidatedObject = <T>(object: Ref<T>) => {
 
   const initialValidationInProgress = new DeferredPromise<void>();
 
-  const handleUpdated = ([isValid, newObject]: [boolean, T]) => {
+  const handleUpdated = ([isValid, newObject, key]: [boolean, T, number]) => {
+    console.log(key, 'handleUpdated', isValid, { ...object.value }, newObject);
     initialValidationInProgress.resolve();
     if (!isEqual(newObject, object.value)) {
       object.value = newObject;
     }
+
     _isValid.value = isValid;
-    //console.log('handleUpdated', isValid, newObject);
   };
 
   return {
