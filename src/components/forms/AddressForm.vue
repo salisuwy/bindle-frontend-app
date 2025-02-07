@@ -29,7 +29,7 @@ const {
   //meta,
   //errors,
   values,
-  validate,
+  validateSync,
   setValues,
   resetForm,
   firstName,
@@ -52,9 +52,8 @@ const {
   countryAttrs,
 } = useAddressForm(toRef(props, 'showAllErrors'));
 
-const handleUpdated = async (keyVal: number) => {
-  const res = await validate();
-  emit('updated', [res.valid, { ...values }, keyVal]);
+const handleUpdated = (keyVal: number) => {
+  emit('updated', [validateSync(values), { ...values }, keyVal]);
 };
 
 // for debugging purposes only
@@ -63,7 +62,7 @@ let key = 0;
 
 watch(
   () => props.address,
-  async (newVal, oldVal) => {
+  (newVal, oldVal) => {
     key += 1;
     console.log(key, 'ADDRESS CHANGED FROM ', oldVal, ' TO ', newVal);
     if (typedKeys(props.address).every((k) => props.address[k] === undefined)) {
@@ -72,14 +71,14 @@ watch(
     setValues({
       ...props.address,
     });
-    await handleUpdated(key);
+    handleUpdated(key);
   },
   { immediate: true }
 );
 </script>
 
 <template>
-  <FormContainer :title="title">
+  <FormContainer :id="id" :title="title">
     <FormRowContainer>
       <FormTextField
         :id="concatId('first_name')"

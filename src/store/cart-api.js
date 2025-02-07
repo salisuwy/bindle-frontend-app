@@ -24,7 +24,9 @@ export function getUuid() {
 }
 
 export function setUuid(uuid) {
-  localStorage.setItem('uuid', uuid);
+  if (uuid !== undefined && typeof uuid == 'string') {
+    localStorage.setItem('uuid', uuid);
+  }
 }
 
 export function getAnonIdAndUuid() {
@@ -77,6 +79,7 @@ export async function getOrderCart() {
   console.log('getOrderCart', data);
 
   const resp = await axios.get(`${API_ENDPOINT}orders/cart?${urlParams}`);
+  setUuid(resp?.data?.order?.uuid);
   return resp.data;
 }
 

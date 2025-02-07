@@ -8,7 +8,7 @@ import { EMPTY_ADDRESS, type Address } from '@/composables/useAddressForm';
 import { useValidatedObject } from '@/composables/useValidatedObject';
 
 const deliveryAddress = ref<Address>({ ...EMPTY_ADDRESS });
-const { isValid, handleUpdated } = useValidatedObject<Address>({ object: deliveryAddress });
+const { isValid, handleUpdated } = useValidatedObject<Address>(deliveryAddress);
 
 const showErrors = ref(false);
 

@@ -73,11 +73,24 @@ export const useAddressForm = (showAllErrors: Ref<boolean | undefined>) => {
   const [zip, zipAttrs] = defineField('zip', fieldValidationOptions);
   const [country, countryAttrs] = defineField('country', fieldValidationOptions);
 
+  const validateSync = (values: any) => {
+    try {
+      // Use yup to get an immediate synchronous answer
+      schema.validateSync(values, { abortEarly: true });
+      return true;
+    } catch {
+      // run async vee-validate validation to update error feedback... eventually
+      validate();
+      return false;
+    }
+  };
+
   return {
     values,
     errors,
     meta,
     validate,
+    validateSync,
     resetForm,
     setValues,
     setErrors,
