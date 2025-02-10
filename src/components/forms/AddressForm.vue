@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { watch, toRef } from 'vue';
+import { computed, watch, toRef } from 'vue';
 
 import FormContainer from './FormContainer.vue';
 import FormTextField from './FormTextField.vue';
@@ -16,6 +16,8 @@ interface Props {
   title: string;
   address: Address;
   showAllErrors?: boolean;
+  disabled?: boolean;
+  hideForm?: boolean;
 }
 const props = defineProps<Props>();
 
@@ -60,17 +62,20 @@ const handleUpdated = (keyVal: number) => {
 // TODO: remove this!
 let key = 0;
 
+const disableForm = computed(() => props.disabled || props.hideForm);
+
 watch(
   () => props.address,
   (newVal, oldVal) => {
     key += 1;
-    console.log(key, 'ADDRESS CHANGED FROM ', oldVal, ' TO ', newVal);
+    console.log(key, props.id, 'ADDRESS CHANGED FROM ', oldVal, ' TO ', newVal);
     if (typedKeys(props.address).every((k) => props.address[k] === undefined)) {
       resetForm();
     }
     setValues({
       ...props.address,
     });
+
     handleUpdated(key);
   },
   { immediate: true }
@@ -78,10 +83,14 @@ watch(
 </script>
 
 <template>
-  <FormContainer :id="id" :title="title">
+  <FormContainer :id="id" :title="title" :hideForm="hideForm">
+    <template #header-control>
+      <slot name="header-control"></slot>
+    </template>
     <FormRowContainer>
       <FormTextField
         :id="concatId('first_name')"
+        :disabled="disableForm"
         label="First name *"
         placeholder="Enter your first name"
         v-model="firstName"
@@ -90,6 +99,7 @@ watch(
       />
       <FormTextField
         :id="concatId('last_name')"
+        :disabled="disableForm"
         label="Last name *"
         placeholder="Enter your last name"
         v-model="lastName"
@@ -101,6 +111,7 @@ watch(
       <FormTextField
         type="tel"
         :id="concatId('phone')"
+        :disabled="disableForm"
         label="Phone number *"
         placeholder="Enter your phone number"
         v-model="phoneNumber"
@@ -110,6 +121,7 @@ watch(
       <FormTextField
         type="email"
         :id="concatId('email')"
+        :disabled="disableForm"
         label="Email *"
         placeholder="Enter your email"
         v-model="email"
@@ -119,6 +131,7 @@ watch(
     </FormRowContainer>
     <FormTextField
       :id="concatId('address1')"
+      :disabled="disableForm"
       label="Address line 1 *"
       placeholder="Enter your Address line 1"
       v-model="address1"
@@ -127,6 +140,7 @@ watch(
     />
     <FormTextField
       :id="concatId('address2')"
+      :disabled="disableForm"
       label="Address line 2"
       placeholder="Enter your Address line 2"
       v-model="address2"
@@ -136,6 +150,7 @@ watch(
     <FormRowContainer>
       <FormTextField
         :id="concatId('city')"
+        :disabled="disableForm"
         label="Town/City *"
         placeholder="Enter your city"
         v-model="city"
@@ -144,6 +159,7 @@ watch(
       />
       <FormTextField
         :id="concatId('zip')"
+        :disabled="disableForm"
         label="Postcode / ZIP *"
         placeholder="Enter your postcode"
         v-model="zip"
@@ -154,6 +170,7 @@ watch(
     <FormRowContainer padRight>
       <FormCountrySelectField
         :id="concatId('country')"
+        :disabled="disableForm"
         label="Select Country *"
         placeholder="Select option"
         v-model="country"

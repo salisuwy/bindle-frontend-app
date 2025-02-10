@@ -1,4 +1,4 @@
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 
 import { useQuery, useQueryClient, useMutation } from '@tanstack/vue-query';
 import { getOrderCart, setOrderAddressPartial, setOrderAddress, setUuid } from '@/store/cart-api';
@@ -12,6 +12,7 @@ import type {
 } from '@/store/cart-api';
 
 import { typedKeys } from '@/components/helpers/tsUtils';
+import { isEqual } from 'lodash-es';
 
 export const convertToDeliveryAddress = (address: Address): OrderDeliveryAddress =>
   typedKeys(address).reduce((deliveryAddress, key) => {
@@ -25,13 +26,48 @@ export const convertToBillingAddress = (address: Address): OrderBillingAddress =
     return billingAddress;
   }, {} as Partial<OrderBillingAddress>) as OrderBillingAddress;
 
+export const orderAddressesMatch = (order: OrderCartResponse) => {
+  const keys = [
+    'first_name',
+    'last_name',
+    'phone',
+    'email',
+    'address1',
+    'address2',
+    'city',
+    'zip',
+    'country',
+  ];
+  return keys.every(
+    (k) =>
+      order.order[`billing_${k}` as keyof OrderCartResponse['order']] ===
+      order.order[`delivery_${k}` as keyof OrderCartResponse['order']]
+  );
+};
+
 export const useCurrentOrder = () => {
+  let initialCheckPerformed = false;
+  const useDeliveryForBilling = ref(false);
+
   const { data, isLoading } = useQuery<OrderCartResponse>({
     queryKey: ['cartItems'],
-    queryFn: getOrderCart,
+    queryFn: async () => {
+      const data = await getOrderCart();
+      if (!initialCheckPerformed && orderAddressesMatch(data)) {
+        useDeliveryForBilling.value = true;
+        initialCheckPerformed = true;
+      }
+      return data;
+    },
+    staleTime: 0,
   });
 
+  /*watch(data, () => {
+    console.log('useCurrentOrder: useQuery data updated', data.value);
+  });*/
+
   const order = computed(() => {
+    console.log('order computed triggered');
     return data.value?.order;
   });
 
@@ -52,6 +88,7 @@ export const useCurrentOrder = () => {
   });
 
   const deliveryAddress = computed<Address>(() => {
+    //console.log('deliveryAddress computed triggered');
     if (order.value === undefined) {
       return { ...EMPTY_ADDRESS };
     } else {
@@ -68,6 +105,10 @@ export const useCurrentOrder = () => {
       };
     }
   });
+
+  /*watch(deliveryAddress, () => {
+    console.log('useCurrentOrder: deliveryAddress updated', deliveryAddress.value);
+  });*/
 
   const billingAddress = computed<Address>(() => {
     if (order.value === undefined) {
@@ -115,23 +156,30 @@ export const useCurrentOrder = () => {
       console.log('mutation success - payload', variables);
       setUuid(order.uuid);
     },
-    onSettled: (data) => {
-      if (data !== undefined) {
-        const { order } = data;
-        queryClient.setQueryData(['cartItems'], (oldData: OrderCartResponse) =>
-          oldData
+    onSettled: (newData) => {
+      console.log('onSettled:', newData);
+      if (newData !== undefined) {
+        queryClient.setQueryData(['cartItems'], (oldData: OrderCartResponse) => {
+          console.log('onSettled:', oldData);
+          const updatedData = oldData
             ? {
-                ...oldData,
-                ...order,
+                order: { ...oldData.order, ...newData.order },
               }
-            : oldData
-        );
+            : oldData;
+          console.log('queryClient.setQueryData:', updatedData);
+          return updatedData;
+        });
       }
     },
   });
 
-  const setPartialDeliveryAddress = (address: Address) =>
-    mutateAddress({ isPartial: true, payload: convertToDeliveryAddress(address) });
+  const setPartialDeliveryAddress = (address: Address, billingSameAsDelivery = false) =>
+    mutateAddress({
+      isPartial: true,
+      payload: billingSameAsDelivery
+        ? Object.assign({}, convertToDeliveryAddress(address), convertToBillingAddress(address))
+        : convertToDeliveryAddress(address),
+    });
 
   const setPartialBillingAddress = (address: Address) =>
     mutateAddress({ isPartial: true, payload: convertToBillingAddress(address) });
@@ -160,6 +208,7 @@ export const useCurrentOrder = () => {
     coupons,
     deliveryAddress,
     billingAddress,
+    useDeliveryForBilling,
     setPartialDeliveryAddress,
     setPartialBillingAddress,
     setFinalAddresses,

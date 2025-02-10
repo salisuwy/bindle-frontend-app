@@ -12,7 +12,7 @@ import PriceDetails from './components/PriceDetails.vue';
 
 import { useCurrentOrder } from '@/composables/useCurrentOrder';
 import { useValidatedObject } from '@/composables/useValidatedObject';
-import type { Address } from '@/composables/useAddressForm';
+import { EMPTY_ADDRESS, type Address } from '@/composables/useAddressForm';
 import { DeferredPromise } from '@/components/helpers/tsUtils';
 
 const breadcrumbs = [
@@ -24,16 +24,25 @@ const breadcrumbs = [
 const useObjectSync = <T,>(
   object: Ref<T>,
   syncObject: ComputedRef<T>,
-  onUpdate: (newObject: T) => void
+  onUpdate: (newObject: T) => void,
+  label?: string
 ) => {
   watch(syncObject, () => {
+    console.log(label, 'syncObject has changed');
     if (!isEqual(syncObject.value, object.value)) {
+      console.log(
+        label,
+        'synching object with syncObject',
+        { ...syncObject.value },
+        { ...object.value }
+      );
       object.value = syncObject.value;
     }
   });
 
   watch(object, () => {
     if (!isEqual(object.value, syncObject.value)) {
+      console.log(label, 'calling onUpdate with object');
       onUpdate(object.value);
     }
   });
@@ -47,29 +56,50 @@ const {
   bundleStock,
   deliveryAddress,
   billingAddress,
+  useDeliveryForBilling,
   setPartialDeliveryAddress,
   setPartialBillingAddress,
 } = useCurrentOrder();
 
 const _deliveryAddress = ref<Address>(deliveryAddress.value);
 const showDeliveryAddressErrors = ref(false);
+watch(_deliveryAddress, () => (showDeliveryAddressErrors.value = false));
 const { isValid: isDeliveryAddressValid, handleUpdated: handleDeliveryUpdated } =
   useValidatedObject<Address>(_deliveryAddress);
-useObjectSync(_deliveryAddress, deliveryAddress, (newAddress: Address) => {
-  console.log('useObjectSync: setPartialDeliveryAddress', newAddress);
-  setPartialDeliveryAddress(newAddress);
+useObjectSync(
+  _deliveryAddress,
+  deliveryAddress,
+  (newAddress: Address) => {
+    console.log('useObjectSync: setPartialDeliveryAddress', newAddress);
+    setPartialDeliveryAddress(newAddress, useDeliveryForBilling.value);
+  },
+  'delivery address'
+);
+
+watch(useDeliveryForBilling, () => {
+  if (useDeliveryForBilling.value) {
+    _billingAddress.value = { ...deliveryAddress.value };
+  } else {
+    _billingAddress.value = { ...EMPTY_ADDRESS };
+  }
 });
 
 const _billingAddress = ref<Address>(billingAddress.value);
 const showBillingAddressErrors = ref(false);
+watch(_billingAddress, () => (showBillingAddressErrors.value = false));
 const { isValid: isBillingAddressValid, handleUpdated: handleBillingUpdated } =
   useValidatedObject<Address>(_billingAddress);
-useObjectSync(_billingAddress, billingAddress, (newAddress: Address) => {
-  console.log('useObjectSync: setPartialBillingAddress', newAddress);
-  setPartialBillingAddress(newAddress);
-});
+useObjectSync(
+  _billingAddress,
+  billingAddress,
+  (newAddress: Address) => {
+    console.log('useObjectSync: setPartialBillingAddress', newAddress);
+    setPartialBillingAddress(newAddress);
+  },
+  'billing address'
+);
 
-const disable = ref(false);
+const paymentInProgress = ref(false);
 const paymentTransition = ref(0);
 let paymentProcessingPromise = new DeferredPromise<void>();
 const handleStartPayment = () => {
@@ -96,9 +126,11 @@ const handleClick = async () => {
     document.getElementById('billing_address')?.scrollIntoView({ behavior: 'smooth' });
   } else {
     console.log('We can place the order!');
+    paymentInProgress.value = true;
     paymentProcessingPromise = new DeferredPromise<void>();
     paymentTransition.value += 1;
     await paymentProcessingPromise.promise;
+    paymentInProgress.value = false;
     console.log('Payment flow finished');
   }
 };
@@ -110,17 +142,29 @@ const handleClick = async () => {
       <AddressForm
         title="Delivery Address"
         id="delivery_address"
-        :address="deliveryAddress"
+        :address="_deliveryAddress"
         :showAllErrors="showDeliveryAddressErrors"
+        :disabled="isLoading"
         @updated="handleDeliveryUpdated"
       />
       <AddressForm
         title="Billing Address"
         id="billing_address"
-        :address="billingAddress"
+        :address="_billingAddress"
         :showAllErrors="showBillingAddressErrors"
+        :disabled="isLoading"
+        :hideForm="useDeliveryForBilling"
         @updated="handleBillingUpdated"
-      />
+      >
+        <template #header-control>
+          <label
+            class="text-base tracking-tighter leading-6 text-neutral-400 bindle-checkbox cursor-pointer mr-4"
+          >
+            <input type="checkbox" v-model="useDeliveryForBilling" :disabled="isLoading" />
+            Same as Delivery Address
+          </label></template
+        >
+      </AddressForm>
 
       <div
         class="flex flex-col justify-center items-center rounded-md border border-solid border-zinc-200 p-5 mt-0 max-md:max-w-full"
@@ -128,10 +172,10 @@ const handleClick = async () => {
         <button
           class="flex justify-center items-center px-3.5 py-2.5 text-sm font-semibold text-white bg-teal-500 rounded-sm max-md:px-5 w-full md:w-full"
           @click="handleClick"
-          :disabled="disable"
+          :disabled="isLoading"
         >
-          <SpinnerIcon v-if="disable" class="w-5 h-5 mr-2 animate-spin" />
-          <span v-if="!disable"> Place Order </span>
+          <SpinnerIcon v-if="paymentInProgress" class="w-5 h-5 mr-2 animate-spin" />
+          <span v-if="!paymentInProgress"> Place Order </span>
         </button>
       </div>
     </template>

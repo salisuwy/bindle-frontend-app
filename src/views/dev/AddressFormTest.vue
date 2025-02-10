@@ -29,6 +29,8 @@ const handleSetAddress = () => {
 const handleClearAddress = () => {
   deliveryAddress.value = { ...EMPTY_ADDRESS };
 };
+
+const disable = ref(false);
 </script>
 
 <template>
@@ -42,6 +44,7 @@ const handleClearAddress = () => {
               title="Delivery Address"
               :address="deliveryAddress"
               :showAllErrors="showErrors"
+              :disabled="disable"
               @updated="handleUpdated"
             />
           </section>
@@ -52,6 +55,7 @@ const handleClearAddress = () => {
               <button @click="showErrors = !showErrors">Show Errors</button>
               <button @click="handleSetAddress">Set Address</button>
               <button @click="handleClearAddress">Clear Address</button>
+              <button @click="disable = !disable">Disable</button>
               <p :class="{ 'text-red-500': !isValid, 'text-green-500': isValid }">
                 {{ deliveryAddress }}
               </p>

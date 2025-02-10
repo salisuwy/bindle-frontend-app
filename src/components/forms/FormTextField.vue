@@ -8,6 +8,7 @@ interface Props {
   placeholder: string;
   modelValue?: string;
   errorMessage?: string;
+  disabled?: boolean;
 }
 const props = defineProps<Props>();
 
@@ -31,6 +32,7 @@ const innerModel = computed({
       v-model="innerModel"
       v-bind="attrs"
       @blur="$emit('blur')"
+      :disabled="disabled"
       :type="type || 'text'"
       :id="id"
       :name="id"
