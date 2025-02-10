@@ -36,5 +36,5 @@ jobs:
             git checkout staging
             git pull origin staging
             npm ci
-            npm run build
+            npm run build-staging
           EOF
