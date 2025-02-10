@@ -293,7 +293,7 @@ export const useBindleApiStore = defineStore('bindleApi', () => {
           } else if (subjects.length === 1) {
             book.product_url = '/' + level.slug + '/' + subjects[0].slug + '/' + book.slug;
           } else {
-            books.value.product_url = null;
+            book.product_url = null;
           }
         }
 
