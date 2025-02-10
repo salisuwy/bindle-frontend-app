@@ -155,6 +155,7 @@ export const useCurrentOrder = ({
     onSuccess: ({ order }, variables) => {
       console.log('mutation success', order);
       console.log('mutation success - payload', variables);
+      console.log(`useCurrentOrder: setUuid(${order.uuid})`);
       setUuid(order.uuid);
     },
     onSettled: (newData) => {

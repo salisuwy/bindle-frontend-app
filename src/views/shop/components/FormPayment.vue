@@ -229,7 +229,7 @@ async function makePayment() {
 
       console.log('next page is: /invoice');
       localStorage.removeItem('uuid');
-      //queryClient.setQueryData(['cartItems'], {});
+      queryClient.setQueryData(['cartItems'], {});
       //queryClient.invalidateQueries(['cartItems']);
       router.push(`/invoice/${anonUuid.anonid}/${anonUuid.uuid}`);
     }

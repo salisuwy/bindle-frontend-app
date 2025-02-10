@@ -20,6 +20,7 @@ export function getUuid() {
 
 export function setUuid(uuid) {
   if (uuid !== undefined && typeof uuid == 'string') {
+    console.log(`cart-api: setUuid(${uuid})`);
     localStorage.setItem('uuid', uuid);
   }
 }
