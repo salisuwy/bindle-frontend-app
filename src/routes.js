@@ -122,12 +122,12 @@ const routes = [
     component: CheckoutV2,
     meta: { breadcrumb: 'Checkout', title: 'Checkout' },
   },
-  {
+  /*{
     name: 'checkout-address',
     path: '/checkout-address',
     component: CheckoutAddress,
     meta: { breadcrumb: 'Checkout', title: 'Checkout Address' },
-  },
+  },*/
   // {
   //   name: "checkout-payment",
   //   path: "/checkout-payment",
@@ -137,15 +137,15 @@ const routes = [
   {
     name: 'checkout-payment',
     path: '/checkout-payment',
-    component: CheckoutPaymentV2,
+    component: CheckoutPaymentV3,
     meta: { breadcrumb: 'Checkout', title: 'Checkout Payment' },
   },
-  {
+  /*{
     name: 'checkout-payment-dev',
     path: '/checkout-payment-dev',
     component: CheckoutPaymentV3,
     meta: { breadcrumb: 'Checkout dev', title: 'Checkout Payment Dev' },
-  },
+  },*/
   {
     name: 'invoice',
     path: '/invoice/:anonId/:orderId',

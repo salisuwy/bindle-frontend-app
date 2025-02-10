@@ -45,21 +45,22 @@ export const orderAddressesMatch = (order: OrderCartResponse) => {
   );
 };
 
-export const useCurrentOrder = () => {
-  let initialCheckPerformed = false;
-  const useDeliveryForBilling = ref(false);
+export const useCurrentOrder = ({
+  onFirstCall,
+}: { onFirstCall?: (data: OrderCartResponse) => void } = {}) => {
+  let firstCallPerformed = false;
 
   const { data, isLoading } = useQuery<OrderCartResponse>({
     queryKey: ['cartItems'],
     queryFn: async () => {
+      console.log('useCurrentOrder: queryFn');
       const data = await getOrderCart();
-      if (!initialCheckPerformed && orderAddressesMatch(data)) {
-        useDeliveryForBilling.value = true;
-        initialCheckPerformed = true;
+      if (!firstCallPerformed && onFirstCall) {
+        onFirstCall(data);
       }
+      firstCallPerformed = true;
       return data;
     },
-    staleTime: 0,
   });
 
   /*watch(data, () => {
@@ -208,7 +209,6 @@ export const useCurrentOrder = () => {
     coupons,
     deliveryAddress,
     billingAddress,
-    useDeliveryForBilling,
     setPartialDeliveryAddress,
     setPartialBillingAddress,
     setFinalAddresses,

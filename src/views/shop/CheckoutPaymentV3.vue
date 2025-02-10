@@ -7,13 +7,15 @@ import AddressForm from '@/components/forms/AddressForm.vue';
 import SpinnerIcon from '@/components/icons/SpinnerIcon.vue';
 
 import CheckoutLayout from './CheckoutLayout.vue';
+import FormPayment from './components/FormPayment.vue';
 import ShoppingCart from './components/ShoppingCart.vue';
 import PriceDetails from './components/PriceDetails.vue';
 
-import { useCurrentOrder } from '@/composables/useCurrentOrder';
+import { useCurrentOrder, orderAddressesMatch } from '@/composables/useCurrentOrder';
 import { useValidatedObject } from '@/composables/useValidatedObject';
 import { EMPTY_ADDRESS, type Address } from '@/composables/useAddressForm';
 import { DeferredPromise } from '@/components/helpers/tsUtils';
+import type { OrderCartResponse } from '@/store/cart-api';
 
 const breadcrumbs = [
   { text: 'Home', path: '/' },
@@ -48,6 +50,8 @@ const useObjectSync = <T,>(
   });
 };
 
+const useDeliveryForBilling = ref(false);
+
 const {
   isLoading,
   order,
@@ -56,10 +60,15 @@ const {
   bundleStock,
   deliveryAddress,
   billingAddress,
-  useDeliveryForBilling,
   setPartialDeliveryAddress,
   setPartialBillingAddress,
-} = useCurrentOrder();
+} = useCurrentOrder({
+  onFirstCall: (data: OrderCartResponse) => {
+    if (orderAddressesMatch(data)) {
+      useDeliveryForBilling.value = true;
+    }
+  },
+});
 
 const _deliveryAddress = ref<Address>(deliveryAddress.value);
 const showDeliveryAddressErrors = ref(false);
@@ -100,7 +109,7 @@ useObjectSync(
 );
 
 const paymentInProgress = ref(false);
-const paymentTransition = ref(0);
+const triggerPayment = ref(0);
 let paymentProcessingPromise = new DeferredPromise<void>();
 const handleStartPayment = () => {
   console.log('handleStartPayment');
@@ -128,7 +137,7 @@ const handleClick = async () => {
     console.log('We can place the order!');
     paymentInProgress.value = true;
     paymentProcessingPromise = new DeferredPromise<void>();
-    paymentTransition.value += 1;
+    triggerPayment.value += 1;
     await paymentProcessingPromise.promise;
     paymentInProgress.value = false;
     console.log('Payment flow finished');
@@ -165,7 +174,13 @@ const handleClick = async () => {
           </label></template
         >
       </AddressForm>
-
+      <FormPayment
+        class="!my-0"
+        :order="order || {}"
+        :transition="String(triggerPayment)"
+        @startTransition="handleStartPayment"
+        @stopTransition="handleEndPayment"
+      />
       <div
         class="flex flex-col justify-center items-center rounded-md border border-solid border-zinc-200 p-5 mt-0 max-md:max-w-full"
       >
