@@ -7,6 +7,7 @@ import CheckoutLayout from './CheckoutLayout.vue';
 import ShoppingCart from './components/ShoppingCart.vue';
 import PriceDetails from './components/PriceDetails.vue';
 import FormPayment from './components/FormPayment.vue';
+import BindleCheckbox from '@/components/BindleCheckbox.vue';
 
 import { useAuthStore } from '@/store/useAuthStore';
 import { useCurrentOrder } from '@/composables/useCurrentOrder';
@@ -16,10 +17,9 @@ import {
   isAddressEqual,
 } from '@/composables/useAddressForm';
 import type { Address } from '@/composables/useAddressForm';
-import { DeferredPromise } from '@/components/helpers/tsUtils';
-
 import { useValidatedObject } from '@/composables/useValidatedObject';
-import BindleCheckbox from '@/components/BindleCheckbox.vue';
+
+import { DeferredPromise } from '@/components/helpers/tsUtils';
 
 const breadcrumbs = [
   { text: 'Home', path: '/' },
@@ -72,7 +72,7 @@ const { isValid: isBillingValid, handleUpdated: handleBillingUpdated } =
   useValidatedObject(billingAddress);
 watch(billingAddress, () => {
   if (!isAddressEqual(billingAddress.value, orderBillingAddress.value)) {
-    console.log('updating billing address to:', billingAddress.value);
+    //console.log('updating billing address to:', billingAddress.value);
     setPartialBillingAddress(billingAddress.value);
   }
 });
@@ -99,11 +99,11 @@ const paymentInProgress = ref(false);
 const triggerPayment = ref(0);
 let paymentProcessingPromise = new DeferredPromise<void>();
 const handleStartPayment = () => {
-  console.log('handleStartPayment');
+  //console.log('handleStartPayment');
 };
 const handleEndPayment = () => {
   console.log('handleStartPayment');
-  paymentProcessingPromise.resolve();
+  //paymentProcessingPromise.resolve();
 };
 
 /*
@@ -121,13 +121,13 @@ const handleClick = async () => {
     showBillingAddressErrors.value = true;
     document.getElementById('billing-address')?.scrollIntoView({ behavior: 'smooth' });
   } else {
-    console.log('We can place the order!');
+    //console.log('We can place the order!');
     paymentInProgress.value = true;
     paymentProcessingPromise = new DeferredPromise<void>();
     triggerPayment.value += 1;
     await paymentProcessingPromise.promise;
     paymentInProgress.value = false;
-    console.log('Payment flow finished');
+    //console.log('Payment flow finished');
   }
 };
 </script>

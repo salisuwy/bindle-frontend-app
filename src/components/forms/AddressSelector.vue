@@ -40,7 +40,7 @@ watch(selected, () => {
 </script>
 
 <template>
-  <AddressCard
+  <AddressSelectorCard
     v-for="(address, i) in savedAddresses"
     v-model="selected"
     :key="address.address1"

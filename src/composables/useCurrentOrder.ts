@@ -25,25 +25,6 @@ export const convertToBillingAddress = (address: Address): OrderBillingAddress =
     return billingAddress;
   }, {} as Partial<OrderBillingAddress>) as OrderBillingAddress;
 
-export const orderAddressesMatch = (order: OrderCartResponse) => {
-  const keys = [
-    'first_name',
-    'last_name',
-    'phone',
-    'email',
-    'address1',
-    'address2',
-    'city',
-    'zip',
-    'country',
-  ];
-  return keys.every(
-    (k) =>
-      order.order[`billing_${k}` as keyof OrderCartResponse['order']] ===
-      order.order[`delivery_${k}` as keyof OrderCartResponse['order']]
-  );
-};
-
 export const useCurrentOrder = ({
   onFirstCall,
 }: { onFirstCall?: (data: OrderCartResponse) => void } = {}) => {
@@ -62,12 +43,7 @@ export const useCurrentOrder = ({
     },
   });
 
-  /*watch(data, () => {
-    console.log('useCurrentOrder: useQuery data updated', data.value);
-  });*/
-
   const order = computed(() => {
-    console.log('order computed triggered');
     return data.value?.order;
   });
 
@@ -88,7 +64,6 @@ export const useCurrentOrder = ({
   });
 
   const deliveryAddress = computed<Address>(() => {
-    //console.log('deliveryAddress computed triggered');
     if (order.value === undefined) {
       return { ...EMPTY_ADDRESS };
     } else {
@@ -105,10 +80,6 @@ export const useCurrentOrder = ({
       };
     }
   });
-
-  /*watch(deliveryAddress, () => {
-    console.log('useCurrentOrder: deliveryAddress updated', deliveryAddress.value);
-  });*/
 
   const billingAddress = computed<Address>(() => {
     if (order.value === undefined) {
@@ -145,29 +116,20 @@ export const useCurrentOrder = ({
         return await setOrderAddress(payload);
       }
     },
-    onMutate: () => {
-      console.log('mutating');
-    },
     onError: (error) => {
-      console.error('mutation error', error);
+      console.error('mutateAddress error', error);
     },
     onSuccess: ({ order }, variables) => {
-      console.log('mutation success', order);
-      console.log('mutation success - payload', variables);
-      console.log(`useCurrentOrder: setUuid(${order.uuid})`);
       setUuid(order.uuid);
     },
     onSettled: (newData) => {
-      console.log('onSettled:', newData);
       if (newData !== undefined) {
         queryClient.setQueryData(['cartItems'], (oldData: OrderCartResponse) => {
-          console.log('onSettled:', oldData);
           const updatedData = oldData
             ? {
                 order: { ...oldData.order, ...newData.order },
               }
             : oldData;
-          console.log('queryClient.setQueryData:', updatedData);
           return updatedData;
         });
       }

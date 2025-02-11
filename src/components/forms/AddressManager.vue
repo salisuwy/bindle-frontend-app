@@ -95,7 +95,7 @@ watch(selectedAddress, () => {
         @updated="handleFormUpdate"
       />
       <BindleButton v-if="savedAddresses.length > 0" type="secondary" @click="handleShowSelector"
-        >Use a saved addresses</BindleButton
+        >Use a saved address</BindleButton
       >
     </template>
     <template v-else>
