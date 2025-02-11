@@ -43,9 +43,11 @@ const order = computed(() => {
   return data.value?.order ?? {};
 });
 
-watch(order, (newOrder) => {
+// Adding the order id back seems like a bad idea now the order is completed?
+// TODO: confirm this
+/*watch(order, (newOrder) => {
   setUuid(newOrder?.uuid);
-});
+});*/
 
 onBeforeMount(() => {
   localStorage.removeItem('uuid');

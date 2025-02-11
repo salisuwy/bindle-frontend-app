@@ -50,7 +50,7 @@ export const useAuthStore = defineStore('auth', () => {
   // >> GETTERS
   const user = computed(() => state.user);
   const accessToken = computed(() => state.token);
-  const isGuest = computed(() => state.user.role === 'guest');
+  const isGuest = computed(() => state.user?.role === 'guest');
   const error = computed(() => state.error);
   const isLoading = computed(() => state.isLoading);
   const currentOrderLoading = computed(() => state.currentOrderLoading);
@@ -332,7 +332,7 @@ export const useAuthStore = defineStore('auth', () => {
 
   const fetchAddresses = () => {
     state.allAddressesLoading = true;
-    axios
+    return axios
       .get(`${API_ENDPOINT}profile/addresses`, {
         headers: {
           Authorization: `Bearer ${accessToken.value}`,

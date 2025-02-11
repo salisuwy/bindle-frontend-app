@@ -18,11 +18,8 @@ import Explore from '@/views/resources/Explore.vue';
 import PageNotFound from '@/views/PageNotFound.vue';
 import Tokens from '@/views/Tokens.vue';
 import Test from '@/views/Test.vue';
-import Checkout from '@/views/shop/Checkout.vue';
 import CheckoutV2 from '@/views/shop/CheckoutV2.vue';
-import CheckoutAddress from '@/views/shop/CheckoutAddress.vue';
-import CheckoutPayment from '@/views/shop/CheckoutPayment.vue';
-import CheckoutPaymentV2 from '@/views/shop/CheckoutPaymentV2.vue';
+import CheckoutPaymentV4 from '@/views/shop/CheckoutPaymentV4.vue';
 import Invoice from '@/views/shop/Invoice.vue';
 import Signup from '@/views/user-profile/Signup.vue';
 import Login from '@/views/user-profile/Login.vue';
@@ -39,6 +36,9 @@ import AuthSuccess from '@/views/AuthSuccess.vue';
 import { useHead } from '@unhead/vue';
 
 const routes = [
+  /*...(import.meta.env['DEV']
+    ? [{ name: 'dev', path: '/dev/address-form', component: AddressFormTest }]
+    : []),*/
   {
     name: 'index',
     path: '/',
@@ -115,12 +115,12 @@ const routes = [
     component: CheckoutV2,
     meta: { breadcrumb: 'Checkout', title: 'Checkout' },
   },
-  {
+  /*{
     name: 'checkout-address',
     path: '/checkout-address',
     component: CheckoutAddress,
     meta: { breadcrumb: 'Checkout', title: 'Checkout Address' },
-  },
+  },*/
   // {
   //   name: "checkout-payment",
   //   path: "/checkout-payment",
@@ -130,7 +130,7 @@ const routes = [
   {
     name: 'checkout-payment',
     path: '/checkout-payment',
-    component: CheckoutPaymentV2,
+    component: CheckoutPaymentV4,
     meta: { breadcrumb: 'Checkout', title: 'Checkout Payment' },
   },
   {

@@ -6,13 +6,7 @@ import { trackEvent } from '../../../components/helpers/analytics';
 import { useRouter } from 'vue-router';
 import { loadStripe } from '@stripe/stripe-js';
 import SpinnerIcon from '@/components/icons/SpinnerIcon.vue';
-import {
-  getAnonIdAndUuid,
-  getOrderMode,
-  STRIPE_PUBLIC_KEY,
-  STRIPE_PUBLIC_KEY_LIVE,
-  STRIPE_PUBLIC_KEY_TEST,
-} from '../../../store/cart-api';
+import { getAnonIdAndUuid, getOrderMode, STRIPE_PUBLIC_KEY } from '../../../store/cart-api';
 
 const router = useRouter();
 const props = defineProps({
@@ -138,9 +132,7 @@ onMounted(async () => {
   console.log('mounted');
 
   const ORDER_MODE = await getOrderMode();
-  const SELECTED_STRIPE_KEY =
-    ORDER_MODE === 'test' ? STRIPE_PUBLIC_KEY_TEST : STRIPE_PUBLIC_KEY_LIVE;
-
+  const SELECTED_STRIPE_KEY = STRIPE_PUBLIC_KEY;
   const TEN_CHARS = (SELECTED_STRIPE_KEY ? String(SELECTED_STRIPE_KEY) : '').substring(0, 15);
   console.log(`>>> STRIPE - mode: ${ORDER_MODE} | pk: ${TEN_CHARS}`);
 
@@ -238,7 +230,7 @@ async function makePayment() {
       console.log('next page is: /invoice');
       localStorage.removeItem('uuid');
       queryClient.setQueryData(['cartItems'], {});
-      queryClient.invalidateQueries(['cartItems']);
+      //queryClient.invalidateQueries(['cartItems']);
       router.push(`/invoice/${anonUuid.anonid}/${anonUuid.uuid}`);
     }
   } catch (error) {

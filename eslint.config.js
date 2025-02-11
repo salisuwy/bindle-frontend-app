@@ -20,11 +20,15 @@ export default [
   skipFormatting,
   {
     files: ['**/*.ts', '**/*.vue', '**/*.js'],
+    ignorePatterns: ['old/'],
     plugins: { prettier },
     rules: {
       '@typescript-eslint/no-unused-vars': 'warn',
+      '@typescript-eslint/no-explicit-any': 'warn',
       'vue/multi-word-component-names': 'off',
-      'prettier/prettier': 'warn',
+      // set to 'warn' to highlight formatting errors, but if we format
+      // on save anyway, it's not that useful
+      //'prettier/prettier': 'warn',
       'vue/block-lang': [
         'error',
         {

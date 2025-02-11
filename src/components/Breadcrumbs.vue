@@ -3,6 +3,8 @@ import { useRoute, useRouter } from 'vue-router';
 import { computed } from 'vue';
 import { Util } from '@/components/helpers/Util.js';
 
+import BreadcrumbsContent from './BreadcrumbsContent.vue';
+
 const props = defineProps({
   class: { type: [String, Array, Object], default: null },
   style: { type: [String, Object], default: null },
@@ -44,21 +46,10 @@ const breadcrumbs = computed(() => {
 const getClass = Util.ensureDefault(props.class, 'breadcrumbs-nav');
 </script>
 <template>
-  <nav aria-label="breadcrumb" :style="props.style" :class="getClass">
-    <ol class="breadcrumbs flex flex-row flex-wrap gap-2 sm:gap-4">
-      <li
-        v-for="(breadcrumb, index) in breadcrumbs"
-        :key="index"
-        class="breadcrumb-item inline text-sm"
-      >
-        <span v-if="index > 0" class="mr-3">/</span>
-        <router-link v-if="breadcrumb.path !== path" :to="breadcrumb.path">{{
-          breadcrumb.text.length <= 3 ? breadcrumb.text.toUpperCase() : breadcrumb.text
-        }}</router-link>
-        <span v-else class="text-theme-darkgray">{{
-          breadcrumb.text.length <= 3 ? breadcrumb.text.toUpperCase() : breadcrumb.text
-        }}</span>
-      </li>
-    </ol>
-  </nav>
+  <BreadcrumbsContent
+    :style="props.style"
+    :class="getClass"
+    :breadcrumbs="breadcrumbs"
+    :currentPath="path"
+  />
 </template>

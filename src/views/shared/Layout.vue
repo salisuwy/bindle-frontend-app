@@ -5,11 +5,6 @@ import LayoutFooter from './Footer.vue';
 import Testimonials from './Testimonials.vue';
 import SubscribeForm from './SubscribeForm.vue';
 
-interface Props {
-  test: string;
-}
-defineProps<Props>();
-
 const getVersion = () => {
   return __APP_VERSION__;
 };

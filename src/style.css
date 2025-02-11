@@ -277,7 +277,7 @@
   }
 
   input[type='radio'].bindle-radio:checked::before {
-    transform: scale(1);
+    transform: scale(0.75);
   }
 
   .radio-links input[type='radio'] {

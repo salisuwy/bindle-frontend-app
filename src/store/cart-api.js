@@ -1,13 +1,8 @@
 import axios from 'axios';
 import uniqid from 'uniqid';
 
-const API_ENDPOINT = import.meta.env.VITE_API_ENDPOINT || 'https://service.bindle.co.uk/api/';
-
-export const STRIPE_PUBLIC_KEY = import.meta.env.VITE_STRIPE_PUBLIC_KEY || '';
-export const STRIPE_PUBLIC_KEY_LIVE =
-  'pk_live_51LlArcBasD2xizKYUKdZQZHm68oAAq0LbQKXPadGVYKJ70A96siYPeeyWNPr4huzaeeScdAWBS3C1anSDLURU0cp00XUZGKGwi';
-export const STRIPE_PUBLIC_KEY_TEST =
-  'pk_test_51LlArcBasD2xizKYlH8SLE274JDiDfn8OJYOi5yoPWQ1sypLol1AN0UbqsIYCG9HPt2vu9fx9TGP3PltbQrgXfID008qdlrto0';
+export const API_ENDPOINT = import.meta.env.VITE_API_ENDPOINT;
+export const STRIPE_PUBLIC_KEY = import.meta.env.VITE_STRIPE_PUBLIC_KEY;
 
 export function getAnonId() {
   let anonId = localStorage.getItem('anonid');
@@ -24,7 +19,10 @@ export function getUuid() {
 }
 
 export function setUuid(uuid) {
-  localStorage.setItem('uuid', uuid);
+  if (uuid !== undefined && typeof uuid == 'string') {
+    console.log(`cart-api: setUuid(${uuid})`);
+    localStorage.setItem('uuid', uuid);
+  }
 }
 
 export function getAnonIdAndUuid() {
@@ -77,6 +75,7 @@ export async function getOrderCart() {
   console.log('getOrderCart', data);
 
   const resp = await axios.get(`${API_ENDPOINT}orders/cart?${urlParams}`);
+  setUuid(resp?.data?.order?.uuid);
   return resp.data;
 }
 
@@ -108,11 +107,12 @@ export async function setOrderAddress(data) {
 
   console.log('setOrderAddress', data);
 
-  return axios.post(`${API_ENDPOINT}orders/cart/address`, newData, {
+  const resp = await axios.post(`${API_ENDPOINT}orders/cart/address`, newData, {
     headers: {
       'Content-Type': 'application/json',
     },
   });
+  return resp.data;
 }
 
 export async function setOrderAddressPartial(data) {
@@ -123,11 +123,12 @@ export async function setOrderAddressPartial(data) {
 
   console.log('setOrderAddressPartial', data);
 
-  return axios.post(`${API_ENDPOINT}orders/cart/address-partial`, newData, {
+  const resp = await axios.post(`${API_ENDPOINT}orders/cart/address-partial`, newData, {
     headers: {
       'Content-Type': 'application/json',
     },
   });
+  return resp.data;
 }
 
 export async function createPaymentIntent(data) {
