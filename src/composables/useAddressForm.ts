@@ -70,7 +70,7 @@ export const useAddressForm = ({
       .required('Email is required')
       .matches(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/, 'Email is invalid'),
     address1: yup.string().required('Address line 1 is required'),
-    address2: yup.string(),
+    address2: yup.string().nullable(),
     city: yup.string().required('Town/City is required'),
     zip: yup.string().required('Postcode/ZIP is required'),
     country: yup.string().required('Country is required'),
