@@ -59,10 +59,12 @@ watch(deliveryAddress, () => {
   }
 });
 
-const billingSameAsDelivery = ref(true);
+const billingSameAsDelivery = ref(false);
 watch(billingSameAsDelivery, (newVal) => {
   if (newVal) {
     billingAddress.value = { ...deliveryAddress.value };
+  } else {
+    billingAddress.value = savedAddresses.value[0] || { ...EMPTY_ADDRESS };
   }
 });
 
@@ -72,7 +74,7 @@ const { isValid: isBillingValid, handleUpdated: handleBillingUpdated } =
   useValidatedObject(billingAddress);
 watch(billingAddress, () => {
   if (!isAddressEqual(billingAddress.value, orderBillingAddress.value)) {
-    //console.log('updating billing address to:', billingAddress.value);
+    console.log('updating billing address to:', billingAddress.value);
     setPartialBillingAddress(billingAddress.value);
   }
 });
@@ -103,7 +105,7 @@ const handleStartPayment = () => {
 };
 const handleEndPayment = () => {
   console.log('handleStartPayment');
-  //paymentProcessingPromise.resolve();
+  paymentProcessingPromise.resolve();
 };
 
 /*
