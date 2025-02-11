@@ -1,16 +1,19 @@
 <script setup lang="ts">
-import { ref, watch } from 'vue';
+import { ref, watch, onMounted, nextTick } from 'vue';
 import type { Ref, ComputedRef } from 'vue';
 import { isEqual } from 'lodash-es';
 
 import AddressForm from '@/components/forms/AddressForm.vue';
-import SpinnerIcon from '@/components/icons/SpinnerIcon.vue';
+import BindleButton from '@/components/BindleButton.vue';
+import BindleCheckbox from '@/components/BindleCheckbox.vue';
+import AddressSelector from '@/components/forms/AddressSelector.vue';
 
 import CheckoutLayout from './CheckoutLayout.vue';
 import FormPayment from './components/FormPayment.vue';
 import ShoppingCart from './components/ShoppingCart.vue';
 import PriceDetails from './components/PriceDetails.vue';
 
+import { useAuthStore } from '@/store/useAuthStore';
 import { useCurrentOrder, orderAddressesMatch } from '@/composables/useCurrentOrder';
 import { useValidatedObject } from '@/composables/useValidatedObject';
 import { EMPTY_ADDRESS, type Address } from '@/composables/useAddressForm';
@@ -20,7 +23,7 @@ import type { OrderCartResponse } from '@/store/cart-api';
 const breadcrumbs = [
   { text: 'Home', path: '/' },
   { text: 'Shop Resources', path: '/resources' },
-  { text: 'Your Cart', path: '/checkout-payment-dev' },
+  { text: 'Your Cart', path: '/checkout-payment' },
 ];
 
 const useObjectSync = <T,>(
@@ -50,7 +53,12 @@ const useObjectSync = <T,>(
   });
 };
 
-const useDeliveryForBilling = ref(false);
+const authStore = useAuthStore();
+onMounted(async () => {
+  await authStore.fetchAddresses();
+});
+
+const useDeliveryForBilling = ref(true);
 
 const {
   isLoading,
@@ -73,8 +81,10 @@ const {
 const _deliveryAddress = ref<Address>(deliveryAddress.value);
 const showDeliveryAddressErrors = ref(false);
 watch(_deliveryAddress, () => (showDeliveryAddressErrors.value = false));
+
 const { isValid: isDeliveryAddressValid, handleUpdated: handleDeliveryUpdated } =
   useValidatedObject<Address>(_deliveryAddress);
+
 useObjectSync(
   _deliveryAddress,
   deliveryAddress,
@@ -85,19 +95,21 @@ useObjectSync(
   'delivery address'
 );
 
-watch(useDeliveryForBilling, () => {
-  if (useDeliveryForBilling.value) {
-    _billingAddress.value = { ...deliveryAddress.value };
-  } else {
-    _billingAddress.value = { ...EMPTY_ADDRESS };
-  }
-});
+const newDeliveryAddress = ref(false);
+const handleNewDeliveryAddress = async () => {
+  _deliveryAddress.value = { ...EMPTY_ADDRESS };
+  newDeliveryAddress.value = true;
+  await nextTick();
+  document.getElementById('delivery_address')?.scrollIntoView({ behavior: 'smooth' });
+};
 
 const _billingAddress = ref<Address>(billingAddress.value);
 const showBillingAddressErrors = ref(false);
 watch(_billingAddress, () => (showBillingAddressErrors.value = false));
+
 const { isValid: isBillingAddressValid, handleUpdated: handleBillingUpdated } =
   useValidatedObject<Address>(_billingAddress);
+
 useObjectSync(
   _billingAddress,
   billingAddress,
@@ -107,6 +119,22 @@ useObjectSync(
   },
   'billing address'
 );
+
+const newBillingAddress = ref(false);
+const handleNewBillingAddress = async () => {
+  _billingAddress.value = { ...EMPTY_ADDRESS };
+  newBillingAddress.value = true;
+  await nextTick();
+  document.getElementById('billing_address')?.scrollIntoView({ behavior: 'smooth' });
+};
+
+watch(useDeliveryForBilling, () => {
+  if (useDeliveryForBilling.value) {
+    _billingAddress.value = { ...deliveryAddress.value };
+  } else {
+    _billingAddress.value = { ...EMPTY_ADDRESS };
+  }
+});
 
 const paymentInProgress = ref(false);
 const triggerPayment = ref(0);
@@ -148,16 +176,41 @@ const handleClick = async () => {
 <template>
   <CheckoutLayout :breadcrumbs="breadcrumbs">
     <template #form>
+      <AddressSelector
+        title="Select Delivery Address"
+        v-if="!authStore.isGuest && authStore.state.allAddresses.length > 0 && !newDeliveryAddress"
+        type="delivery"
+        @updated="handleDeliveryUpdated"
+        @new="handleNewDeliveryAddress"
+        :savedAddresses="authStore.state.allAddresses"
+      />
       <AddressForm
-        title="Delivery Address"
+        v-else
+        :title="newDeliveryAddress ? 'New Delivery Address' : 'Delivery Address'"
         id="delivery_address"
         :address="_deliveryAddress"
         :showAllErrors="showDeliveryAddressErrors"
         :disabled="isLoading"
         @updated="handleDeliveryUpdated"
       />
+      <AddressSelector
+        title="Select Billing Address"
+        v-if="!authStore.isGuest && authStore.state.allAddresses.length > 0 && !newBillingAddress"
+        type="billing"
+        @updated="handleBillingUpdated"
+        @new="handleNewBillingAddress"
+        :savedAddresses="authStore.state.allAddresses"
+        :useDeliveryForBilling="useDeliveryForBilling"
+      >
+        <template #header-control>
+          <BindleCheckbox v-model="useDeliveryForBilling" :disabled="isLoading"
+            >Same as Delivery Address</BindleCheckbox
+          >
+        </template></AddressSelector
+      >
       <AddressForm
-        title="Billing Address"
+        v-else
+        :title="newBillingAddress ? 'New Billing Address' : 'Billing Address'"
         id="billing_address"
         :address="_billingAddress"
         :showAllErrors="showBillingAddressErrors"
@@ -166,13 +219,10 @@ const handleClick = async () => {
         @updated="handleBillingUpdated"
       >
         <template #header-control>
-          <label
-            class="text-base tracking-tighter leading-6 text-neutral-400 bindle-checkbox cursor-pointer mr-4"
+          <BindleCheckbox v-model="useDeliveryForBilling" :disabled="isLoading"
+            >Same as Delivery Address</BindleCheckbox
           >
-            <input type="checkbox" v-model="useDeliveryForBilling" :disabled="isLoading" />
-            Same as Delivery Address
-          </label></template
-        >
+        </template>
       </AddressForm>
       <FormPayment
         class="!my-0"
@@ -184,14 +234,14 @@ const handleClick = async () => {
       <div
         class="flex flex-col justify-center items-center rounded-md border border-solid border-zinc-200 p-5 mt-0 max-md:max-w-full"
       >
-        <button
-          class="flex justify-center items-center px-3.5 py-2.5 text-sm font-semibold text-white bg-teal-500 rounded-sm max-md:px-5 w-full md:w-full"
+        <BindleButton
+          type="primary"
+          block
           @click="handleClick"
           :disabled="isLoading"
+          :loading="paymentInProgress"
+          >Place Order</BindleButton
         >
-          <SpinnerIcon v-if="paymentInProgress" class="w-5 h-5 mr-2 animate-spin" />
-          <span v-if="!paymentInProgress"> Place Order </span>
-        </button>
       </div>
     </template>
     <template #order>

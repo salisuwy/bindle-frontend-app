@@ -79,7 +79,7 @@
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup>
 import { useSlots, computed, ref } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 
@@ -95,7 +95,7 @@ const route = useRoute();
 
 const authStore = useAuthStore();
 
-const goToRoute = (route: string) => {
+const goToRoute = (route) => {
   router.push(route);
 };
 

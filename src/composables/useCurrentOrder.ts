@@ -12,7 +12,6 @@ import type {
 } from '@/store/cart-api';
 
 import { typedKeys } from '@/components/helpers/tsUtils';
-import { isEqual } from 'lodash-es';
 
 export const convertToDeliveryAddress = (address: Address): OrderDeliveryAddress =>
   typedKeys(address).reduce((deliveryAddress, key) => {

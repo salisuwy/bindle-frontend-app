@@ -3,6 +3,9 @@ import type { Ref } from 'vue';
 
 import * as yup from 'yup';
 import { useForm, type PublicPathState } from 'vee-validate';
+import { typedKeys } from '@/components/helpers/tsUtils';
+
+import type { SavedAddress } from '@/store/useAuthStore';
 
 export type Address = {
   first_name: string | undefined;
@@ -28,7 +31,35 @@ export const EMPTY_ADDRESS: Address = {
   country: undefined,
 };
 
-export const useAddressForm = (showAllErrors: Ref<boolean | undefined>) => {
+export const isAddressEmpty = (address: Address) => {
+  return typedKeys(address).every((k) => (address[k] || '') == '');
+};
+
+export const isAddressEqual = (a1: Address, a2: Address) => {
+  return typedKeys(a1).every((k) => (a1[k] || '') === (a2[k] || ''));
+};
+
+export const createFromSavedAddress = (sa: SavedAddress): Address => {
+  return {
+    first_name: sa.first_name,
+    last_name: sa.last_name,
+    address1: sa.address1,
+    address2: sa.address2 === null ? undefined : sa.address2,
+    city: sa.city,
+    zip: sa.zip,
+    country: sa.country,
+    email: sa.email,
+    phone: sa.phone,
+  };
+};
+
+export const useAddressForm = ({
+  initialValues,
+  showAllErrors,
+}: {
+  initialValues: Address;
+  showAllErrors: Ref<boolean | undefined>;
+}) => {
   const schema = yup.object({
     first_name: yup.string().required('First name is required'),
     last_name: yup.string().required('Last name is required'),
@@ -48,6 +79,7 @@ export const useAddressForm = (showAllErrors: Ref<boolean | undefined>) => {
   const { values, errors, validate, resetForm, defineField, setValues, setErrors, meta } =
     useForm<Address>({
       validationSchema: schema,
+      initialValues: initialValues,
     });
 
   const unwatch = watch(showAllErrors, async () => {
