@@ -22,24 +22,22 @@
  * please note that the operation key ('types' in the example) should be unique across across your application
  */
 export class AsyncOperationManager {
+  constructor() {
+    this.ongoingOperations = new Map();
+  }
 
-    constructor() {
-        this.ongoingOperations = new Map();
+  async execute(operationKey, operation) {
+    if (this.ongoingOperations.has(operationKey)) {
+      return await this.ongoingOperations.get(operationKey);
     }
-
-    async execute(operationKey, operation) {
-        if (this.ongoingOperations.has(operationKey)) {
-            return await this.ongoingOperations.get(operationKey);
-        }
-        const operationPromise = (async ()=> {
-            try {
-                return await operation();
-            }
-            finally {
-                this.ongoingOperations.delete(operationKey);
-            }
-        })();
-        this.ongoingOperations.set(operationKey, operationPromise);
-        return await operationPromise;
-    }
+    const operationPromise = (async () => {
+      try {
+        return await operation();
+      } finally {
+        this.ongoingOperations.delete(operationKey);
+      }
+    })();
+    this.ongoingOperations.set(operationKey, operationPromise);
+    return await operationPromise;
+  }
 }

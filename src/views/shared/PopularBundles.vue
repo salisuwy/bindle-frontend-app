@@ -1,14 +1,14 @@
 <script setup>
-import { computed, onBeforeMount, ref } from "vue";
-import "vue3-carousel/dist/carousel.css";
-import { Carousel, Slide, Navigation } from "vue3-carousel";
-import Bundle from "@/views/shared/Bundle.vue";
-import { useBindleApiStore } from "@/store/bindle-api.js";
-import { useWindowSize } from "@vueuse/core";
-import CarouselNav from "./CarouselNav.vue";
+import { computed, onBeforeMount, ref } from 'vue';
+import 'vue3-carousel/dist/carousel.css';
+import { Carousel, Slide, Navigation } from 'vue3-carousel';
+import Bundle from '@/views/shared/Bundle.vue';
+import { useBindleApiStore } from '@/store/bindle-api.js';
+import { useWindowSize } from '@vueuse/core';
+import CarouselNav from './CarouselNav.vue';
 
 const props = defineProps({
-  title: { type: String, default: "Popular Bundles" },
+  title: { type: String, default: 'Popular Bundles' },
   count: { type: Number, default: 8 },
   level_id: { type: String, default: null },
   subject_id: { type: String, default: null },
@@ -65,11 +65,7 @@ const itemsToShow = computed(() => {
       :autoplay="6000"
       :items-to-show="itemsToShow"
     ></carousel> -->
-      <slide
-        v-for="(bundle, index) in bundles"
-        :key="index"
-        class="bg-theme-pale"
-      >
+      <slide v-for="(bundle, index) in bundles" :key="index" class="bg-theme-pale">
         <bundle :bundle="bundle" class="max-w-full" />
       </slide>
     </carousel>

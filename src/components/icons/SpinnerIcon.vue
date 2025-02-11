@@ -2,15 +2,15 @@
 const props = defineProps({
   class: { type: [String, Array, Object], default: null },
   style: { type: [String, Object], default: null },
-  preserveAspectRatio: { type: String, default: "none" },
-  colour: { type: String, default: "currentColor" },
-  barColour: { type: String, default: "black" },
-  barOpacity: { type: String, default: "1.0" },
-  width: { type: String, default: "24" },
-  height: { type: String, default: "24" },
+  preserveAspectRatio: { type: String, default: 'none' },
+  colour: { type: String, default: 'currentColor' },
+  barColour: { type: String, default: 'black' },
+  barOpacity: { type: String, default: '1.0' },
+  width: { type: String, default: '24' },
+  height: { type: String, default: '24' },
   backgroundColour: { type: String, default: null },
-  rounded: { type: String, default: "10" },
-  strokeWidth: { type: String, default: "5" },
+  rounded: { type: String, default: '10' },
+  strokeWidth: { type: String, default: '5' },
 });
 </script>
 <template>

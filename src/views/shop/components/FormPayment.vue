@@ -1,18 +1,12 @@
 <script setup>
-import { ref, watch, computed, defineProps, defineEmits, onMounted } from "vue";
-import { useMutation, useQueryClient } from "@tanstack/vue-query";
-import { preConfirmPayment, createPaymentIntent } from "@/store/cart-api";
-import { trackEvent } from "../../../components/helpers/analytics";
-import { useRouter } from "vue-router";
-import { loadStripe } from "@stripe/stripe-js";
-import SpinnerIcon from "@/components/icons/SpinnerIcon.vue";
-import {
-  getAnonIdAndUuid,
-  getOrderMode,
-  STRIPE_PUBLIC_KEY,
-  STRIPE_PUBLIC_KEY_LIVE,
-  STRIPE_PUBLIC_KEY_TEST,
-} from "../../../store/cart-api";
+import { ref, watch, computed, defineProps, defineEmits, onMounted } from 'vue';
+import { useMutation, useQueryClient } from '@tanstack/vue-query';
+import { preConfirmPayment, createPaymentIntent } from '@/store/cart-api';
+import { trackEvent } from '../../../components/helpers/analytics';
+import { useRouter } from 'vue-router';
+import { loadStripe } from '@stripe/stripe-js';
+import SpinnerIcon from '@/components/icons/SpinnerIcon.vue';
+import { getAnonIdAndUuid, getOrderMode, STRIPE_PUBLIC_KEY } from '../../../store/cart-api';
 
 const router = useRouter();
 const props = defineProps({
@@ -24,7 +18,7 @@ const props = defineProps({
   isTransitioning: Boolean,
 });
 
-const emit = defineEmits(["setValidity", "startTransition", "stopTransition"]);
+const emit = defineEmits(['setValidity', 'startTransition', 'stopTransition']);
 
 const queryClient = useQueryClient();
 
@@ -43,39 +37,39 @@ const fullName = computed(() => {
   return `${order?.value?.billing_first_name} ${order?.value?.billing_last_name}`;
 });
 
-let otherErrors = ref("");
+const otherErrors = ref('');
 
-let cardHolderName = ref("");
-let cardHolderNameError = ref("");
+const cardHolderName = ref('');
+const cardHolderNameError = ref('');
 
 watch(cardHolderName, (newVal) => {
   if (!newVal?.trim()) {
-    cardHolderNameError.value = "Please enter card holder name";
+    cardHolderNameError.value = 'Please enter card holder name';
   } else {
-    cardHolderNameError.value = "";
+    cardHolderNameError.value = '';
   }
 });
 
-let cardDetailsError = ref("");
+const cardDetailsError = ref('');
 
 const style = {
   base: {
-    iconColor: "#000",
-    color: "#000",
-    fontWeight: "400",
-    fontFamily: "Outfit, system-ui, sans-serif",
-    fontSize: "14px",
-    fontSmoothing: "antialiased",
-    ":-webkit-autofill": {
-      color: "#fce883",
+    iconColor: '#000',
+    color: '#000',
+    fontWeight: '400',
+    fontFamily: 'Outfit, system-ui, sans-serif',
+    fontSize: '14px',
+    fontSmoothing: 'antialiased',
+    ':-webkit-autofill': {
+      color: '#fce883',
     },
-    "::placeholder": {
-      color: "#9ca3af",
+    '::placeholder': {
+      color: '#9ca3af',
     },
   },
   invalid: {
-    iconColor: "#FFC7EE",
-    color: "red",
+    iconColor: '#FFC7EE',
+    color: 'red',
   },
 };
 
@@ -88,8 +82,8 @@ async function handlePaymentPreConfirm(paymentIntent) {
       quantity: it?.quantity,
     };
   });
-  trackEvent("purchase", {
-    currency: "GBP",
+  trackEvent('purchase', {
+    currency: 'GBP',
     transaction_id: order.value?.uuid,
     value: order.value?.order_final,
     items: itInOrder,
@@ -99,84 +93,80 @@ async function handlePaymentPreConfirm(paymentIntent) {
     await preConfirmPayment({ payment_intent: paymentIntent });
     return true;
   } catch (error) {
-    console.log("Error encountered while pre-confirming payment", error);
+    console.log('Error encountered while pre-confirming payment', error);
     return false;
   }
 }
 
 watch(transition, async (_) => {
-  console.log("starting payment");
+  console.log('starting payment');
 
-  emit("startTransition");
+  emit('startTransition');
 
-  otherErrors.value = ""; // reset the other error
+  otherErrors.value = ''; // reset the other error
 
   if (!cardHolderName.value) {
-    emit("stopTransition");
-    cardHolderNameError.value = "Please enter card holder name";
+    emit('stopTransition');
+    cardHolderNameError.value = 'Please enter card holder name';
     return;
   }
 
   if (cardDetailsError.value) {
-    emit("stopTransition");
+    emit('stopTransition');
     return;
   }
 
-  trackEvent("addPaymentInfo", {
-    currency: "GBP",
+  trackEvent('addPaymentInfo', {
+    currency: 'GBP',
     value: order.value?.order_final,
-    payment_type: "credit_card",
+    payment_type: 'credit_card',
   });
 
   await makePayment();
 
-  console.log("payment done");
-  emit("stopTransition");
+  console.log('payment done');
+  emit('stopTransition');
 });
 
 onMounted(async () => {
-  console.log("mounted");
+  console.log('mounted');
 
   const ORDER_MODE = await getOrderMode();
-  const SELECTED_STRIPE_KEY =
-    ORDER_MODE === "test" ? STRIPE_PUBLIC_KEY_TEST : STRIPE_PUBLIC_KEY_LIVE;
-
-  const TEN_CHARS = (
-    SELECTED_STRIPE_KEY ? String(SELECTED_STRIPE_KEY) : ""
-  ).substring(0, 15);
+  const SELECTED_STRIPE_KEY = STRIPE_PUBLIC_KEY;
+  const TEN_CHARS = (SELECTED_STRIPE_KEY ? String(SELECTED_STRIPE_KEY) : '').substring(0, 15);
   console.log(`>>> STRIPE - mode: ${ORDER_MODE} | pk: ${TEN_CHARS}`);
 
   stripe = await loadStripe(SELECTED_STRIPE_KEY);
 
   elements = stripe.elements();
-  const element = elements.create("card", {
+  const element = elements.create('card', {
     hidePostalCode: true,
     style,
     fields: {
       billingDetails: {
-        name: "never",
-        email: "never",
-        phone: "never",
-        address: "never",
+        name: 'never',
+        email: 'never',
+        phone: 'never',
+        address: 'never',
       },
     },
   });
 
-  element.on("change", function (event) {
-    var errorEl = document.getElementById("card-errors");
-    var cardEl = document.getElementById("payment-element");
+  element.on('change', function (event) {
+    const errorEl = document.getElementById('card-errors');
+    const cardEl = document.getElementById('payment-element');
     if (event.error) {
       cardDetailsError.value = event.error.message;
-      cardEl.classList.add("payment-element-error");
+      cardEl.classList.add('payment-element-error');
       errorEl.textContent = event.error.message;
     } else {
-      errorEl.textContent = "";
-      cardDetailsError.value = "";
-      cardEl.classList.remove("payment-element-error");
+      errorEl.textContent = '';
+      cardDetailsError.value = '';
+      cardEl.classList.remove('payment-element-error');
     }
   });
 
-  element.mount("#payment-element");
+  element.mount('#payment-element');
 });
 
 async function makePayment() {
@@ -191,7 +181,7 @@ async function makePayment() {
     },
   };
 
-  const cardElement = elements.getElement("card");
+  const cardElement = elements.getElement('card');
 
   try {
     const response = await createPaymentIntent({
@@ -200,62 +190,55 @@ async function makePayment() {
 
     const secret = response?.data?.client_secret;
 
-    const { paymentMethod, error: paymentMethodError } =
-      await stripe.createPaymentMethod({
-        type: "card",
-        card: cardElement,
-        billing_details: billingDetails,
-      });
+    const { paymentMethod, error: paymentMethodError } = await stripe.createPaymentMethod({
+      type: 'card',
+      card: cardElement,
+      billing_details: billingDetails,
+    });
 
     if (paymentMethodError) {
       const errMsg =
-        paymentMethodError?.message ||
-        "An error is encountered while validating card information";
+        paymentMethodError?.message || 'An error is encountered while validating card information';
       throw new Error(errMsg);
     }
 
-    const { paymentIntent, error: paymentIntentError } =
-      await stripe.confirmCardPayment(secret, {
-        payment_method: paymentMethod.id,
-      });
+    const { paymentIntent, error: paymentIntentError } = await stripe.confirmCardPayment(secret, {
+      payment_method: paymentMethod.id,
+    });
 
     if (paymentIntentError) {
       if (
-        paymentIntentError.type === "card_error" ||
-        paymentIntentError.type === "validation_error"
+        paymentIntentError.type === 'card_error' ||
+        paymentIntentError.type === 'validation_error'
       ) {
         const errMsg =
-          paymentIntentError?.message ||
-          "An error is encountered while making payment";
+          paymentIntentError?.message || 'An error is encountered while making payment';
         throw new Error(errMsg);
       } else {
-        throw new Error(
-          "An unexpected error is encountered while making payment"
-        );
+        throw new Error('An unexpected error is encountered while making payment');
       }
     } else {
-      console.log("success payment", paymentIntent);
+      console.log('success payment', paymentIntent);
       const payConfirm = await handlePaymentPreConfirm(paymentIntent);
       if (!payConfirm) {
-        throw new Error("An error is encountered while confirming payment");
+        throw new Error('An error is encountered while confirming payment');
       }
 
       const anonUuid = { ...getAnonIdAndUuid() };
-      console.log("anonUuid", anonUuid);
+      console.log('anonUuid', anonUuid);
 
-      console.log("next page is: /invoice");
-      localStorage.removeItem("uuid");
-      queryClient.setQueryData(["cartItems"], {});
-      queryClient.invalidateQueries(["cartItems"]);
+      console.log('next page is: /invoice');
+      localStorage.removeItem('uuid');
+      queryClient.setQueryData(['cartItems'], {});
+      //queryClient.invalidateQueries(['cartItems']);
       router.push(`/invoice/${anonUuid.anonid}/${anonUuid.uuid}`);
     }
   } catch (error) {
     const errMsg =
-      error?.message ||
-      "An error is encountered while processing payment. Please try again";
-    console.log("[Catch] error", errMsg);
+      error?.message || 'An error is encountered while processing payment. Please try again';
+    console.log('[Catch] error', errMsg);
     otherErrors.value = errMsg;
-    emit("stopTransition");
+    emit('stopTransition');
   }
 }
 </script>
@@ -264,9 +247,7 @@ async function makePayment() {
   <div
     class="flex flex-col px-6 py-8 w-full bg-white rounded-md border border-solid border-zinc-200 max-md:px-5 mt-12 max-md:mt-9 max-md:max-w-full mb-12"
   >
-    <header
-      class="flex flex-wrap gap-2 justify-between items-center self-stretch pt-2.5 pb-0.5"
-    >
+    <header class="flex flex-wrap gap-2 justify-between items-center self-stretch pt-2.5 pb-0.5">
       <h1 class="grow text-xl leading-7 text-gray-700">Payment Details</h1>
     </header>
     <hr class="my-4 h-px border border-zinc-200" />
@@ -278,23 +259,15 @@ async function makePayment() {
       {{ otherErrors }}
     </div>
 
-    <div
-      class="mt-6 font-medium tracking-tighter text-neutral-600 max-md:max-w-full"
-    >
-      <div
-        class="mb-2 font-medium tracking-tighter text-neutral-600 max-md:max-w-full"
-      >
+    <div class="mt-6 font-medium tracking-tighter text-neutral-600 max-md:max-w-full">
+      <div class="mb-2 font-medium tracking-tighter text-neutral-600 max-md:max-w-full">
         <label for="cardDetails">Card details *</label>
       </div>
       <div id="payment-element" class="payment-element"></div>
       <span id="card-errors" class="text-red-500 text-sm mt-1 hidden"></span>
-      <span v-if="cardDetailsError" class="text-red-500 text-sm mt-1">{{
-        cardDetailsError
-      }}</span>
+      <span v-if="cardDetailsError" class="text-red-500 text-sm mt-1">{{ cardDetailsError }}</span>
 
-      <div
-        class="mt-6 font-medium tracking-tighter text-neutral-600 max-md:max-w-full"
-      >
+      <div class="mt-6 font-medium tracking-tighter text-neutral-600 max-md:max-w-full">
         <label for="cardHolderName">Card holder name *</label>
       </div>
       <input

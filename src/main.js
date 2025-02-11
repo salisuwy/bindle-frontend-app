@@ -1,20 +1,20 @@
-import { createApp } from "vue";
-import { createPinia } from "pinia";
-import { createHead } from "@unhead/vue";
-import VueGtag from "vue-gtag";
+import { createApp } from 'vue';
+import { createPinia } from 'pinia';
+import { createHead } from '@unhead/vue';
+import VueGtag from 'vue-gtag';
 
-import App from "./App.vue";
-import router from "./routes.js";
-import "vue3-toastify/dist/index.css";
+import App from './App.vue';
+import router from './routes.js';
+import 'vue3-toastify/dist/index.css';
 
-import { PerfectScrollbarPlugin } from "vue3-perfect-scrollbar";
-import "vue3-perfect-scrollbar/style.css";
+import { PerfectScrollbarPlugin } from 'vue3-perfect-scrollbar';
+import 'vue3-perfect-scrollbar/style.css';
 
-import "./style.css";
-import "./font-awesome.css";
+import './style.css';
+import './font-awesome.css';
 
-import { VueQueryPlugin, QueryClient } from "@tanstack/vue-query";
-import Vue3Toasity from "vue3-toastify";
+import { VueQueryPlugin, QueryClient } from '@tanstack/vue-query';
+import Vue3Toasity from 'vue3-toastify';
 
 const queryClient = new QueryClient();
 // {
@@ -29,11 +29,11 @@ const toastifyOptions = {
   closeOnClick: false,
   hideProgressBar: true,
   autoClose: 1500,
-  position: "bottom-center",
+  position: 'bottom-center',
 };
 
 const gtagOptions = {
-  config: { id: "G-JX13CHRS6D" },
+  config: { id: 'G-JX13CHRS6D' },
   router,
 };
 
@@ -55,4 +55,4 @@ app.use(PerfectScrollbarPlugin, {
   },
 });
 
-app.mount("#app");
+app.mount('#app');

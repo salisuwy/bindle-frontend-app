@@ -1,32 +1,32 @@
 <script setup>
-import Layout from "@/views/shared/Layout.vue";
-import { ref, watch, computed, onMounted, onUnmounted, nextTick } from "vue";
-import { useRoute, useRouter } from "vue-router";
-import { useBindleApiStore } from "@/store/bindle-api.js";
-import FiltersIcon from "@/components/icons/FiltersIcon.vue";
-import Breadcrumbs from "@/components/Breadcrumbs.vue";
-import ChevronIcon from "@/components/icons/ChevronIcon.vue";
-import Accordion from "@/components/Accordion.vue";
-import Bundle from "@/views/shared/Bundle.vue";
-import Book from "@/views/shared/Book.vue";
-import Pagination from "@/components/Pagination.vue";
-import { Util } from "@/components/helpers/Util.js";
-import { trackEvent } from "../../components/helpers/analytics";
-import { useHead } from "@unhead/vue";
+import Layout from '@/views/shared/Layout.vue';
+import { ref, watch, computed, onMounted, onUnmounted, nextTick } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import { useBindleApiStore } from '@/store/bindle-api.js';
+import FiltersIcon from '@/components/icons/FiltersIcon.vue';
+import Breadcrumbs from '@/components/Breadcrumbs.vue';
+import ChevronIcon from '@/components/icons/ChevronIcon.vue';
+import Accordion from '@/components/Accordion.vue';
+import Bundle from '@/views/shared/Bundle.vue';
+import Book from '@/views/shared/Book.vue';
+import Pagination from '@/components/Pagination.vue';
+import { Util } from '@/components/helpers/Util.js';
+import { trackEvent } from '../../components/helpers/analytics';
+import { useHead } from '@unhead/vue';
 
 const route = useRoute();
 const router = useRouter();
 const bindleApiStore = useBindleApiStore();
 
-const subjects = ref("all");
-const levels = ref("all");
+const subjects = ref('all');
+const levels = ref('all');
 const types = ref({});
 const formats = ref([]);
 const trueTypeSlugs = ref([]);
 const examboards = ref({});
 const books = ref({});
 const bundles = ref({});
-const filterSubjectName = ref("");
+const filterSubjectName = ref('');
 
 const itemsPerPage = ref(16);
 
@@ -36,13 +36,13 @@ const filtersRef = ref(null);
 const exploreRef = ref(null);
 
 // special case just to make things tricky
-const bundleType = { id: 4, name: "Bundles", slug: "bundles" };
+const bundleType = { id: 4, name: 'Bundles', slug: 'bundles' };
 
 const filterSubject = computed({
-  get: () => route.query.subject || "all",
+  get: () => route.query.subject || 'all',
   set: (newValue) => {
     const newQuery = { ...route.query, subject: newValue };
-    if ("page" in newQuery && newQuery.page !== 1) {
+    if ('page' in newQuery && newQuery.page !== 1) {
       newQuery.page = 1;
     }
     router.push({ query: newQuery }).catch((err) => {
@@ -62,15 +62,15 @@ const filterSubjectId = computed(() => {
 
 const filterLevel = computed({
   get: () => {
-    return route.query.level ? route.query.level.split(",") : [];
+    return route.query.level ? route.query.level.split(',') : [];
   },
   set: (newValue) => {
     const newQuery = { ...route.query };
-    if ("page" in newQuery && newQuery.page !== 1) {
+    if ('page' in newQuery && newQuery.page !== 1) {
       newQuery.page = 1;
     }
     if (newValue.length > 0) {
-      newQuery.level = newValue.join(",");
+      newQuery.level = newValue.join(',');
     } else {
       delete newQuery.level;
     }
@@ -94,15 +94,15 @@ const filterLevelIds = computed(() => {
 
 const filterType = computed({
   get: () => {
-    return route.query.type ? route.query.type.split(",") : [];
+    return route.query.type ? route.query.type.split(',') : [];
   },
   set: (newValue) => {
     const newQuery = { ...route.query };
-    if ("page" in newQuery && newQuery.page !== 1) {
+    if ('page' in newQuery && newQuery.page !== 1) {
       newQuery.page = 1;
     }
     if (newValue.length > 0) {
-      newQuery.type = newValue.join(",");
+      newQuery.type = newValue.join(',');
     } else {
       delete newQuery.type;
     }
@@ -143,7 +143,7 @@ const shouldIncludeBundle = computed(() => {
   if (filterType.value?.length === 0) {
     return true;
   }
-  if (filterType.value?.includes("bundles")) {
+  if (filterType.value?.includes('bundles')) {
     return true;
   }
   return false;
@@ -151,15 +151,15 @@ const shouldIncludeBundle = computed(() => {
 
 const filterExamboard = computed({
   get: () => {
-    return route.query.examboard ? route.query.examboard.split(",") : [];
+    return route.query.examboard ? route.query.examboard.split(',') : [];
   },
   set: (newValue) => {
     const newQuery = { ...route.query, page: 1 };
-    if ("page" in newQuery && newQuery.page !== 1) {
+    if ('page' in newQuery && newQuery.page !== 1) {
       newQuery.page = 1;
     }
     if (newValue.length > 0) {
-      newQuery.examboard = newValue.join(",");
+      newQuery.examboard = newValue.join(',');
     } else {
       delete newQuery.examboard;
     }
@@ -186,19 +186,17 @@ const pageIdx = computed({
   set: (newValue) => {
     const intValue = parseInt(newValue, 10);
     if (intValue !== parseInt(route.query.page, 10)) {
-      router
-        .push({ query: { ...route.query, page: newValue } })
-        .catch((err) => {
-          console.error(err);
-        });
+      router.push({ query: { ...route.query, page: newValue } }).catch((err) => {
+        console.error(err);
+      });
     }
   },
 });
 
 const filteredProducts = computed(() => {
-  let buildFilteredProducts = [];
+  const buildFilteredProducts = [];
   if (bundles.value && books.value && shouldIncludeBundle.value) {
-    let filteredBundles = Object.values(bundles.value).filter((bundle) => {
+    const filteredBundles = Object.values(bundles.value).filter((bundle) => {
       if (bundle.book_ids.length === 0) {
         return false;
       }
@@ -207,23 +205,18 @@ const filteredProducts = computed(() => {
       );
       // format type ebook and paperback
       if (formats.value.length > 0) {
-        if (
-          formats.value.includes("ebook") &&
-          formats.value.includes("paperback")
-        ) {
-        } else if (formats.value.includes("ebook") && !bundle.is_ebook) {
+        if (formats.value.includes('ebook') && formats.value.includes('paperback')) {
+        } else if (formats.value.includes('ebook') && !bundle.is_ebook) {
           return false;
-        } else if (formats.value.includes("paperback") && bundle.is_ebook) {
+        } else if (formats.value.includes('paperback') && bundle.is_ebook) {
           return false;
         }
       }
 
       // subjects
       if (
-        filterSubject.value !== "all" &&
-        !bundleBooks.some((book) =>
-          book.subject_ids.includes(filterSubjectId.value)
-        )
+        filterSubject.value !== 'all' &&
+        !bundleBooks.some((book) => book.subject_ids.includes(filterSubjectId.value))
       ) {
         return false;
       }
@@ -231,18 +224,14 @@ const filteredProducts = computed(() => {
       if (
         filterLevel.value.length > 0 &&
         filterLevel.value.length < Object.keys(levels.value).length &&
-        !bundleBooks.some((book) =>
-          filterLevelIds.value.includes(book.level_id)
-        )
+        !bundleBooks.some((book) => filterLevelIds.value.includes(book.level_id))
       ) {
         return false;
       }
       // resource type
       if (
         hasOneTrueFilterType.value &&
-        !bundleBooks.some((book) =>
-          trueFilterTypeIds.value.includes(book.type_id)
-        )
+        !bundleBooks.some((book) => trueFilterTypeIds.value.includes(book.type_id))
       ) {
         return false;
       }
@@ -250,16 +239,14 @@ const filteredProducts = computed(() => {
       if (
         filterExamboard.value.length > 0 &&
         filterExamboard.value.length < Object.keys(examboards.value).length &&
-        !bundleBooks.some((book) =>
-          filterExamboardIds.value.includes(book.examboard_id)
-        )
+        !bundleBooks.some((book) => filterExamboardIds.value.includes(book.examboard_id))
       ) {
         return false;
       }
-      if ("q" in route.query) {
+      if ('q' in route.query) {
         if (
           bundleBooks.some((book) => {
-            return book.title.search(new RegExp(route.query.q, "i")) === -1;
+            return book.title.search(new RegExp(route.query.q, 'i')) === -1;
           })
         ) {
           return false;
@@ -270,22 +257,19 @@ const filteredProducts = computed(() => {
     buildFilteredProducts.push(...filteredBundles);
   }
   if (books.value && !bundleOnlyFilter.value) {
-    let filteredBooks = Object.values(books.value).filter((book) => {
+    const filteredBooks = Object.values(books.value).filter((book) => {
       // format type ebook and paperback
       if (formats.value.length > 0) {
-        if (
-          formats.value.includes("ebook") &&
-          formats.value.includes("paperback")
-        ) {
-        } else if (formats.value.includes("ebook") && !book.is_ebook) {
+        if (formats.value.includes('ebook') && formats.value.includes('paperback')) {
+        } else if (formats.value.includes('ebook') && !book.is_ebook) {
           return false;
-        } else if (formats.value.includes("paperback") && book.is_ebook) {
+        } else if (formats.value.includes('paperback') && book.is_ebook) {
           return false;
         }
       }
 
       // subject
-      if (filterSubject.value !== "all") {
+      if (filterSubject.value !== 'all') {
         if (!book.subject_ids.includes(filterSubjectId.value)) {
           return false;
         }
@@ -299,10 +283,7 @@ const filteredProducts = computed(() => {
         return false;
       }
       // resource type
-      if (
-        hasOneTrueFilterType.value &&
-        !trueFilterTypeIds.value.includes(book.type_id)
-      ) {
+      if (hasOneTrueFilterType.value && !trueFilterTypeIds.value.includes(book.type_id)) {
         return false;
       }
       // examboard
@@ -313,8 +294,8 @@ const filteredProducts = computed(() => {
       ) {
         return false;
       }
-      if ("q" in route.query) {
-        if (book.title.search(new RegExp(route.query.q, "i")) === -1) {
+      if ('q' in route.query) {
+        if (book.title.search(new RegExp(route.query.q, 'i')) === -1) {
           return false;
         }
       }
@@ -338,43 +319,43 @@ const filterTypeAccordionRef = ref();
 const filterExamboardAccordionRef = ref();
 
 const quickFilter = (type) => {
-  if (type === "gcse") {
-    router.push({ query: { level: "gcse", subject: "all" } });
+  if (type === 'gcse') {
+    router.push({ query: { level: 'gcse', subject: 'all' } });
     filterSubjectAccordionRef.value.close();
     filterLevelAccordionRef.value.open();
     filterTypeAccordionRef.value.close();
     filterExamboardAccordionRef.value.close();
-  } else if (type === "a-level") {
-    router.push({ query: { level: "a-level", subject: "all" } });
+  } else if (type === 'a-level') {
+    router.push({ query: { level: 'a-level', subject: 'all' } });
     filterSubjectAccordionRef.value.close();
     filterLevelAccordionRef.value.open();
     filterTypeAccordionRef.value.close();
     filterExamboardAccordionRef.value.close();
-  } else if (type === "bundle") {
-    alert("not yet implemented");
-  } else if (type === "bestseller") {
-    alert("not yet implemented");
-  } else if (type === "sale") {
-    alert("not yet implemented");
+  } else if (type === 'bundle') {
+    alert('not yet implemented');
+  } else if (type === 'bestseller') {
+    alert('not yet implemented');
+  } else if (type === 'sale') {
+    alert('not yet implemented');
   }
 };
 
 const toggleMobileFilters = () => {
   if (filtersRef.value) {
-    if (!filtersRef.value.classList.contains("mobile-menu")) {
-      filtersRef.value.classList.add("mobile-menu");
+    if (!filtersRef.value.classList.contains('mobile-menu')) {
+      filtersRef.value.classList.add('mobile-menu');
     }
-    if (filtersRef.value.classList.contains("mobile-menu-open")) {
-      filtersRef.value.classList.remove("mobile-menu-open");
+    if (filtersRef.value.classList.contains('mobile-menu-open')) {
+      filtersRef.value.classList.remove('mobile-menu-open');
     } else {
-      filtersRef.value.classList.add("mobile-menu-open");
+      filtersRef.value.classList.add('mobile-menu-open');
     }
   }
 };
 
 const closeMobileFilters = () => {
-  if (filtersRef.value.classList.contains("mobile-menu-open")) {
-    filtersRef.value.classList.remove("mobile-menu-open");
+  if (filtersRef.value.classList.contains('mobile-menu-open')) {
+    filtersRef.value.classList.remove('mobile-menu-open');
   }
 };
 
@@ -382,25 +363,25 @@ const resizeWindow = () => {
   if (
     window.innerWidth >= 768 &&
     filtersRef.value &&
-    filtersRef.value.classList.contains("mobile-menu")
+    filtersRef.value.classList.contains('mobile-menu')
   ) {
-    filtersRef.value.classList.remove("mobile-menu");
-    filtersRef.value.classList.remove("mobile-menu-open");
+    filtersRef.value.classList.remove('mobile-menu');
+    filtersRef.value.classList.remove('mobile-menu-open');
   } else if (
     window.innerWidth < 768 &&
     filtersRef.value &&
-    !filtersRef.value.classList.contains("mobile-menu")
+    !filtersRef.value.classList.contains('mobile-menu')
   ) {
-    filtersRef.value.classList.add("mobile-menu");
+    filtersRef.value.classList.add('mobile-menu');
   }
 };
 
 async function prepPageTitleText() {
-  const routeSubj = route.query.subject || "all";
+  const routeSubj = route.query.subject || 'all';
   const findSubject = Object.values(subjects?.value ?? {})?.find(
     (subject) => subject.slug === routeSubj
   );
-  const title = findSubject ? findSubject?.name : "";
+  const title = findSubject ? findSubject?.name : '';
   filterSubjectName.value = title;
   // console.log("prepPageTitleText() XX: ", title);
 }
@@ -408,7 +389,7 @@ async function prepPageTitleText() {
 watch(
   () => route.query,
   (newQuery, oldQuery) => {
-    console.log("QPC:", newQuery);
+    console.log('QPC:', newQuery);
     prepPageTitleText();
   },
   { deep: true, immediate: true }
@@ -418,24 +399,21 @@ useHead({
   title: () => `Bindle - All Resource: ${filterSubjectName.value} Bundle`,
 });
 
-watch(
-  [filterSubject, filterLevel, filterType, formats, filterExamboard],
-  () => {
-    const filterParams = {
-      bindle_subjects: filterSubject.value,
-      bindle_levels: filterLevel.value?.join(", "),
-      bindle_types: filterType.value?.join(", "),
-      bindle_formats: formats.value?.join(", "),
-      bindle_examboards: filterExamboard.value?.join(", "),
-    };
+watch([filterSubject, filterLevel, filterType, formats, filterExamboard], () => {
+  const filterParams = {
+    bindle_subjects: filterSubject.value,
+    bindle_levels: filterLevel.value?.join(', '),
+    bindle_types: filterType.value?.join(', '),
+    bindle_formats: formats.value?.join(', '),
+    bindle_examboards: filterExamboard.value?.join(', '),
+  };
 
-    //console.log(">>>applyFilter", filterParams);
-    trackEvent("applyFilter", filterParams);
-  }
-);
+  //console.log(">>>applyFilter", filterParams);
+  trackEvent('applyFilter', filterParams);
+});
 
 onMounted(async () => {
-  window.addEventListener("resize", resizeWindow);
+  window.addEventListener('resize', resizeWindow);
 
   await bindleApiStore.getSubjects();
   subjects.value = bindleApiStore.subjects;
@@ -463,23 +441,23 @@ onMounted(async () => {
   await bindleApiStore.getBundles();
   bundles.value = bindleApiStore.bundles;
 
-  if (route.query?.formats === "ebook") {
-    formats.value.push("ebook");
+  if (route.query?.formats === 'ebook') {
+    formats.value.push('ebook');
   }
 
-  if ("subject" in route.query && route.query.subject !== "all") {
+  if ('subject' in route.query && route.query.subject !== 'all') {
     await nextTick();
     filterSubjectAccordionRef.value.open();
   }
-  if ("level" in route.query && route.query.level !== "all") {
+  if ('level' in route.query && route.query.level !== 'all') {
     await nextTick();
     filterLevelAccordionRef.value.open();
   }
-  if ("type" in route.query) {
+  if ('type' in route.query) {
     await nextTick();
     filterTypeAccordionRef.value.open();
   }
-  if ("examboard" in route.query) {
+  if ('examboard' in route.query) {
     await nextTick();
     filterExamboardAccordionRef.value.open();
   }
@@ -487,44 +465,30 @@ onMounted(async () => {
   prepPageTitleText();
 });
 onUnmounted(async () => {
-  window.removeEventListener("resize", resizeWindow);
+  window.removeEventListener('resize', resizeWindow);
 });
 const paginationNavigation = () => {
   setTimeout(() => {
-    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
   }, 100);
 };
 
 const getTitle = () => {
-  return filterSubject.value === "all"
-    ? "All"
-    : Util.humaniseSnakeCase(filterSubject.value);
+  return filterSubject.value === 'all' ? 'All' : Util.humaniseSnakeCase(filterSubject.value);
 };
 </script>
 <template>
   <layout>
     <div class="bg-theme-white py-10 relative">
-      <div
-        ref="exploreRef"
-        class="mx-auto max-w-8xl w-full px-6 text-left mb-16"
-      >
+      <div ref="exploreRef" class="mx-auto max-w-8xl w-full px-6 text-left mb-16">
         <breadcrumbs class="text-left w-full col-start-1 md:col-span-4 mb-4" />
       </div>
 
-      <div
-        class="mx-auto max-w-8xl w-full text-left px-6 grid grid-cols-1 md:grid-cols-4"
-      >
-        <div
-          class="titlebar md:col-start-2 md:col-span-3 row-start-2 text-wrap"
-        >
+      <div class="mx-auto max-w-8xl w-full text-left px-6 grid grid-cols-1 md:grid-cols-4">
+        <div class="titlebar md:col-start-2 md:col-span-3 row-start-2 text-wrap">
           <div class="flex flex-row pb-4">
-            <h1 class="text-4xl md:text-4xl">
-              {{ filterSubjectName }} Resources
-            </h1>
-            <div
-              class="md:hidden grow pt-2 cursor-pointer"
-              @click="toggleMobileFilters()"
-            >
+            <h1 class="text-4xl md:text-4xl">{{ filterSubjectName }} Resources</h1>
+            <div class="md:hidden grow pt-2 cursor-pointer" @click="toggleMobileFilters()">
               <filters-icon class="ml-auto" />
             </div>
           </div>
@@ -539,15 +503,8 @@ const getTitle = () => {
         >
           <div class="quick-select hidden md:block">
             <h3 class="md:text-sm lg:text-base">BROWSE ALL RESOURCES BY</h3>
-            <div @click="quickFilter('gcse')" class="cursor-pointer linklike">
-              GCSEs
-            </div>
-            <div
-              @click="quickFilter('a-level')"
-              class="cursor-pointer linklike"
-            >
-              A-Levels
-            </div>
+            <div @click="quickFilter('gcse')" class="cursor-pointer linklike">GCSEs</div>
+            <div @click="quickFilter('a-level')" class="cursor-pointer linklike">A-Levels</div>
             <!--                        <div @click="quickFilter('bundle')" class="cursor-pointer linklike">Explore Bundles</div>-->
             <!--                        <div @click="quickFilter('bestseller')" class="cursor-pointer linklike">Bestsellers</div>-->
             <!--                        <div @click="quickFilter('sale')" class="cursor-pointer linklike">Sale</div>-->
@@ -561,9 +518,7 @@ const getTitle = () => {
             title-class="md:text-sm lg:text-base cursor-pointer linklike"
             indicator-class="float-right"
           >
-            <template #title
-              ><h3 class="inline-block">EXAM SUBJECT</h3></template
-            >
+            <template #title><h3 class="inline-block">EXAM SUBJECT</h3></template>
             <template #indicator>
               <chevron-icon down class="inline-block" />
             </template>
@@ -572,15 +527,8 @@ const getTitle = () => {
 
             <div class="radio-links">
               <div>
-                <input
-                  v-model="filterSubject"
-                  id="filter-subject-all"
-                  type="radio"
-                  value="all"
-                />
-                <label for="filter-subject-all" class="cursor-pointer mr-auto"
-                  >All</label
-                >
+                <input v-model="filterSubject" id="filter-subject-all" type="radio" value="all" />
+                <label for="filter-subject-all" class="cursor-pointer mr-auto">All</label>
               </div>
               <div v-for="subject in subjects">
                 <input
@@ -590,11 +538,9 @@ const getTitle = () => {
                   :value="subject['slug']"
                   :id="'filter-subject-' + subject['slug']"
                 />
-                <label
-                  :for="'filter-subject-' + subject['slug']"
-                  class="cursor-pointer mr-auto"
-                  >{{ subject["name"] }}</label
-                >
+                <label :for="'filter-subject-' + subject['slug']" class="cursor-pointer mr-auto">{{
+                  subject['name']
+                }}</label>
               </div>
             </div>
           </accordion>
@@ -607,24 +553,14 @@ const getTitle = () => {
             title-class="md:text-sm lg:text-base cursor-pointer linklike"
             indicator-class="float-right"
           >
-            <template #title
-              ><h3 class="inline-block">RESOURCE FORMAT</h3></template
-            >
-            <template #indicator
-              ><chevron-icon down class="inline-block"
-            /></template>
+            <template #title><h3 class="inline-block">RESOURCE FORMAT</h3></template>
+            <template #indicator><chevron-icon down class="inline-block" /></template>
             <hr class="hidden md:block w-full my-4" />
-            <label
-              v-if="filtersLoaded"
-              class="bindle-checkbox cursor-pointer mr-auto"
-            >
+            <label v-if="filtersLoaded" class="bindle-checkbox cursor-pointer mr-auto">
               <input v-model="formats" type="checkbox" value="ebook" />
               E-Book
             </label>
-            <label
-              v-if="filtersLoaded"
-              class="bindle-checkbox cursor-pointer mr-auto"
-            >
+            <label v-if="filtersLoaded" class="bindle-checkbox cursor-pointer mr-auto">
               <input v-model="formats" type="checkbox" value="paperback" />
               Paperback
             </label>
@@ -638,9 +574,7 @@ const getTitle = () => {
             title-class="md:text-xs lg:text-base cursor-pointer linklike"
             indicator-class="float-right"
           >
-            <template #title
-              ><h3 class="inline-block">QUALIFICATION LEVEL</h3></template
-            >
+            <template #title><h3 class="inline-block">QUALIFICATION LEVEL</h3></template>
             <template #indicator>
               <chevron-icon down class="inline-block" />
             </template>
@@ -651,12 +585,8 @@ const getTitle = () => {
               :key="level['slug']"
               class="bindle-checkbox cursor-pointer mr-auto"
             >
-              <input
-                v-model="filterLevel"
-                type="checkbox"
-                :value="level['slug']"
-              />
-              {{ level["name"] }}s
+              <input v-model="filterLevel" type="checkbox" :value="level['slug']" />
+              {{ level['name'] }}s
             </label>
           </accordion>
 
@@ -668,9 +598,7 @@ const getTitle = () => {
             title-class="md:text-sm lg:text-base cursor-pointer linklike"
             indicator-class="float-right"
           >
-            <template #title
-              ><h3 class="inline-block">RESOURCE TYPE</h3></template
-            >
+            <template #title><h3 class="inline-block">RESOURCE TYPE</h3></template>
             <template #indicator>
               <chevron-icon down class="inline-block" />
             </template>
@@ -681,12 +609,8 @@ const getTitle = () => {
               :key="type['slug']"
               class="bindle-checkbox cursor-pointer mr-auto"
             >
-              <input
-                v-model="filterType"
-                type="checkbox"
-                :value="type['slug']"
-              />
-              {{ type["name"] }}
+              <input v-model="filterType" type="checkbox" :value="type['slug']" />
+              {{ type['name'] }}
             </label>
           </accordion>
 
@@ -709,20 +633,14 @@ const getTitle = () => {
               :key="examboard['slug']"
               class="bindle-checkbox cursor-pointer mr-auto"
             >
-              <input
-                type="checkbox"
-                v-model="filterExamboard"
-                :value="examboard['slug']"
-              />
-              {{ examboard["description"] }}
+              <input type="checkbox" v-model="filterExamboard" :value="examboard['slug']" />
+              {{ examboard['description'] }}
             </label>
           </accordion>
 
           <div class="md:hidden">
             <hr class="mb-2" />
-            <button class="mx-auto block mt-4" @click="closeMobileFilters">
-              Close Filters
-            </button>
+            <button class="mx-auto block mt-4" @click="closeMobileFilters">Close Filters</button>
           </div>
         </div>
 
@@ -734,16 +652,8 @@ const getTitle = () => {
             v-for="product in paginatedProducts"
             class="w-full sm:w-1/2 xl:w-1/4 px-2"
           >
-            <bundle
-              v-if="'book_ids' in product"
-              :bundle="product"
-              mobile-flex-row
-            />
-            <book
-              v-else-if="!bundleOnlyFilter"
-              :product="product"
-              mobile-flex-row
-            />
+            <bundle v-if="'book_ids' in product" :bundle="product" mobile-flex-row />
+            <book v-else-if="!bundleOnlyFilter" :product="product" mobile-flex-row />
           </div>
           <div v-else-if="filtersLoaded">No results</div>
         </div>

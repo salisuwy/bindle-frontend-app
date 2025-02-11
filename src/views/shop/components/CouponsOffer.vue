@@ -1,67 +1,64 @@
 <script setup>
-import { ref, defineEmits, defineProps } from "vue";
-import CouponItem from "./CouponItem.vue";
-import SpinnerIcon from "../../../components/icons/SpinnerIcon.vue";
-import { addCoupon as serverAddCoupon, removeCoupon as serverRemoveCoupon } from "@/store/cart-api";
-import { useMutation, useQueryClient, useQuery } from "@tanstack/vue-query";
+import { ref, defineEmits, defineProps } from 'vue';
+import CouponItem from './CouponItem.vue';
+import SpinnerIcon from '../../../components/icons/SpinnerIcon.vue';
+import { addCoupon as serverAddCoupon, removeCoupon as serverRemoveCoupon } from '@/store/cart-api';
+import { useMutation, useQueryClient, useQuery } from '@tanstack/vue-query';
 
 const props = defineProps({
   coupons: Array,
 });
-const emits = defineEmits(["hide"]);
+const emits = defineEmits(['hide']);
 const queryClient = useQueryClient();
 
-const userInput = ref("");
+const userInput = ref('');
 const isAddCouponError = ref(false);
 const isRemoveCouponError = ref(false);
 
 function hideModal() {
-  console.log("hideModal");
-  emits("hide");
+  console.log('hideModal');
+  emits('hide');
 }
 
 function applyCoupon() {
   if (userInput.value) {
-    mutate({ operation: "add", coupon_code: userInput.value });
+    mutate({ operation: 'add', coupon_code: userInput.value });
   }
 }
 
 function removeCoupon(code) {
-  mutate({ operation: "remove", coupon_code: code });
+  mutate({ operation: 'remove', coupon_code: code });
 }
 
 const { isPending, mutate } = useMutation({
   mutationFn: (args) =>
-    args.operation === "add" ? serverAddCoupon(args) : serverRemoveCoupon(args),
+    args.operation === 'add' ? serverAddCoupon(args) : serverRemoveCoupon(args),
   onMutate: (args) => {
-    if (args.operation === "add") {
+    if (args.operation === 'add') {
       isAddCouponError.value = false;
     } else {
       isRemoveCouponError.value = false;
     }
   },
   onError: (error, args) => {
-    if (args.operation === "add") {
+    if (args.operation === 'add') {
       isAddCouponError.value = true;
     } else {
       isRemoveCouponError.value = true;
     }
-    console.error("coupon mutation error", args);
+    console.error('coupon mutation error', args);
   },
   onSuccess: ({ data }) => {
-    console.log("coupon mutation success", data);
+    console.log('coupon mutation success', data);
   },
   onSettled: () => {
-    queryClient.invalidateQueries(["cartItems"]);
+    queryClient.invalidateQueries(['cartItems']);
   },
 });
 </script>
 
 <template>
-  <div
-    @click="hideModal"
-    class="fixed inset-0 w-screen h-screen bg-black opacity-30 z-10"
-  ></div>
+  <div @click="hideModal" class="fixed inset-0 w-screen h-screen bg-black opacity-30 z-10"></div>
   <section
     class="absolute top-0 right-0 z-20 flex flex-col items-center pb-0 text-sm bg-white rounded-lg min-w-[350px] max-w-[400px] border"
   >
@@ -82,11 +79,7 @@ const { isPending, mutate } = useMutation({
             stroke="currentColor"
             class="size-6"
           >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              d="M6 18 18 6M6 6l12 12"
-            />
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
           </svg>
         </span>
       </div>
@@ -106,11 +99,7 @@ const { isPending, mutate } = useMutation({
             class="flex-1 font-light text-neutral-400"
             placeholder="Enter the coupon code"
           />
-          <button
-            type="submit"
-            class="font-medium text-teal-500"
-            :disabled="isPending"
-          >
+          <button type="submit" class="font-medium text-teal-500" :disabled="isPending">
             <span v-if="isPending">
               <SpinnerIcon class="w-6 h-6" />
             </span>
@@ -135,13 +124,8 @@ const { isPending, mutate } = useMutation({
         </template>
 
         <!-- centered div with message no coupon code -->
-        <div
-          v-if="coupons.length == 0"
-          class="flex justify-center items-center my-4"
-        >
-          <p class="text-sm text-neutral-400 uppercase">
-            No coupon code applied
-          </p>
+        <div v-if="coupons.length == 0" class="flex justify-center items-center my-4">
+          <p class="text-sm text-neutral-400 uppercase">No coupon code applied</p>
         </div>
 
         <!-- <CouponItem

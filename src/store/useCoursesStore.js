@@ -1,15 +1,14 @@
-import { defineStore } from "pinia";
+import { defineStore } from 'pinia';
 
-import { computed, reactive } from "vue";
-import axios from "axios";
-import { useRouter } from "vue-router";
-import { useLocalStorage } from "@/store/useLocalStorage";
-import { useAuthStore } from "@/store/useAuthStore";
+import { computed, reactive } from 'vue';
+import axios from 'axios';
+import { useRouter } from 'vue-router';
+import { useLocalStorage } from '@/store/useLocalStorage';
+import { useAuthStore } from '@/store/useAuthStore';
 
-const API_ENDPOINT =
-  import.meta.env.VITE_API_ENDPOINT || "https://service.bindle.co.uk/api/";
+const API_ENDPOINT = import.meta.env.VITE_API_ENDPOINT || 'https://service.bindle.co.uk/api/';
 
-export const useCoursesStore = defineStore("courses", () => {
+export const useCoursesStore = defineStore('courses', () => {
   const router = useRouter();
 
   const { setStorage, getStorage, clearStorage } = useLocalStorage();
@@ -31,7 +30,7 @@ export const useCoursesStore = defineStore("courses", () => {
       .get(`${API_ENDPOINT}courses/search?${urlParams}`, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
       })
       .then((data, status) => {
@@ -54,14 +53,14 @@ export const useCoursesStore = defineStore("courses", () => {
       .post(`${API_ENDPOINT}courses/attach-multiple`, params, {
         headers: {
           Authorization: `Bearer ${accessToken}`,
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
       })
       .then((data, status) => {
-        console.log("Attached data", data);
+        console.log('Attached data', data);
       })
       .catch((error) => {
-        console.error("Error fetching courses:", error);
+        console.error('Error fetching courses:', error);
       });
   };
 

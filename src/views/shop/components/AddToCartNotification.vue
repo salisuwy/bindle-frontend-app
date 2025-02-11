@@ -23,9 +23,7 @@
           </svg>
         </span>
 
-        <h3 class="md:text-lg font-medium text-zinc-950">
-          Product added to basket
-        </h3>
+        <h3 class="md:text-lg font-medium text-zinc-950">Product added to basket</h3>
       </div>
       <a href="/checkout" class="font-semibold text-theme-teal">View Cart</a>
     </div>

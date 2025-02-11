@@ -1,17 +1,17 @@
 <script setup>
-import Layout from "@/views/shared/Layout.vue";
-import { ref, computed, onMounted, onUnmounted, nextTick, watch } from "vue";
-import { useRoute, useRouter } from "vue-router";
-import { useBindleApiStore } from "@/store/bindle-api.js";
-import FiltersIcon from "@/components/icons/FiltersIcon.vue";
-import Breadcrumbs from "@/components/Breadcrumbs.vue";
-import ChevronIcon from "@/components/icons/ChevronIcon.vue";
-import Accordion from "@/components/Accordion.vue";
-import Bundle from "@/views/shared/Bundle.vue";
-import Book from "@/views/shared/Book.vue";
-import Pagination from "@/components/Pagination.vue";
-import { useHead } from "@unhead/vue";
-import { trackEvent } from "../../components/helpers/analytics";
+import Layout from '@/views/shared/Layout.vue';
+import { ref, computed, onMounted, onUnmounted, nextTick, watch } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
+import { useBindleApiStore } from '@/store/bindle-api.js';
+import FiltersIcon from '@/components/icons/FiltersIcon.vue';
+import Breadcrumbs from '@/components/Breadcrumbs.vue';
+import ChevronIcon from '@/components/icons/ChevronIcon.vue';
+import Accordion from '@/components/Accordion.vue';
+import Bundle from '@/views/shared/Bundle.vue';
+import Book from '@/views/shared/Book.vue';
+import Pagination from '@/components/Pagination.vue';
+import { useHead } from '@unhead/vue';
+import { trackEvent } from '../../components/helpers/analytics';
 
 const route = useRoute();
 const router = useRouter();
@@ -34,12 +34,11 @@ const itemsPerPage = ref(16);
 const filtersLoaded = ref(false);
 const filtersRef = ref(null);
 
-const pageTitle = ref("");
+const pageTitle = ref('');
 const navbarTitle = ref('View Subject');
 
-
 // special case just to make things difficult
-const bundleType = { id: 4, name: "Bundles", slug: "bundles" };
+const bundleType = { id: 4, name: 'Bundles', slug: 'bundles' };
 
 const filterSubject = computed(() => {
   return subject.value?.slug;
@@ -50,15 +49,15 @@ const filterSubjectId = computed(() => {
 const filterLevel = computed({
   get: () => {
     if (Array.isArray(route.query.level)) return route.query.level; // it really shouldn't be!
-    return route.query.level ? route.query.level.split(",") : [];
+    return route.query.level ? route.query.level.split(',') : [];
   },
   set: (newValue) => {
     const newQuery = { ...route.query };
-    if ("page" in newQuery && newQuery.page !== 1) {
+    if ('page' in newQuery && newQuery.page !== 1) {
       newQuery.page = 1;
     }
     if (newValue.length > 0) {
-      newQuery.level = newValue.join(",");
+      newQuery.level = newValue.join(',');
     } else {
       delete newQuery.level;
     }
@@ -82,15 +81,15 @@ const filterLevelIds = computed(() => {
 
 const filterType = computed({
   get: () => {
-    return route.query.type ? route.query.type.split(",") : [];
+    return route.query.type ? route.query.type.split(',') : [];
   },
   set: (newValue) => {
     const newQuery = { ...route.query };
-    if ("page" in newQuery && newQuery.page !== 1) {
+    if ('page' in newQuery && newQuery.page !== 1) {
       newQuery.page = 1;
     }
     if (newValue.length > 0) {
-      newQuery.type = newValue.join(",");
+      newQuery.type = newValue.join(',');
     } else {
       delete newQuery.type;
     }
@@ -129,15 +128,15 @@ const bundleOnlyFilter = computed(() => {
 
 const filterExamboard = computed({
   get: () => {
-    return route.query.examboard ? route.query.examboard.split(",") : [];
+    return route.query.examboard ? route.query.examboard.split(',') : [];
   },
   set: (newValue) => {
     const newQuery = { ...route.query, page: 1 };
-    if ("page" in newQuery && newQuery.page !== 1) {
+    if ('page' in newQuery && newQuery.page !== 1) {
       newQuery.page = 1;
     }
     if (newValue.length > 0) {
-      newQuery.examboard = newValue.join(",");
+      newQuery.examboard = newValue.join(',');
     } else {
       delete newQuery.examboard;
     }
@@ -164,42 +163,35 @@ const pageIdx = computed({
   set: (newValue) => {
     const intValue = parseInt(newValue, 10);
     if (intValue !== parseInt(route.query.page, 10)) {
-      router
-        .push({ query: { ...route.query, page: newValue } })
-        .catch((err) => {
-          console.error(err);
-        });
+      router.push({ query: { ...route.query, page: newValue } }).catch((err) => {
+        console.error(err);
+      });
     }
   },
 });
 
 const filteredProducts = computed(() => {
-  let buildFilteredProducts = [];
+  const buildFilteredProducts = [];
   if (bundles.value && books.value) {
-    let filteredBundles = Object.values(bundles.value).filter((bundle) => {
+    const filteredBundles = Object.values(bundles.value).filter((bundle) => {
       const bundleBooks = Object.values(books.value).filter((bundleBook) =>
         bundle.book_ids.includes(bundleBook.id)
       );
 
       // format type ebook and paperback
       if (formats.value.length > 0) {
-        if (
-          formats.value.includes("ebook") &&
-          formats.value.includes("paperback")
-        ) {
-        } else if (formats.value.includes("ebook") && !bundle.is_ebook) {
+        if (formats.value.includes('ebook') && formats.value.includes('paperback')) {
+        } else if (formats.value.includes('ebook') && !bundle.is_ebook) {
           return false;
-        } else if (formats.value.includes("paperback") && bundle.is_ebook) {
+        } else if (formats.value.includes('paperback') && bundle.is_ebook) {
           return false;
         }
       }
 
       // subjects
       if (
-        filterSubject.value !== "all" &&
-        !bundleBooks.some((book) =>
-          book.subject_ids.includes(filterSubjectId.value)
-        )
+        filterSubject.value !== 'all' &&
+        !bundleBooks.some((book) => book.subject_ids.includes(filterSubjectId.value))
       ) {
         return false;
       }
@@ -207,18 +199,14 @@ const filteredProducts = computed(() => {
       if (
         filterLevel.value.length > 0 &&
         filterLevel.value.length < Object.keys(levels.value).length &&
-        !bundleBooks.some((book) =>
-          filterLevelIds.value.includes(book.level_id)
-        )
+        !bundleBooks.some((book) => filterLevelIds.value.includes(book.level_id))
       ) {
         return false;
       }
       // resource type
       if (
         hasOneTrueFilterType.value &&
-        !bundleBooks.some((book) =>
-          trueFilterTypeIds.value.includes(book.type_id)
-        )
+        !bundleBooks.some((book) => trueFilterTypeIds.value.includes(book.type_id))
       ) {
         return false;
       }
@@ -226,9 +214,7 @@ const filteredProducts = computed(() => {
       if (
         filterExamboard.value.length > 0 &&
         filterExamboard.value.length < Object.keys(examboards.value).length &&
-        !bundleBooks.some((book) =>
-          filterExamboardIds.value.includes(book.examboard_id)
-        )
+        !bundleBooks.some((book) => filterExamboardIds.value.includes(book.examboard_id))
       ) {
         return false;
       }
@@ -237,22 +223,19 @@ const filteredProducts = computed(() => {
     buildFilteredProducts.push(...filteredBundles);
   }
   if (books.value && !bundleOnlyFilter.value) {
-    let filteredBooks = Object.values(books.value).filter((book) => {
+    const filteredBooks = Object.values(books.value).filter((book) => {
       // format type ebook and paperback
       if (formats.value.length > 0) {
-        if (
-          formats.value.includes("ebook") &&
-          formats.value.includes("paperback")
-        ) {
-        } else if (formats.value.includes("ebook") && !book.is_ebook) {
+        if (formats.value.includes('ebook') && formats.value.includes('paperback')) {
+        } else if (formats.value.includes('ebook') && !book.is_ebook) {
           return false;
-        } else if (formats.value.includes("paperback") && book.is_ebook) {
+        } else if (formats.value.includes('paperback') && book.is_ebook) {
           return false;
         }
       }
 
       // subject
-      if (filterSubject.value !== "all") {
+      if (filterSubject.value !== 'all') {
         if (!book.subject_ids.includes(filterSubjectId.value)) {
           return false;
         }
@@ -266,10 +249,7 @@ const filteredProducts = computed(() => {
         return false;
       }
       // resource type
-      if (
-        hasOneTrueFilterType.value &&
-        !trueFilterTypeIds.value.includes(book.type_id)
-      ) {
+      if (hasOneTrueFilterType.value && !trueFilterTypeIds.value.includes(book.type_id)) {
         return false;
       }
       // examboard
@@ -301,20 +281,20 @@ const filterExamboardAccordionRef = ref();
 
 const toggleMobileFilters = () => {
   if (filtersRef.value) {
-    if (!filtersRef.value.classList.contains("mobile-menu")) {
-      filtersRef.value.classList.add("mobile-menu");
+    if (!filtersRef.value.classList.contains('mobile-menu')) {
+      filtersRef.value.classList.add('mobile-menu');
     }
-    if (filtersRef.value.classList.contains("mobile-menu-open")) {
-      filtersRef.value.classList.remove("mobile-menu-open");
+    if (filtersRef.value.classList.contains('mobile-menu-open')) {
+      filtersRef.value.classList.remove('mobile-menu-open');
     } else {
-      filtersRef.value.classList.add("mobile-menu-open");
+      filtersRef.value.classList.add('mobile-menu-open');
     }
   }
 };
 
 const closeMobileFilters = () => {
-  if (filtersRef.value.classList.contains("mobile-menu-open")) {
-    filtersRef.value.classList.remove("mobile-menu-open");
+  if (filtersRef.value.classList.contains('mobile-menu-open')) {
+    filtersRef.value.classList.remove('mobile-menu-open');
   }
 };
 
@@ -322,30 +302,30 @@ const resizeWindow = () => {
   if (
     window.innerWidth >= 768 &&
     filtersRef.value &&
-    filtersRef.value.classList.contains("mobile-menu")
+    filtersRef.value.classList.contains('mobile-menu')
   ) {
-    filtersRef.value.classList.remove("mobile-menu");
-    filtersRef.value.classList.remove("mobile-menu-open");
+    filtersRef.value.classList.remove('mobile-menu');
+    filtersRef.value.classList.remove('mobile-menu-open');
   } else if (
     window.innerWidth < 768 &&
     filtersRef.value &&
-    !filtersRef.value.classList.contains("mobile-menu")
+    !filtersRef.value.classList.contains('mobile-menu')
   ) {
-    filtersRef.value.classList.add("mobile-menu");
+    filtersRef.value.classList.add('mobile-menu');
   }
 };
 
 const updateSubject = async (subjectSlug) => {
   subject.value = await bindleApiStore.getSubjectBySlug(subjectSlug);
-  const newUrl = "/" + level.value["slug"] + "/" + subjectSlug;
+  const newUrl = '/' + level.value['slug'] + '/' + subjectSlug;
   if (subject.value) {
     /*if (level.value) {
       pageTitle.value = level.value["name"] + " " + subject.value["name"];
     } else {
       pageTitle.value = subject.value["name"];
     }*/
-    
-    pageTitle.value = subject.value["name"];
+
+    pageTitle.value = subject.value['name'];
     navbarTitle.value = pageTitle.value;
   }
   await router.push({ path: newUrl, query: route.query });
@@ -357,12 +337,12 @@ watch(
     if (newParams !== oldParams) {
       if (newParams[0] !== oldParams[0]) {
         level.value = Object.values(levels.value).find(
-          (checkLevel) => checkLevel["slug"] === route.params.level
+          (checkLevel) => checkLevel['slug'] === route.params.level
         );
       }
       if (newParams[1] !== oldParams[1]) {
         subject.value = Object.values(subjects.value).find(
-          (checkSubject) => checkSubject["slug"] === route.params.subject
+          (checkSubject) => checkSubject['slug'] === route.params.subject
         );
       }
     }
@@ -376,33 +356,33 @@ useHead({
 watch([filterSubject, filterLevel, filterType, formats, filterExamboard], () => {
   const filterParams = {
     bindle_subjects: filterSubject.value,
-    bindle_levels: filterLevel.value?.join(", "),
-    bindle_types: filterType.value?.join(", "),
-    bindle_formats: formats.value?.join(", "),
-    bindle_examboards: filterExamboard.value?.join(", "),
+    bindle_levels: filterLevel.value?.join(', '),
+    bindle_types: filterType.value?.join(', '),
+    bindle_formats: formats.value?.join(', '),
+    bindle_examboards: filterExamboard.value?.join(', '),
   };
 
   // console.log("applyFilter", filterParams);
-  trackEvent("applyFilter", filterParams);
+  trackEvent('applyFilter', filterParams);
 });
 
 onMounted(async () => {
-  window.addEventListener("resize", resizeWindow);
+  window.addEventListener('resize', resizeWindow);
 
   await bindleApiStore.getSubjects();
   subjects.value = bindleApiStore.subjects;
   subjects.value = Object.values(subjects.value).filter((subject) => {
     return subject.show_on_nav === 1;
   });
-  
+
   subject.value = Object.values(subjects.value).find(
-    (checkSubject) => checkSubject["slug"] === route.params.subject
+    (checkSubject) => checkSubject['slug'] === route.params.subject
   );
 
   await bindleApiStore.getLevels();
   levels.value = bindleApiStore.levels;
   level.value = Object.values(levels.value).find(
-    (checkLevel) => checkLevel["slug"] === route.params.level
+    (checkLevel) => checkLevel['slug'] === route.params.level
   );
 
   await bindleApiStore.getTypes();
@@ -422,7 +402,7 @@ onMounted(async () => {
     // } else {
     //   pageTitle.value = subject.value["name"];
     // }
-    pageTitle.value = subject.value["name"];
+    pageTitle.value = subject.value['name'];
     navbarTitle.value = pageTitle.value;
   }
 
@@ -434,25 +414,25 @@ onMounted(async () => {
   await nextTick();
   filterSubjectAccordionRef.value.open();
 
-  if ("level" in route.query) {
+  if ('level' in route.query) {
     await nextTick();
     filterLevelAccordionRef.value.open();
   }
-  if ("type" in route.query) {
+  if ('type' in route.query) {
     await nextTick();
     filterTypeAccordionRef.value.open();
   }
-  if ("examboard" in route.query) {
+  if ('examboard' in route.query) {
     await nextTick();
     filterExamboardAccordionRef.value.open();
   }
 });
 onUnmounted(async () => {
-  window.removeEventListener("resize", resizeWindow);
+  window.removeEventListener('resize', resizeWindow);
 });
 const paginationNavigation = () => {
   setTimeout(() => {
-    window.scrollTo({ top: 0, left: 0, behavior: "smooth" });
+    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
   }, 100);
 };
 </script>
@@ -463,18 +443,11 @@ const paginationNavigation = () => {
         <breadcrumbs class="text-left w-full col-start-1 md:col-span-4 mb-4" />
       </div>
 
-      <div
-        class="mx-auto max-w-8xl w-full text-left px-6 grid grid-cols-1 md:grid-cols-4"
-      >
-        <div
-          class="titlebar md:col-start-2 md:col-span-3 row-start-2 text-wrap"
-        >
+      <div class="mx-auto max-w-8xl w-full text-left px-6 grid grid-cols-1 md:grid-cols-4">
+        <div class="titlebar md:col-start-2 md:col-span-3 row-start-2 text-wrap">
           <div class="flex flex-row pb-4">
             <h1 class="text-4xl md:text-4xl">{{ pageTitle }}</h1>
-            <div
-              class="md:hidden grow pt-2 cursor-pointer"
-              @click="toggleMobileFilters()"
-            >
+            <div class="md:hidden grow pt-2 cursor-pointer" @click="toggleMobileFilters()">
               <filters-icon class="ml-auto" />
             </div>
           </div>
@@ -514,7 +487,7 @@ const paginationNavigation = () => {
                 <label
                   :for="'filter-subject-' + listSubject['slug']"
                   class="cursor-pointer mr-auto"
-                  >{{ listSubject["name"] }}</label
+                  >{{ listSubject['name'] }}</label
                 >
               </div>
             </div>
@@ -528,24 +501,14 @@ const paginationNavigation = () => {
             title-class="md:text-sm lg:text-base cursor-pointer linklike"
             indicator-class="float-right"
           >
-            <template #title
-              ><h3 class="inline-block">RESOURCE FORMAT</h3></template
-            >
-            <template #indicator
-              ><chevron-icon down class="inline-block"
-            /></template>
+            <template #title><h3 class="inline-block">RESOURCE FORMAT</h3></template>
+            <template #indicator><chevron-icon down class="inline-block" /></template>
             <hr class="hidden md:block w-full my-4" />
-            <label
-              v-if="filtersLoaded"
-              class="bindle-checkbox cursor-pointer mr-auto"
-            >
+            <label v-if="filtersLoaded" class="bindle-checkbox cursor-pointer mr-auto">
               <input v-model="formats" type="checkbox" value="ebook" />
               E-Book
             </label>
-            <label
-              v-if="filtersLoaded"
-              class="bindle-checkbox cursor-pointer mr-auto"
-            >
+            <label v-if="filtersLoaded" class="bindle-checkbox cursor-pointer mr-auto">
               <input v-model="formats" type="checkbox" value="paperback" />
               Paperback
             </label>
@@ -559,9 +522,7 @@ const paginationNavigation = () => {
             title-class="md:text-xs lg:text-base cursor-pointer linklike"
             indicator-class="float-right"
           >
-            <template #title
-              ><h3 class="inline-block">QUALIFICATION LEVEL</h3></template
-            >
+            <template #title><h3 class="inline-block">QUALIFICATION LEVEL</h3></template>
             <template #indicator>
               <chevron-icon down class="inline-block" />
             </template>
@@ -572,12 +533,8 @@ const paginationNavigation = () => {
               :key="level['slug']"
               class="bindle-checkbox cursor-pointer mr-auto"
             >
-              <input
-                v-model="filterLevel"
-                type="checkbox"
-                :value="level['slug']"
-              />
-              {{ level["name"] }}s
+              <input v-model="filterLevel" type="checkbox" :value="level['slug']" />
+              {{ level['name'] }}s
             </label>
           </accordion>
 
@@ -589,9 +546,7 @@ const paginationNavigation = () => {
             title-class="md:text-sm lg:text-base cursor-pointer linklike"
             indicator-class="float-right"
           >
-            <template #title
-              ><h3 class="inline-block">RESOURCE TYPE</h3></template
-            >
+            <template #title><h3 class="inline-block">RESOURCE TYPE</h3></template>
             <template #indicator>
               <chevron-icon down class="inline-block" />
             </template>
@@ -602,12 +557,8 @@ const paginationNavigation = () => {
               :key="type['slug']"
               class="bindle-checkbox cursor-pointer mr-auto"
             >
-              <input
-                v-model="filterType"
-                type="checkbox"
-                :value="type['slug']"
-              />
-              {{ type["name"] }}
+              <input v-model="filterType" type="checkbox" :value="type['slug']" />
+              {{ type['name'] }}
             </label>
           </accordion>
 
@@ -630,20 +581,14 @@ const paginationNavigation = () => {
               :key="examboard['slug']"
               class="bindle-checkbox cursor-pointer mr-auto"
             >
-              <input
-                type="checkbox"
-                v-model="filterExamboard"
-                :value="examboard['slug']"
-              />
-              {{ examboard["description"] }}
+              <input type="checkbox" v-model="filterExamboard" :value="examboard['slug']" />
+              {{ examboard['description'] }}
             </label>
           </accordion>
 
           <div class="md:hidden">
             <hr class="mb-2" />
-            <button class="mx-auto block mt-4" @click="closeMobileFilters">
-              Close Filters
-            </button>
+            <button class="mx-auto block mt-4" @click="closeMobileFilters">Close Filters</button>
           </div>
         </div>
         <div
@@ -652,21 +597,9 @@ const paginationNavigation = () => {
           <div v-if="filteredProducts.length === 0">
             There are no resources for the selected filters.
           </div>
-          <div
-            v-else
-            v-for="product in paginatedProducts"
-            class="w-full sm:w-1/2 xl:w-1/4 px-2"
-          >
-            <bundle
-              v-if="'books' in product"
-              :bundle="product"
-              mobile-flex-row
-            />
-            <book
-              v-else-if="!bundleOnlyFilter"
-              :product="product"
-              mobile-flex-row
-            />
+          <div v-else v-for="product in paginatedProducts" class="w-full sm:w-1/2 xl:w-1/4 px-2">
+            <bundle v-if="'books' in product" :bundle="product" mobile-flex-row />
+            <book v-else-if="!bundleOnlyFilter" :product="product" mobile-flex-row />
           </div>
         </div>
         <pagination

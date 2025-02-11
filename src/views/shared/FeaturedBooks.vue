@@ -1,14 +1,14 @@
 <script setup>
-import { ref, onBeforeMount, computed } from "vue";
-import { useBindleApiStore } from "@/store/bindle-api.js";
-import Book from "@/views/shared/Book.vue";
-import "vue3-carousel/dist/carousel.css";
-import { Carousel, Slide, Navigation } from "vue3-carousel";
-import { useWindowSize } from "@vueuse/core";
-import CarouselNav from "./CarouselNav.vue";
+import { ref, onBeforeMount, computed } from 'vue';
+import { useBindleApiStore } from '@/store/bindle-api.js';
+import Book from '@/views/shared/Book.vue';
+import 'vue3-carousel/dist/carousel.css';
+import { Carousel, Slide, Navigation } from 'vue3-carousel';
+import { useWindowSize } from '@vueuse/core';
+import CarouselNav from './CarouselNav.vue';
 
 const props = defineProps({
-  title: { type: String, default: "Featured Products" },
+  title: { type: String, default: 'Featured Products' },
   count: { type: Number, default: 8 },
   level_id: { type: String, default: null },
   subject_id: { type: String, default: null },
@@ -25,12 +25,10 @@ const loaded = ref(false);
 const bindleApiStore = useBindleApiStore();
 const products = ref([]);
 onBeforeMount(() => {
-  bindleApiStore
-    .getFeaturedBooks(props.count, props.level_id, props.subject_id)
-    .then((results) => {
-      products.value = results;
-      loaded.value = true;
-    });
+  bindleApiStore.getFeaturedBooks(props.count, props.level_id, props.subject_id).then((results) => {
+    products.value = results;
+    loaded.value = true;
+  });
 });
 
 const { width } = useWindowSize();
@@ -57,11 +55,7 @@ const itemsToShow = computed(() => {
       :wrap-around="true"
       :items-to-show="itemsToShow"
     >
-      <slide
-        v-for="(product, index) in products"
-        :key="index"
-        class="bg-theme-white"
-      >
+      <slide v-for="(product, index) in products" :key="index" class="bg-theme-white">
         <book :product="product" />
       </slide>
     </carousel>
@@ -71,7 +65,6 @@ const itemsToShow = computed(() => {
       @prevSlide="prevSlide"
       @nextSlide="nextSlide"
     />
-    
   </div>
 </template>
 <style scoped>

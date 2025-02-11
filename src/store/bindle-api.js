@@ -1,15 +1,14 @@
-import { defineStore } from "pinia";
-import { computed, ref } from "vue";
-import { AsyncOperationManager } from "@/components/helpers/AsyncOperationManager.js";
-import { Util } from "@/components/helpers/Util.js";
-import axios from "axios";
+import { defineStore } from 'pinia';
+import { computed, ref } from 'vue';
+import { AsyncOperationManager } from '@/components/helpers/AsyncOperationManager.js';
+import { Util } from '@/components/helpers/Util.js';
+import axios from 'axios';
 
 /**
  * @see https://pinia.vuejs.org/core-concepts/#Setup-Stores
  */
-export const useBindleApiStore = defineStore("bindleApi", () => {
-  const API_ENDPOINT =
-    import.meta.env.VITE_API_ENDPOINT || "https://service.bindle.co.uk/api/";
+export const useBindleApiStore = defineStore('bindleApi', () => {
+  const API_ENDPOINT = import.meta.env.VITE_API_ENDPOINT || 'https://service.bindle.co.uk/api/';
 
   const OBTAIN_BOOKS_FROM_LEVELS = true;
   const SIMULATE_HOMEPAGE_API = true;
@@ -50,7 +49,7 @@ export const useBindleApiStore = defineStore("bindleApi", () => {
   const routingFailed = ref(false);
 
   const fetchAll = async (apiCall) => {
-    return await asyncManager.execute("fetch:" + apiCall, async () => {
+    return await asyncManager.execute('fetch:' + apiCall, async () => {
       const allResults = {};
       let result = await fetchOne(apiCall);
       while (true) {
@@ -70,16 +69,16 @@ export const useBindleApiStore = defineStore("bindleApi", () => {
 
   const fetchOne = async (apiCall) => {
     const response = await fetch(apiCall, {
-      method: "GET",
+      method: 'GET',
     });
     if (!response.ok) {
-      throw new Error("Network response was not ok");
+      throw new Error('Network response was not ok');
     }
     return await response.json();
   };
 
   const getHomepageData = async () => {
-    return await asyncManager.execute("getHomepageData", async () => {
+    return await asyncManager.execute('getHomepageData', async () => {
       if (SIMULATE_HOMEPAGE_API) {
         await getBooks();
         await getBundles();
@@ -99,9 +98,9 @@ export const useBindleApiStore = defineStore("bindleApi", () => {
   };
 
   const getLevels = async () => {
-    return await asyncManager.execute("getLevels", async () => {
+    return await asyncManager.execute('getLevels', async () => {
       if (levels.value === null) {
-        const results = await fetchAll(API_ENDPOINT + "levels");
+        const results = await fetchAll(API_ENDPOINT + 'levels');
         const buildLevels = {};
         Object.keys(results).forEach((key) => {
           const result = results[key];
@@ -122,9 +121,9 @@ export const useBindleApiStore = defineStore("bindleApi", () => {
   };
 
   const getSubjects = async () => {
-    return await asyncManager.execute("getSubjects", async () => {
+    return await asyncManager.execute('getSubjects', async () => {
       if (subjects.value === null) {
-        const results = await fetchAll(API_ENDPOINT + "subjects");
+        const results = await fetchAll(API_ENDPOINT + 'subjects');
         const buildSubjects = {};
         Object.keys(results).forEach((key) => {
           const result = results[key];
@@ -145,9 +144,7 @@ export const useBindleApiStore = defineStore("bindleApi", () => {
   };
   const getSubjectsById = async (subject_ids) => {
     await getSubjects();
-    return Object.values(subjects.value).filter((subject) =>
-      subject_ids.includes(subject.id)
-    );
+    return Object.values(subjects.value).filter((subject) => subject_ids.includes(subject.id));
   };
   const getSubjectBySlug = async (slug) => {
     await getSubjects();
@@ -159,9 +156,9 @@ export const useBindleApiStore = defineStore("bindleApi", () => {
   };
 
   const getTypes = async () => {
-    return await asyncManager.execute("getTypes", async () => {
+    return await asyncManager.execute('getTypes', async () => {
       if (types.value === null) {
-        const results = await fetchAll(API_ENDPOINT + "types");
+        const results = await fetchAll(API_ENDPOINT + 'types');
         const buildTypes = {};
         Object.keys(results).forEach((key) => {
           const result = results[key];
@@ -177,16 +174,14 @@ export const useBindleApiStore = defineStore("bindleApi", () => {
   };
   const getTypesById = async (type_ids) => {
     await getTypes();
-    return Object.values(types.value).filter((type) =>
-      type_ids.includes(type.id)
-    );
+    return Object.values(types.value).filter((type) => type_ids.includes(type.id));
   };
 
   const getExamboards = async () => {
-    return await asyncManager.execute("getExamboards", async () => {
+    return await asyncManager.execute('getExamboards', async () => {
       if (examboards.value === null) {
         let buildExamboards = {};
-        let results = await fetchAll(API_ENDPOINT + "examboards");
+        let results = await fetchAll(API_ENDPOINT + 'examboards');
         Object.keys(results).forEach((key) => {
           const result = results[key];
           buildExamboards[result.id] = result;
@@ -202,10 +197,10 @@ export const useBindleApiStore = defineStore("bindleApi", () => {
   };
 
   const getBundles = async () => {
-    return asyncManager.execute("getBundles", async () => {
+    return asyncManager.execute('getBundles', async () => {
       if (bundles.value === null) {
         let buildBundles = {};
-        let results = await fetchAll(API_ENDPOINT + "bindles");
+        let results = await fetchAll(API_ENDPOINT + 'bindles');
         Object.keys(results).forEach((key) => {
           const result = results[key];
           const bookIds = [];
@@ -214,7 +209,7 @@ export const useBindleApiStore = defineStore("bindleApi", () => {
           if (bookIds.length > 0) {
             // replace the slug since those from the database/API suck
             result.slug = Util.snakeCase(result.title);
-            result["book_ids"] = bookIds;
+            result['book_ids'] = bookIds;
             buildBundles[result.id] = result;
           }
         });
@@ -239,7 +234,7 @@ export const useBindleApiStore = defineStore("bindleApi", () => {
   };
 
   const getBooks = async () => {
-    return asyncManager.execute("getBooks", async () => {
+    return asyncManager.execute('getBooks', async () => {
       if (books.value === null) {
         await getLevels();
         await getSubjects();
@@ -268,7 +263,7 @@ export const useBindleApiStore = defineStore("bindleApi", () => {
           });
 
           Object.values(types.value).forEach((type) => {
-            if ("books" in type) {
+            if ('books' in type) {
               Object.values(type.books).forEach((typeBook) => {
                 const bookId = typeBook.id;
                 if (bookId in buildBooks) {
@@ -282,7 +277,7 @@ export const useBindleApiStore = defineStore("bindleApi", () => {
             }
           });
         } else {
-          const results = await fetchAll(API_ENDPOINT + "books");
+          const results = await fetchAll(API_ENDPOINT + 'books');
           Object.values(results).forEach((key) => {
             let book = results[key];
             buildBooks[book.id] = book;
@@ -294,12 +289,11 @@ export const useBindleApiStore = defineStore("bindleApi", () => {
           const level = await getLevelById(book.level_id);
           const subjects = await getSubjectsById(book.subject_ids);
           if (subjects.length > 1) {
-            book.product_url = "/" + level.slug + "/subjects/" + book.slug;
+            book.product_url = '/' + level.slug + '/subjects/' + book.slug;
           } else if (subjects.length === 1) {
-            book.product_url =
-              "/" + level.slug + "/" + subjects[0].slug + "/" + book.slug;
+            book.product_url = '/' + level.slug + '/' + subjects[0].slug + '/' + book.slug;
           } else {
-            books.product_url = null;
+            book.product_url = null;
           }
         }
 
@@ -335,9 +329,9 @@ export const useBindleApiStore = defineStore("bindleApi", () => {
     const level = await getLevelById(book.level_id);
     const subjects = await getSubjectsById(book.subject_ids);
     if (subjects.length > 1) {
-      return "/" + level.slug + "/subjects/" + book.slug;
+      return '/' + level.slug + '/subjects/' + book.slug;
     } else {
-      return "/" + level.slug + "/" + subjects[0].slug + "/" + book.slug;
+      return '/' + level.slug + '/' + subjects[0].slug + '/' + book.slug;
     }
   };
 
@@ -347,10 +341,10 @@ export const useBindleApiStore = defineStore("bindleApi", () => {
     const bookId = bookIdBySlugIndex[slug] ?? null;
     if (!bookId) return null;
     const book = books.value[bookId];
-    if ("discounts" in book) {
+    if ('discounts' in book) {
       return book;
     }
-    const result = await fetchOne(API_ENDPOINT + "books/" + bookId);
+    const result = await fetchOne(API_ENDPOINT + 'books/' + bookId);
     const fetchedBook = result.data;
     book.bundles = fetchedBook.bindles;
     book.discounts = fetchedBook.discounts;
@@ -370,46 +364,46 @@ export const useBindleApiStore = defineStore("bindleApi", () => {
   // temporarily mimic data that should probably come from the API/db!
   const tempAdjustSubjects = (subjects) => {
     Object.values(subjects).forEach((subject) => {
-      switch (subject["slug"]) {
-        case "maths":
-          subject["image_url"] = "/assets/subjects/mathematics.png";
-          subject["priority"] = 1;
+      switch (subject['slug']) {
+        case 'maths':
+          subject['image_url'] = '/assets/subjects/mathematics.png';
+          subject['priority'] = 1;
           break;
-        case "english-language":
-          subject["image_url"] = "/assets/subjects/english-language.png";
-          subject["priority"] = 2;
+        case 'english-language':
+          subject['image_url'] = '/assets/subjects/english-language.png';
+          subject['priority'] = 2;
           break;
-        case "english-literature":
-          subject["image_url"] = "/assets/subjects/english-literature.png";
-          subject["priority"] = 2;
+        case 'english-literature':
+          subject['image_url'] = '/assets/subjects/english-literature.png';
+          subject['priority'] = 2;
           break;
-        case "chemistry":
-          subject["image_url"] = "/assets/subjects/chemistry.png";
-          subject["priority"] = 3;
+        case 'chemistry':
+          subject['image_url'] = '/assets/subjects/chemistry.png';
+          subject['priority'] = 3;
           break;
-        case "physics":
-          subject["image_url"] = "/assets/subjects/physics.png";
-          subject["priority"] = 3;
+        case 'physics':
+          subject['image_url'] = '/assets/subjects/physics.png';
+          subject['priority'] = 3;
           break;
-        case "biology":
-          subject["image_url"] = "/assets/subjects/biology.png";
-          subject["priority"] = 3;
+        case 'biology':
+          subject['image_url'] = '/assets/subjects/biology.png';
+          subject['priority'] = 3;
           break;
-        case "history":
-          subject["image_url"] = "/assets/subjects/history.png";
-          subject["priority"] = 3;
+        case 'history':
+          subject['image_url'] = '/assets/subjects/history.png';
+          subject['priority'] = 3;
           break;
-        case "geography":
-          subject["image_url"] = "/assets/subjects/geography.png";
-          subject["priority"] = 3;
+        case 'geography':
+          subject['image_url'] = '/assets/subjects/geography.png';
+          subject['priority'] = 3;
           break;
-        case "dt":
-          subject["image_url"] = "/assets/subjects/business-studies.png";
-          subject["priority"] = 3;
+        case 'dt':
+          subject['image_url'] = '/assets/subjects/business-studies.png';
+          subject['priority'] = 3;
           break;
         default:
-          subject["image_url"] = null;
-          subject["priority"] = 4;
+          subject['image_url'] = null;
+          subject['priority'] = 4;
           break;
       }
     });
@@ -446,7 +440,7 @@ export const useBindleApiStore = defineStore("bindleApi", () => {
         if (!bundleIdByLevelIndex[level.id].includes(bundle)) {
           bundleIdByLevelIndex[level.id].push(bundle.id);
         }
-        if ("subject_ids" in book) {
+        if ('subject_ids' in book) {
           book.subject_ids.forEach((subject_id) => {
             bundleIdBySubjectIndex[subject_id] = bundle.id;
           });
@@ -469,11 +463,11 @@ export const useBindleApiStore = defineStore("bindleApi", () => {
     await getBundles();
     await getLevels();
     if (!level_slug) {
-      throw "not yet supported!";
+      throw 'not yet supported!';
     }
     if (!(level_slug in levelIdBySlugIndex)) {
       //console.log(levelIdBySlugIndex);
-      console.error("Failed to find level id for level slug=" + level_slug);
+      console.error('Failed to find level id for level slug=' + level_slug);
       return [];
     }
     const buildBundles = [];
@@ -503,11 +497,11 @@ export const useBindleApiStore = defineStore("bindleApi", () => {
       bundlesArray = Object.values(bundles.value).filter((bundle) => {
         if (is_core !== null) {
           if (is_core === true) {
-            if (bundle.is_core_bundle === "No") {
+            if (bundle.is_core_bundle === 'No') {
               return false;
             }
           } else {
-            if (bundle.is_core_bundle === "Yes") {
+            if (bundle.is_core_bundle === 'Yes') {
               return false;
             }
           }
@@ -516,14 +510,9 @@ export const useBindleApiStore = defineStore("bindleApi", () => {
           if (!bundle.books.some((book) => book.level_id === level_id)) {
             return false;
           }
-        } else if (
-          subject_slug !== null &&
-          subject_slug in bundleIdByLevelIndex
-        ) {
+        } else if (subject_slug !== null && subject_slug in bundleIdByLevelIndex) {
           const subject_id = subjectIdBySlugIndex[subject_slug];
-          if (
-            !bundle.books.some((book) => book.subject_ids.includes(subject_id))
-          ) {
+          if (!bundle.books.some((book) => book.subject_ids.includes(subject_id))) {
             return false;
           }
         }
@@ -538,16 +527,11 @@ export const useBindleApiStore = defineStore("bindleApi", () => {
     return Util.getRandom(bundlesArray, count);
   };
 
-  const getFeaturedBooks = async (
-    count,
-    level_id = null,
-    subject_id = null
-  ) => {
+  const getFeaturedBooks = async (count, level_id = null, subject_id = null) => {
     await getBooks();
     let booksArray = Object.values(books.value).filter(
       (book) =>
-        (book.is_featured &&
-          (level_id === null || book.level_id === level_id)) ||
+        (book.is_featured && (level_id === null || book.level_id === level_id)) ||
         subject_id === null ||
         book.subject_ids.includes(subject_id)
     );
@@ -564,8 +548,7 @@ export const useBindleApiStore = defineStore("bindleApi", () => {
     }
     if (subject_id !== null) {
       booksArray = booksArray.filter(
-        (book) =>
-          book.subject_id !== null && book.subject_ids.includes(subject_id)
+        (book) => book.subject_id !== null && book.subject_ids.includes(subject_id)
       );
     }
     return Util.getRandom(booksArray, count);
@@ -591,7 +574,7 @@ export const useBindleApiStore = defineStore("bindleApi", () => {
       const data = { email: emailAddress };
       await axios.post(`${API_ENDPOINT}subscribe`, data, {
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
       });
       return true;
@@ -604,38 +587,38 @@ export const useBindleApiStore = defineStore("bindleApi", () => {
 
   const getSubjectIconClass = (slug) => {
     switch (slug) {
-      case "spanish":
-        return "fa-skull-cow";
-      case "physics":
-        return "fa-telescope";
-      case "maths":
-        return "fa-calculator";
-      case "chemistry":
-        return "fa-flask";
-      case "dt":
-        return "fa-drafting-compass";
-      case "french":
-        return "fa-cheese";
-      case "biology":
-        return "fa-dna";
-      case "drama":
-        return "fa-theater-masks";
-      case "geography":
-        return "fa-globe";
-      case "german":
-        return "fa-sausage";
-      case "history":
-        return "fa-scroll-old";
-      case "computer-science":
-        return "fa-desktop";
-      case "music":
-        return "fa-music";
-      case "english-language":
-        return "fa-language";
-      case "english-literature":
-        return "fa-book";
+      case 'spanish':
+        return 'fa-skull-cow';
+      case 'physics':
+        return 'fa-telescope';
+      case 'maths':
+        return 'fa-calculator';
+      case 'chemistry':
+        return 'fa-flask';
+      case 'dt':
+        return 'fa-drafting-compass';
+      case 'french':
+        return 'fa-cheese';
+      case 'biology':
+        return 'fa-dna';
+      case 'drama':
+        return 'fa-theater-masks';
+      case 'geography':
+        return 'fa-globe';
+      case 'german':
+        return 'fa-sausage';
+      case 'history':
+        return 'fa-scroll-old';
+      case 'computer-science':
+        return 'fa-desktop';
+      case 'music':
+        return 'fa-music';
+      case 'english-language':
+        return 'fa-language';
+      case 'english-literature':
+        return 'fa-book';
       default:
-        return "fa-image";
+        return 'fa-image';
     }
   };
 

@@ -1,13 +1,13 @@
 <script setup>
-import { computed, defineProps, toRefs } from "vue";
-import Accordion from "@/components/Accordion.vue";
-import ChevronIcon from "@/components/icons/ChevronIcon.vue";
+import { computed, defineProps, toRefs } from 'vue';
+import Accordion from '@/components/Accordion.vue';
+import ChevronIcon from '@/components/icons/ChevronIcon.vue';
 
 const props = defineProps({
   order: Object,
   title: {
     type: String,
-    default: "Price Details",
+    default: 'Price Details',
   },
   showDivider: {
     type: Boolean,
@@ -22,7 +22,7 @@ const { order } = toRefs(props);
 
 const coupon = computed(() => {
   const c = order.value?.coupons;
-  return c ? c[0]?.coupon_code : "";
+  return c ? c[0]?.coupon_code : '';
 });
 
 const orderTotalPlusShipping = computed(() => {
@@ -45,13 +45,9 @@ const orderTotalPlusShipping = computed(() => {
           </h3>
         </template>
 
-        <template #indicator
-          ><chevron-icon down class="inline-block"
-        /></template>
+        <template #indicator><chevron-icon down class="inline-block" /></template>
         <div class="info">
-          <div
-            class="flex gap-5 justify-between mt-3 text-base leading-6 whitespace-nowrap"
-          >
+          <div class="flex gap-5 justify-between mt-3 text-base leading-6 whitespace-nowrap">
             <span class="font-light text-neutral-500">Pre Discount</span>
             <span class="font-medium text-neutral-800"
               >£{{ order?.order_total_before_discount }}</span
@@ -66,7 +62,7 @@ const orderTotalPlusShipping = computed(() => {
                 'text-neutral-800': order?.coupons_total_discount <= 0,
               }"
             >
-              {{ order?.coupons_total_discount > 0 ? "-" : "" }}
+              {{ order?.coupons_total_discount > 0 ? '-' : '' }}
               £{{ order?.coupons_total_discount }}
             </span>
           </div>
@@ -86,7 +82,7 @@ const orderTotalPlusShipping = computed(() => {
                 'text-neutral-800': order?.order_savings <= 0,
               }"
             >
-              {{ order?.order_savings > 0 ? "-" : "" }}
+              {{ order?.order_savings > 0 ? '-' : '' }}
               £{{ order?.order_savings }}
             </span>
           </div>
@@ -101,9 +97,7 @@ const orderTotalPlusShipping = computed(() => {
 
           <div class="flex gap-5 justify-between mt-3 text-base leading-6">
             <span class="text-lg leading-6 text-neutral-800">Subtotal</span>
-            <span class="font-medium text-neutral-800">
-              £{{ order?.order_subtotal }}
-            </span>
+            <span class="font-medium text-neutral-800"> £{{ order?.order_subtotal }} </span>
           </div>
 
           <div class="flex gap-5 justify-between mt-3 text-base leading-6">
@@ -113,18 +107,14 @@ const orderTotalPlusShipping = computed(() => {
             </span>
             <span class="font-medium text-teal-500" v-else>FREE</span>
           </div>
-          <p
-            class="mt-1 text-sm font-medium tracking-normal leading-5 text-slate-400"
-          >
+          <p class="mt-1 text-sm font-medium tracking-normal leading-5 text-slate-400">
             Free delivery for orders above £30
           </p>
         </div>
 
         <template #footer>
           <hr class="border border-zinc-200 mt-4 mb-8" />
-          <div
-            class="flex gap-5 justify-between text-xl font-medium leading-6 text-neutral-800"
-          >
+          <div class="flex gap-5 justify-between text-xl font-medium leading-6 text-neutral-800">
             <span>Total Amount</span>
             <span>£{{ orderTotalPlusShipping }}</span>
           </div>
@@ -140,13 +130,9 @@ const orderTotalPlusShipping = computed(() => {
       </h2>
       <hr v-if="showDivider" class="border border-zinc-200 my-1.5" />
 
-      <div
-        class="flex gap-5 justify-between mt-8 text-base leading-6 whitespace-nowrap"
-      >
+      <div class="flex gap-5 justify-between mt-8 text-base leading-6 whitespace-nowrap">
         <span class="font-light text-neutral-500">Pre Discount</span>
-        <span class="font-medium text-neutral-800"
-          >£{{ order?.order_total_before_discount }}</span
-        >
+        <span class="font-medium text-neutral-800">£{{ order?.order_total_before_discount }}</span>
       </div>
       <div class="flex gap-5 justify-between mt-3 text-base leading-6">
         <span class="font-light text-neutral-500">Coupon Discount</span>
@@ -157,14 +143,11 @@ const orderTotalPlusShipping = computed(() => {
             'text-neutral-800': order?.coupons_total_discount <= 0,
           }"
         >
-          {{ order?.coupons_total_discount > 0 ? "-" : "" }}
+          {{ order?.coupons_total_discount > 0 ? '-' : '' }}
           £{{ order?.coupons_total_discount }}
         </span>
       </div>
-      <p
-        v-if="coupon"
-        class="mt-1 text-sm font-light tracking-normal leading-5 text-neutral-400"
-      >
+      <p v-if="coupon" class="mt-1 text-sm font-light tracking-normal leading-5 text-neutral-400">
         (Applied using coupon code
         <span class="font-medium">{{ coupon }}</span> )
       </p>
@@ -177,7 +160,7 @@ const orderTotalPlusShipping = computed(() => {
             'text-neutral-800': order?.order_savings <= 0,
           }"
         >
-          {{ order?.order_savings > 0 ? "-" : "" }}
+          {{ order?.order_savings > 0 ? '-' : '' }}
           £{{ order?.order_savings }}
         </span>
       </div>
@@ -192,9 +175,7 @@ const orderTotalPlusShipping = computed(() => {
 
       <div class="flex gap-5 justify-between mt-3 text-base leading-6">
         <span class="text-lg leading-6 text-neutral-800">Subtotal</span>
-        <span class="font-medium text-neutral-800">
-          £{{ order?.order_subtotal }}
-        </span>
+        <span class="font-medium text-neutral-800"> £{{ order?.order_subtotal }} </span>
       </div>
 
       <div class="flex gap-5 justify-between mt-3 text-base leading-6">
@@ -204,15 +185,11 @@ const orderTotalPlusShipping = computed(() => {
         </span>
         <span class="font-medium text-teal-500" v-else>FREE</span>
       </div>
-      <p
-        class="mt-1 text-sm font-medium tracking-normal leading-5 text-slate-400"
-      >
+      <p class="mt-1 text-sm font-medium tracking-normal leading-5 text-slate-400">
         Free delivery for orders above £30
       </p>
       <hr class="border border-zinc-200 mt-4 mb-8" />
-      <div
-        class="flex gap-5 justify-between text-xl font-medium leading-6 text-neutral-800"
-      >
+      <div class="flex gap-5 justify-between text-xl font-medium leading-6 text-neutral-800">
         <span>Total Amount</span>
         <span>£{{ orderTotalPlusShipping }}</span>
       </div>
