@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, watch, toRef, onMounted } from 'vue';
+import { computed, watch, toRef } from 'vue';
 
 import FormTextField from './FormTextField.vue';
 import FormCountrySelectField from './FormCountrySelectField.vue';
@@ -10,7 +10,6 @@ import type { Address } from '@/composables/useAddressForm';
 
 interface Props {
   id: string;
-  //initialAddress: Partial<Address>;
   modelValue: Partial<Address>;
   showAllErrors?: boolean;
   disabled?: boolean;
@@ -22,18 +21,13 @@ const props = defineProps<Props>();
 const emit = defineEmits<{
   'update:modelValue': [value: Partial<Address>];
   blur: [value: Partial<Address>];
-  //updated: [value: [isValid: boolean, address: Address, key: number]];
-  //'updated:edit': [value: [isValid: boolean, address: Address, key: number]];
 }>();
 
 const concatId = (id: string) => `${props.id}_${id}`;
 
 const {
-  //meta,
-  //errors,
   values,
   setValues,
-  //validateSync,
   firstName,
   firstNameAttrs,
   lastName,
@@ -72,30 +66,7 @@ const handleBlur = () => {
   emit('blur', values);
 };
 
-/*const handleUpdated = () => {
-  emit('updated', [validateSync(values), { ...values }, 0]);
-};
-
-const handleEdited = () => {
-  emit('updated:edit', [validateSync(values), { ...values }, 0]);
-};*/
-
 const disableForm = computed(() => props.disabled || props.hideForm || props.loading);
-
-/*onMounted(handleUpdated);
-watch(
-  () => props.loading,
-  (newVal, oldVal) => {
-    if (newVal === false && oldVal === true) {
-      setValues(props.initialAddress);
-      handleUpdated();
-    }
-  }
-);
-
-watch(values, () => {
-  handleEdited();
-});*/
 
 const loadingPlaceholder = (placeholder: string) => (props.loading ? 'Loading...' : placeholder);
 </script>

@@ -40,10 +40,6 @@ const initialise = () => {
     const index = props.savedAddresses.findIndex((a) => isAddressEqual(a, props.modelValue));
     showAddressForm.value = index == -1;
   }
-
-  /*if (!showAddressForm.value) {
-    emit('updated', [true, selectedAddress.value, 0]);
-  }*/
 };
 
 onMounted(initialise);
@@ -82,14 +78,6 @@ const handleShowSelector = async () => {
   await nextTick();
   scrollToTopOfForm();
 };
-
-/*const handleFormUpdate = (vals: [boolean, Address, number]) => {
-  emit('updated', vals);
-};
-
-watch(selectedAddress, () => {
-  emit('updated', [true, selectedAddress.value, 0]);
-});*/
 </script>
 
 <template>

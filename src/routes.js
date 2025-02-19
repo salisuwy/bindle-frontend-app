@@ -19,8 +19,7 @@ import PageNotFound from '@/views/PageNotFound.vue';
 import Tokens from '@/views/Tokens.vue';
 import Test from '@/views/Test.vue';
 import CheckoutV2 from '@/views/shop/CheckoutV2.vue';
-//import CheckoutPaymentV4 from '@/views/shop/CheckoutPaymentV4.vue';
-import CheckoutPaymentV5 from '@/views/shop/CheckoutPaymentV5.vue';
+import CheckoutPayment from '@/views/shop/CheckoutPayment.vue';
 import Invoice from '@/views/shop/Invoice.vue';
 import Signup from '@/views/user-profile/Signup.vue';
 import Login from '@/views/user-profile/Login.vue';
@@ -32,7 +31,6 @@ import UserProfileBuddy from '@/views/user-profile/UserProfileBuddy.vue';
 import UserProfileOrderPage from '@/views/user-profile/UserProfileOrderPage.vue';
 import UserProfileAddresses from '@/views/user-profile/UserProfileAddresses.vue';
 import UserProfileAddressPage from '@/views/user-profile/UserProfileAddressPage.vue';
-import UserProfileAddressPageV2 from '@/views/user-profile/UserProfileAddressPageV2.vue';
 import AuthSuccess from '@/views/AuthSuccess.vue';
 
 import { useHead } from '@unhead/vue';
@@ -123,17 +121,10 @@ const routes = [
     component: CheckoutAddress,
     meta: { breadcrumb: 'Checkout', title: 'Checkout Address' },
   },*/
-  // {
-  //   name: "checkout-payment",
-  //   path: "/checkout-payment",
-  //   component: CheckoutPayment,
-  //   meta: { breadcrumb: "Checkout", title: "Checkout Payment" },
-  // },
   {
     name: 'checkout-payment',
     path: '/checkout-payment',
-    //component: CheckoutPaymentV4,
-    component: CheckoutPaymentV5,
+    component: CheckoutPayment,
     meta: { breadcrumb: 'Checkout', title: 'Checkout Payment' },
   },
   {
@@ -286,11 +277,6 @@ const routes = [
   {
     name: 'user-profile-address-page',
     path: '/user/:userId/addresses/:addressId',
-    component: UserProfileAddressPageV2,
-  },
-  {
-    name: 'user-profile-address-page-old',
-    path: '/user/:userId/addresses-old/:addressId',
     component: UserProfileAddressPage,
   },
   {
