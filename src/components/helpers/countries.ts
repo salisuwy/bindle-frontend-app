@@ -196,3 +196,16 @@ export const countries = [
     code: 'OO',
   },
 ];
+
+export const isValidCountryName = (name?: string) =>
+  name !== undefined && countries.some((c) => c.name == name);
+export const isValidCountryCode = (code?: string) =>
+  code !== undefined && countries.some((c) => c.code == code);
+
+export const lookupCountryCode = (code?: string) => {
+  if (code !== undefined) {
+    return countries.find((c) => c.code == code)?.name;
+  } else {
+    return undefined;
+  }
+};

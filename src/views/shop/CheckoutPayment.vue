@@ -15,16 +15,16 @@ import {
   createFromSavedAddress,
   EMPTY_ADDRESS,
   isAddressEqual,
+  isAddressValid,
 } from '@/composables/useAddressForm';
 import type { Address } from '@/composables/useAddressForm';
-import { useValidatedObject } from '@/composables/useValidatedObject';
 
 import { DeferredPromise } from '@/components/helpers/tsUtils';
 
 const breadcrumbs = [
   { text: 'Home', path: '/' },
   { text: 'Shop Resources', path: '/resources' },
-  { text: 'Your Cart', path: '/checkout-payment-dev' },
+  { text: 'Your Cart', path: '/checkout-payment' },
 ];
 
 const authStore = useAuthStore();
@@ -48,36 +48,31 @@ const {
 
 const isLoading = computed(() => isOrderLoading.value || isSavedAddressesLoading.value);
 
-const deliveryAddress = ref<Address>({ ...EMPTY_ADDRESS });
+const deliveryAddress = ref<Partial<Address>>({ ...EMPTY_ADDRESS });
 const showDeliveryAddressErrors = ref(false);
-const { isValid: isDeliveryValid, handleUpdated: handleDeliveryUpdated } =
-  useValidatedObject(deliveryAddress);
-watch(deliveryAddress, () => {
-  if (!isAddressEqual(deliveryAddress.value, orderDeliveryAddress.value)) {
-    console.log('updating delivery address to:', deliveryAddress.value);
-    setPartialDeliveryAddress(deliveryAddress.value, billingSameAsDelivery.value);
+const handleDeliveryUpdated = (address: Partial<Address>) => {
+  if (!isAddressEqual(address, orderDeliveryAddress.value)) {
+    setPartialDeliveryAddress(address, billingSameAsDelivery.value);
   }
-});
+};
 
 const billingSameAsDelivery = ref(false);
 watch(billingSameAsDelivery, (newVal) => {
   if (newVal) {
     billingAddress.value = { ...deliveryAddress.value };
+    handleBillingUpdated(billingAddress.value);
   } else {
     billingAddress.value = savedAddresses.value[0] || { ...EMPTY_ADDRESS };
   }
 });
 
-const billingAddress = ref<Address>({ ...EMPTY_ADDRESS });
+const billingAddress = ref<Partial<Address>>({ ...EMPTY_ADDRESS });
 const showBillingAddressErrors = ref(false);
-const { isValid: isBillingValid, handleUpdated: handleBillingUpdated } =
-  useValidatedObject(billingAddress);
-watch(billingAddress, () => {
-  if (!isAddressEqual(billingAddress.value, orderBillingAddress.value)) {
-    console.log('updating billing address to:', billingAddress.value);
-    setPartialBillingAddress(billingAddress.value);
+const handleBillingUpdated = (address: Partial<Address>) => {
+  if (!isAddressEqual(address, orderBillingAddress.value)) {
+    setPartialBillingAddress(address);
   }
-});
+};
 
 const savedAddresses = ref<Address[]>([]);
 
@@ -97,6 +92,8 @@ const unwatch = watch(
   { immediate: true }
 );
 
+// Logic to interact with FormPayment component
+// TODO: simplify when time allows!
 const paymentInProgress = ref(false);
 const triggerPayment = ref(0);
 let paymentProcessingPromise = new DeferredPromise<void>();
@@ -108,21 +105,19 @@ const handleEndPayment = () => {
   paymentProcessingPromise.resolve();
 };
 
-/*
-Our validation logic relies on the fact that address validation takes place
-on blur and that blur events and handlers will complete before click events.
-Therefore, it's important that the form validation remains synchronous. Any async
-functions in the chain will break this guarantee.
-*/
 const handleClick = async () => {
   console.log('Button clicked!');
-  if (!isDeliveryValid.value) {
+  const deliveryAddressFinal = deliveryAddress.value;
+  const billingAddressFinal = billingAddress.value;
+
+  if (!isAddressValid(deliveryAddressFinal)) {
     showDeliveryAddressErrors.value = true;
     document.getElementById('delivery-address')?.scrollIntoView({ behavior: 'smooth' });
-  } else if (!isBillingValid.value && !billingSameAsDelivery.value) {
+  } else if (!billingSameAsDelivery.value && !isAddressValid(billingAddressFinal)) {
     showBillingAddressErrors.value = true;
     document.getElementById('billing-address')?.scrollIntoView({ behavior: 'smooth' });
   } else {
+    console.log('We can place the order!');
     //console.log('We can place the order!');
     paymentInProgress.value = true;
     paymentProcessingPromise = new DeferredPromise<void>();
@@ -144,21 +139,23 @@ const handleClick = async () => {
         <AddressManager
           id="delivery-address"
           title="Delivery Address"
-          @updated="handleDeliveryUpdated"
-          :initialAddress="deliveryAddress"
+          :disabled="paymentInProgress"
+          v-model="deliveryAddress"
           :savedAddresses="savedAddresses"
           :showAllFormErrors="showDeliveryAddressErrors"
+          @blur="handleDeliveryUpdated"
         />
         <AddressManager
           id="billing-address"
           title="Billing Address"
-          @updated="handleBillingUpdated"
-          :initialAddress="billingAddress"
+          :disabled="paymentInProgress"
+          v-model="billingAddress"
           :savedAddresses="savedAddresses"
-          :hideForm="billingSameAsDelivery"
           :showAllFormErrors="showBillingAddressErrors"
+          :hideForm="billingSameAsDelivery"
+          @blur="handleBillingUpdated"
           ><template #header-control>
-            <BindleCheckbox v-model="billingSameAsDelivery"
+            <BindleCheckbox v-model="billingSameAsDelivery" :disabled="paymentInProgress"
               >Same as Delivery Address</BindleCheckbox
             >
           </template>

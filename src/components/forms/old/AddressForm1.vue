@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, watch, toRef } from 'vue';
+import { computed, watch, toRef, onMounted } from 'vue';
 
 import FormTextField from './FormTextField.vue';
 import FormCountrySelectField from './FormCountrySelectField.vue';
@@ -10,7 +10,7 @@ import type { Address } from '@/composables/useAddressForm';
 
 interface Props {
   id: string;
-  modelValue: Partial<Address>;
+  initialAddress: Partial<Address>;
   showAllErrors?: boolean;
   disabled?: boolean;
   hideForm?: boolean;
@@ -19,15 +19,18 @@ interface Props {
 const props = defineProps<Props>();
 
 const emit = defineEmits<{
-  'update:modelValue': [value: Partial<Address>];
-  blur: [value: Partial<Address>];
+  updated: [value: [isValid: boolean, address: Address, key: number]];
+  'updated:edit': [value: [isValid: boolean, address: Address, key: number]];
 }>();
 
 const concatId = (id: string) => `${props.id}_${id}`;
 
 const {
+  //meta,
+  //errors,
   values,
   setValues,
+  validateSync,
   firstName,
   firstNameAttrs,
   lastName,
@@ -47,26 +50,34 @@ const {
   country,
   countryAttrs,
 } = useAddressForm({
-  initialValues: props.modelValue,
+  initialValues: props.initialAddress,
   showAllErrors: toRef(props, 'showAllErrors'),
 });
 
-watch(values, () => {
-  emit('update:modelValue', values);
-});
+const handleUpdated = () => {
+  emit('updated', [validateSync(values), { ...values }, 0]);
+};
 
-watch(
-  () => props.modelValue,
-  () => {
-    setValues(props.modelValue);
-  }
-);
-
-const handleBlur = () => {
-  emit('blur', values);
+const handleEdited = () => {
+  emit('updated:edit', [validateSync(values), { ...values }, 0]);
 };
 
 const disableForm = computed(() => props.disabled || props.hideForm || props.loading);
+
+onMounted(handleUpdated);
+watch(
+  () => props.loading,
+  (newVal, oldVal) => {
+    if (newVal === false && oldVal === true) {
+      setValues(props.initialAddress);
+      handleUpdated();
+    }
+  }
+);
+
+watch(values, () => {
+  handleEdited();
+});
 
 const loadingPlaceholder = (placeholder: string) => (props.loading ? 'Loading...' : placeholder);
 </script>
@@ -80,7 +91,7 @@ const loadingPlaceholder = (placeholder: string) => (props.loading ? 'Loading...
       :placeholder="loadingPlaceholder('Enter your first name')"
       v-model="firstName"
       v-bind="firstNameAttrs"
-      @blur="handleBlur"
+      @blur="handleUpdated"
     />
     <FormTextField
       :id="concatId('last_name')"
@@ -89,7 +100,7 @@ const loadingPlaceholder = (placeholder: string) => (props.loading ? 'Loading...
       :placeholder="loadingPlaceholder('Enter your last name')"
       v-model="lastName"
       v-bind="lastNameAttrs"
-      @blur="handleBlur"
+      @blur="handleUpdated"
     />
   </FormRowContainer>
   <FormRowContainer>
@@ -101,7 +112,7 @@ const loadingPlaceholder = (placeholder: string) => (props.loading ? 'Loading...
       :placeholder="loadingPlaceholder('Enter your phone number')"
       v-model="phoneNumber"
       v-bind="phoneNumberAttrs"
-      @blur="handleBlur"
+      @blur="handleUpdated"
     />
     <FormTextField
       type="email"
@@ -111,7 +122,7 @@ const loadingPlaceholder = (placeholder: string) => (props.loading ? 'Loading...
       :placeholder="loadingPlaceholder('Enter your email')"
       v-model="email"
       v-bind="emailAttrs"
-      @blur="handleBlur"
+      @blur="handleUpdated"
     />
   </FormRowContainer>
   <FormTextField
@@ -121,7 +132,7 @@ const loadingPlaceholder = (placeholder: string) => (props.loading ? 'Loading...
     :placeholder="loadingPlaceholder('Enter your Address line 1')"
     v-model="address1"
     v-bind="address1Attrs"
-    @blur="handleBlur"
+    @blur="handleUpdated"
   />
   <FormTextField
     :id="concatId('address2')"
@@ -130,7 +141,7 @@ const loadingPlaceholder = (placeholder: string) => (props.loading ? 'Loading...
     :placeholder="loadingPlaceholder('Enter your Address line 2')"
     v-model="address2"
     v-bind="address2Attrs"
-    @blur="handleBlur"
+    @blur="handleUpdated"
   />
   <FormRowContainer>
     <FormTextField
@@ -140,7 +151,7 @@ const loadingPlaceholder = (placeholder: string) => (props.loading ? 'Loading...
       :placeholder="loadingPlaceholder('Enter your city')"
       v-model="city"
       v-bind="cityAttrs"
-      @blur="handleBlur"
+      @blur="handleUpdated"
     />
     <FormTextField
       :id="concatId('zip')"
@@ -149,7 +160,7 @@ const loadingPlaceholder = (placeholder: string) => (props.loading ? 'Loading...
       :placeholder="loadingPlaceholder('Enter your postcode')"
       v-model="zip"
       v-bind="zipAttrs"
-      @blur="handleBlur"
+      @blur="handleUpdated"
     />
   </FormRowContainer>
   <FormRowContainer padRight>
@@ -160,7 +171,7 @@ const loadingPlaceholder = (placeholder: string) => (props.loading ? 'Loading...
       :placeholder="loadingPlaceholder('Select option')"
       v-model="country"
       v-bind="countryAttrs"
-      @blur="handleBlur"
+      @blur="handleUpdated"
     />
   </FormRowContainer>
 </template>
