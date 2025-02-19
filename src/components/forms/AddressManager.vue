@@ -13,7 +13,7 @@ import type { Address } from '@/composables/useAddressForm';
 interface Props {
   id: string;
   title: string;
-  initialAddress: Address;
+  initialAddress: Partial<Address>;
   savedAddresses: Address[];
   hideForm?: boolean;
   showAllFormErrors?: boolean;
@@ -21,10 +21,10 @@ interface Props {
 const props = defineProps<Props>();
 
 const emit = defineEmits<{
-  updated: [value: [isValid: boolean, address: Address, key: number]];
+  updated: [value: [isValid: boolean, address: Partial<Address>, key: number]];
 }>();
 
-const selectedAddress = ref(props.initialAddress);
+const selectedAddress = ref<Partial<Address>>(props.initialAddress);
 const showAddressForm = ref(false);
 
 const initialise = () => {

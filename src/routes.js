@@ -31,6 +31,7 @@ import UserProfileBuddy from '@/views/user-profile/UserProfileBuddy.vue';
 import UserProfileOrderPage from '@/views/user-profile/UserProfileOrderPage.vue';
 import UserProfileAddresses from '@/views/user-profile/UserProfileAddresses.vue';
 import UserProfileAddressPage from '@/views/user-profile/UserProfileAddressPage.vue';
+import UserProfileAddressPageV2 from '@/views/user-profile/UserProfileAddressPageV2.vue';
 import AuthSuccess from '@/views/AuthSuccess.vue';
 
 import { useHead } from '@unhead/vue';
@@ -283,6 +284,11 @@ const routes = [
   {
     name: 'user-profile-address-page',
     path: '/user/:userId/addresses/:addressId',
+    component: UserProfileAddressPageV2,
+  },
+  {
+    name: 'user-profile-address-page-old',
+    path: '/user/:userId/addresses-old/:addressId',
     component: UserProfileAddressPage,
   },
   {

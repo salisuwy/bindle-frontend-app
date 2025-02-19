@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useAttrs, computed } from 'vue';
-import { countries } from '@/components/helpers/countries';
+import { countries, isValidCountryName, lookupCountryCode } from '@/components/helpers/countries';
 
 interface Props {
   id: string;
@@ -13,7 +13,7 @@ interface Props {
 }
 const props = defineProps<Props>();
 
-const attrs = useAttrs();
+const attrs: any = useAttrs();
 
 const emit = defineEmits<{
   'update:modelValue': [value?: string];
@@ -21,7 +21,10 @@ const emit = defineEmits<{
 }>();
 
 const innerModel = computed({
-  get: () => props.modelValue || '',
+  get: () =>
+    isValidCountryName(props.modelValue)
+      ? props.modelValue
+      : lookupCountryCode(props.modelValue) || '',
   set: (value?: string) => emit('update:modelValue', value),
 });
 </script>
@@ -30,7 +33,7 @@ const innerModel = computed({
   <div class="flex flex-col flex-1">
     <label
       :for="id"
-      class="self-start text-base font-medium tracking-tighter leading-6 text-neutral-600"
+      class="self-start text-base font-medium tracking-tighter leading-6 text-neutral-600 text-left"
     >
       {{ label }}
     </label>

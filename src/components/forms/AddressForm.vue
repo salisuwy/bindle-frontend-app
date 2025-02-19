@@ -10,15 +10,17 @@ import type { Address } from '@/composables/useAddressForm';
 
 interface Props {
   id: string;
-  initialAddress: Address;
+  initialAddress: Partial<Address>;
   showAllErrors?: boolean;
   disabled?: boolean;
   hideForm?: boolean;
+  loading?: boolean;
 }
 const props = defineProps<Props>();
 
 const emit = defineEmits<{
   updated: [value: [isValid: boolean, address: Address, key: number]];
+  'updated:edit': [value: [isValid: boolean, address: Address, key: number]];
 }>();
 
 const concatId = (id: string) => `${props.id}_${id}`;
@@ -27,6 +29,7 @@ const {
   //meta,
   //errors,
   values,
+  setValues,
   validateSync,
   firstName,
   firstNameAttrs,
@@ -55,9 +58,28 @@ const handleUpdated = () => {
   emit('updated', [validateSync(values), { ...values }, 0]);
 };
 
-const disableForm = computed(() => props.disabled || props.hideForm);
+const handleEdited = () => {
+  emit('updated:edit', [validateSync(values), { ...values }, 0]);
+};
+
+const disableForm = computed(() => props.disabled || props.hideForm || props.loading);
 
 onMounted(handleUpdated);
+watch(
+  () => props.loading,
+  (newVal, oldVal) => {
+    if (newVal === false && oldVal === true) {
+      setValues(props.initialAddress);
+      handleUpdated();
+    }
+  }
+);
+
+watch(values, () => {
+  handleEdited();
+});
+
+const loadingPlaceholder = (placeholder: string) => (props.loading ? 'Loading...' : placeholder);
 </script>
 
 <template>
@@ -66,7 +88,7 @@ onMounted(handleUpdated);
       :id="concatId('first_name')"
       :disabled="disableForm"
       label="First name *"
-      placeholder="Enter your first name"
+      :placeholder="loadingPlaceholder('Enter your first name')"
       v-model="firstName"
       v-bind="firstNameAttrs"
       @blur="handleUpdated"
@@ -75,7 +97,7 @@ onMounted(handleUpdated);
       :id="concatId('last_name')"
       :disabled="disableForm"
       label="Last name *"
-      placeholder="Enter your last name"
+      :placeholder="loadingPlaceholder('Enter your last name')"
       v-model="lastName"
       v-bind="lastNameAttrs"
       @blur="handleUpdated"
@@ -87,7 +109,7 @@ onMounted(handleUpdated);
       :id="concatId('phone')"
       :disabled="disableForm"
       label="Phone number *"
-      placeholder="Enter your phone number"
+      :placeholder="loadingPlaceholder('Enter your phone number')"
       v-model="phoneNumber"
       v-bind="phoneNumberAttrs"
       @blur="handleUpdated"
@@ -97,7 +119,7 @@ onMounted(handleUpdated);
       :id="concatId('email')"
       :disabled="disableForm"
       label="Email *"
-      placeholder="Enter your email"
+      :placeholder="loadingPlaceholder('Enter your email')"
       v-model="email"
       v-bind="emailAttrs"
       @blur="handleUpdated"
@@ -107,7 +129,7 @@ onMounted(handleUpdated);
     :id="concatId('address1')"
     :disabled="disableForm"
     label="Address line 1 *"
-    placeholder="Enter your Address line 1"
+    :placeholder="loadingPlaceholder('Enter your Address line 1')"
     v-model="address1"
     v-bind="address1Attrs"
     @blur="handleUpdated"
@@ -116,7 +138,7 @@ onMounted(handleUpdated);
     :id="concatId('address2')"
     :disabled="disableForm"
     label="Address line 2"
-    placeholder="Enter your Address line 2"
+    :placeholder="loadingPlaceholder('Enter your Address line 2')"
     v-model="address2"
     v-bind="address2Attrs"
     @blur="handleUpdated"
@@ -126,7 +148,7 @@ onMounted(handleUpdated);
       :id="concatId('city')"
       :disabled="disableForm"
       label="Town/City *"
-      placeholder="Enter your city"
+      :placeholder="loadingPlaceholder('Enter your city')"
       v-model="city"
       v-bind="cityAttrs"
       @blur="handleUpdated"
@@ -135,7 +157,7 @@ onMounted(handleUpdated);
       :id="concatId('zip')"
       :disabled="disableForm"
       label="Postcode / ZIP *"
-      placeholder="Enter your postcode"
+      :placeholder="loadingPlaceholder('Enter your postcode')"
       v-model="zip"
       v-bind="zipAttrs"
       @blur="handleUpdated"
@@ -146,7 +168,7 @@ onMounted(handleUpdated);
       :id="concatId('country')"
       :disabled="disableForm"
       label="Select Country *"
-      placeholder="Select option"
+      :placeholder="loadingPlaceholder('Select option')"
       v-model="country"
       v-bind="countryAttrs"
       @blur="handleUpdated"

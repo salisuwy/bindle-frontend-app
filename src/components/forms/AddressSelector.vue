@@ -7,7 +7,7 @@ import { isAddressEqual } from '@/composables/useAddressForm';
 import type { Address } from '@/composables/useAddressForm';
 
 interface Props {
-  modelValue: Address;
+  modelValue: Partial<Address>;
   savedAddresses: Address[];
 }
 const props = defineProps<Props>();

@@ -24,7 +24,7 @@ import { DeferredPromise } from '@/components/helpers/tsUtils';
 const breadcrumbs = [
   { text: 'Home', path: '/' },
   { text: 'Shop Resources', path: '/resources' },
-  { text: 'Your Cart', path: '/checkout-payment-dev' },
+  { text: 'Your Cart', path: '/checkout-payment' },
 ];
 
 const authStore = useAuthStore();
@@ -48,7 +48,7 @@ const {
 
 const isLoading = computed(() => isOrderLoading.value || isSavedAddressesLoading.value);
 
-const deliveryAddress = ref<Address>({ ...EMPTY_ADDRESS });
+const deliveryAddress = ref<Partial<Address>>({ ...EMPTY_ADDRESS });
 const showDeliveryAddressErrors = ref(false);
 const { isValid: isDeliveryValid, handleUpdated: handleDeliveryUpdated } =
   useValidatedObject(deliveryAddress);
@@ -68,7 +68,7 @@ watch(billingSameAsDelivery, (newVal) => {
   }
 });
 
-const billingAddress = ref<Address>({ ...EMPTY_ADDRESS });
+const billingAddress = ref<Partial<Address>>({ ...EMPTY_ADDRESS });
 const showBillingAddressErrors = ref(false);
 const { isValid: isBillingValid, handleUpdated: handleBillingUpdated } =
   useValidatedObject(billingAddress);

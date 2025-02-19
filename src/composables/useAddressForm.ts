@@ -7,7 +7,7 @@ import { typedKeys } from '@/components/helpers/tsUtils';
 
 import type { SavedAddress } from '@/store/useAuthStore';
 
-export type Address = {
+/*export type Address = {
   first_name: string | undefined;
   last_name: string | undefined;
   phone: string | undefined;
@@ -17,9 +17,46 @@ export type Address = {
   city: string | undefined;
   zip: string | undefined;
   country: string | undefined;
+};*/
+
+const schema = yup.object({
+  first_name: yup.string().required('First name is required'),
+  last_name: yup.string().required('Last name is required'),
+  phone: yup.string().required('Phone number is required'),
+  email: yup
+    .string()
+    .email('Email is invalid')
+    .required('Email is required')
+    .matches(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/, 'Email is invalid'),
+  address1: yup.string().required('Address line 1 is required'),
+  address2: yup.string().nullable(),
+  city: yup.string().required('Town/City is required'),
+  zip: yup.string().required('Postcode/ZIP is required'),
+  country: yup.string().required('Country is required'),
+});
+
+export const isAddressValid = (address: Partial<Address>): address is Address => {
+  try {
+    schema.validateSync(address, { abortEarly: true });
+    return true;
+  } catch {
+    return false;
+  }
 };
 
-export const EMPTY_ADDRESS: Address = {
+export type Address = {
+  first_name: string;
+  last_name: string;
+  phone: string;
+  email: string;
+  address1: string;
+  address2: string | undefined;
+  city: string;
+  zip: string;
+  country: string;
+};
+
+export const EMPTY_ADDRESS: Partial<Address> = {
   first_name: undefined,
   last_name: undefined,
   phone: undefined,
@@ -31,11 +68,11 @@ export const EMPTY_ADDRESS: Address = {
   country: undefined,
 };
 
-export const isAddressEmpty = (address: Address) => {
+export const isAddressEmpty = (address: Partial<Address>): address is Partial<Address> => {
   return typedKeys(address).every((k) => (address[k] || '') == '');
 };
 
-export const isAddressEqual = (a1: Address, a2: Address) => {
+export const isAddressEqual = (a1: Partial<Address>, a2: Partial<Address>) => {
   return typedKeys(a1).every((k) => (a1[k] || '') === (a2[k] || ''));
 };
 
@@ -57,25 +94,9 @@ export const useAddressForm = ({
   initialValues,
   showAllErrors,
 }: {
-  initialValues: Address;
+  initialValues: Partial<Address>;
   showAllErrors: Ref<boolean | undefined>;
 }) => {
-  const schema = yup.object({
-    first_name: yup.string().required('First name is required'),
-    last_name: yup.string().required('Last name is required'),
-    phone: yup.string().required('Phone number is required'),
-    email: yup
-      .string()
-      .email('Email is invalid')
-      .required('Email is required')
-      .matches(/^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/, 'Email is invalid'),
-    address1: yup.string().required('Address line 1 is required'),
-    address2: yup.string().nullable(),
-    city: yup.string().required('Town/City is required'),
-    zip: yup.string().required('Postcode/ZIP is required'),
-    country: yup.string().required('Country is required'),
-  });
-
   const { values, errors, validate, resetForm, defineField, setValues, setErrors, meta } =
     useForm<Address>({
       validationSchema: schema,
@@ -106,7 +127,14 @@ export const useAddressForm = ({
   const [country, countryAttrs] = defineField('country', fieldValidationOptions);
 
   const validateSync = (values: any) => {
-    try {
+    if (isAddressValid(values)) {
+      return true;
+    } else {
+      // run async vee-validate validation to update error feedback... eventually
+      validate();
+      return false;
+    }
+    /*try {
       // Use yup to get an immediate synchronous answer
       schema.validateSync(values, { abortEarly: true });
       return true;
@@ -114,7 +142,7 @@ export const useAddressForm = ({
       // run async vee-validate validation to update error feedback... eventually
       validate();
       return false;
-    }
+    }*/
   };
 
   return {
