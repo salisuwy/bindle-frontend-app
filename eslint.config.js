@@ -10,7 +10,7 @@ export default [
   },
   {
     name: 'app/files-to-ignore',
-    ignores: ['**/dist/**', '**/dist-ssr/**', '**/coverage/**'],
+    ignores: ['**/dist/**', '**/dist-ssr/**', '**/coverage/**', '**/old/**'],
   },
   ...pluginVue.configs['flat/essential'],
   ...vueTsEslintConfig(),
@@ -20,7 +20,6 @@ export default [
   skipFormatting,
   {
     files: ['**/*.ts', '**/*.vue', '**/*.js'],
-    ignorePatterns: ['old/'],
     plugins: { prettier },
     rules: {
       '@typescript-eslint/no-unused-vars': 'warn',

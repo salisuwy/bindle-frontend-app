@@ -13,13 +13,13 @@ import type {
 
 import { typedKeys } from '@/components/helpers/tsUtils';
 
-export const convertToDeliveryAddress = (address: Address): OrderDeliveryAddress =>
+export const convertToDeliveryAddress = (address: Partial<Address>): OrderDeliveryAddress =>
   typedKeys(address).reduce((deliveryAddress, key) => {
     deliveryAddress[`delivery_${key}`] = address[key] || '';
     return deliveryAddress;
   }, {} as Partial<OrderDeliveryAddress>) as OrderDeliveryAddress;
 
-export const convertToBillingAddress = (address: Address): OrderBillingAddress =>
+export const convertToBillingAddress = (address: Partial<Address>): OrderBillingAddress =>
   typedKeys(address).reduce((billingAddress, key) => {
     billingAddress[`billing_${key}`] = address[key] || '';
     return billingAddress;
@@ -63,7 +63,7 @@ export const useCurrentOrder = ({
     return data.value?.order?.coupons ?? [];
   });
 
-  const deliveryAddress = computed<Address>(() => {
+  const deliveryAddress = computed<Partial<Address>>(() => {
     if (order.value === undefined) {
       return { ...EMPTY_ADDRESS };
     } else {
@@ -81,7 +81,7 @@ export const useCurrentOrder = ({
     }
   });
 
-  const billingAddress = computed<Address>(() => {
+  const billingAddress = computed<Partial<Address>>(() => {
     if (order.value === undefined) {
       return { ...EMPTY_ADDRESS };
     } else {
@@ -136,7 +136,7 @@ export const useCurrentOrder = ({
     },
   });
 
-  const setPartialDeliveryAddress = (address: Address, billingSameAsDelivery = false) =>
+  const setPartialDeliveryAddress = (address: Partial<Address>, billingSameAsDelivery = false) =>
     mutateAddress({
       isPartial: true,
       payload: billingSameAsDelivery
@@ -144,7 +144,7 @@ export const useCurrentOrder = ({
         : convertToDeliveryAddress(address),
     });
 
-  const setPartialBillingAddress = (address: Address) =>
+  const setPartialBillingAddress = (address: Partial<Address>) =>
     mutateAddress({ isPartial: true, payload: convertToBillingAddress(address) });
 
   const setFinalAddresses = ({

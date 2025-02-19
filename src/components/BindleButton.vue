@@ -20,6 +20,7 @@ defineProps<Props>();
       'w-fit': !block,
       'text-white bg-teal-500': type == 'primary',
       'border-teal-500 bg-white text-teal-500': type == 'secondary',
+      'opacity-50 cursor-not-allowed': disabled,
     }"
     :disabled="loading"
   >

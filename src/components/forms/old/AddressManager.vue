@@ -13,32 +13,34 @@ import type { Address } from '@/composables/useAddressForm';
 interface Props {
   id: string;
   title: string;
-  modelValue: Partial<Address>;
+  initialAddress: Partial<Address>;
   savedAddresses: Address[];
   hideForm?: boolean;
   showAllFormErrors?: boolean;
-  disabled?: boolean;
 }
 const props = defineProps<Props>();
 
 const emit = defineEmits<{
-  'update:modelValue': [value: Partial<Address>];
-  blur: [value: Partial<Address>];
+  updated: [value: [isValid: boolean, address: Partial<Address>, key: number]];
 }>();
 
-const selectedAddress = ref<Partial<Address>>(props.modelValue);
+const selectedAddress = ref<Partial<Address>>(props.initialAddress);
 const showAddressForm = ref(false);
 
 const initialise = () => {
-  selectedAddress.value = props.modelValue;
+  selectedAddress.value = props.initialAddress;
   if (props.savedAddresses.length == 0) {
     showAddressForm.value = true;
-  } else if (isAddressEmpty(props.modelValue)) {
+  } else if (isAddressEmpty(props.initialAddress)) {
     showAddressForm.value = false;
     selectedAddress.value = props.savedAddresses[0];
   } else {
-    const index = props.savedAddresses.findIndex((a) => isAddressEqual(a, props.modelValue));
+    const index = props.savedAddresses.findIndex((a) => isAddressEqual(a, props.initialAddress));
     showAddressForm.value = index == -1;
+  }
+
+  if (!showAddressForm.value) {
+    emit('updated', [true, selectedAddress.value, 0]);
   }
 };
 
@@ -52,13 +54,6 @@ watch(
   }
 );
 
-watch(selectedAddress, () => {
-  emit('update:modelValue', selectedAddress.value);
-  if (showAddressForm.value == false) {
-    emit('blur', selectedAddress.value);
-  }
-});
-
 const formElement = ref<HTMLDivElement | null>(null);
 const scrollToTopOfForm = () => {
   document.getElementById(props.id)?.scrollIntoView({ behavior: 'smooth' });
@@ -66,7 +61,6 @@ const scrollToTopOfForm = () => {
 
 const handleNewAddress = async () => {
   selectedAddress.value = { ...EMPTY_ADDRESS };
-  emit('blur', selectedAddress.value);
   showAddressForm.value = true;
   await nextTick();
   scrollToTopOfForm();
@@ -78,6 +72,14 @@ const handleShowSelector = async () => {
   await nextTick();
   scrollToTopOfForm();
 };
+
+const handleFormUpdate = (vals: [boolean, Address, number]) => {
+  emit('updated', vals);
+};
+
+watch(selectedAddress, () => {
+  emit('updated', [true, selectedAddress.value, 0]);
+});
 </script>
 
 <template>
@@ -88,26 +90,17 @@ const handleShowSelector = async () => {
     <template v-if="showAddressForm">
       <AddressForm
         :id="id"
-        v-model="selectedAddress"
-        :disabled="disabled"
+        :initialAddress="selectedAddress"
         :showAllErrors="showAllFormErrors"
-        @blur="$emit('blur', $event)"
+        @updated="handleFormUpdate"
       />
-      <BindleButton
-        v-if="savedAddresses.length > 0"
-        type="secondary"
-        @click="handleShowSelector"
-        :disabled="disabled"
+      <BindleButton v-if="savedAddresses.length > 0" type="secondary" @click="handleShowSelector"
         >Use a saved address</BindleButton
       >
     </template>
     <template v-else>
-      <AddressSelector
-        v-model="selectedAddress"
-        :disabled="disabled"
-        :savedAddresses="savedAddresses"
-      />
-      <BindleButton type="secondary" @click="handleNewAddress" :disabled="disabled"
+      <AddressSelector v-model="selectedAddress" :savedAddresses="savedAddresses" />
+      <BindleButton type="secondary" @click="handleNewAddress"
         >Use a different address</BindleButton
       >
     </template>
