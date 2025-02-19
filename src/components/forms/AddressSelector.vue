@@ -9,6 +9,7 @@ import type { Address } from '@/composables/useAddressForm';
 interface Props {
   modelValue: Partial<Address>;
   savedAddresses: Address[];
+  disabled?: boolean;
 }
 const props = defineProps<Props>();
 
@@ -46,6 +47,7 @@ watch(selected, () => {
     :key="address.address1"
     :address="address"
     :value="String(i)"
+    :disabled="disabled"
   />
 </template>
 

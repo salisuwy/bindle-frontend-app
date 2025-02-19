@@ -7,6 +7,7 @@ interface Props {
   address: Address;
   modelValue: string;
   value: string;
+  disabled?: boolean;
 }
 const props = defineProps<Props>();
 
@@ -50,6 +51,7 @@ const emit = defineEmits<{
       :checked="modelValue == value"
       @change="emit('update:modelValue', value)"
       :value="value"
+      :disabled="disabled"
     />
 
     <div class="flex flex-col align-start">

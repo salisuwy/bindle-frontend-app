@@ -19,7 +19,8 @@ import PageNotFound from '@/views/PageNotFound.vue';
 import Tokens from '@/views/Tokens.vue';
 import Test from '@/views/Test.vue';
 import CheckoutV2 from '@/views/shop/CheckoutV2.vue';
-import CheckoutPaymentV4 from '@/views/shop/CheckoutPaymentV4.vue';
+//import CheckoutPaymentV4 from '@/views/shop/CheckoutPaymentV4.vue';
+import CheckoutPaymentV5 from '@/views/shop/CheckoutPaymentV5.vue';
 import Invoice from '@/views/shop/Invoice.vue';
 import Signup from '@/views/user-profile/Signup.vue';
 import Login from '@/views/user-profile/Login.vue';
@@ -131,7 +132,8 @@ const routes = [
   {
     name: 'checkout-payment',
     path: '/checkout-payment',
-    component: CheckoutPaymentV4,
+    //component: CheckoutPaymentV4,
+    component: CheckoutPaymentV5,
     meta: { breadcrumb: 'Checkout', title: 'Checkout Payment' },
   },
   {

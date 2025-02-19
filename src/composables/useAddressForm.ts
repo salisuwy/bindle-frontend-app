@@ -97,11 +97,12 @@ export const useAddressForm = ({
   initialValues: Partial<Address>;
   showAllErrors: Ref<boolean | undefined>;
 }) => {
-  const { values, errors, validate, resetForm, defineField, setValues, setErrors, meta } =
-    useForm<Address>({
-      validationSchema: schema,
-      initialValues: initialValues,
-    });
+  const { values, errors, validate, resetForm, defineField, setValues, setErrors, meta } = useForm<
+    Partial<Address>
+  >({
+    validationSchema: schema,
+    initialValues: initialValues,
+  });
 
   const unwatch = watch(showAllErrors, async () => {
     if (showAllErrors.value) {

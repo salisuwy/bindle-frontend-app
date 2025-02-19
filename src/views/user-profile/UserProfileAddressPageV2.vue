@@ -16,7 +16,6 @@ import {
   isAddressValid,
 } from '@/composables/useAddressForm';
 import type { Address } from '@/composables/useAddressForm';
-import { useValidatedObject } from '@/composables/useValidatedObject';
 
 const route = useRoute();
 const authStore = useAuthStore();
@@ -30,7 +29,6 @@ const disableForm = computed(() => loading.value || saving.value);
 const initialAddress = ref<Partial<Address>>({ ...EMPTY_ADDRESS });
 const address = ref<Partial<Address>>({ ...EMPTY_ADDRESS });
 const showAddressErrors = ref(false);
-const { handleUpdated: handleAddressUpdated } = useValidatedObject(address);
 
 const isNew = computed(() => route.params.addressId == 'new');
 onMounted(async () => {
@@ -113,15 +111,13 @@ const createAddress = (a: Address) => {
 
 <template>
   <UserProfileTabLayout>
-    <p>{{ hasChanged ? 'changed' : 'not changed' }}</p>
     <FormContainer hideHeader>
       <AddressForm
         id="profile_address"
+        v-model="address"
         :loading="loading"
         :disabled="disableForm"
-        :initialAddress="initialAddress"
         :showAllErrors="showAddressErrors"
-        @updated:edit="handleAddressUpdated"
       />
       <BindleButton
         @click="handleClick"

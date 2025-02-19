@@ -40,7 +40,7 @@ const innerModel = computed({
         :id="id"
         :name="id"
         :placeholder="placeholder"
-        class="justify-center px-4 py-2 mt-2 rounded-sm border border-solid text-neutral-400 bg-white focus-within:border-zinc-500 placeholder-neutral-300"
+        class="justify-center px-4 py-2 mt-2 rounded-sm border border-solid text-neutral-400 bg-white focus-within:border-teal-500 placeholder-neutral-300"
         :class="{
           'border-zinc-200': errorMessage === undefined,
           'border-red-500': errorMessage !== undefined,
