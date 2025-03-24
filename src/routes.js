@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router';
 import { useBindleApiStore } from '@/store/bindle-api.js';
 import { Util } from '@/components/helpers/Util.js';
 import Index from '@/views/index/Index.vue';
+import IndexV2 from '@/views/index/IndexV2.vue';
 import Contact from '@/views/contact/Contact.vue';
 import PrivacyPolicy from '@/views/policies/PrivacyPolicy.vue';
 import TermsAndConditions from '@/views/policies/TermsAndConditions.vue';
@@ -42,6 +43,12 @@ const routes = [
   {
     name: 'index',
     path: '/',
+    component: IndexV2,
+    meta: { breadcrumb: 'Home', title: 'Home' },
+  },
+  {
+    name: 'index_old',
+    path: '/old',
     component: Index,
     meta: { breadcrumb: 'Home', title: 'Home' },
   },

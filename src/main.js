@@ -10,6 +10,8 @@ import 'vue3-toastify/dist/index.css';
 import { PerfectScrollbarPlugin } from 'vue3-perfect-scrollbar';
 import 'vue3-perfect-scrollbar/style.css';
 
+import 'vue3-carousel/dist/carousel.css';
+
 import './style.css';
 import './font-awesome.css';
 
