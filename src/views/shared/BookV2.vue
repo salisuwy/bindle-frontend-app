@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from 'vue';
+import { computed, watch } from 'vue';
 
 import { Util } from '@/components/helpers/Util.js';
 import { toast } from 'vue3-toastify';
@@ -10,8 +10,6 @@ import AddToCartErrorNotification from '../shop/components/AddToCartErrorNotific
 import AddToCartNotification from '../shop/components/AddToCartNotification.vue';
 import SpinnerIcon from '../../components/icons/SpinnerIcon.vue';
 
-import { updateBookStock } from '@/composables/useBindleData';
-
 const props = defineProps({
   // Book<{level: Level, subject: Subject, types: ResourceType[]}>
   product: { type: Object },
@@ -20,9 +18,9 @@ const props = defineProps({
   showBestSeller: { type: Boolean, default: false },
 });
 
-const ebookSelected = computed(() => (props.product['is_ebook'] ? true : false));
+const ebookSelected = computed(() => (props.product.is_ebook ? true : false));
 // TODO: Use tanstack to update stock information when other queries settled
-const itemsInStock = computed(() => props.product['quantity_in_stock']);
+const itemsInStock = computed(() => props.product.quantity_in_stock);
 
 // CART OPERATIONS
 // TODO: Factor this out into useCurrentOrder composable
@@ -40,11 +38,10 @@ const { isPending, mutate } = useMutation({
   onSuccess: ({ data }) => {
     console.log('mutation success', data);
     setUuid(data?.order?.uuid);
-    updateBookStock(data?.order?.book_stock);
     toast(AddToCartNotification);
   },
   onSettled: () => {
-    queryClient.invalidateQueries(['cartItems']);
+    queryClient.invalidateQueries({ queryKey: ['cartItems'] });
   },
 });
 

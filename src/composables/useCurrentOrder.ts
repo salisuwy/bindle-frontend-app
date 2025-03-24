@@ -1,15 +1,18 @@
-import { computed, ref } from 'vue';
+import { computed, watch } from 'vue';
 
 import { useQuery, useQueryClient, useMutation } from '@tanstack/vue-query';
-import { getOrderCart, setOrderAddressPartial, setOrderAddress, setUuid } from '@/store/cart-api';
 
 import { EMPTY_ADDRESS, type Address } from './useAddressForm';
+
+import { getOrderCart, setOrderAddressPartial, setOrderAddress, setUuid } from '@/store/cart-api';
 import type {
   OrderCartResponse,
   OrderDeliveryAddress,
   OrderBillingAddress,
   OrderAddressArg,
 } from '@/store/cart-api';
+
+import { useOverrideBookStock } from './useBindleData';
 
 import { typedKeys } from '@/components/helpers/tsUtils';
 
@@ -25,20 +28,12 @@ export const convertToBillingAddress = (address: Partial<Address>): OrderBilling
     return billingAddress;
   }, {} as Partial<OrderBillingAddress>) as OrderBillingAddress;
 
-export const useCurrentOrder = ({
-  onFirstCall,
-}: { onFirstCall?: (data: OrderCartResponse) => void } = {}) => {
-  let firstCallPerformed = false;
-
+export const useCurrentOrder = () => {
   const { data, isLoading } = useQuery<OrderCartResponse>({
     queryKey: ['cartItems'],
     queryFn: async () => {
-      console.log('useCurrentOrder: queryFn');
       const data = await getOrderCart();
-      if (!firstCallPerformed && onFirstCall) {
-        onFirstCall(data);
-      }
-      firstCallPerformed = true;
+      console.log('useCurrentOrder[cartItems]: queryFn', data);
       return data;
     },
   });
@@ -51,6 +46,11 @@ export const useCurrentOrder = ({
     return data.value?.order?.book_stock ?? {};
   });
 
+  const { setBookStockOverride } = useOverrideBookStock();
+  watch(bookStock, () => {
+    setBookStockOverride(bookStock.value);
+  });
+
   const bundleStock = computed(() => {
     return data.value?.order?.bundle_stock ?? {};
   });
@@ -59,8 +59,16 @@ export const useCurrentOrder = ({
     return data.value?.order?.items ?? [];
   });
 
+  const cartItemsCount = computed(() => {
+    return cartItems.value.reduce((total, item) => item.quantity + total, 0);
+  });
+
   const coupons = computed(() => {
     return data.value?.order?.coupons ?? [];
+  });
+
+  const orderTotalPlusShipping = computed(() => {
+    return data.value?.order?.order_final ?? 0;
   });
 
   const deliveryAddress = computed<Partial<Address>>(() => {
@@ -168,7 +176,9 @@ export const useCurrentOrder = ({
     bookStock,
     bundleStock,
     cartItems,
+    cartItemsCount,
     coupons,
+    orderTotalPlusShipping,
     deliveryAddress,
     billingAddress,
     setPartialDeliveryAddress,

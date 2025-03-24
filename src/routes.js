@@ -19,7 +19,7 @@ import Explore from '@/views/resources/Explore.vue';
 import PageNotFound from '@/views/PageNotFound.vue';
 import Tokens from '@/views/Tokens.vue';
 import Test from '@/views/Test.vue';
-import CheckoutV2 from '@/views/shop/CheckoutV2.vue';
+import CheckoutSummary from '@/views/shop/CheckoutSummary.vue';
 import CheckoutPayment from '@/views/shop/CheckoutPayment.vue';
 import Invoice from '@/views/shop/Invoice.vue';
 import Signup from '@/views/user-profile/Signup.vue';
@@ -119,7 +119,7 @@ const routes = [
   {
     name: 'checkout',
     path: '/checkout',
-    component: CheckoutV2,
+    component: CheckoutSummary,
     meta: { breadcrumb: 'Checkout', title: 'Checkout' },
   },
   /*{

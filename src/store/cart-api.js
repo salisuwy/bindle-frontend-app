@@ -1,6 +1,8 @@
 import axios from 'axios';
 import uniqid from 'uniqid';
 
+import { apiClient } from '@/composables/axiosClient';
+
 export const API_ENDPOINT = import.meta.env.VITE_API_ENDPOINT;
 export const STRIPE_PUBLIC_KEY = import.meta.env.VITE_STRIPE_PUBLIC_KEY;
 
@@ -20,7 +22,7 @@ export function getUuid() {
 
 export function setUuid(uuid) {
   if (uuid !== undefined && typeof uuid == 'string') {
-    console.log(`cart-api: setUuid(${uuid})`);
+    console.log(`cart-api.setUuid(${uuid})`);
     localStorage.setItem('uuid', uuid);
   }
 }
@@ -33,8 +35,6 @@ export function getAnonIdAndUuid() {
   if (getUuid()) {
     data.uuid = getUuid();
   }
-
-  console.log('getAnonIdAndUuid()', data);
   return data;
 }
 
@@ -71,10 +71,10 @@ export async function removeFromCart(data) {
 export async function getOrderCart() {
   const data = getAnonIdAndUuid();
   const urlParams = new URLSearchParams(data);
+  console.log(`cart-api.getOrderCart: ${urlParams}`);
 
-  console.log('getOrderCart', data);
-
-  const resp = await axios.get(`${API_ENDPOINT}orders/cart?${urlParams}`);
+  //const resp = await axios.get(`${API_ENDPOINT}orders/cart?${urlParams}`);
+  const resp = await apiClient.get(`orders/cart?${urlParams}`);
   setUuid(resp?.data?.order?.uuid);
   return resp.data;
 }

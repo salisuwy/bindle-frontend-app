@@ -1,9 +1,9 @@
-import { computed } from 'vue';
+import { ref, computed } from 'vue';
 import { useQuery, useQueryClient } from '@tanstack/vue-query';
 
 import { apiClient } from './axiosClient';
 
-import { keyBy } from 'lodash-es';
+import { identity, keyBy } from 'lodash-es';
 
 const useMenuItemQuery = <T>(key: string, endpoint: string) => {
   return useQuery<T[]>({
@@ -121,10 +121,13 @@ export type Bindle = {
 };
 
 export const usePopularBooks = (nBooks: 4) => {
+  console.log('usePopularBooks() called');
+
   const { data } = useQuery({
     queryKey: ['books', 'popular', nBooks],
     staleTime: 1 * 60 * 60 * 1000,
     queryFn: async () => {
+      console.log('usePopularBooks: queryFn called');
       const resp = await apiClient.get<{
         data: JoinedBook<{ level: Level; subject: Subject; types: ResourceType[] }>[];
       }>(`v2/books?per_page=${nBooks}&sort=-view_count&include=level,subject,types`);
@@ -132,15 +135,19 @@ export const usePopularBooks = (nBooks: 4) => {
     },
   });
 
-  const books = computed(() => Object.values(data.value || []));
+  const { applyStockOverrides } = useOverrideBookStock();
+  const books = computed(() => applyStockOverrides(Object.values(data.value || {})));
   return { books };
 };
 
 export const usePopularBundles = (nBundles: 4) => {
+  console.log('usePopularBundles() called');
+
   const { data } = useQuery({
     queryKey: ['bundles', 'popular', nBundles],
     staleTime: 1 * 60 * 60 * 1000,
     queryFn: async () => {
+      console.log('usePopularBundles: queryFn called');
       const resp = await apiClient.get<{
         data: Bindle[];
       }>(`v2/bindles?per_page=${nBundles}&sort=-view_count`);
@@ -148,24 +155,53 @@ export const usePopularBundles = (nBundles: 4) => {
     },
   });
 
-  const bundles = computed(() => Object.values(data.value || []));
+  const bundles = computed(() => Object.values(data.value || {}));
   return { bundles };
 };
 
-export const updateBookStock = (bookStock?: Record<number, number>) => {
-  if (bookStock === undefined) {
-    return;
-  }
+const bookStockOverrides = ref<Record<string, number>>({});
+export const useOverrideBookStock = () => {
+  const setBookStockOverride = (bookStock?: Record<string, number>) => {
+    bookStockOverrides.value = { ...(bookStock || {}) };
+  };
 
+  const applyStockOverrides = (books: Book[]) => {
+    const idsToOverride = Array.from(Object.keys(bookStockOverrides.value));
+    return books.map((book) => {
+      if (idsToOverride.includes(String(book.id))) {
+        return { ...book, quantity_in_stock: bookStockOverrides.value[book.id] };
+      } else {
+        return book;
+      }
+    });
+  };
+
+  return { setBookStockOverride, applyStockOverrides };
+};
+
+export const useUpdateBookStock = () => {
   const queryClient = useQueryClient();
-  queryClient.setQueriesData({ queryKey: ['books'] }, (oldData?: Record<string, Book>) => {
-    if (oldData !== undefined) {
-      Object.entries(bookStock).forEach(([id, newStock]) => {
-        if (id in oldData) {
-          oldData[id].quantity_in_stock = newStock;
-        }
-      });
+
+  const updateBookStock = (bookStock?: Record<number, number>) => {
+    if (bookStock === undefined) {
+      return;
     }
-    return oldData;
-  });
+
+    queryClient.setQueriesData({ queryKey: ['books'] }, (oldData?: Record<string, Book>) => {
+      if (oldData === undefined) {
+        return undefined;
+      } else {
+        const dataCopy = structuredClone(oldData);
+        Object.entries(bookStock).forEach(([id, newStock]) => {
+          if (id in dataCopy) {
+            console.log(`udpating stock of ${id} to ${newStock}`);
+            dataCopy[id].quantity_in_stock = newStock;
+          }
+        });
+        return dataCopy;
+      }
+    });
+  };
+
+  return { updateBookStock };
 };

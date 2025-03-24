@@ -15,7 +15,4 @@ const bindleApiStore = useBindleApiStore();
   <VueQueryDevtools />
 </template>
 
-<style scoped>
-@import '@/style.css';
-@import '@/font-awesome.css';
-</style>
+<style scoped></style>

@@ -1,5 +1,5 @@
 <script setup>
-import Layout from '@/views/shared/Layout.vue';
+import LayoutV2 from '@/views/shared/LayoutV2.vue';
 import EmptyCart from './components/EmptyCart.vue';
 import ShoppingCart from './components/ShoppingCart.vue';
 import CouponSection from './components/CouponSection.vue';
@@ -51,7 +51,7 @@ const order = computed(() => {
 
 onBeforeMount(() => {
   localStorage.removeItem('uuid');
-  queryClient.invalidateQueries(['cartItems']);
+  queryClient.invalidateQueries({ queryKey: ['cartItems'] });
 });
 
 async function downloadInvoice() {
@@ -67,7 +67,7 @@ async function downloadInvoice() {
 }
 </script>
 <template>
-  <layout>
+  <LayoutV2>
     <div class="bg-theme-white py-10 relative">
       <div class="mx-auto max-w-8xl w-full px-6 text-left mb-16">
         <div class="flex flex-col md:flex-row">
@@ -210,5 +210,5 @@ async function downloadInvoice() {
         </div>
       </div>
     </div>
-  </layout>
+  </LayoutV2>
 </template>

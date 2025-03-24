@@ -4,16 +4,14 @@ import { useRoute } from 'vue-router';
 import { useBindleApiStore } from '@/store/bindle-api.js';
 import { Util } from '@/components/helpers/Util';
 import { trackEvent } from '@/components/helpers/analytics';
-import Layout from '@/views/shared/Layout.vue';
+import LayoutV2 from '@/views/shared/LayoutV2.vue';
 import Breadcrumbs from '@/components/Breadcrumbs.vue';
-import Bundle from '@/views/shared/Bundle.vue';
+//import BundleV2 from '@/views/shared/BundleV2.vue';
 import Accordion from '@/components/Accordion.vue';
 import ChevronIcon from '@/components/icons/ChevronIcon.vue';
 
 import { toast } from 'vue3-toastify';
 import AddToCartNotification from './components/AddToCartNotification.vue';
-import PopularBooks from '@/views/shared/PopularBooks.vue';
-import RecommendedBundles from '@/views/shared/RecommendedBundles.vue';
 import FeaturedBooks from '@/views/shared/FeaturedBooks.vue';
 import { useMutation, useQueryClient, useQuery } from '@tanstack/vue-query';
 import { addToCart, setUuid, getOrderCart } from '@/store/cart-api';
@@ -95,7 +93,7 @@ const { isPending, mutate } = useMutation({
     toast(AddToCartNotification);
   },
   onSettled: () => {
-    queryClient.invalidateQueries(['cartItems']);
+    queryClient.invalidateQueries({ queryKey: ['cartItems'] });
   },
 });
 
@@ -166,7 +164,7 @@ const itemsInStock = computed(() => {
 });
 </script>
 <template>
-  <layout>
+  <LayoutV2>
     <div class="bg-theme-white py-10 relative">
       <div class="mx-auto max-w-8xl w-full px-6 text-left mb-16">
         <div class="flex flex-col md:flex-row">
@@ -311,6 +309,6 @@ const itemsInStock = computed(() => {
         <featured-books title="Recommended Resources" />
       </div>
     </div>
-  </layout>
+  </LayoutV2>
 </template>
 <style scoped></style>
