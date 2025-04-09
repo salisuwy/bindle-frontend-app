@@ -49,7 +49,7 @@ watch(
 <template>
   <accordion
     v-model:open="isOpen"
-    content-class="filter-subjects w-full flex flex-col"
+    content-class="filter-content w-full flex flex-col"
     title-class="md:text-sm lg:text-base cursor-pointer linklike"
     indicator-class="float-right"
   >
@@ -83,4 +83,9 @@ watch(
   </accordion>
 </template>
 
-<style scoped></style>
+<style scoped>
+:deep .filter-content {
+  position: relative;
+  top: -8px;
+}
+</style>

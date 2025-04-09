@@ -16,7 +16,7 @@ import Bundle from '@/views/shop/Bundle.vue';
 import ExploreBundles from '@/views/bundles/Explore.vue';
 import GenericLevel from '@/views/level/GenericLevel.vue';
 //import Explore from '@/views/resources/Explore.vue';
-import ExploreV2 from '@/views/resources/ExploreV2.vue';
+import ExploreV3 from '@/views/resources/ExploreV3.vue';
 import PageNotFound from '@/views/PageNotFound.vue';
 import Tokens from '@/views/Tokens.vue';
 import Test from '@/views/Test.vue';
@@ -71,7 +71,7 @@ const routes = [
   {
     name: 'explore-resources',
     path: '/resources/explore',
-    component: ExploreV2,
+    component: ExploreV3,
     meta: { breadcrumb: 'Explore' },
   },
   {

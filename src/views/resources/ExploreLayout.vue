@@ -1,141 +1,24 @@
 <script setup lang="ts">
 import LayoutV2 from '@/views/shared/LayoutV2.vue';
-import { ref, computed, onMounted, onUnmounted } from 'vue';
+import { ref, onMounted, onUnmounted } from 'vue';
 
 import FiltersIcon from '@/components/icons/FiltersIcon.vue';
 import Breadcrumbs from '@/components/Breadcrumbs.vue';
 import BundleV2 from '@/views/shared/BundleV2.vue';
 import BookV2 from '@/views/shared/BookV2.vue';
-import Pagination from '@/components/Pagination.vue';
+//import Pagination from '@/components/Pagination.vue';
 
-import ExploreSingleFilter from './ExploreSingleFilter.vue';
-import ExploreMultiFilter from './ExploreMultiFilter.vue';
+import { isBundle } from '@/composables/useBindleData';
+import type { Book, Bundle } from '@/composables/useBindleData';
 
-import { useBooks, useBundles, isBundle } from '@/composables/useBindleData';
-import {
-  useSubjectsFilter,
-  useFormatFilter,
-  useLevelFilter,
-  useResourceTypeFilter,
-  useExamboardFilter,
-  useFilteredBooks,
-  useFilteredBundles,
-  usePaginatedProducts,
-  useTitleFilter,
-} from '@/composables/useResourceFilters';
+interface Props {
+  title: string;
+  filtersLoaded: boolean;
+  productsLoaded: boolean;
+  products: (Bundle | Book)[];
+}
 
-const {
-  options: subjectOptions,
-  selectedSlugs: subjectSelectedSlugs,
-  selectedOptions: subjectSelectedOptions,
-  bookMatchesFilter: subjectFilter,
-  initialised: subjectsInitialised,
-} = useSubjectsFilter();
-const subjectsOpen = ref(false);
-
-const {
-  options: formatOptions,
-  selectedSlugs: formatSelectedSlugs,
-  bookMatchesFilter: formatBookFilter,
-  bundleMatchesFilter: formatBundleFilter,
-  initialised: formatsInitialised,
-} = useFormatFilter();
-const formatsOpen = ref(false);
-
-const {
-  options: levelOptions,
-  selectedSlugs: levelSelectedSlugs,
-  bookMatchesFilter: levelFilter,
-  initialised: levelsInitialised,
-} = useLevelFilter();
-const levelsOpen = ref(false);
-
-const {
-  options: resourceTypeOptions,
-  selectedSlugs: resourceTypeSelectedSlugs,
-  bookMatchesFilter: resourceTypeFilter,
-  isBundleOnly,
-  initialised: resourceTypesInitialised,
-} = useResourceTypeFilter();
-const resourceTypesOpen = ref(false);
-
-const {
-  options: examboardOptions,
-  selectedSlugs: examboardSelectedSlugs,
-  bookMatchesFilter: examboardFilter,
-  initialised: examboardsInitialised,
-} = useExamboardFilter();
-const examboardsOpen = ref(false);
-
-const { bookMatchesFilter: titleFilter } = useTitleFilter();
-
-const filtersLoaded = computed(
-  () =>
-    subjectsInitialised.value &&
-    formatsInitialised.value &&
-    levelsInitialised.value &&
-    resourceTypesInitialised.value &&
-    examboardsInitialised.value
-);
-
-const resetFilters = () => {
-  subjectSelectedSlugs.value = [];
-  subjectsOpen.value = false;
-  levelSelectedSlugs.value = [];
-  levelsOpen.value = false;
-  formatSelectedSlugs.value = [];
-  formatsOpen.value = false;
-  resourceTypeSelectedSlugs.value = [];
-  resourceTypesOpen.value = false;
-  examboardSelectedSlugs.value = [];
-  examboardsOpen.value = false;
-  pageIndex.value = 1;
-};
-
-const quickfilter = ({ subjects, levels }: { subjects?: string[]; levels?: string[] }) => {
-  resetFilters();
-
-  if (subjects) {
-    subjectSelectedSlugs.value = subjects;
-    subjectsOpen.value = true;
-  }
-
-  if (levels) {
-    levelSelectedSlugs.value = levels;
-    levelsOpen.value = true;
-  }
-};
-
-const bookFilters = computed(() => [
-  subjectFilter,
-  formatBookFilter,
-  levelFilter,
-  resourceTypeFilter,
-  examboardFilter,
-  titleFilter,
-]);
-const bundleFilters = computed(() => [formatBundleFilter]);
-
-const { books, isLoading: isBooksLoading } = useBooks();
-const { bundles, isLoading: isBundlesLoading } = useBundles();
-const isProductsLoading = computed(() => isBooksLoading.value || isBundlesLoading.value);
-
-const { filteredBooks } = useFilteredBooks(books, bookFilters, isBundleOnly);
-const { filteredBundles } = useFilteredBundles(bundles, bookFilters, bundleFilters);
-
-const ITEMS_PER_PAGE = 16;
-const { products, totalItems, pageIndex } = usePaginatedProducts(
-  filteredBooks,
-  filteredBundles,
-  isProductsLoading,
-  ITEMS_PER_PAGE
-);
-
-const pageTitle = computed(() =>
-  subjectSelectedOptions.value.length == 0
-    ? 'Resources'
-    : `${subjectSelectedOptions.value[0].name} Resources`
-);
+defineProps<Props>();
 
 const filtersRef = ref<HTMLDivElement | null>(null);
 
@@ -198,7 +81,7 @@ const paginationNavigation = () => {
       <div class="mx-auto max-w-8xl w-full text-left px-6 grid grid-cols-1 md:grid-cols-4">
         <div class="titlebar md:col-start-2 md:col-span-3 row-start-2 text-wrap">
           <div class="flex flex-row pb-4">
-            <h1 class="text-4xl md:text-4xl">{{ pageTitle }}</h1>
+            <h1 class="text-4xl md:text-4xl">{{ title }}</h1>
             <div class="md:hidden grow pt-2 cursor-pointer" @click="toggleMobileFilters()">
               <filters-icon class="ml-auto" />
             </div>
@@ -212,7 +95,8 @@ const paginationNavigation = () => {
             (filtersLoaded ? '' : ' working-spinner pointer-events-none')
           "
         >
-          <div class="quick-select hidden md:block">
+          <slot name="filters"></slot>
+          <!--<div class="quick-select hidden md:block">
             <h3 class="md:text-sm lg:text-base">BROWSE ALL RESOURCES BY</h3>
             <div
               @click="quickfilter({ subjects: [], levels: ['gcse'] })"
@@ -268,6 +152,7 @@ const paginationNavigation = () => {
             v-model:open="examboardsOpen"
             :initialised="filtersLoaded"
           />
+        -->
 
           <hr class="mb-2" />
           <div class="md:hidden">
@@ -279,10 +164,10 @@ const paginationNavigation = () => {
         <div
           :class="'products md:col-start-2 md:col-span-3 row-start-3 text-wrap flex flex-row flex-wrap'"
         >
-          <template v-if="!filtersLoaded || isProductsLoading">
+          <template v-if="!filtersLoaded || !productsLoaded">
             <div class="w-full h-72 working-spinner"></div>
           </template>
-          <template v-else-if="totalItems > 0">
+          <template v-else-if="products.length > 0">
             <div
               v-for="product in products"
               :key="`${isBundle(product) ? 'bundle' : 'book'}-${product.id}`"
@@ -294,7 +179,8 @@ const paginationNavigation = () => {
           </template>
           <div v-else>No results</div>
         </div>
-        <pagination
+        <slot name="pagination"></slot>
+        <!--<pagination
           v-if="totalItems > 0"
           class="gap-4 md:col-start-2 md:col-span-3 row-start-5 mt-8 ml-auto"
           item-class="bg-transparent text-black rounded-sm px-3 py-1"
@@ -305,18 +191,13 @@ const paginationNavigation = () => {
           :total-items="totalItems"
           arrow-controls
           @navigation="paginationNavigation"
-        />
+        />-->
       </div>
     </div>
   </LayoutV2>
 </template>
 
 <style scoped>
-:deep(.accordion-content) {
-  position: relative;
-  top: -8px;
-}
-
 .filters.mobile-menu {
   opacity: 0;
   display: flex;

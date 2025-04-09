@@ -1,0 +1,237 @@
+<script setup lang="ts">
+import { ref, computed, watch } from 'vue';
+
+import ExploreLayout from './ExploreLayout.vue';
+import Pagination from '@/components/Pagination.vue';
+import ExploreSingleFilter from './ExploreSingleFilter.vue';
+import ExploreMultiFilter from './ExploreMultiFilter.vue';
+
+import { useBooks, useBundles } from '@/composables/useBindleData';
+import {
+  useSubjectsFilter,
+  useFormatFilter,
+  useLevelFilter,
+  useResourceTypeFilter,
+  useExamboardFilter,
+  useFilteredBooks,
+  useFilteredBundles,
+  usePaginatedProducts,
+  useTitleFilter,
+} from '@/composables/useResourceFilters';
+
+const {
+  options: subjectOptions,
+  selectedSlugs: subjectSelectedSlugs,
+  selectedOptions: subjectSelectedOptions,
+  bookMatchesFilter: subjectFilter,
+  initialised: subjectsInitialised,
+} = useSubjectsFilter();
+const subjectsOpen = ref(false);
+
+const {
+  options: formatOptions,
+  selectedSlugs: formatSelectedSlugs,
+  bookMatchesFilter: formatBookFilter,
+  bundleMatchesFilter: formatBundleFilter,
+  initialised: formatsInitialised,
+} = useFormatFilter();
+const formatsOpen = ref(false);
+
+const {
+  options: levelOptions,
+  selectedSlugs: levelSelectedSlugs,
+  bookMatchesFilter: levelFilter,
+  initialised: levelsInitialised,
+} = useLevelFilter();
+const levelsOpen = ref(false);
+
+const {
+  options: resourceTypeOptions,
+  selectedSlugs: resourceTypeSelectedSlugs,
+  bookMatchesFilter: resourceTypeFilter,
+  isBundleOnly,
+  initialised: resourceTypesInitialised,
+} = useResourceTypeFilter();
+const resourceTypesOpen = ref(false);
+
+const {
+  options: examboardOptions,
+  selectedSlugs: examboardSelectedSlugs,
+  bookMatchesFilter: examboardFilter,
+  initialised: examboardsInitialised,
+} = useExamboardFilter();
+const examboardsOpen = ref(false);
+
+const { bookMatchesFilter: titleFilter } = useTitleFilter();
+
+const filtersLoaded = computed(
+  () =>
+    subjectsInitialised.value &&
+    formatsInitialised.value &&
+    levelsInitialised.value &&
+    resourceTypesInitialised.value &&
+    examboardsInitialised.value
+);
+
+const resetFilters = () => {
+  subjectSelectedSlugs.value = [];
+  subjectsOpen.value = false;
+  levelSelectedSlugs.value = [];
+  levelsOpen.value = false;
+  formatSelectedSlugs.value = [];
+  formatsOpen.value = false;
+  resourceTypeSelectedSlugs.value = [];
+  resourceTypesOpen.value = false;
+  examboardSelectedSlugs.value = [];
+  examboardsOpen.value = false;
+  pageIndex.value = 1;
+};
+
+const quickfilter = ({ subjects, levels }: { subjects?: string[]; levels?: string[] }) => {
+  resetFilters();
+
+  if (subjects) {
+    subjectSelectedSlugs.value = subjects;
+    subjectsOpen.value = true;
+  }
+
+  if (levels) {
+    levelSelectedSlugs.value = levels;
+    levelsOpen.value = true;
+  }
+};
+
+const bookFilters = computed(() => [
+  subjectFilter,
+  formatBookFilter,
+  levelFilter,
+  resourceTypeFilter,
+  examboardFilter,
+  titleFilter,
+]);
+const bundleFilters = computed(() => [formatBundleFilter]);
+
+const { books, isLoading: isBooksLoading } = useBooks();
+const { bundles, isLoading: isBundlesLoading } = useBundles();
+const isProductsLoading = computed(() => isBooksLoading.value || isBundlesLoading.value);
+
+const { filteredBooks } = useFilteredBooks(books, bookFilters, isBundleOnly);
+const { filteredBundles } = useFilteredBundles(bundles, bookFilters, bundleFilters);
+
+const ITEMS_PER_PAGE = 16;
+const { products, totalItems, pageIndex } = usePaginatedProducts(
+  filteredBooks,
+  filteredBundles,
+  isProductsLoading,
+  ITEMS_PER_PAGE
+);
+watch(
+  [
+    subjectSelectedSlugs,
+    formatSelectedSlugs,
+    levelSelectedSlugs,
+    resourceTypeSelectedSlugs,
+    examboardSelectedSlugs,
+  ],
+  () => {
+    if (filtersLoaded.value) {
+      pageIndex.value = 1;
+    }
+  }
+);
+
+const pageTitle = computed(() =>
+  subjectSelectedOptions.value.length == 0
+    ? 'Resources'
+    : `${subjectSelectedOptions.value[0].name} Resources`
+);
+
+const scrollToTop = () => {
+  setTimeout(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+  }, 100);
+};
+</script>
+<template>
+  <ExploreLayout
+    :title="pageTitle"
+    :filtersLoaded="filtersLoaded"
+    :productsLoaded="!isProductsLoading"
+    :products="products"
+  >
+    <template #filters>
+      <div class="quick-select hidden md:block">
+        <h3 class="md:text-sm lg:text-base">BROWSE ALL RESOURCES BY</h3>
+        <div
+          @click="quickfilter({ subjects: [], levels: ['gcse'] })"
+          class="cursor-pointer linklike"
+        >
+          GCSEs
+        </div>
+        <div
+          @click="quickfilter({ subjects: [], levels: ['a-level'] })"
+          class="cursor-pointer linklike"
+        >
+          A-Levels
+        </div>
+      </div>
+
+      <hr class="hidden md:block mb-2" />
+      <ExploreSingleFilter
+        title="EXAM SUBJECT"
+        :options="subjectOptions"
+        v-model="subjectSelectedSlugs"
+        v-model:open="subjectsOpen"
+        :initialised="filtersLoaded"
+      />
+      <hr class="mb-2" />
+      <ExploreMultiFilter
+        title="RESOURCE FORMAT"
+        :options="formatOptions"
+        v-model="formatSelectedSlugs"
+        v-model:open="formatsOpen"
+        :initialised="filtersLoaded"
+      />
+      <hr class="mb-2" />
+      <ExploreMultiFilter
+        title="QUALIFICATION LEVEL"
+        :options="levelOptions"
+        v-model="levelSelectedSlugs"
+        v-model:open="levelsOpen"
+        :initialised="filtersLoaded"
+      />
+      <hr class="mb-2" />
+      <ExploreMultiFilter
+        title="RESOURCE TYPE"
+        :options="resourceTypeOptions"
+        v-model="resourceTypeSelectedSlugs"
+        v-model:open="resourceTypesOpen"
+        :initialised="filtersLoaded"
+      />
+      <hr class="mb-2" />
+      <ExploreMultiFilter
+        title="EXAMBOARD"
+        :options="examboardOptions"
+        v-model="examboardSelectedSlugs"
+        v-model:open="examboardsOpen"
+        :initialised="filtersLoaded"
+      />
+    </template>
+    <template #pagination>
+      <pagination
+        v-if="totalItems > 0"
+        class="gap-4 md:col-start-2 md:col-span-3 row-start-5 mt-8 ml-auto"
+        item-class="bg-transparent text-black rounded-sm px-3 py-1"
+        item-selected-class="!opacity-100 !text-theme-teal outline outline-2 outline-theme-teal"
+        arrow-class="!text-theme-teal disabled:!text-theme-black disabled:opacity-30"
+        v-model="pageIndex"
+        :items-per-page="ITEMS_PER_PAGE"
+        :total-items="totalItems"
+        arrow-controls
+        @navigation="scrollToTop"
+      />
+    </template>
+  </ExploreLayout>
+</template>
+
+<style scoped></style>

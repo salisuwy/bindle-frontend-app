@@ -41,30 +41,12 @@ watch(
   },
   { immediate: true }
 );
-
-/*
-const accordionRef = ref<null | { open: () => void }>(null);
-watch(
-  () => props.initialised,
-  async () => {
-    if (
-      props.initialised &&
-      props.modelValue &&
-      props.modelValue.length > 0 &&
-      accordionRef.value !== null
-    ) {
-      await nextTick();
-      accordionRef.value.open();
-    }
-  },
-  { immediate: true }
-);*/
 </script>
 
 <template>
   <accordion
     v-model:open="isOpen"
-    content-class="w-full filter-level flex flex-col"
+    content-class="w-full filter-content flex flex-col"
     title-class="md:text-sm lg:text-base cursor-pointer linklike"
     indicator-class="float-right"
   >
@@ -86,4 +68,9 @@ watch(
   </accordion>
 </template>
 
-<style scoped></style>
+<style scoped>
+:deep .filter-content {
+  position: relative;
+  top: -8px;
+}
+</style>
