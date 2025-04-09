@@ -2,7 +2,7 @@
 import { computed, onMounted, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { useBindleApiStore } from '@/store/bindle-api.js';
-import Bundle from '@/views/shared/Bundle.vue';
+import BundleV2 from '@/views/shared/BundleV2.vue';
 import 'vue3-carousel/dist/carousel.css';
 import { Carousel, Slide, Navigation } from 'vue3-carousel';
 import { useWindowSize } from '@vueuse/core';
@@ -64,7 +64,7 @@ const itemsToShow = computed(() => {
       :items-to-show="itemsToShow"
     >
       <slide v-for="(bundle, idx) in getPopularBundles" :key="idx">
-        <bundle :bundle="bundle" class="max-w-full" />
+        <BundleV2 :bundle="bundle" class="max-w-full" />
       </slide>
     </carousel>
 

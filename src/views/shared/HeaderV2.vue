@@ -15,12 +15,13 @@ import SlideIn from '@/components/SlideIn.vue';
 import CloseIcon from '@/components/icons/CloseIcon.vue';
 import Cart from '@/views/shop/Cart.vue';
 
-import { useQuery } from '@tanstack/vue-query';
-import { getOrderCart } from '@/store/cart-api';
+//import { useQuery } from '@tanstack/vue-query';
+//import { getOrderCart } from '@/store/cart-api';
 import { trackEvent } from '../../components/helpers/analytics';
 import { useAuthStore } from '@/store/useAuthStore';
 
 import { useLevels, useResourceTypes, useSubjects } from '@/composables/useBindleData';
+import { useCurrentOrder } from '@/composables/useCurrentOrder';
 
 const authStore = useAuthStore();
 
@@ -40,8 +41,9 @@ const mobileSearchRef = ref(null);
 const { navSubjects, isLoading: isLoadingNavSubjects } = useSubjects();
 const { allResourceTypes, isLoading: isLoadingResourceTypes } = useResourceTypes();
 const { allLevels, isLoading: isLoadingLevels } = useLevels();
+const { cartItemsCount } = useCurrentOrder();
 
-const loaded = computed(
+const isMenuLoaded = computed(
   () => !isLoadingNavSubjects.value && !isLoadingResourceTypes.value && !isLoadingLevels.value
 );
 
@@ -125,16 +127,6 @@ const closeSlideIn = () => {
   }
 };
 
-const { data, isLoading, isPending, error } = useQuery({
-  queryKey: ['cartItems'],
-  queryFn: getOrderCart,
-});
-
-const cartItemsCount = computed(() => {
-  const items = data.value?.order?.items ?? [];
-  return items.reduce((acc, item) => acc + item.quantity, 0);
-});
-
 // Returns User initials using firstname and lastname of the user
 const initials = () => {
   const firstName = authStore.user?.name?.split(' ')[0];
@@ -198,7 +190,7 @@ const handleUserAction = (action) => {
       <template v-slot:shop-resources>
         <div
           id="shop-resources"
-          v-if="!loaded"
+          v-if="!isMenuLoaded"
           class="loading max-w-full w-8xl mx-auto h-48 working-spinner"
         >
           &nbsp;
@@ -251,7 +243,7 @@ const handleUserAction = (action) => {
       <template v-slot:gcses>
         <div
           id="gcses"
-          v-if="!loaded"
+          v-if="!isMenuLoaded"
           class="loading max-w-full w-8xl mx-auto h-48 working-spinner"
         >
           &nbsp;
@@ -311,7 +303,7 @@ const handleUserAction = (action) => {
       <template v-slot:a-levels>
         <div
           id="alevels"
-          v-if="!loaded"
+          v-if="!isMenuLoaded"
           class="loading max-w-full w-8xl mx-auto h-48 working-spinner"
         >
           &nbsp;

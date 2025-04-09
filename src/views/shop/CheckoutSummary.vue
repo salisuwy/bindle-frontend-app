@@ -1,59 +1,32 @@
 <script setup>
-import Layout from '@/views/shared/Layout.vue';
+import { computed, ref } from 'vue';
+
+import LayoutV2 from '@/views/shared/LayoutV2.vue';
 import EmptyCart from './components/EmptyCart.vue';
 import ShoppingCart from './components/ShoppingCart.vue';
 import CouponSection from './components/CouponSection.vue';
 import PriceDetails from './components/PriceDetails.vue';
-import { useQuery } from '@tanstack/vue-query';
-import { getOrderCart } from '@/store/cart-api';
-import { computed, ref, watch } from 'vue';
-import { setUuid } from '../../store/cart-api';
-import SpinnerIcon from '../../components/icons/SpinnerIcon.vue';
+import SpinnerIcon from '@/components/icons/SpinnerIcon.vue';
+
 import { useRouter } from 'vue-router';
+import { useCurrentOrder } from '@/composables/useCurrentOrder';
 
 const router = useRouter();
+
+const { order, bookStock, bundleStock, cartItems, coupons } = useCurrentOrder();
 
 const breadcrumbs = ref([
   { text: 'Home', path: '/' },
   { text: 'Shop Resources', path: '/resources' },
-  { text: 'You Cart', path: '' },
+  { text: 'Your Cart', path: '' },
 ]);
 
 const isGuest = ref(false);
 const transition = ref('');
 const isTransitioning = ref(false);
 
-const { data, isLoading, isPending, error } = useQuery({
-  queryKey: ['cartItems'],
-  queryFn: getOrderCart,
-});
-
-const order = computed(() => {
-  return data.value?.order ?? {};
-});
-
-const bookStock = computed(() => {
-  return data.value?.order?.book_stock ?? {};
-});
-
-const bundleStock = computed(() => {
-  return data.value?.order?.bundle_stock ?? {};
-});
-
-const cartItems = computed(() => {
-  return data.value?.order?.items ?? [];
-});
-
-const coupons = computed(() => {
-  return data.value?.order?.coupons ?? [];
-});
-
 const showLoginLink = computed(() => {
   return isGuest.value && false;
-});
-
-watch(order, (newOrder) => {
-  setUuid(newOrder?.uuid);
 });
 
 function performTransition() {
@@ -63,7 +36,7 @@ function performTransition() {
 }
 </script>
 <template>
-  <layout>
+  <LayoutV2>
     <div class="bg-theme-white py-10 relative">
       <div class="mx-auto max-w-8xl w-full px-6 text-left mb-16">
         <div class="flex flex-col md:flex-row">
@@ -132,5 +105,5 @@ function performTransition() {
         </div>
       </div>
     </div>
-  </layout>
+  </LayoutV2>
 </template>

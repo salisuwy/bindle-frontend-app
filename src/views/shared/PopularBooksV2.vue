@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, watch } from 'vue';
 import { Carousel, Slide } from 'vue3-carousel';
 import BookV2 from '@/views/shared/BookV2.vue';
 import { useWindowSize } from '@vueuse/core';

@@ -1,11 +1,11 @@
 <script setup>
-import Layout from '@/views/shared/Layout.vue';
+import LayoutV2 from '@/views/shared/LayoutV2.vue';
 import Breadcrumbs from '@/components/Breadcrumbs.vue';
 import BenefitsBanner from '@/views/index/BenefitsBanner.vue';
 </script>
 
 <template>
-  <layout>
+  <LayoutV2>
     <div class="bg-theme-white relative">
       <div class="bg-theme-verylightteal py-10">
         <div class="mx-auto max-w-8xl w-full px-6 text-left mb-8">
@@ -4227,5 +4227,5 @@ import BenefitsBanner from '@/views/index/BenefitsBanner.vue';
       </div>
       <benefits-banner />
     </div>
-  </layout>
+  </LayoutV2>
 </template>

@@ -1,18 +1,22 @@
 <script setup>
-import Layout from '@/views/shared/Layout.vue';
+import LayoutV2 from '@/views/shared/LayoutV2.vue';
 import { ref, watch, computed, onMounted, onUnmounted, nextTick } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useBindleApiStore } from '@/store/bindle-api.js';
+
 import FiltersIcon from '@/components/icons/FiltersIcon.vue';
 import Breadcrumbs from '@/components/Breadcrumbs.vue';
 import ChevronIcon from '@/components/icons/ChevronIcon.vue';
 import Accordion from '@/components/Accordion.vue';
-import Bundle from '@/views/shared/Bundle.vue';
-import Book from '@/views/shared/Book.vue';
+import BundleV2 from '@/views/shared/BundleV2.vue';
+import BookV2 from '@/views/shared/BookV2.vue';
 import Pagination from '@/components/Pagination.vue';
+
 import { Util } from '@/components/helpers/Util.js';
 import { trackEvent } from '../../components/helpers/analytics';
 import { useHead } from '@unhead/vue';
+
+import { useSubjectsFilter } from '@/composables/useResourceFilters';
 
 const route = useRoute();
 const router = useRouter();
@@ -34,6 +38,8 @@ const filtersLoaded = ref(false);
 const filtersRef = ref(null);
 
 const exploreRef = ref(null);
+
+const { navSubjects, selectedSlug, selectedOption } = useSubjectsFilter();
 
 // special case just to make things tricky
 const bundleType = { id: 4, name: 'Bundles', slug: 'bundles' };
@@ -478,7 +484,7 @@ const getTitle = () => {
 };
 </script>
 <template>
-  <layout>
+  <LayoutV2>
     <div class="bg-theme-white py-10 relative">
       <div ref="exploreRef" class="mx-auto max-w-8xl w-full px-6 text-left mb-16">
         <breadcrumbs class="text-left w-full col-start-1 md:col-span-4 mb-4" />
@@ -505,13 +511,11 @@ const getTitle = () => {
             <h3 class="md:text-sm lg:text-base">BROWSE ALL RESOURCES BY</h3>
             <div @click="quickFilter('gcse')" class="cursor-pointer linklike">GCSEs</div>
             <div @click="quickFilter('a-level')" class="cursor-pointer linklike">A-Levels</div>
-            <!--                        <div @click="quickFilter('bundle')" class="cursor-pointer linklike">Explore Bundles</div>-->
-            <!--                        <div @click="quickFilter('bestseller')" class="cursor-pointer linklike">Bestsellers</div>-->
-            <!--                        <div @click="quickFilter('sale')" class="cursor-pointer linklike">Sale</div>-->
           </div>
 
           <hr class="hidden md:block mb-2" />
-
+          <pre>{{ selectedOption }}</pre>
+          <pre>{{ selectedSlug }}</pre>
           <accordion
             ref="filterSubjectAccordionRef"
             content-class="filter-subjects w-full flex flex-col"
@@ -652,8 +656,8 @@ const getTitle = () => {
             v-for="product in paginatedProducts"
             class="w-full sm:w-1/2 xl:w-1/4 px-2"
           >
-            <bundle v-if="'book_ids' in product" :bundle="product" mobile-flex-row />
-            <book v-else-if="!bundleOnlyFilter" :product="product" mobile-flex-row />
+            <BundleV2 v-if="'book_ids' in product" :bundle="product" mobile-flex-row />
+            <BookV2 v-else-if="!bundleOnlyFilter" :product="product" mobile-flex-row />
           </div>
           <div v-else-if="filtersLoaded">No results</div>
         </div>
@@ -671,7 +675,7 @@ const getTitle = () => {
         />
       </div>
     </div>
-  </layout>
+  </LayoutV2>
 </template>
 <style scoped>
 :deep(.accordion-content) {

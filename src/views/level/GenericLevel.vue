@@ -1,8 +1,8 @@
 <script setup>
-import Layout from '@/views/shared/Layout.vue';
+import LayoutV2 from '@/views/shared/LayoutV2.vue';
 </script>
 <template>
-  <layout>
+  <LayoutV2>
     <h1>Generic Level Placeholder</h1>
-  </layout>
+  </LayoutV2>
 </template>

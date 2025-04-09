@@ -3,7 +3,7 @@ import { computed, onMounted, ref } from 'vue';
 import { useBindleApiStore } from '@/store/bindle-api.js';
 import 'vue3-carousel/dist/carousel.css';
 import { Carousel, Slide, Navigation } from 'vue3-carousel';
-import Bundle from '@/views/shared/Bundle.vue';
+import BundleV2 from '@/views/shared/BundleV2.vue';
 import ChevronIcon from '@/components/icons/ChevronIcon.vue';
 import { useWindowSize } from '@vueuse/core';
 
@@ -52,7 +52,7 @@ onMounted(async () => {
       :items-to-show="itemsToShow"
     >
       <slide v-for="bundle in bundles" :key="bundle.id">
-        <bundle :bundle="bundle" />
+        <BundleV2 :bundle="bundle" />
       </slide>
       <template #addons>
         <navigation>

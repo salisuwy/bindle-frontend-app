@@ -1,17 +1,17 @@
 <script setup>
-import Layout from '@/views/shared/Layout.vue';
+import LayoutV2 from '@/views/shared/LayoutV2.vue';
 import PartnersBanner from '@/views/index/PartnersBanner.vue';
 import Breadcrumbs from '@/components/Breadcrumbs.vue';
 import SubjectIconLinks from '@/views/shared/SubjectIconLinks.vue';
 import ChevronIcon from '@/components/icons/ChevronIcon.vue';
-import PopularBundles from '@/views/shared/PopularBundles.vue';
-import BundlesBanner from '@/views/index/BundlesBanner.vue';
-import PopularBooks from '@/views/shared/PopularBooks.vue';
+import PopularBundlesV2 from '@/views/shared/PopularBundlesV2.vue';
+import BundlesBannerV2 from '@/views/index/BundlesBannerV2.vue';
+import PopularBooksV2 from '@/views/shared/PopularBooksV2.vue';
 import alevelBackground from '/assets/alevel-background.png';
 import gcseBackground from '/assets/gcse-background.png';
 </script>
 <template>
-  <layout>
+  <LayoutV2>
     <div class="w-full bg-theme-verylightteal py-10">
       <div class="mx-auto max-w-8xl w-full text-left px-6">
         <breadcrumbs class="text-left w-full" />
@@ -52,8 +52,8 @@ import gcseBackground from '/assets/gcse-background.png';
     <!--        <subject-icon-links slug="/resources/explore" />-->
     <!--      </div>-->
     <!--    </div>-->
-    <popular-bundles :count="8" />
-    <bundles-banner />
-    <popular-books :count="8" />
-  </layout>
+    <PopularBundlesV2 :count="8" />
+    <BundlesBannerV2 />
+    <PopularBooksV2 :count="8" />
+  </LayoutV2>
 </template>

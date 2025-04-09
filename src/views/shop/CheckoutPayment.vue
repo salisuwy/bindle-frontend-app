@@ -117,7 +117,6 @@ const handleClick = async () => {
     showBillingAddressErrors.value = true;
     document.getElementById('billing-address')?.scrollIntoView({ behavior: 'smooth' });
   } else {
-    console.log('We can place the order!');
     //console.log('We can place the order!');
     paymentInProgress.value = true;
     paymentProcessingPromise = new DeferredPromise<void>();

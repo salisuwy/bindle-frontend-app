@@ -86,6 +86,11 @@ watch(
     isOpen.value = newVal;
   }
 );
+const emit = defineEmits(['update:open']);
+watch(isOpen, () => {
+  emit('update:open', isOpen.value);
+});
+
 defineExpose({ toggle, open, close });
 </script>
 <template>

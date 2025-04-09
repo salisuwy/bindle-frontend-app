@@ -58,7 +58,7 @@ const { isPending, mutate } = useMutation({
     toast(AddToCartNotification);
   },
   onSettled: () => {
-    queryClient.invalidateQueries(['cartItems']);
+    queryClient.invalidateQueries({ queryKey: ['cartItems'] });
   },
 });
 

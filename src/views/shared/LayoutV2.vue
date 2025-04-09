@@ -1,5 +1,4 @@
 <script setup lang="ts">
-//import LayoutHeader from './Header.vue';
 import LayoutHeaderV2 from './HeaderV2.vue';
 import LayoutFooter from './Footer.vue';
 import Testimonials from './Testimonials.vue';

@@ -1,5 +1,5 @@
 <script setup>
-import Layout from '@/views/shared/Layout.vue';
+import LayoutV2 from '@/views/shared/LayoutV2.vue';
 import { ref, watch, computed, onMounted, onUnmounted, nextTick } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useBindleApiStore } from '@/store/bindle-api.js';
@@ -7,7 +7,7 @@ import FiltersIcon from '@/components/icons/FiltersIcon.vue';
 import Breadcrumbs from '@/components/Breadcrumbs.vue';
 import ChevronIcon from '@/components/icons/ChevronIcon.vue';
 import Accordion from '@/components/Accordion.vue';
-import Bundle from '@/views/shared/Bundle.vue';
+import BundleV2 from '@/views/shared/BundleV2.vue';
 import Pagination from '@/components/Pagination.vue';
 import { useHead } from '@unhead/vue';
 import { trackEvent } from '../../components/helpers/analytics';
@@ -369,7 +369,7 @@ const paginationNavigation = () => {
 };
 </script>
 <template>
-  <layout>
+  <LayoutV2>
     <div class="bg-theme-white py-10 relative">
       <div class="mx-auto max-w-8xl w-full px-6 text-left mb-16">
         <breadcrumbs class="text-left w-full col-start-1 md:col-span-4 mb-4" />
@@ -536,7 +536,7 @@ const paginationNavigation = () => {
           class="products md:col-start-2 md:col-span-3 row-start-3 text-wrap flex flex-row flex-wrap"
         >
           <div v-for="bundle in paginatedBundles" class="w-full sm:w-1/2 xl:w-1/4 px-2">
-            <bundle :bundle="bundle" mobile-flex-row />
+            <BundleV2 :bundle="bundle" mobile-flex-row />
           </div>
         </div>
         <pagination
@@ -550,7 +550,7 @@ const paginationNavigation = () => {
         />
       </div>
     </div>
-  </layout>
+  </LayoutV2>
 </template>
 <style scoped>
 :deep(.accordion-content) {

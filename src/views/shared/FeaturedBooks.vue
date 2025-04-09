@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onBeforeMount, computed } from 'vue';
 import { useBindleApiStore } from '@/store/bindle-api.js';
-import Book from '@/views/shared/Book.vue';
+import BookV2 from '@/views/shared/BookV2.vue';
 import 'vue3-carousel/dist/carousel.css';
 import { Carousel, Slide, Navigation } from 'vue3-carousel';
 import { useWindowSize } from '@vueuse/core';
@@ -56,7 +56,7 @@ const itemsToShow = computed(() => {
       :items-to-show="itemsToShow"
     >
       <slide v-for="(product, index) in products" :key="index" class="bg-theme-white">
-        <book :product="product" />
+        <BookV2 :product="product" />
       </slide>
     </carousel>
 

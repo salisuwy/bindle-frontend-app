@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import { useBindleApiStore } from '@/store/bindle-api.js';
 import { Util } from '@/components/helpers/Util.js';
-import Index from '@/views/index/Index.vue';
+
 import IndexV2 from '@/views/index/IndexV2.vue';
 import Contact from '@/views/contact/Contact.vue';
 import PrivacyPolicy from '@/views/policies/PrivacyPolicy.vue';
@@ -15,7 +15,8 @@ import Bundles from '@/views/bundles/Bundles.vue';
 import Bundle from '@/views/shop/Bundle.vue';
 import ExploreBundles from '@/views/bundles/Explore.vue';
 import GenericLevel from '@/views/level/GenericLevel.vue';
-import Explore from '@/views/resources/Explore.vue';
+//import Explore from '@/views/resources/Explore.vue';
+import ExploreV2 from '@/views/resources/ExploreV2.vue';
 import PageNotFound from '@/views/PageNotFound.vue';
 import Tokens from '@/views/Tokens.vue';
 import Test from '@/views/Test.vue';
@@ -47,12 +48,6 @@ const routes = [
     meta: { breadcrumb: 'Home', title: 'Home' },
   },
   {
-    name: 'index_old',
-    path: '/old',
-    component: Index,
-    meta: { breadcrumb: 'Home', title: 'Home' },
-  },
-  {
     name: 'contact-us',
     path: '/contact-us',
     component: Contact,
@@ -76,7 +71,7 @@ const routes = [
   {
     name: 'explore-resources',
     path: '/resources/explore',
-    component: Explore,
+    component: ExploreV2,
     meta: { breadcrumb: 'Explore' },
   },
   {

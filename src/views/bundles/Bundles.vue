@@ -1,14 +1,14 @@
 <script setup>
-import Layout from '@/views/shared/Layout.vue';
+import LayoutV2 from '@/views/shared/LayoutV2.vue';
 import Breadcrumbs from '@/components/Breadcrumbs.vue';
 import BestSelling from '@/views/bundles/BestSelling.vue';
 import BenefitsBanner from '@/views/index/BenefitsBanner.vue';
-import SubjectIconLinks from '@/views/shared/SubjectIconLinks.vue';
-import BundlesBanner from '@/views/index/BundlesBanner.vue';
-import BundleTypes from '@/views/index/BundleTypes.vue';
+//import SubjectIconLinks from '@/views/shared/SubjectIconLinks.vue';
+import BundlesBannerV2 from '@/views/index/BundlesBannerV2.vue';
+import BundleTypesV2 from '@/views/index/BundleTypesV2.vue';
 import { onMounted, ref } from 'vue';
 import { useBindleApiStore } from '@/store/bindle-api.js';
-import ChevronIcon from '@/components/icons/ChevronIcon.vue';
+//import ChevronIcon from '@/components/icons/ChevronIcon.vue';
 import RecommendedBundles from '@/views/shared/RecommendedBundles.vue';
 
 const levels = ref([]);
@@ -20,7 +20,7 @@ onMounted(async () => {
 });
 </script>
 <template>
-  <layout>
+  <LayoutV2>
     <div class="bg-theme-white relative">
       <div class="bg-theme-verylightteal py-10">
         <div class="mx-auto max-w-8xl w-full px-6 text-left mb-16">
@@ -85,8 +85,8 @@ onMounted(async () => {
       <div class="mt-10 mb-2">
         <recommended-bundles />
       </div>
-      <bundles-banner />
-      <bundle-types />
+      <BundlesBannerV2 />
+      <BundleTypesV2 />
     </div>
-  </layout>
+  </LayoutV2>
 </template>

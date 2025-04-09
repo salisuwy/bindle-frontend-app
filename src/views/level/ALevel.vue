@@ -1,12 +1,12 @@
 <script setup>
-import Layout from '@/views/shared/Layout.vue';
+import LayoutV2 from '@/views/shared/LayoutV2.vue';
 import Breadcrumbs from '@/components/Breadcrumbs.vue';
 import RecommendedBundles from '@/views/shared/RecommendedBundles.vue';
-import PopularProducts from '@/views/shared/PopularProducts.vue';
+//import PopularProducts from '@/views/shared/PopularProducts.vue';
 import SubjectGrid from '@/views/shared/SubjectGrid.vue';
 </script>
 <template>
-  <layout>
+  <LayoutV2>
     <div class="bg-theme-white relative">
       <div class="bg-theme-verylightteal py-10">
         <div class="mx-auto max-w-8xl w-full px-6 text-left mb-16">
@@ -21,5 +21,5 @@ import SubjectGrid from '@/views/shared/SubjectGrid.vue';
         <!-- <popular-products/> -->
       </div>
     </div>
-  </layout>
+  </LayoutV2>
 </template>

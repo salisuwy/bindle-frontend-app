@@ -3,7 +3,7 @@ import { useQuery, useQueryClient } from '@tanstack/vue-query';
 
 import { apiClient } from './axiosClient';
 
-import { identity, keyBy } from 'lodash-es';
+import { keyBy } from 'lodash-es';
 
 const useMenuItemQuery = <T>(key: string, endpoint: string) => {
   return useQuery<T[]>({
@@ -18,51 +18,53 @@ const useMenuItemQuery = <T>(key: string, endpoint: string) => {
   });
 };
 
-export type Subject = {
+export type Category = {
   id: number;
   slug: string;
   name: string;
   description: string | null;
+};
+
+export type Subject = Category & {
   show_on_nav: boolean;
 };
 
 export const useSubjects = () => {
   const { data: allSubjects, isLoading } = useMenuItemQuery<Subject>(
     'subjects',
-    'v2/subjects?per_page=100'
+    'v2/subjects?per_page=999999'
   );
   const navSubjects = computed(() => allSubjects?.value?.filter((s) => s.show_on_nav));
   return { allSubjects, navSubjects, isLoading };
 };
 
-export type ResourceType = {
-  id: number;
-  name: string;
-  slug: string;
-  description: string | null;
-};
-
+export type ResourceType = Category;
 export const useResourceTypes = () => {
   const { data: allResourceTypes, isLoading } = useMenuItemQuery<ResourceType>(
     'types',
-    'v2/types?per_page=100'
+    'v2/types?per_page=999999'
   );
   return { allResourceTypes, isLoading };
 };
 
-export type Level = {
-  id: number;
-  name: string;
-  slug: string;
-  description: string | null;
-};
+export type Level = Category;
 
 export const useLevels = () => {
   const { data: allLevels, isLoading } = useMenuItemQuery<Level>(
     'levels',
-    'v2/levels?per_page=100'
+    'v2/levels?per_page=999999'
   );
   return { allLevels, isLoading };
+};
+
+export type Examboard = Category;
+
+export const useExamboards = () => {
+  const { data: allExamboards, isLoading } = useMenuItemQuery<Examboard>(
+    'examboards',
+    'v2/examboards?per_page=999999'
+  );
+  return { allExamboards, isLoading };
 };
 
 // https://staging-backend.bindle.co.uk/docs/api#/schemas/BookResource
@@ -99,7 +101,7 @@ export type Book = {
 export type JoinedBook<Joins extends Record<string, Level | Subject | ResourceType[]>> = Book &
   Joins;
 
-export type Bindle = {
+export type Bundle = {
   id: number;
   slug: string;
   title: string;
@@ -149,7 +151,7 @@ export const usePopularBundles = (nBundles: 4) => {
     queryFn: async () => {
       console.log('usePopularBundles: queryFn called');
       const resp = await apiClient.get<{
-        data: Bindle[];
+        data: Bundle[];
       }>(`v2/bindles?per_page=${nBundles}&sort=-view_count`);
       return keyBy(resp.data.data, 'id');
     },
@@ -205,3 +207,41 @@ export const useUpdateBookStock = () => {
 
   return { updateBookStock };
 };
+
+export const useBooks = () => {
+  console.log('useBooks() called');
+
+  const { data, isLoading } = useQuery({
+    queryKey: ['books', 'all'],
+    staleTime: Infinity,
+    queryFn: async () => {
+      const resp = await apiClient.get<{
+        data: Book[];
+      }>(`v2/books?per_page=999999`);
+      return keyBy(resp.data.data, 'id');
+    },
+  });
+
+  const { applyStockOverrides } = useOverrideBookStock();
+  const books = computed(() => applyStockOverrides(Object.values(data.value || {})));
+  return { books, isLoading };
+};
+
+export const useBundles = () => {
+  const { data, isLoading } = useQuery({
+    queryKey: ['bundles', 'all'],
+    staleTime: Infinity,
+    queryFn: async () => {
+      const resp = await apiClient.get<{
+        data: Bundle[];
+      }>(`v2/bindles?per_page=999999`);
+      return keyBy(resp.data.data, 'id');
+    },
+  });
+
+  const bundles = computed(() => Object.values(data.value || {}));
+  return { bundles, isLoading };
+};
+
+export const isBundle = (product: Book | Bundle): product is Bundle => 'books' in product;
+export const isBook = (product: Book | Bundle): product is Book => !isBundle(product);

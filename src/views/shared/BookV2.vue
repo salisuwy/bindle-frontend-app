@@ -74,7 +74,9 @@ const addToBasket = () => {
 };
 
 // book: JoinedBook<{level: Level, subject: Subject}>
-const generateProductURL = (book) => `/${book.level.slug}/${book.subject.slug}/${book.slug}`;
+// check book.level === undefined to enable compatibility with v1 api
+const generateProductURL = (book) =>
+  book.level === undefined ? '' : `/${book.level.slug}/${book.subject.slug}/${book.slug}`;
 </script>
 
 <template>
