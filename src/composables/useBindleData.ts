@@ -479,5 +479,14 @@ export const useBookDetails = (
     }
   });
 
-  return { level, subject, resourceTypes, productUrl, price, ebookSelected };
+  const { applyBookStockOverrides } = useOverrideBookStock();
+  const itemsInStock = computed(() => {
+    if (book.value === undefined) {
+      return 0;
+    } else {
+      return applyBookStockOverrides([book.value])[0].quantity_in_stock || 0;
+    }
+  });
+
+  return { level, subject, resourceTypes, productUrl, price, ebookSelected, itemsInStock };
 };

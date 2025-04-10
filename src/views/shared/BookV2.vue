@@ -1,5 +1,5 @@
 <script setup>
-import { computed, watch } from 'vue';
+import { toRef } from 'vue';
 
 import { Util } from '@/components/helpers/Util.js';
 import { toast } from 'vue3-toastify';
@@ -10,17 +10,14 @@ import AddToCartErrorNotification from '../shop/components/AddToCartErrorNotific
 import AddToCartNotification from '../shop/components/AddToCartNotification.vue';
 import SpinnerIcon from '../../components/icons/SpinnerIcon.vue';
 
+import { useBookDetails } from '@/composables/useBindleData';
+
 const props = defineProps({
-  // Book<{level: Level, subject: Subject, types: ResourceType[]}>
   product: { type: Object },
   fullWidthButton: { type: Boolean, default: true },
   mobileFlexRow: { type: Boolean, default: false },
   showBestSeller: { type: Boolean, default: false },
 });
-
-const ebookSelected = computed(() => (props.product.is_ebook ? true : false));
-// TODO: Use tanstack to update stock information when other queries settled
-const itemsInStock = computed(() => props.product.quantity_in_stock);
 
 // CART OPERATIONS
 // TODO: Factor this out into useCurrentOrder composable
@@ -73,10 +70,7 @@ const addToBasket = () => {
   });
 };
 
-// book: JoinedBook<{level: Level, subject: Subject}>
-// check book.level === undefined to enable compatibility with v1 api
-const generateProductURL = (book) =>
-  book.level === undefined ? '' : `/${book.level.slug}/${book.subject.slug}/${book.slug}`;
+const { productUrl, ebookSelected, itemsInStock } = useBookDetails(toRef(props, 'product'));
 </script>
 
 <template>
@@ -107,7 +101,7 @@ const generateProductURL = (book) =>
 
     <div class="flex gap-4 justify-center items-center flex-wrap my-4">
       <router-link
-        :to="generateProductURL(product)"
+        :to="productUrl"
         class="bg-white hover:bg-zinc-50 text-theme-teal border border-theme-teal text-center buttonlike w-auto w-min-[140px] flex-shrink-0 flex-grow inline-block"
         draggable="false"
         >View Product
@@ -127,7 +121,7 @@ const generateProductURL = (book) =>
     </div>
 
     <p class="text-2xl text-left font-normal mt-1 mb-5 line-clamp-2" :title="product['title']">
-      <router-link :to="generateProductURL(product)" class="font-normal">
+      <router-link :to="productUrl" class="font-normal">
         {{ product['title'] }}
       </router-link>
     </p>
@@ -150,7 +144,7 @@ const generateProductURL = (book) =>
     <div class="text-left text-theme-darkgray">From:</div>
     <div class="flex flex-row items-end gap-4">
       <div class="text-3xl">
-        <router-link :to="generateProductURL(product)">
+        <router-link :to="productUrl">
           £{{
             Util.toFixedDisplay(
               product['is_ebook'] ? product['price_ebook'] : product['price_amount'],
