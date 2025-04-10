@@ -24,7 +24,7 @@ const bundleType = computed(() => {
   return props.bundle.is_core_bundle ? 'CORE BUNDLE' : 'BUNDLE';
 });
 
-// TODO: factor out into use current order composableconst
+// TODO: factor out into use current order composable
 const queryClient = useQueryClient();
 const { isPending, mutate } = useMutation({
   mutationFn: addToCart,

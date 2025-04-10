@@ -84,7 +84,7 @@ watch(
 </template>
 
 <style scoped>
-:deep .filter-content {
+:deep(.filter-content) {
   position: relative;
   top: -8px;
 }

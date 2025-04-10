@@ -6,7 +6,6 @@ import FiltersIcon from '@/components/icons/FiltersIcon.vue';
 import Breadcrumbs from '@/components/Breadcrumbs.vue';
 import BundleV2 from '@/views/shared/BundleV2.vue';
 import BookV2 from '@/views/shared/BookV2.vue';
-//import Pagination from '@/components/Pagination.vue';
 
 import { isBundle } from '@/composables/useBindleData';
 import type { Book, Bundle } from '@/composables/useBindleData';
@@ -64,12 +63,6 @@ const resizeWindow = () => {
     filtersRef.value.classList.add('mobile-menu');
   }
 };
-
-const paginationNavigation = () => {
-  setTimeout(() => {
-    window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
-  }, 100);
-};
 </script>
 <template>
   <LayoutV2>
@@ -96,64 +89,6 @@ const paginationNavigation = () => {
           "
         >
           <slot name="filters"></slot>
-          <!--<div class="quick-select hidden md:block">
-            <h3 class="md:text-sm lg:text-base">BROWSE ALL RESOURCES BY</h3>
-            <div
-              @click="quickfilter({ subjects: [], levels: ['gcse'] })"
-              class="cursor-pointer linklike"
-            >
-              GCSEs
-            </div>
-            <div
-              @click="quickfilter({ subjects: [], levels: ['a-level'] })"
-              class="cursor-pointer linklike"
-            >
-              A-Levels
-            </div>
-          </div>
-
-          <hr class="hidden md:block mb-2" />
-          <ExploreSingleFilter
-            title="EXAM SUBJECT"
-            :options="subjectOptions"
-            v-model="subjectSelectedSlugs"
-            v-model:open="subjectsOpen"
-            :initialised="filtersLoaded"
-          />
-          <hr class="mb-2" />
-          <ExploreMultiFilter
-            title="RESOURCE FORMAT"
-            :options="formatOptions"
-            v-model="formatSelectedSlugs"
-            v-model:open="formatsOpen"
-            :initialised="filtersLoaded"
-          />
-          <hr class="mb-2" />
-          <ExploreMultiFilter
-            title="QUALIFICATION LEVEL"
-            :options="levelOptions"
-            v-model="levelSelectedSlugs"
-            v-model:open="levelsOpen"
-            :initialised="filtersLoaded"
-          />
-          <hr class="mb-2" />
-          <ExploreMultiFilter
-            title="RESOURCE TYPE"
-            :options="resourceTypeOptions"
-            v-model="resourceTypeSelectedSlugs"
-            v-model:open="resourceTypesOpen"
-            :initialised="filtersLoaded"
-          />
-          <hr class="mb-2" />
-          <ExploreMultiFilter
-            title="EXAMBOARD"
-            :options="examboardOptions"
-            v-model="examboardSelectedSlugs"
-            v-model:open="examboardsOpen"
-            :initialised="filtersLoaded"
-          />
-        -->
-
           <hr class="mb-2" />
           <div class="md:hidden">
             <hr class="mb-2" />
@@ -180,18 +115,6 @@ const paginationNavigation = () => {
           <div v-else>No results</div>
         </div>
         <slot name="pagination"></slot>
-        <!--<pagination
-          v-if="totalItems > 0"
-          class="gap-4 md:col-start-2 md:col-span-3 row-start-5 mt-8 ml-auto"
-          item-class="bg-transparent text-black rounded-sm px-3 py-1"
-          item-selected-class="!opacity-100 !text-theme-teal outline outline-2 outline-theme-teal"
-          arrow-class="!text-theme-teal disabled:!text-theme-black disabled:opacity-30"
-          v-model="pageIndex"
-          :items-per-page="ITEMS_PER_PAGE"
-          :total-items="totalItems"
-          arrow-controls
-          @navigation="paginationNavigation"
-        />-->
       </div>
     </div>
   </LayoutV2>

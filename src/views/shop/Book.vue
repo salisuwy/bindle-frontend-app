@@ -12,7 +12,7 @@ import ChevronIcon from '@/components/icons/ChevronIcon.vue';
 
 import { toast } from 'vue3-toastify';
 import AddToCartNotification from './components/AddToCartNotification.vue';
-import FeaturedBooks from '@/views/shared/FeaturedBooks.vue';
+import FeaturedBooks from '@/views/shared/old/FeaturedBooks.vue';
 import { useMutation, useQueryClient, useQuery } from '@tanstack/vue-query';
 import { addToCart, setUuid, getOrderCart } from '@/store/cart-api';
 import SpinnerIcon from '../../components/icons/SpinnerIcon.vue';

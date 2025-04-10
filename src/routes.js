@@ -12,10 +12,10 @@ import Book from '@/views/shop/Book.vue';
 import GCSE from '@/views/level/GCSE.vue';
 import ALevel from '@/views/level/ALevel.vue';
 import Bundles from '@/views/bundles/Bundles.vue';
-import Bundle from '@/views/shop/Bundle.vue';
+import BundleDetailPage from '@/views/product_details/BundleDetailPage.vue';
+
 import ExploreBundles from '@/views/bundles/Explore.vue';
 import GenericLevel from '@/views/level/GenericLevel.vue';
-//import Explore from '@/views/resources/Explore.vue';
 import ExploreV3 from '@/views/resources/ExploreV3.vue';
 import PageNotFound from '@/views/PageNotFound.vue';
 import Tokens from '@/views/Tokens.vue';
@@ -97,10 +97,18 @@ const routes = [
       breadcrumb: 'ExploreBundles',
     },
   },
-  {
+  /*{
     name: 'bundle',
     path: '/bundles/:bundle',
     component: Bundle,
+    meta: {
+      breadcrumb: (route) => Util.humaniseSnakeCase(route.params.bundle),
+    },
+  },*/
+  {
+    name: 'bundle',
+    path: '/bundles/:bundle',
+    component: BundleDetailPage,
     meta: {
       breadcrumb: (route) => Util.humaniseSnakeCase(route.params.bundle),
     },

@@ -7,12 +7,12 @@ import { trackEvent } from '@/components/helpers/analytics';
 import LayoutV2 from '@/views/shared/LayoutV2.vue';
 import Breadcrumbs from '@/components/Breadcrumbs.vue';
 //import Book from '@/views/shared/Book.vue';
-import BundleBook from '@/views/shared/BundleBook.vue';
+import BundleBook from '@/components/product_details/BundleBook.vue';
 import Accordion from '@/components/Accordion.vue';
 import ChevronIcon from '@/components/icons/ChevronIcon.vue';
 import PlusIcon from '@/components/icons/PlusIcon.vue';
 import PopularBundlesV2 from '@/views/shared/PopularBundlesV2.vue';
-import FeaturedBooks from '@/views/shared/FeaturedBooks.vue';
+import FeaturedBooks from '@/views/shared/old/FeaturedBooks.vue';
 import 'vue3-carousel/dist/carousel.css';
 import { Carousel, Slide, Navigation } from 'vue3-carousel';
 

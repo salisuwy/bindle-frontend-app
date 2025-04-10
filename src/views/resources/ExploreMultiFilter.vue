@@ -63,13 +63,13 @@ watch(
       class="bindle-checkbox cursor-pointer mr-auto"
     >
       <input v-model="innerModel" type="checkbox" :value="option.slug" />
-      {{ option.name }}s
+      {{ option.name }}
     </label>
   </accordion>
 </template>
 
 <style scoped>
-:deep .filter-content {
+:deep(.filter-content) {
   position: relative;
   top: -8px;
 }

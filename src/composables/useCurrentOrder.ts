@@ -12,7 +12,7 @@ import type {
   OrderAddressArg,
 } from '@/store/cart-api';
 
-import { useOverrideBookStock } from './useBindleData';
+import { useOverrideBookStock, useOverrideBundleStock } from './useBindleData';
 
 import { typedKeys } from '@/components/helpers/tsUtils';
 
@@ -53,6 +53,11 @@ export const useCurrentOrder = () => {
 
   const bundleStock = computed(() => {
     return data.value?.order?.bundle_stock ?? {};
+  });
+
+  const { setBundleStockOverride } = useOverrideBundleStock();
+  watch(bundleStock, () => {
+    setBundleStockOverride(bundleStock.value);
   });
 
   const cartItems = computed(() => {

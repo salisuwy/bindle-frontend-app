@@ -5,7 +5,7 @@ import BookV2 from '@/views/shared/BookV2.vue';
 import 'vue3-carousel/dist/carousel.css';
 import { Carousel, Slide, Navigation } from 'vue3-carousel';
 import { useWindowSize } from '@vueuse/core';
-import CarouselNav from './CarouselNav.vue';
+import CarouselNav from '@/views/shared/CarouselNav.vue';
 
 const props = defineProps({
   title: { type: String, default: 'Featured Products' },
