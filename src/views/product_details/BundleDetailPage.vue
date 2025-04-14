@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import { computed, watch } from 'vue';
 
 import LayoutV2 from '@/views/shared/LayoutV2.vue';
 import Breadcrumbs from '@/components/Breadcrumbs.vue';
@@ -27,7 +27,7 @@ import { useMutation, useQueryClient } from '@tanstack/vue-query';
 import { addToCart, setUuid } from '@/store/cart-api';
 
 const route = useRoute();
-const { bundle } = useBundle(computed(() => route.params['bundle'] as string));
+const { bundle, isError, isLoading } = useBundle(computed(() => route.params['bundle'] as string));
 const {
   levels,
   examboards,
@@ -81,7 +81,24 @@ const addToBasket = () => {
     uuid: localStorage.getItem('uuid'),
   });
 };
+
+watch(
+  bundle,
+  () => {
+    if (bundle.value !== undefined) {
+      trackEvent('viewContent', {
+        item_id: bundle.value.id,
+        item_type: 'bundle',
+        item_name: bundle.value.title,
+        value: price.value,
+        currency: 'GBP',
+      });
+    }
+  },
+  { immediate: true }
+);
 </script>
+
 <template>
   <LayoutV2>
     <div class="bundle bg-theme-white py-10 relative">
@@ -96,146 +113,154 @@ const addToBasket = () => {
             </div>
           </div>
         </div>
-
-        <div class="flex flex-col md:flex-row gap-4 w-full">
-          <div class="w-full md:w-1/2 p-8 relative">
-            <div class="flex flex-row h-fit sticky top-12 bg-theme-pale w-full py-6">
-              <img
-                :src="bundle?.image_url?.main"
-                :alt="bundle?.title"
-                class="w-full h-auto object-contain object-center aspect-auto"
-              />
-            </div>
+        <template v-if="isLoading"> <div class="w-full h-72 working-spinner"></div></template>
+        <template v-else-if="isError">
+          <div class="w-full h-72 p-4 flex justify-center items-center">
+            <p>Error loading bundle</p>
           </div>
-          <div v-if="bundle" class="w-full md:w-1/2 p-8">
-            <h3 class="text-theme-teal uppercase">
-              {{ bundle.is_core_bundle ? 'Core ' : '' }}Bundle
-            </h3>
-            <h1>{{ bundle.title }}</h1>
-            <div class="text-theme-darkgray mb-4">Bindle Experts</div>
-            <div v-if="price < priceTotalBooks" class="text-theme-darkgray line-through">
-              &pound;{{ priceTotalBooks }}
+        </template>
+        <template v-else>
+          <div class="flex flex-col md:flex-row gap-4 w-full">
+            <div class="w-full md:w-1/2 p-8 relative">
+              <div class="flex flex-row h-fit sticky top-12 bg-theme-pale w-full py-6">
+                <img
+                  :src="bundle?.image_url?.main"
+                  :alt="bundle?.title"
+                  class="w-full h-auto object-contain object-center aspect-auto"
+                />
+              </div>
             </div>
-            <div class="flex flex-row gap-2 my-4 items-end">
-              <div class="text-3xl font-semibold">&pound;{{ price }}</div>
-              <div v-if="'active_discount' in bundle && bundle.active_discount">
-                <div
-                  class="bg-red-600 text-white px-2 py-1 relative rounded text-xs"
-                  style="top: -6px"
-                >
-                  {{ bundle.active_discount.percentage }}&percnt;
+            <div v-if="bundle" class="w-full md:w-1/2 p-8">
+              <h3 class="text-theme-teal uppercase">
+                {{ bundle.is_core_bundle ? 'Core ' : '' }}Bundle
+              </h3>
+              <h1>{{ bundle.title }}</h1>
+              <div class="text-theme-darkgray mb-4">Bindle Experts</div>
+              <div v-if="price < priceTotalBooks" class="text-theme-darkgray line-through">
+                &pound;{{ priceTotalBooks }}
+              </div>
+              <div class="flex flex-row gap-2 my-4 items-end">
+                <div class="text-3xl font-semibold">&pound;{{ price }}</div>
+                <div v-if="'active_discount' in bundle && bundle.active_discount">
+                  <div
+                    class="bg-red-600 text-white px-2 py-1 relative rounded text-xs"
+                    style="top: -6px"
+                  >
+                    {{ bundle.active_discount.percentage }}&percnt;
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <hr />
-            <div class="flex flex-row gap-4 my-8">
-              <div
-                v-if="bundle.is_ebook"
-                @click="ebookSelected = true"
-                :class="
-                  'format-selector text-center cursor-pointer w-36 border-2 rounded px-8 py-2 ' +
-                  (ebookSelected ? 'selected bg-theme-pale border-theme-teal' : '')
-                "
-              >
-                <div>E-book</div>
-                <div>&pound; {{ Util.toFixedDisplay(bundle.price_ebook, 2) }}</div>
-              </div>
-              <div
-                @click="ebookSelected = false"
-                :class="
-                  'format-selector text-center cursor-pointer w-36 border-2 rounded px-8 py-2 ' +
-                  (ebookSelected ? '' : 'selected bg-theme-pale border-theme-teal')
-                "
-              >
-                <div>Paperback</div>
-                <div>&pound; {{ Util.toFixedDisplay(bundle.price_amount, 2) }}</div>
-              </div>
-            </div>
-            <div v-for="book in bundle?.books || []" :key="book.id" class="my-12">
               <hr />
-              <BundleBook :book="book" :ebookSelected="ebookSelected" />
-            </div>
-
-            <div class="mb-8">
-              <button
-                class="bg-theme-teal w-full rounded"
-                @click="addToBasket()"
-                :disabled="isAddToBasketPending || (!ebookSelected && itemsInStock <= 0)"
-              >
-                <span v-if="!isAddToBasketPending && (ebookSelected || itemsInStock > 0)">
-                  Add to basket - &pound;{{ price }}
-                </span>
-                <span v-if="!isAddToBasketPending && !ebookSelected && itemsInStock <= 0">
-                  Out of stock
-                </span>
-                <span v-if="isAddToBasketPending" class="flex gap-4 justify-center items-center">
-                  <SpinnerIcon class="w-5 h-5 text-white" />
-                  Adding to basket...
-                </span>
-              </button>
-            </div>
-
-            <div class="my-6">
-              <Accordion
-                content-class="text-sm text-theme-darkgray2 mt-2"
-                title-class="linklike"
-                indicator-class="float-right"
-                open
-              >
-                <template #title
-                  ><h3 class="inline-block text-2xl">Product Description</h3></template
+              <div class="flex flex-row gap-4 my-8">
+                <div
+                  v-if="bundle.is_ebook"
+                  @click="ebookSelected = true"
+                  :class="
+                    'format-selector text-center cursor-pointer w-36 border-2 rounded px-8 py-2 ' +
+                    (ebookSelected ? 'selected bg-theme-pale border-theme-teal' : '')
+                  "
                 >
-                <template #indicator><ChevronIcon down class="inline-block" /></template>
-                <div>
-                  {{ bundle.description ?? '' }}
-                  <!-- Currently the bundle descriptions from the database/api are
-                  all null. -->
+                  <div>E-book</div>
+                  <div>&pound; {{ Util.toFixedDisplay(bundle.price_ebook, 2) }}</div>
                 </div>
-              </Accordion>
-            </div>
-
-            <hr />
-
-            <div class="my-6">
-              <Accordion
-                content-class="text-sm text-theme-darkgray2 mt-2"
-                title-class="linklike"
-                indicator-class="float-right"
-              >
-                <template #title
-                  ><h3 class="inline-block text-2xl">Item Specification</h3></template
+                <div
+                  @click="ebookSelected = false"
+                  :class="
+                    'format-selector text-center cursor-pointer w-36 border-2 rounded px-8 py-2 ' +
+                    (ebookSelected ? '' : 'selected bg-theme-pale border-theme-teal')
+                  "
                 >
-                <template #indicator><ChevronIcon down class="inline-block" /></template>
-                <table class="info">
-                  <tr>
-                    <td>Level{{ levels.length > 1 ? 's' : '' }}</td>
-                    <td>{{ levels.join(', ') }}</td>
-                  </tr>
-                  <tr>
-                    <td>Exam Board{{ examboards.length > 1 ? 's' : '' }}</td>
-                    <td>{{ examboards.join(', ') }}</td>
-                  </tr>
-                  <tr>
-                    <td>Subject{{ subjects.length > 1 ? 's' : '' }}</td>
-                    <td>{{ subjects.join(', ') }}</td>
-                  </tr>
-                  <tr>
-                    <td>Type{{ types.length > 1 ? 's' : '' }}</td>
-                    <td>{{ types.join(', ') }}</td>
-                  </tr>
-                </table>
-              </Accordion>
+                  <div>Paperback</div>
+                  <div>&pound; {{ Util.toFixedDisplay(bundle.price_amount, 2) }}</div>
+                </div>
+              </div>
+              <div v-for="book in bundle?.books || []" :key="book.id" class="my-12">
+                <hr />
+                <BundleBook :book="book" :ebookSelected="ebookSelected" />
+              </div>
+
+              <div class="mb-8">
+                <button
+                  class="bg-theme-teal w-full rounded"
+                  @click="addToBasket()"
+                  :disabled="isAddToBasketPending || (!ebookSelected && itemsInStock <= 0)"
+                >
+                  <span v-if="!isAddToBasketPending && (ebookSelected || itemsInStock > 0)">
+                    Add to basket - &pound;{{ price }}
+                  </span>
+                  <span v-if="!isAddToBasketPending && !ebookSelected && itemsInStock <= 0">
+                    Out of stock
+                  </span>
+                  <span v-if="isAddToBasketPending" class="flex gap-4 justify-center items-center">
+                    <SpinnerIcon class="w-5 h-5 text-white" />
+                    Adding to basket...
+                  </span>
+                </button>
+              </div>
+
+              <div class="my-6">
+                <Accordion
+                  content-class="text-sm text-theme-darkgray2 mt-2"
+                  title-class="linklike"
+                  indicator-class="float-right"
+                  open
+                >
+                  <template #title
+                    ><h3 class="inline-block text-2xl">Product Description</h3></template
+                  >
+                  <template #indicator><ChevronIcon down class="inline-block" /></template>
+                  <div>
+                    {{ bundle.description ?? '' }}
+                    <!-- Currently the bundle descriptions from the database/api are
+                  all null. -->
+                  </div>
+                </Accordion>
+              </div>
+
+              <hr />
+
+              <div class="my-6">
+                <Accordion
+                  content-class="text-sm text-theme-darkgray2 mt-2"
+                  title-class="linklike"
+                  indicator-class="float-right"
+                >
+                  <template #title
+                    ><h3 class="inline-block text-2xl">Item Specification</h3></template
+                  >
+                  <template #indicator><ChevronIcon down class="inline-block" /></template>
+                  <table class="info">
+                    <tr>
+                      <td>Level{{ levels.length > 1 ? 's' : '' }}</td>
+                      <td>{{ levels.join(', ') }}</td>
+                    </tr>
+                    <tr>
+                      <td>Exam Board{{ examboards.length > 1 ? 's' : '' }}</td>
+                      <td>{{ examboards.join(', ') }}</td>
+                    </tr>
+                    <tr>
+                      <td>Subject{{ subjects.length > 1 ? 's' : '' }}</td>
+                      <td>{{ subjects.join(', ') }}</td>
+                    </tr>
+                    <tr>
+                      <td>Type{{ types.length > 1 ? 's' : '' }}</td>
+                      <td>{{ types.join(', ') }}</td>
+                    </tr>
+                  </table>
+                </Accordion>
+              </div>
             </div>
           </div>
-        </div>
-        <BundleWhatsInsideSection
-          v-if="bundle"
-          :levels="levels"
-          :examboards="examboards"
-          :subjects="subjects"
-          :books="bundle.books"
-        />
+          <BundleWhatsInsideSection
+            v-if="bundle"
+            :levels="levels"
+            :examboards="examboards"
+            :subjects="subjects"
+            :books="bundle.books"
+          />
+        </template>
+
         <PopularBundlesV2 title="You may also like" />
         <FeaturedBooksV2 title="Recommended Resources" />
       </div>

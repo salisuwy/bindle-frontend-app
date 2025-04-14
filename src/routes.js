@@ -1,5 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router';
+
 import { useBindleApiStore } from '@/store/bindle-api.js';
+
 import { Util } from '@/components/helpers/Util.js';
 
 import IndexV2 from '@/views/index/IndexV2.vue';
@@ -8,11 +10,12 @@ import PrivacyPolicy from '@/views/policies/PrivacyPolicy.vue';
 import TermsAndConditions from '@/views/policies/TermsAndConditions.vue';
 import Resources from '@/views/resources/Resources.vue';
 import SubjectExplore from '@/views/level/SubjectExplore.vue';
-import Book from '@/views/shop/Book.vue';
 import GCSE from '@/views/level/GCSE.vue';
 import ALevel from '@/views/level/ALevel.vue';
 import Bundles from '@/views/bundles/Bundles.vue';
+
 import BundleDetailPage from '@/views/product_details/BundleDetailPage.vue';
+import BookDetailPage from '@/views/product_details/BookDetailPage.vue';
 
 import ExploreBundles from '@/views/bundles/Explore.vue';
 import GenericLevel from '@/views/level/GenericLevel.vue';
@@ -164,6 +167,14 @@ const routes = [
   {
     name: 'book',
     path: '/:level/:subject/:book',
+    component: BookDetailPage,
+    meta: {
+      breadcrumb: (route) => Util.humaniseSnakeCase(route.params.book),
+    },
+  },
+  /*{
+    name: 'book',
+    path: '/:level/:subject/:book',
     component: Book,
     meta: {
       breadcrumb: (route) => Util.humaniseSnakeCase(route.params.book),
@@ -189,7 +200,7 @@ const routes = [
       }
       next();
     },
-  },
+  },*/
   {
     name: 'subject',
     path: '/:level/:subject',

@@ -1,4 +1,4 @@
-import { ref, computed, watch } from 'vue';
+import { ref, computed, watch, toRef } from 'vue';
 import type { Ref } from 'vue';
 
 import { useQuery, useQueryClient } from '@tanstack/vue-query';
@@ -124,7 +124,7 @@ export const useExamboard = (
   product: Ref<{ examboard?: Examboard; examboard_id: number | null } | undefined>
 ) => {
   const { allExamboards } = useExamboards();
-  const level = computed<Level | undefined>(() => {
+  const examboard = computed<Examboard | undefined>(() => {
     if (product.value === undefined) {
       return undefined;
     } else if (product.value.examboard) {
@@ -135,7 +135,7 @@ export const useExamboard = (
       return undefined;
     }
   });
-  return { level };
+  return { examboard };
 };
 
 export const getCategoryById = <T extends Category>(id: number, categories?: T[]): T | undefined =>
@@ -364,7 +364,7 @@ export const isBundle = (product: Book | Bundle): product is Bundle => 'books' i
 export const isBook = (product: Book | Bundle): product is Book => !isBundle(product);
 
 export const useBundle = (slug: Ref<string>) => {
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, isError } = useQuery({
     queryKey: ['bundles', { slug }],
     queryFn: async () => {
       const resp = await apiClient.get<{
@@ -374,7 +374,7 @@ export const useBundle = (slug: Ref<string>) => {
     },
   });
 
-  return { bundle: data, isLoading };
+  return { bundle: data, isLoading, isError };
 };
 
 export const useBundleDetails = (
@@ -447,12 +447,45 @@ export const useBundleDetails = (
   };
 };
 
+export const useBook = (slug: Ref<string> | string) => {
+  const _slug = toRef(slug);
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ['bundles', { slug: _slug }],
+    queryFn: async () => {
+      const resp = await apiClient.get<{
+        data: JoinedBook<{
+          level: Level;
+          subject: Subject;
+          examboard: Examboard;
+          types: ResourceType[];
+        }>;
+      }>(`v2/books/${encodeURI(_slug.value)}?include=subject,level,examboard,types`);
+      return resp.data.data;
+    },
+  });
+
+  return { book: data, isLoading, isError };
+};
+
 export const useBookDetails = (
-  book: Ref<JoinedBook<{ level?: Level; subject?: Subject; types?: ResourceType[] }> | undefined>
+  book: Ref<
+    | JoinedBook<{
+        level?: Level;
+        subject?: Subject;
+        examboard?: Examboard;
+        types?: ResourceType[];
+      }>
+    | undefined
+  >
 ) => {
   const { level } = useLevel(book);
   const { subject } = useSubject(book);
   const { resourceTypes } = useResourceType(book);
+  const { examboard } = useExamboard(book);
+
+  const tags = computed(() =>
+    [level.value, examboard.value, subject.value].filter((t) => t !== undefined)
+  );
 
   const productUrl = computed<string | undefined>(() => {
     if (!level.value || !subject.value || !book.value) {
@@ -472,6 +505,12 @@ export const useBookDetails = (
     }
   });
 
+  const bookImage = computed(() => {
+    return book.value === undefined
+      ? Util.getPlaceholderBookImage(1)
+      : Util.ensureSsl(book.value.image_url);
+  });
+
   const ebookSelected = ref(false);
   watch(book, () => {
     if (book.value) {
@@ -488,5 +527,16 @@ export const useBookDetails = (
     }
   });
 
-  return { level, subject, resourceTypes, productUrl, price, ebookSelected, itemsInStock };
+  return {
+    level,
+    subject,
+    resourceTypes,
+    examboard,
+    tags,
+    productUrl,
+    price,
+    bookImage,
+    ebookSelected,
+    itemsInStock,
+  };
 };
