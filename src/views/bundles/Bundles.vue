@@ -1,25 +1,13 @@
-<script setup>
+<script setup lang="ts">
 import LayoutV2 from '@/views/shared/LayoutV2.vue';
 import Breadcrumbs from '@/components/Breadcrumbs.vue';
-import BestSelling from '@/views/bundles/BestSelling.vue';
 import BenefitsBanner from '@/views/index/BenefitsBanner.vue';
-//import SubjectIconLinks from '@/views/shared/SubjectIconLinks.vue';
 import BundlesBannerV2 from '@/views/index/BundlesBannerV2.vue';
 import BundleTypesV2 from '@/views/index/BundleTypesV2.vue';
-import { onMounted, ref } from 'vue';
-import { useBindleApiStore } from '@/store/bindle-api.js';
-//import ChevronIcon from '@/components/icons/ChevronIcon.vue';
 import PopularBundlesV2 from '@/views/shared/PopularBundlesV2.vue';
-//import RecommendedBundles from '@/views/shared/RecommendedBundles.vue';
-
-const levels = ref([]);
-const bindleApiStore = useBindleApiStore();
-
-onMounted(async () => {
-  await bindleApiStore.getLevels();
-  levels.value = bindleApiStore.levels;
-});
+import ChevronIcon from '@/components/icons/ChevronIcon.vue';
 </script>
+
 <template>
   <LayoutV2>
     <div class="bg-theme-white relative">
@@ -43,8 +31,10 @@ onMounted(async () => {
                 essential study resources to ensure you're well prepared for exam success.
               </div>
               <div class="absolute bottom-6 left-0 right-0 px-6 text-left">
-                <a href="/bundles/explore" class="px-5 py-2.5 bg-white text-black"
-                  >Shop Core Bundles</a
+                <RouterLink
+                  :to="{ name: 'explore-bundles' }"
+                  class="px-5 py-2.5 bg-white text-black"
+                  >Shop Core Bundles</RouterLink
                 >
               </div>
             </div>
@@ -64,8 +54,10 @@ onMounted(async () => {
                 curated collections that does beyond the basics.
               </div>
               <div class="absolute bottom-6 left-0 right-0 px-6 text-left">
-                <a href="/bundles/explore?type=workbook" class="px-5 py-2.5 bg-white text-black"
-                  >Shop Workbook Bundles</a
+                <RouterLink
+                  :to="{ name: 'explore-bundles', query: { type: 'workbook' } }"
+                  class="px-5 py-2.5 bg-white text-black"
+                  >Shop Workbook Bundles</RouterLink
                 >
               </div>
             </div>
@@ -79,7 +71,7 @@ onMounted(async () => {
           <router-link
             :to="{ name: 'explore-resources', query: { level: 'gcse' } }"
             class="text-theme-teal"
-            >Shop all GCSE Bundles <chevron-icon right width="16px" height="16px" class="inline"
+            >Shop all GCSE Bundles <ChevronIcon right width="16px" height="16px" class="inline"
           /></router-link>
         </div>
 
@@ -93,7 +85,7 @@ onMounted(async () => {
             class="text-theme-teal"
           >
             Shop all AS and A level Bundles
-            <chevron-icon right width="16px" height="16px" class="inline"
+            <ChevronIcon right width="16px" height="16px" class="inline"
           /></router-link>
         </div>
 
