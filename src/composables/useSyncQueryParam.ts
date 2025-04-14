@@ -46,6 +46,8 @@ export const useSyncQueryParam = (
   const initialised = ref(false);
   const initialise = async () => {
     if (disable.value) return;
+    console.log('useSyncQueryParam: set initialise to false');
+    initialised.value = false;
     await queryParamUpdateQueue.enqueue(updateFromQueryParam);
     initialised.value = true;
   };

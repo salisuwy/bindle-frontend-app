@@ -18,7 +18,7 @@ export const useSyncRouteParam = (
   const route = useRoute();
 
   const updateFromRouteParam = async () => {
-    console.log('updateFromRouteParam', key, route.params);
+    //console.log('updateFromRouteParam', key, route.params);
     const currentParamVal = route.params[key];
     if (typeof currentParamVal == 'string' && validate(currentParamVal)) {
       paramRef.value = currentParamVal;
@@ -29,13 +29,15 @@ export const useSyncRouteParam = (
   };
 
   const updateFromRef = async () => {
-    console.log('updateFromRef', key, paramRef.value);
+    //console.log('updateFromRef', key, paramRef.value);
     await router.replace({ params: { ...route.params, [key]: paramRef.value } });
   };
 
   const initialised = ref(false);
   const initialise = async () => {
     if (disable.value) return;
+    initialised.value = false;
+    //console.log('useSyncRouteParam: set initialise to false');
     await routeParamUpdateQueue.enqueue(updateFromRouteParam);
     initialised.value = true;
   };
@@ -43,7 +45,7 @@ export const useSyncRouteParam = (
   watch(paramRef, (newVal, oldVal) => {
     if (disable.value) return;
     if (!isEqual(newVal, oldVal)) {
-      console.log('enqueue updateFromRef', key, paramRef.value);
+      //console.log('enqueue updateFromRef', key, paramRef.value);
       routeParamUpdateQueue.enqueue(updateFromRef);
     }
   });
@@ -52,7 +54,7 @@ export const useSyncRouteParam = (
     (newVal, oldVal) => {
       if (disable.value) return;
       if (!isEqual(newVal, oldVal)) {
-        console.log('enqueue updateFromRouteParam', key, route.params[key]);
+        //console.log('enqueue updateFromRouteParam', key, route.params[key]);
         routeParamUpdateQueue.enqueue(updateFromRouteParam);
       }
     }

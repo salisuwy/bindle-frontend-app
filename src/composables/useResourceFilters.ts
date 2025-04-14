@@ -64,7 +64,7 @@ export const useSubjectsFilter = (syncQueryParam: Ref<boolean> | boolean) => {
   };
 
   const initialised = computed(() =>
-    _syncQueryParam.value ? queryParamSync.initialised : routeParamSync.initialised
+    _syncQueryParam.value ? queryParamSync.initialised.value : routeParamSync.initialised.value
   );
 
   watch(
@@ -131,20 +131,6 @@ export const useLevelFilter = (syncQueryParam: Ref<boolean> | boolean) => {
     },
     { immediate: true }
   );
-
-  /*const { initialise, initialised } = useSyncQueryParam('level', selectedSlugs, (val: string) =>
-    (allLevels.value || []).some((n) => n.slug == val)
-  );
-
-  watch(
-    isLoading,
-    () => {
-      if (!isLoading.value) {
-        initialise();
-      }
-    },
-    { immediate: true }
-  );*/
 
   const bookMatchesFilter = (book: Book) =>
     selectedOptions.value.length == 0 || selectedOptions.value.some((o) => o.id == book.level_id);

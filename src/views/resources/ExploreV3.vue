@@ -83,20 +83,26 @@ const filtersLoaded = computed(
 );
 
 const openIfSelected = () => {
-  subjectsOpen.value = subjectSelectedSlugs.value.length > 0;
-  levelsOpen.value = levelSelectedSlugs.value.length > 0;
+  console.log('open if selected');
+  subjectsOpen.value =
+    subjectSelectedSlugs.value.length > 0 || subjectSelectedSlug.value !== undefined;
+  levelsOpen.value = levelSelectedSlugs.value.length > 0 || levelSelectedSlug.value !== undefined;
   formatsOpen.value = formatSelectedSlugs.value.length > 0;
   resourceTypesOpen.value = resourceTypeSelectedSlugs.value.length > 0;
   examboardsOpen.value = examboardSelectedSlugs.value.length > 0;
 };
-const route = useRoute();
-watch(
-  () => route.query,
-  async () => {
-    await nextTick();
+
+watch(filtersLoaded, () => {
+  console.log('filtersLoaded', filtersLoaded.value);
+  if (filtersLoaded.value) {
     openIfSelected();
   }
-);
+});
+/*const route = useRoute();
+watch([() => route.query, () => route.params], async () => {
+  await nextTick();
+  openIfSelected();
+});*/
 
 const resetFilters = () => {
   subjectSelectedSlugs.value = [];
