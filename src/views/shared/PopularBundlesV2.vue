@@ -11,7 +11,7 @@ import { usePopularBundles } from '@/composables/useBindleData';
 interface Props {
   title?: string;
   count: number;
-  levelSlug: string;
+  levelSlug?: string;
 }
 const props = defineProps<Props>();
 

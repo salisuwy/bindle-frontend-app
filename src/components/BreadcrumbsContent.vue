@@ -2,10 +2,18 @@
 import type { RouteRecordName } from 'vue-router';
 
 interface Props {
-  breadcrumbs: { name?: RouteRecordName; text: string; path: string }[];
+  breadcrumbs: { name?: RouteRecordName; text?: string; path: string }[];
   currentPath: string;
 }
 defineProps<Props>();
+
+const formatBreadcrumbText = (text?: string) => {
+  if (text === undefined) {
+    return undefined;
+  } else {
+    return text.length <= 3 ? text.toUpperCase() : text;
+  }
+};
 </script>
 
 <template>
@@ -18,11 +26,9 @@ defineProps<Props>();
       >
         <span v-if="index > 0" class="mr-3">/</span>
         <router-link v-if="breadcrumb.path !== currentPath" :to="breadcrumb.path">{{
-          breadcrumb.text.length <= 3 ? breadcrumb.text.toUpperCase() : breadcrumb.text
+          formatBreadcrumbText(breadcrumb.text)
         }}</router-link>
-        <span v-else class="text-theme-darkgray">{{
-          breadcrumb.text.length <= 3 ? breadcrumb.text.toUpperCase() : breadcrumb.text
-        }}</span>
+        <span v-else class="text-theme-darkgray">{{ formatBreadcrumbText(breadcrumb.text) }}</span>
       </li>
     </ol>
   </nav>

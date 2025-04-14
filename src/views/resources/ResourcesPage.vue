@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import LayoutV2 from '@/views/shared/LayoutV2.vue';
 import PartnersBanner from '@/views/index/PartnersBanner.vue';
 import Breadcrumbs from '@/components/Breadcrumbs.vue';
@@ -8,6 +8,7 @@ import PopularBooksV2 from '@/views/shared/PopularBooksV2.vue';
 import alevelBackground from '/assets/alevel-background.png';
 import gcseBackground from '/assets/gcse-background.png';
 </script>
+
 <template>
   <LayoutV2>
     <div class="w-full bg-theme-verylightteal py-10">

@@ -69,7 +69,7 @@ import ChevronIcon from '@/components/icons/ChevronIcon.vue';
             <h2>Best-Selling GCSE Bundles</h2>
           </div>
           <router-link
-            :to="{ name: 'explore-resources', query: { level: 'gcse' } }"
+            :to="{ name: 'explore-all', query: { level: 'gcse' } }"
             class="text-theme-teal"
             >Shop all GCSE Bundles <ChevronIcon right width="16px" height="16px" class="inline"
           /></router-link>
@@ -81,7 +81,7 @@ import ChevronIcon from '@/components/icons/ChevronIcon.vue';
             <h2>Best-Selling AS and A level Bundles</h2>
           </div>
           <router-link
-            :to="{ name: 'explore-resources', query: { level: 'gcse' } }"
+            :to="{ name: 'explore-all', query: { level: 'gcse' } }"
             class="text-theme-teal"
           >
             Shop all AS and A level Bundles

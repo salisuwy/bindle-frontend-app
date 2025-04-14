@@ -22,7 +22,7 @@ import slide2bg from '/assets/slide2bg.png';
         </p>
         <div class="mt-12">
           <router-link
-            to="/resources/explore?formats=ebook"
+            :to="{ name: 'explore-all', query: { format: 'ebook' } }"
             class="buttonlike cursor-pointer px-12 py-3 rounded-sm"
             >Shop Now</router-link
           >
