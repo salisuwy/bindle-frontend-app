@@ -29,6 +29,8 @@ const {
   examboard,
   resourceTypes,
   price,
+  priceEbook,
+  pricePaperback,
   ebookSelected,
   bookImage,
   itemsInStock,
@@ -151,7 +153,7 @@ const addToBasket = (book: Book) => {
                   "
                 >
                   <div>E-book</div>
-                  <div>&pound; {{ price }}</div>
+                  <div>&pound; {{ priceEbook }}</div>
                 </div>
                 <div
                   @click="ebookSelected = false"
@@ -161,7 +163,7 @@ const addToBasket = (book: Book) => {
                   "
                 >
                   <div>Paperback</div>
-                  <div>&pound; {{ price }}</div>
+                  <div>&pound; {{ pricePaperback }}</div>
                 </div>
               </div>
               <div class="mb-8">

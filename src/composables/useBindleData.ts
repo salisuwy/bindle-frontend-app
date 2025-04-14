@@ -518,13 +518,19 @@ export const useBookDetails = (
     }
   });
 
+  const priceEbook = computed(() =>
+    book.value === undefined ? '' : Util.toFixedDisplay(book.value.price_ebook, 2)
+  );
+
+  const pricePaperback = computed(() =>
+    book.value === undefined ? '' : Util.toFixedDisplay(book.value.price_amount, 2)
+  );
+
   const price = computed<string>(() => {
     if (!book.value) {
       return '';
     } else {
-      return ebookSelected.value
-        ? Util.toFixedDisplay(book.value.price_ebook, 2)
-        : Util.toFixedDisplay(book.value.price_amount, 2);
+      return ebookSelected.value ? priceEbook.value : pricePaperback.value;
     }
   });
 
@@ -558,6 +564,8 @@ export const useBookDetails = (
     tags,
     productUrl,
     price,
+    priceEbook,
+    pricePaperback,
     bookImage,
     ebookSelected,
     itemsInStock,
