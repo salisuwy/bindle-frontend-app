@@ -80,23 +80,6 @@ const filtersLoaded = computed(
     examboardsInitialised.value
 );
 
-const openIfSelected = () => {
-  console.log('open if selected');
-  subjectsOpen.value =
-    subjectSelectedSlugs.value.length > 0 || subjectSelectedSlug.value !== undefined;
-  levelsOpen.value = levelSelectedSlugs.value.length > 0 || levelSelectedSlug.value !== undefined;
-  formatsOpen.value = formatSelectedSlugs.value.length > 0;
-  resourceTypesOpen.value = resourceTypeSelectedSlugs.value.length > 0;
-  examboardsOpen.value = examboardSelectedSlugs.value.length > 0;
-};
-
-watch(filtersLoaded, () => {
-  console.log('filtersLoaded', filtersLoaded.value);
-  if (filtersLoaded.value) {
-    openIfSelected();
-  }
-});
-
 const resetFilters = () => {
   subjectSelectedSlugs.value = [];
   subjectsOpen.value = false;
@@ -167,7 +150,7 @@ watch(
 const pageTitle = computed(() => {
   const suffix = props.mode == 'bundles' ? 'Bundles' : 'Resources';
   return subjectSelectedOptions.value.length == 0
-    ? suffix
+    ? `All ${suffix}`
     : `${subjectSelectedOptions.value[0].name} ${suffix}`;
 });
 
