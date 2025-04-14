@@ -52,7 +52,7 @@ const { isPending, mutate } = useMutation({
     console.log('coupon mutation success', data);
   },
   onSettled: () => {
-    queryClient.invalidateQueries(['cartItems']);
+    queryClient.invalidateQueries({ queryKey: ['cartItems'] });
   },
 });
 </script>

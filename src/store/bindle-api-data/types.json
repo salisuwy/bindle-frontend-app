@@ -1,0 +1,39 @@
+{
+  "data": [
+    {
+      "id": 1,
+      "name": "Textbook",
+      "slug": "textbooks",
+      "description": null
+    },
+    {
+      "id": 2,
+      "name": "Revision",
+      "slug": "revision",
+      "description": null
+    },
+    {
+      "id": 3,
+      "name": "Workbook",
+      "slug": "workbook",
+      "description": "Workbook"
+    }
+  ],
+  "message": "Types were successfully retrieved.",
+  "success": true,
+  "links": {
+    "first": "https:\/\/staging-backend.bindle.co.uk\/api\/types?page=1",
+    "last": "https:\/\/staging-backend.bindle.co.uk\/api\/types?page=1",
+    "prev": null,
+    "next": null
+  },
+  "meta": {
+    "current_page": 1,
+    "from": 1,
+    "last_page": 1,
+    "path": "https:\/\/staging-backend.bindle.co.uk\/api\/types",
+    "per_page": 100,
+    "to": 3,
+    "total": 3
+  }
+}

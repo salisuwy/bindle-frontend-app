@@ -1,60 +1,56 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import { useBindleApiStore } from '@/store/bindle-api.js';
+
 import { Util } from '@/components/helpers/Util.js';
-import Index from '@/views/index/Index.vue';
-import Contact from '@/views/contact/Contact.vue';
-import PrivacyPolicy from '@/views/policies/PrivacyPolicy.vue';
-import TermsAndConditions from '@/views/policies/TermsAndConditions.vue';
-import Resources from '@/views/resources/Resources.vue';
-import SubjectExplore from '@/views/level/SubjectExplore.vue';
-import Book from '@/views/shop/Book.vue';
-import GCSE from '@/views/level/GCSE.vue';
-import ALevel from '@/views/level/ALevel.vue';
-import Bundles from '@/views/bundles/Bundles.vue';
-import Bundle from '@/views/shop/Bundle.vue';
-import ExploreBundles from '@/views/bundles/Explore.vue';
-import GenericLevel from '@/views/level/GenericLevel.vue';
-import Explore from '@/views/resources/Explore.vue';
-import PageNotFound from '@/views/PageNotFound.vue';
-import Tokens from '@/views/Tokens.vue';
-import Test from '@/views/Test.vue';
-import CheckoutV2 from '@/views/shop/CheckoutV2.vue';
-import CheckoutPayment from '@/views/shop/CheckoutPayment.vue';
-import Invoice from '@/views/shop/Invoice.vue';
-import Signup from '@/views/user-profile/Signup.vue';
-import Login from '@/views/user-profile/Login.vue';
-import ForgotPassword from '@/views/user-profile/ForgotPassword.vue';
-import RegisterUser from '@/views/user-profile/RegisterUser.vue';
-import UserProfile from '@/views/user-profile/UserProfile.vue';
-import UserProfileOrders from '@/views/user-profile/UserProfileOrders.vue';
-import UserProfileBuddy from '@/views/user-profile/UserProfileBuddy.vue';
+
+import IndexPage from '@/views/index/IndexPage.vue';
+import ContactPage from '@/views/contact/ContactPage.vue';
+import PrivacyPolicyPage from '@/views/policies/PrivacyPolicyPage.vue';
+import TermsAndConditionsPage from '@/views/policies/TermsAndConditionsPage.vue';
+import ResourcesPage from '@/views/resources/ResourcesPage.vue';
+import GCSEPage from '@/views/level/GCSEPage.vue';
+import ALevelPage from '@/views/level/ALevelPage.vue';
+import BundlesPage from '@/views/bundles/BundlesPage.vue';
+import PageNotFoundPage from '@/views/PageNotFoundPage.vue';
+
+import ExploreResourcesPage from '@/views/resources/ExploreResourcesPage.vue';
+import BundleDetailPage from '@/views/product_details/BundleDetailPage.vue';
+import BookDetailPage from '@/views/product_details/BookDetailPage.vue';
+
+import CheckoutSummaryPage from '@/views/shop/CheckoutSummaryPage.vue';
+import CheckoutPaymentPage from '@/views/shop/CheckoutPaymentPage.vue';
+import InvoicePage from '@/views/shop/InvoicePage.vue';
+
+import SignupPage from '@/views/user-profile/SignupPage.vue';
+import LoginPage from '@/views/user-profile/LoginPage.vue';
+import ForgotPasswordPage from '@/views/user-profile/ForgotPasswordPage.vue';
+import RegisterUserPage from '@/views/user-profile/RegisterUserPage.vue';
+import UserProfilePage from '@/views/user-profile/UserProfilePage.vue';
+import UserProfileOrdersPage from '@/views/user-profile/UserProfileOrdersPage.vue';
+import UserProfileBuddyPage from '@/views/user-profile/UserProfileBuddyPage.vue';
 import UserProfileOrderPage from '@/views/user-profile/UserProfileOrderPage.vue';
-import UserProfileAddresses from '@/views/user-profile/UserProfileAddresses.vue';
+import UserProfileAddressesPage from '@/views/user-profile/UserProfileAddressesPage.vue';
 import UserProfileAddressPage from '@/views/user-profile/UserProfileAddressPage.vue';
-import AuthSuccess from '@/views/AuthSuccess.vue';
+import AuthSuccessPage from '@/views/AuthSuccessPage.vue';
 
 import { useHead } from '@unhead/vue';
 
 const routes = [
-  /*...(import.meta.env['DEV']
-    ? [{ name: 'dev', path: '/dev/address-form', component: AddressFormTest }]
-    : []),*/
   {
     name: 'index',
     path: '/',
-    component: Index,
+    component: IndexPage,
     meta: { breadcrumb: 'Home', title: 'Home' },
   },
   {
     name: 'contact-us',
     path: '/contact-us',
-    component: Contact,
+    component: ContactPage,
     meta: { breadcrumb: 'Contact Us', title: 'Contact Us' },
   },
   {
     name: 'privacy-policy',
     path: '/privacy-policy',
-    component: PrivacyPolicy,
+    component: PrivacyPolicyPage,
     meta: {
       breadcrumb: 'Privacy Policy',
       title: 'Privacy Policy',
@@ -63,80 +59,28 @@ const routes = [
   {
     name: 'terms-and-conditions',
     path: '/terms-and-conditions',
-    component: TermsAndConditions,
+    component: TermsAndConditionsPage,
     meta: { breadcrumb: 'Terms and Conditions', title: 'Terms and Conditions' },
-  },
-  {
-    name: 'explore-resources',
-    path: '/resources/explore',
-    component: Explore,
-    meta: { breadcrumb: 'Explore' },
   },
   {
     name: 'resources',
     path: '/resources',
-    component: Resources,
+    component: ResourcesPage,
     meta: { breadcrumb: 'Resources', title: 'Resources' },
   },
   {
     name: 'bundles',
     path: '/bundles',
-    component: Bundles,
+    component: BundlesPage,
     meta: {
       breadcrumb: 'Bundles',
       title: 'Bundles',
     },
   },
   {
-    name: 'explore-bundles',
-    path: '/bundles/explore',
-    component: ExploreBundles,
-    meta: {
-      breadcrumb: 'ExploreBundles',
-    },
-  },
-  {
-    name: 'bundle',
-    path: '/bundles/:bundle',
-    component: Bundle,
-    meta: {
-      breadcrumb: (route) => Util.humaniseSnakeCase(route.params.bundle),
-    },
-  },
-  // {
-  //   name: "checkout",
-  //   path: "/checkout",
-  //   component: Checkout,
-  //   meta: { breadcrumb: "Checkout", title: "Checkout" },
-  // },
-  {
-    name: 'checkout',
-    path: '/checkout',
-    component: CheckoutV2,
-    meta: { breadcrumb: 'Checkout', title: 'Checkout' },
-  },
-  /*{
-    name: 'checkout-address',
-    path: '/checkout-address',
-    component: CheckoutAddress,
-    meta: { breadcrumb: 'Checkout', title: 'Checkout Address' },
-  },*/
-  {
-    name: 'checkout-payment',
-    path: '/checkout-payment',
-    component: CheckoutPayment,
-    meta: { breadcrumb: 'Checkout', title: 'Checkout Payment' },
-  },
-  {
-    name: 'invoice',
-    path: '/invoice/:anonId/:orderId',
-    component: Invoice,
-    meta: { breadcrumb: 'Invoice', title: 'Invoice' },
-  },
-  {
     name: 'gcse',
     path: '/gcse',
-    component: GCSE,
+    component: GCSEPage,
     meta: {
       breadcrumb: 'GCSE',
       title: 'GCSE',
@@ -145,119 +89,106 @@ const routes = [
   {
     name: 'a-level',
     path: '/a-level',
-    component: ALevel,
+    component: ALevelPage,
     meta: {
       breadcrumb: 'A-Level',
       title: 'A-Level',
     },
   },
+  // --------------- Product listing pages ---------------
+  {
+    name: 'explore-all',
+    path: '/resources/explore',
+    component: ExploreResourcesPage,
+    meta: { breadcrumb: 'Explore' },
+    props: { mode: 'all' },
+  },
+  {
+    name: 'explore-bundles',
+    path: '/bundles/explore',
+    component: ExploreResourcesPage,
+    meta: {
+      breadcrumb: 'ExploreBundles',
+    },
+    props: { mode: 'bundles' },
+  },
+  {
+    name: 'explore-level-subject',
+    path: '/:level/:subject',
+    component: ExploreResourcesPage,
+    meta: {
+      breadcrumb: (route) => Util.humaniseSnakeCase(route.params.subject),
+    },
+    props: { mode: 'level-subject' },
+  },
+  // --------------- Product detail pages ---------------
+  {
+    name: 'bundle',
+    path: '/bundles/:bundle',
+    component: BundleDetailPage,
+    meta: {
+      breadcrumb: (route) => Util.humaniseSnakeCase(route.params.bundle),
+    },
+  },
   {
     name: 'book',
     path: '/:level/:subject/:book',
-    component: Book,
+    component: BookDetailPage,
     meta: {
       breadcrumb: (route) => Util.humaniseSnakeCase(route.params.book),
     },
-    beforeEnter: async (to, from, next) => {
-      const bindleStore = useBindleApiStore();
-      await bindleStore.getLevels();
-      await bindleStore.getSubjects();
-      await bindleStore.getBooks();
-      if (!Object.values(bindleStore.levels).some((level) => level['slug'] === to.params.level)) {
-        bindleStore.routingFailed = true;
-      }
-      if (
-        to.params.subject !== 'mixed' &&
-        !Object.values(bindleStore.subjects).some(
-          (subject) => subject['slug'] === to.params.subject
-        )
-      ) {
-        bindleStore.routingFailed = true;
-      }
-      if (!Object.values(bindleStore.books).some((book) => book['slug'] === to.params.book)) {
-        bindleStore.routingFailed = true;
-      }
-      next();
-    },
+  },
+
+  // -------------------- Checkout ----------------------
+  {
+    name: 'checkout',
+    path: '/checkout',
+    component: CheckoutSummaryPage,
+    meta: { breadcrumb: 'Checkout', title: 'Checkout' },
   },
   {
-    name: 'subject',
-    path: '/:level/:subject',
-    component: SubjectExplore,
-    meta: {
-      breadcrumb: (route) => Util.humaniseSnakeCase(route.params.subject),
-      preventScrollBehaviour: (to, from, savedPosition) => to.name === from.name,
-    },
-    beforeEnter: async (to, from, next) => {
-      const bindleStore = useBindleApiStore();
-      await bindleStore.getLevels();
-      await bindleStore.getSubjects();
-      if (
-        !Object.values(bindleStore.levels).some((level) => level['slug'] === to.params.level) ||
-        !Object.values(bindleStore.subjects).some(
-          (subject) => subject['slug'] === to.params.subject
-        )
-      ) {
-        useBindleApiStore().routingFailed = true;
-      }
-      next();
-    },
+    name: 'checkout-payment',
+    path: '/checkout-payment',
+    component: CheckoutPaymentPage,
+    meta: { breadcrumb: 'Checkout', title: 'Checkout Payment' },
   },
   {
-    name: 'tokens',
-    path: '/tokens',
-    component: Tokens,
+    name: 'invoice',
+    path: '/invoice/:anonId/:orderId',
+    component: InvoicePage,
+    meta: { breadcrumb: 'Invoice', title: 'Invoice' },
   },
-  {
-    name: 'test',
-    path: '/test',
-    component: Test,
-  },
-  {
-    name: 'generic-level',
-    path: '/:level',
-    component: GenericLevel,
-    meta: {
-      breadcrumb: (route) => Util.humaniseSnakeCase(route.params.level),
-      title: 'Generic Level',
-    },
-    beforeEnter: async (to, from, next) => {
-      const bindleStore = useBindleApiStore();
-      await bindleStore.getLevels();
-      if (!Object.values(bindleStore.levels).some((level) => level['slug'] === to.params.level)) {
-        useBindleApiStore().routingFailed = true;
-      }
-    },
-  },
+
+  // -------------------- User profile ----------------------
   {
     name: 'user-profile-signup',
     path: '/signup',
-    component: Signup,
+    component: SignupPage,
   },
   {
     name: 'user-profile-login',
     path: '/login',
-    component: Login,
+    component: LoginPage,
   },
   {
     name: 'user-profile-forgot-password',
     path: '/forgot-password',
-    component: ForgotPassword,
+    component: ForgotPasswordPage,
   },
   {
     name: 'user-register',
     path: '/register-user',
-    component: RegisterUser,
+    component: RegisterUserPage,
   },
   {
     name: 'user-profile',
     path: '/user/:userId',
-    component: UserProfile,
+    component: UserProfilePage,
   },
   {
     name: 'user-profile-orders',
     path: '/user/:userId/orders',
-    component: UserProfileOrders,
+    component: UserProfileOrdersPage,
   },
   {
     name: 'user-profile-orders-page',
@@ -267,12 +198,12 @@ const routes = [
   {
     name: 'user-profile-buddy',
     path: '/user/:userId/buddy',
-    component: UserProfileBuddy,
+    component: UserProfileBuddyPage,
   },
   {
     name: 'user-profile-addresses',
     path: '/user/:userId/addresses',
-    component: UserProfileAddresses,
+    component: UserProfileAddressesPage,
   },
   {
     name: 'user-profile-address-page',
@@ -282,12 +213,12 @@ const routes = [
   {
     path: '/auth/success',
     name: 'auth-success',
-    component: AuthSuccess,
+    component: AuthSuccessPage,
   },
   {
     name: 'page-not-found',
     path: '/:pathMatch(.*)*',
-    component: PageNotFound,
+    component: PageNotFoundPage,
     meta: {
       title: 'Page Not Found',
     },
@@ -312,11 +243,6 @@ const router = createRouter({
       return { top: 0 };
     }
   },
-});
-
-router.beforeEach((to, from, next) => {
-  useBindleApiStore().routingFailed = false;
-  next();
 });
 
 router.afterEach((to) => {
