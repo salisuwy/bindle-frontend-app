@@ -209,7 +209,7 @@ export const useResourceTypeFilter = (bundleOnly: Ref<boolean>) => {
   );
 
   watch(
-    isLoading,
+    [isLoading, bundleOnly],
     () => {
       if (!isLoading.value) {
         initialise();
