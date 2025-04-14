@@ -2,12 +2,12 @@
 import { VueQueryDevtools } from '@tanstack/vue-query-devtools';
 import { event } from 'vue-gtag';
 
-import { useBooks, useBundles } from '@/composables/useBindleData';
+//import { useBooks, useBundles } from '@/composables/useBindleData';
 
 event('Salisu - Trigger Event', { method: 'Google' });
 
-useBooks();
-useBundles();
+//useBooks();
+//useBundles();
 </script>
 <template>
   <RouterView></RouterView>

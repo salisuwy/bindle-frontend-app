@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, watch, ref, nextTick } from 'vue';
+import { computed, watch, ref, onMounted } from 'vue';
 
 import Accordion from '@/components/Accordion.vue';
 import ChevronIcon from '@/components/icons/ChevronIcon.vue';
@@ -12,8 +12,8 @@ interface Props {
   open?: boolean;
   options?: FilterOption[];
   modelValue?: string;
-  initialised?: boolean;
   showAll?: boolean;
+  initialised?: boolean;
 }
 const props = defineProps<Props>();
 
@@ -35,16 +35,19 @@ watch(
   () => (isOpen.value = !!props.open)
 );
 watch(isOpen, () => emit('update:open', isOpen.value));
-watch(
-  () => props.initialised,
-  async () => {
-    if (props.initialised && props.modelValue) {
-      await nextTick();
-      isOpen.value = true;
-    }
-  },
-  { immediate: true }
-);
+
+const openIfSelected = () => {
+  if (!props.initialised) return;
+  if (props.modelValue === undefined) {
+    isOpen.value = false;
+  } else {
+    isOpen.value = true;
+  }
+};
+onMounted(openIfSelected);
+watch([() => props.modelValue, () => props.initialised], () => {
+  openIfSelected();
+});
 </script>
 
 <template>
