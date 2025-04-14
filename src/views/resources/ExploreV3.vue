@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { ref, computed, watch, nextTick } from 'vue';
+import { ref, computed, watch, nextTick, toRef } from 'vue';
 
 import ExploreLayout from './ExploreLayout.vue';
 import Pagination from '@/components/Pagination.vue';
 import ExploreSingleFilter from './ExploreSingleFilter.vue';
+import ExploreSingleFilterV2 from './ExploreSingleFilterV2.vue';
 import ExploreMultiFilter from './ExploreMultiFilter.vue';
 
 import { useBooks, useBundles } from '@/composables/useBindleData';
@@ -20,14 +21,29 @@ import {
 } from '@/composables/useResourceFilters';
 import { useRoute } from 'vue-router';
 
+interface Props {
+  exploreMode: boolean;
+}
+const props = defineProps<Props>();
+
 const {
   options: subjectOptions,
   selectedSlugs: subjectSelectedSlugs,
+  singleSelectedSlug: subjectSelectedSlug,
   selectedOptions: subjectSelectedOptions,
   bookMatchesFilter: subjectFilter,
   initialised: subjectsInitialised,
-} = useSubjectsFilter();
+} = useSubjectsFilter(toRef(props, 'exploreMode'));
 const subjectsOpen = ref(false);
+
+const {
+  options: levelOptions,
+  selectedSlugs: levelSelectedSlugs,
+  singleSelectedSlug: levelSelectedSlug,
+  bookMatchesFilter: levelFilter,
+  initialised: levelsInitialised,
+} = useLevelFilter(toRef(props, 'exploreMode'));
+const levelsOpen = ref(false);
 
 const {
   options: formatOptions,
@@ -37,14 +53,6 @@ const {
   initialised: formatsInitialised,
 } = useFormatFilter();
 const formatsOpen = ref(false);
-
-const {
-  options: levelOptions,
-  selectedSlugs: levelSelectedSlugs,
-  bookMatchesFilter: levelFilter,
-  initialised: levelsInitialised,
-} = useLevelFilter();
-const levelsOpen = ref(false);
 
 const {
   options: resourceTypeOptions,
@@ -177,33 +185,39 @@ const scrollToTop = () => {
     :products="products"
   >
     <template #filters>
-      <div class="quick-select hidden md:block">
-        <h3 class="md:text-sm lg:text-base">BROWSE ALL RESOURCES BY</h3>
-        <div
-          @click="quickfilter({ subjects: [], levels: ['gcse'] })"
-          class="cursor-pointer linklike"
-        >
-          GCSEs
+      <template v-if="exploreMode">
+        <div class="quick-select hidden md:block">
+          <h3 class="md:text-sm lg:text-base">BROWSE ALL RESOURCES BY</h3>
+          <div
+            @click="quickfilter({ subjects: [], levels: ['gcse'] })"
+            class="cursor-pointer linklike"
+          >
+            GCSEs
+          </div>
+          <div
+            @click="quickfilter({ subjects: [], levels: ['a-level'] })"
+            class="cursor-pointer linklike"
+          >
+            A-Levels
+          </div>
         </div>
-        <div
-          @click="quickfilter({ subjects: [], levels: ['a-level'] })"
-          class="cursor-pointer linklike"
-        >
-          A-Levels
-        </div>
-      </div>
 
-      <hr class="hidden md:block mb-2" />
-      <ExploreSingleFilter
+        <hr class="hidden md:block mb-2" />
+      </template>
+
+      <ExploreSingleFilterV2
         title="EXAM SUBJECT"
+        name="subject"
+        :showAll="exploreMode"
         :options="subjectOptions"
-        v-model="subjectSelectedSlugs"
+        v-model="subjectSelectedSlug"
         v-model:open="subjectsOpen"
         :initialised="filtersLoaded"
       />
       <hr class="mb-2" />
       <ExploreMultiFilter
         title="RESOURCE FORMAT"
+        name="format"
         :options="formatOptions"
         v-model="formatSelectedSlugs"
         v-model:open="formatsOpen"
@@ -211,15 +225,27 @@ const scrollToTop = () => {
       />
       <hr class="mb-2" />
       <ExploreMultiFilter
+        v-if="exploreMode"
         title="QUALIFICATION LEVEL"
+        name="level"
         :options="levelOptions"
         v-model="levelSelectedSlugs"
+        v-model:open="levelsOpen"
+        :initialised="filtersLoaded"
+      />
+      <ExploreSingleFilterV2
+        v-else
+        title="QUALIFICATION LEVEL"
+        name="level"
+        :options="levelOptions"
+        v-model="levelSelectedSlug"
         v-model:open="levelsOpen"
         :initialised="filtersLoaded"
       />
       <hr class="mb-2" />
       <ExploreMultiFilter
         title="RESOURCE TYPE"
+        name="type"
         :options="resourceTypeOptions"
         v-model="resourceTypeSelectedSlugs"
         v-model:open="resourceTypesOpen"
@@ -228,6 +254,7 @@ const scrollToTop = () => {
       <hr class="mb-2" />
       <ExploreMultiFilter
         title="EXAMBOARD"
+        name="examboard"
         :options="examboardOptions"
         v-model="examboardSelectedSlugs"
         v-model:open="examboardsOpen"

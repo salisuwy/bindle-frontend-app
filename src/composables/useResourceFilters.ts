@@ -2,10 +2,11 @@ import { ref, computed, watch, onMounted, toRef } from 'vue';
 import type { Ref } from 'vue';
 
 import { useSubjects, useLevels, useResourceTypes, useExamboards } from './useBindleData';
-import { useSyncQueryParam } from './useQueryParams';
+import { useSyncQueryParam } from './useSyncQueryParam';
 import type { Book, Bundle, ResourceType } from './useBindleData';
 
 import { useRoute } from 'vue-router';
+import { useSyncRouteParam } from './useSyncRouteParam';
 
 export type FilterOption = { id: number; slug: string; name: string };
 
@@ -15,27 +16,62 @@ export const useFilter = (options: Ref<FilterOption[] | undefined>) => {
 
   const selectedSlugs = ref<string[]>([]);
 
+  const singleSelectedSlug = computed<string | undefined>({
+    get: () => selectedSlugs.value[0],
+    set: (slug: string | undefined) => {
+      if (slug) {
+        selectedSlugs.value = [slug];
+      } else {
+        selectedSlugs.value = [];
+      }
+    },
+  });
+
   const selectedOptions = computed(() =>
     selectedSlugs.value.flatMap((slug) => {
       const option = getSelectedOption(slug);
       return option ? [option] : [];
     })
   );
-  return { selectedSlugs, selectedOptions };
+  return { selectedSlugs, singleSelectedSlug, selectedOptions };
 };
 
-export const useSubjectsFilter = () => {
+export const useSubjectsFilter = (syncQueryParam: Ref<boolean> | boolean) => {
   const { navSubjects, isLoading } = useSubjects();
-  const { selectedSlugs, selectedOptions } = useFilter(navSubjects);
-  const { initialise, initialised } = useSyncQueryParam('subject', selectedSlugs, (val: string) =>
-    (navSubjects.value || []).some((n) => n.slug == val)
+  const { selectedSlugs, singleSelectedSlug, selectedOptions } = useFilter(navSubjects);
+
+  const _syncQueryParam = toRef(syncQueryParam);
+
+  const queryParamSync = useSyncQueryParam(
+    'subject',
+    selectedSlugs,
+    (val: string) => (navSubjects.value || []).some((n) => n.slug == val),
+    computed(() => !_syncQueryParam.value)
+  );
+  const routeParamSync = useSyncRouteParam(
+    'subject',
+    singleSelectedSlug,
+    (val: string) => (navSubjects.value || []).some((n) => n.slug == val),
+    _syncQueryParam
+  );
+
+  const initialiseSync = () => {
+    if (_syncQueryParam.value) {
+      queryParamSync.initialise();
+    } else {
+      routeParamSync.initialise();
+    }
+  };
+
+  const initialised = computed(() =>
+    _syncQueryParam.value ? queryParamSync.initialised : routeParamSync.initialised
   );
 
   watch(
-    isLoading,
+    [isLoading, _syncQueryParam],
     () => {
       if (!isLoading.value) {
-        initialise();
+        initialiseSync();
       }
     },
     { immediate: true }
@@ -47,6 +83,76 @@ export const useSubjectsFilter = () => {
   return {
     options: navSubjects,
     selectedSlugs,
+    singleSelectedSlug,
+    selectedOptions,
+    bookMatchesFilter,
+    initialised,
+  };
+};
+
+export const useLevelFilter = (syncQueryParam: Ref<boolean> | boolean) => {
+  const { allLevels, isLoading } = useLevels();
+
+  const { selectedSlugs, singleSelectedSlug, selectedOptions } = useFilter(allLevels);
+
+  const _syncQueryParam = toRef(syncQueryParam);
+
+  const queryParamSync = useSyncQueryParam(
+    'level',
+    selectedSlugs,
+    (val: string) => (allLevels.value || []).some((n) => n.slug == val),
+    computed(() => !_syncQueryParam.value)
+  );
+  const routeParamSync = useSyncRouteParam(
+    'level',
+    singleSelectedSlug,
+    (val: string) => (allLevels.value || []).some((n) => n.slug == val),
+    _syncQueryParam
+  );
+
+  const initialiseSync = () => {
+    if (_syncQueryParam.value) {
+      queryParamSync.initialise();
+    } else {
+      routeParamSync.initialise();
+    }
+  };
+
+  const initialised = computed(() =>
+    _syncQueryParam.value ? queryParamSync.initialised : routeParamSync.initialised
+  );
+
+  watch(
+    [isLoading, _syncQueryParam],
+    () => {
+      if (!isLoading.value) {
+        initialiseSync();
+      }
+    },
+    { immediate: true }
+  );
+
+  /*const { initialise, initialised } = useSyncQueryParam('level', selectedSlugs, (val: string) =>
+    (allLevels.value || []).some((n) => n.slug == val)
+  );
+
+  watch(
+    isLoading,
+    () => {
+      if (!isLoading.value) {
+        initialise();
+      }
+    },
+    { immediate: true }
+  );*/
+
+  const bookMatchesFilter = (book: Book) =>
+    selectedOptions.value.length == 0 || selectedOptions.value.some((o) => o.id == book.level_id);
+
+  return {
+    options: allLevels,
+    selectedSlugs,
+    singleSelectedSlug,
     selectedOptions,
     bookMatchesFilter,
     initialised,
@@ -87,30 +193,6 @@ export const useFormatFilter = () => {
     bundleMatchesFilter: productMatchesFilter,
     initialised,
   };
-};
-
-export const useLevelFilter = () => {
-  const { allLevels, isLoading } = useLevels();
-
-  const { selectedSlugs, selectedOptions } = useFilter(allLevels);
-  const { initialise, initialised } = useSyncQueryParam('level', selectedSlugs, (val: string) =>
-    (allLevels.value || []).some((n) => n.slug == val)
-  );
-
-  watch(
-    isLoading,
-    () => {
-      if (!isLoading.value) {
-        initialise();
-      }
-    },
-    { immediate: true }
-  );
-
-  const bookMatchesFilter = (book: Book) =>
-    selectedOptions.value.length == 0 || selectedOptions.value.some((o) => o.id == book.level_id);
-
-  return { options: allLevels, selectedSlugs, selectedOptions, bookMatchesFilter, initialised };
 };
 
 export const useResourceTypeFilter = () => {

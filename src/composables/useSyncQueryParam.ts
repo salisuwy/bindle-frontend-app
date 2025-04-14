@@ -11,7 +11,8 @@ const queryParamUpdateQueue = new AsyncQueue();
 export const useSyncQueryParam = (
   key: string,
   paramRef: Ref<string[] | undefined>,
-  validate: (val: string) => boolean
+  validate: (val: string) => boolean,
+  disable = ref(false)
 ) => {
   const router = useRouter();
   const route = useRoute();
@@ -44,11 +45,13 @@ export const useSyncQueryParam = (
 
   const initialised = ref(false);
   const initialise = async () => {
+    if (disable.value) return;
     await queryParamUpdateQueue.enqueue(updateFromQueryParam);
     initialised.value = true;
   };
 
   watch(paramRef, (newVal, oldVal) => {
+    if (disable.value) return;
     if (!isEqual(newVal, oldVal)) {
       queryParamUpdateQueue.enqueue(updateFromRef);
     }
@@ -56,6 +59,7 @@ export const useSyncQueryParam = (
   watch(
     () => route.query[key],
     (newVal, oldVal) => {
+      if (disable.value) return;
       if (!isEqual(newVal, oldVal)) {
         queryParamUpdateQueue.enqueue(updateFromQueryParam);
       }

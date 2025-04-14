@@ -76,6 +76,7 @@ const routes = [
     path: '/resources/explore',
     component: ExploreV3,
     meta: { breadcrumb: 'Explore' },
+    props: { exploreMode: true },
   },
   {
     name: 'resources',
@@ -175,6 +176,15 @@ const routes = [
   {
     name: 'subject',
     path: '/:level/:subject',
+    component: ExploreV3,
+    meta: {
+      breadcrumb: (route) => Util.humaniseSnakeCase(route.params.subject),
+    },
+    props: { exploreMode: false },
+  },
+  /*{
+    name: 'subject',
+    path: '/:level/:subject',
     component: SubjectExplore,
     meta: {
       breadcrumb: (route) => Util.humaniseSnakeCase(route.params.subject),
@@ -194,7 +204,7 @@ const routes = [
       }
       next();
     },
-  },
+  },*/
   {
     name: 'tokens',
     path: '/tokens',
