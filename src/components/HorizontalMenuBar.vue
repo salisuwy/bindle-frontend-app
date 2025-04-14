@@ -294,7 +294,7 @@ input[name='menuradios'] {
   opacity:50%;
 }
  */
-.menubar ::v-deep(a.active) {
+.menubar ::v-deep(a.active:not(.no-active-highlight)) {
   color: var(--active-colour);
 }
 </style>

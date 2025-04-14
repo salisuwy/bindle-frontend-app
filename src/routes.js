@@ -172,35 +172,6 @@ const routes = [
       breadcrumb: (route) => Util.humaniseSnakeCase(route.params.book),
     },
   },
-  /*{
-    name: 'book',
-    path: '/:level/:subject/:book',
-    component: Book,
-    meta: {
-      breadcrumb: (route) => Util.humaniseSnakeCase(route.params.book),
-    },
-    beforeEnter: async (to, from, next) => {
-      const bindleStore = useBindleApiStore();
-      await bindleStore.getLevels();
-      await bindleStore.getSubjects();
-      await bindleStore.getBooks();
-      if (!Object.values(bindleStore.levels).some((level) => level['slug'] === to.params.level)) {
-        bindleStore.routingFailed = true;
-      }
-      if (
-        to.params.subject !== 'mixed' &&
-        !Object.values(bindleStore.subjects).some(
-          (subject) => subject['slug'] === to.params.subject
-        )
-      ) {
-        bindleStore.routingFailed = true;
-      }
-      if (!Object.values(bindleStore.books).some((book) => book['slug'] === to.params.book)) {
-        bindleStore.routingFailed = true;
-      }
-      next();
-    },
-  },*/
   {
     name: 'subject',
     path: '/:level/:subject',

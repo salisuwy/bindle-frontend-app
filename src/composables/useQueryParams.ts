@@ -19,13 +19,16 @@ export const useSyncQueryParam = (
   const updateFromQueryParam = async () => {
     const currentParamVal = route.query[key];
     //console.log('updateFromQueryParam', key, 'existing query = ', route.query);
-    //console.log('updateFromQueryParam', key, currentParamVal);
+    //console.log('updateFromQueryParam (currentParamValue)', key, currentParamVal);
+    //console.log('updateFromQueryParam (paramRef)', paramRef.value);
     if (typeof currentParamVal == 'string') {
       const validParamVals = currentParamVal.split(',').filter(validate);
       if (validParamVals.length > 0) {
         paramRef.value = validParamVals;
         return;
       }
+    } else {
+      paramRef.value = [];
     }
     await router.replace({ query: { ...route.query, [key]: undefined } });
     //console.log('updateFromQueryParam', key, 'new query = ', route.query);

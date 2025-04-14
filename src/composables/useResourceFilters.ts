@@ -271,8 +271,11 @@ export const usePaginatedProducts = (
         return pageIndex.value > 1 ? [String(pageIndex.value)] : [];
       },
       set: (paramVal?: string[]) => {
-        const parsedVal = parseInt(paramVal ? paramVal[0] : '1');
-        pageIndex.value = parsedVal;
+        if (paramVal && paramVal.length == 1) {
+          pageIndex.value = parseInt(paramVal[0]) || 1;
+        } else {
+          pageIndex.value = 1;
+        }
       },
     }),
     (pageParam: string) => {

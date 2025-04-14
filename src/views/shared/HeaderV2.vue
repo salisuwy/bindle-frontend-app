@@ -15,8 +15,6 @@ import SlideIn from '@/components/SlideIn.vue';
 import CloseIcon from '@/components/icons/CloseIcon.vue';
 import Cart from '@/views/shop/Cart.vue';
 
-//import { useQuery } from '@tanstack/vue-query';
-//import { getOrderCart } from '@/store/cart-api';
 import { trackEvent } from '../../components/helpers/analytics';
 import { useAuthStore } from '@/store/useAuthStore';
 
@@ -207,7 +205,7 @@ const handleUserAction = (action) => {
                 v-for="(subject, index) in navSubjects"
                 :key="index"
                 :to="'/resources/explore?subject=' + subject.slug"
-                class="md:w-1/2 xl:w-1/3"
+                class="md:w-1/2 xl:w-1/3 no-active-highlight"
               >
                 {{ subject.name }}
               </router-link>
@@ -228,6 +226,7 @@ const handleUserAction = (action) => {
                 :to="'/resources/explore?type=' + type.slug"
                 v-for="type in allResourceTypes"
                 :key="type.id"
+                class="no-active-highlight"
                 >{{ type.name }}</router-link
               >
             </div>

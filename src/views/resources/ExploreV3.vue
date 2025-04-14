@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, computed, watch } from 'vue';
+import { ref, computed, watch, nextTick } from 'vue';
 
 import ExploreLayout from './ExploreLayout.vue';
 import Pagination from '@/components/Pagination.vue';
@@ -18,6 +18,7 @@ import {
   usePaginatedProducts,
   useTitleFilter,
 } from '@/composables/useResourceFilters';
+import { useRoute } from 'vue-router';
 
 const {
   options: subjectOptions,
@@ -71,6 +72,22 @@ const filtersLoaded = computed(
     levelsInitialised.value &&
     resourceTypesInitialised.value &&
     examboardsInitialised.value
+);
+
+const openIfSelected = () => {
+  subjectsOpen.value = subjectSelectedSlugs.value.length > 0;
+  levelsOpen.value = levelSelectedSlugs.value.length > 0;
+  formatsOpen.value = formatSelectedSlugs.value.length > 0;
+  resourceTypesOpen.value = resourceTypeSelectedSlugs.value.length > 0;
+  examboardsOpen.value = examboardSelectedSlugs.value.length > 0;
+};
+const route = useRoute();
+watch(
+  () => route.query,
+  async () => {
+    await nextTick();
+    openIfSelected();
+  }
 );
 
 const resetFilters = () => {
