@@ -181,7 +181,7 @@ export const useFormatFilter = () => {
   };
 };
 
-export const useResourceTypeFilter = () => {
+export const useResourceTypeFilter = (bundleOnly: Ref<boolean>) => {
   const { allResourceTypes, isLoading } = useResourceTypes();
 
   const extendedResourceTypes = computed(() => {
@@ -190,11 +190,15 @@ export const useResourceTypeFilter = () => {
     } else {
       return [
         ...allResourceTypes.value,
-        {
-          id: 999999,
-          slug: 'bundle',
-          name: 'Bundle',
-        } as ResourceType,
+        ...(bundleOnly.value
+          ? []
+          : [
+              {
+                id: 999999,
+                slug: 'bundle',
+                name: 'Bundle',
+              } as ResourceType,
+            ]),
       ];
     }
   });
@@ -215,7 +219,8 @@ export const useResourceTypeFilter = () => {
   );
 
   const isBundleOnly = computed(
-    () => selectedSlugs.value.length == 1 && selectedSlugs.value[0] == 'bundle'
+    () =>
+      bundleOnly.value || (selectedSlugs.value.length == 1 && selectedSlugs.value[0] == 'bundle')
   );
 
   const bookMatchesFilter = (book: Book) =>

@@ -9,7 +9,7 @@ import Contact from '@/views/contact/Contact.vue';
 import PrivacyPolicy from '@/views/policies/PrivacyPolicy.vue';
 import TermsAndConditions from '@/views/policies/TermsAndConditions.vue';
 import Resources from '@/views/resources/Resources.vue';
-import SubjectExplore from '@/views/level/SubjectExplore.vue';
+//import SubjectExplore from '@/views/level/SubjectExplore.vue';
 import GCSE from '@/views/level/GCSE.vue';
 import ALevel from '@/views/level/ALevel.vue';
 import Bundles from '@/views/bundles/Bundles.vue';
@@ -18,7 +18,7 @@ import BundleDetailPage from '@/views/product_details/BundleDetailPage.vue';
 import BookDetailPage from '@/views/product_details/BookDetailPage.vue';
 
 import ExploreBundles from '@/views/bundles/Explore.vue';
-import GenericLevel from '@/views/level/GenericLevel.vue';
+//import GenericLevel from '@/views/level/GenericLevel.vue';
 import ExploreV3 from '@/views/resources/ExploreV3.vue';
 import PageNotFound from '@/views/PageNotFound.vue';
 import Tokens from '@/views/Tokens.vue';
@@ -76,8 +76,18 @@ const routes = [
     path: '/resources/explore',
     component: ExploreV3,
     meta: { breadcrumb: 'Explore' },
-    props: { exploreMode: true },
+    props: { mode: 'all' },
   },
+  {
+    name: 'explore-bundles',
+    path: '/bundles/explore',
+    component: ExploreV3,
+    meta: {
+      breadcrumb: 'ExploreBundles',
+    },
+    props: { mode: 'bundles' },
+  },
+
   {
     name: 'resources',
     path: '/resources',
@@ -93,22 +103,7 @@ const routes = [
       title: 'Bundles',
     },
   },
-  {
-    name: 'explore-bundles',
-    path: '/bundles/explore',
-    component: ExploreBundles,
-    meta: {
-      breadcrumb: 'ExploreBundles',
-    },
-  },
-  /*{
-    name: 'bundle',
-    path: '/bundles/:bundle',
-    component: Bundle,
-    meta: {
-      breadcrumb: (route) => Util.humaniseSnakeCase(route.params.bundle),
-    },
-  },*/
+
   {
     name: 'bundle',
     path: '/bundles/:bundle',
@@ -117,24 +112,12 @@ const routes = [
       breadcrumb: (route) => Util.humaniseSnakeCase(route.params.bundle),
     },
   },
-  // {
-  //   name: "checkout",
-  //   path: "/checkout",
-  //   component: Checkout,
-  //   meta: { breadcrumb: "Checkout", title: "Checkout" },
-  // },
   {
     name: 'checkout',
     path: '/checkout',
     component: CheckoutSummary,
     meta: { breadcrumb: 'Checkout', title: 'Checkout' },
   },
-  /*{
-    name: 'checkout-address',
-    path: '/checkout-address',
-    component: CheckoutAddress,
-    meta: { breadcrumb: 'Checkout', title: 'Checkout Address' },
-  },*/
   {
     name: 'checkout-payment',
     path: '/checkout-payment',
@@ -180,7 +163,7 @@ const routes = [
     meta: {
       breadcrumb: (route) => Util.humaniseSnakeCase(route.params.subject),
     },
-    props: { exploreMode: false },
+    props: { mode: 'level-subject' },
   },
   /*{
     name: 'subject',
@@ -215,7 +198,7 @@ const routes = [
     path: '/test',
     component: Test,
   },
-  {
+  /*{
     name: 'generic-level',
     path: '/:level',
     component: GenericLevel,
@@ -230,7 +213,7 @@ const routes = [
         useBindleApiStore().routingFailed = true;
       }
     },
-  },
+  },*/
   {
     name: 'user-profile-signup',
     path: '/signup',

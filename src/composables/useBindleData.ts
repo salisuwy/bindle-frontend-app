@@ -215,7 +215,7 @@ export type JoinedBundle<
   Joins extends Record<string, Level[] | Examboard[] | Subject[] | ResourceType[]>,
 > = Bundle & Joins;
 
-export const usePopularBooks = (nBooks: 4) => {
+export const usePopularBooks = (nBooks: number) => {
   console.log('usePopularBooks() called');
 
   const { data } = useQuery({
@@ -235,8 +235,13 @@ export const usePopularBooks = (nBooks: 4) => {
   return { books };
 };
 
-export const usePopularBundles = (nBundles: 4) => {
+export const usePopularBundles = (
+  nBundles: number,
+  levelSlug?: Ref<string | undefined> | string | undefined
+) => {
   console.log('usePopularBundles() called');
+
+  const _levelSlug = toRef(levelSlug);
 
   const { data } = useQuery({
     queryKey: ['bundles', 'popular', nBundles],
@@ -250,7 +255,25 @@ export const usePopularBundles = (nBundles: 4) => {
     },
   });
 
-  const bundles = computed(() => Object.values(data.value || {}));
+  const { bundles: allBundles } = useBundles();
+  const { allLevels } = useLevels();
+
+  const bundles = computed(() => {
+    if (_levelSlug.value === undefined) {
+      return Object.values(data.value || {});
+    }
+
+    // Currently the v2 api does not allow filtering by level, so we have to fetch all
+    // bundles to perform the filter.
+    const level = allLevels.value?.find((c) => c.slug == _levelSlug.value);
+    if (level !== undefined) {
+      return allBundles.value
+        .filter((bundle) => bundle.books.some((b) => b.level_id == level.id))
+        .sort((a, b) => b.view_count - a.view_count)
+        .slice(0, nBundles);
+    }
+    return [];
+  });
   return { bundles };
 };
 

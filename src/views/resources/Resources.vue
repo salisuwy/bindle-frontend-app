@@ -2,8 +2,6 @@
 import LayoutV2 from '@/views/shared/LayoutV2.vue';
 import PartnersBanner from '@/views/index/PartnersBanner.vue';
 import Breadcrumbs from '@/components/Breadcrumbs.vue';
-import SubjectIconLinks from '@/views/shared/SubjectIconLinks.vue';
-import ChevronIcon from '@/components/icons/ChevronIcon.vue';
 import PopularBundlesV2 from '@/views/shared/PopularBundlesV2.vue';
 import BundlesBannerV2 from '@/views/index/BundlesBannerV2.vue';
 import PopularBooksV2 from '@/views/shared/PopularBooksV2.vue';
@@ -43,15 +41,6 @@ import gcseBackground from '/assets/gcse-background.png';
         </div>
       </div>
     </div>
-    <!--    <div class="bg-theme-light">-->
-    <!--      <div class="max-w-8xl mx-auto flex flex-col py-10">-->
-    <!--        <div class="flex flex-row px-4">-->
-    <!--          <h3 class="grow text-4xl text-center sm:text-left">Shop Resource by subject</h3>-->
-    <!--          <router-link to="/resources/all" class="text-theme-teal underline hidden sm:block">Shop all subjects <chevron-icon width="12" height="12" right class="inline" /> </router-link>-->
-    <!--        </div>-->
-    <!--        <subject-icon-links slug="/resources/explore" />-->
-    <!--      </div>-->
-    <!--    </div>-->
     <PopularBundlesV2 :count="8" />
     <BundlesBannerV2 />
     <PopularBooksV2 :count="8" />

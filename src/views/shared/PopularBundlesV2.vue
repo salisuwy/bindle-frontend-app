@@ -1,5 +1,5 @@
-<script setup>
-import { computed, ref } from 'vue';
+<script setup lang="ts">
+import { computed, ref, toRef } from 'vue';
 
 import { Carousel, Slide } from 'vue3-carousel';
 import BundleV2 from '@/views/shared/BundleV2.vue';
@@ -8,13 +8,12 @@ import CarouselNav from './CarouselNav.vue';
 
 import { usePopularBundles } from '@/composables/useBindleData';
 
-const props = defineProps({
-  title: { type: String, default: 'Popular Bundles' },
-  count: { type: Number, default: 8 },
-  level_id: { type: String, default: null },
-  subject_id: { type: String, default: null },
-  use_carousel: { type: Boolean, default: true },
-});
+interface Props {
+  title?: string;
+  count: number;
+  levelSlug: string;
+}
+const props = defineProps<Props>();
 
 const carouselRef = ref();
 const currentSlide = ref(0);
@@ -22,7 +21,7 @@ const currentSlide = ref(0);
 const nextSlide = () => carouselRef.value.next();
 const prevSlide = () => carouselRef.value.prev();
 
-const { bundles } = usePopularBundles(props.count);
+const { bundles } = usePopularBundles(props.count, toRef(props, 'levelSlug'));
 
 const { width } = useWindowSize();
 
@@ -41,9 +40,8 @@ const itemsToShow = computed(() => {
 
 <template>
   <div class="py-4 max-w-8xl mx-auto" v-if="bundles.length > 0">
-    <h2 class="text-4xl my-4 max-w-8xl mx-auto">{{ props.title }}</h2>
+    <h2 v-if="title" class="text-4xl my-4 max-w-8xl mx-auto">{{ title }}</h2>
     <carousel
-      v-if="props.use_carousel"
       class="py-2"
       ref="carouselRef"
       v-model="currentSlide"

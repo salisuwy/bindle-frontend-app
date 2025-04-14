@@ -9,7 +9,8 @@ import BundleTypesV2 from '@/views/index/BundleTypesV2.vue';
 import { onMounted, ref } from 'vue';
 import { useBindleApiStore } from '@/store/bindle-api.js';
 //import ChevronIcon from '@/components/icons/ChevronIcon.vue';
-import RecommendedBundles from '@/views/shared/RecommendedBundles.vue';
+import PopularBundlesV2 from '@/views/shared/PopularBundlesV2.vue';
+//import RecommendedBundles from '@/views/shared/RecommendedBundles.vue';
 
 const levels = ref([]);
 const bindleApiStore = useBindleApiStore();
@@ -63,9 +64,7 @@ onMounted(async () => {
                 curated collections that does beyond the basics.
               </div>
               <div class="absolute bottom-6 left-0 right-0 px-6 text-left">
-                <a
-                  href="/bundles/explore?subject=all&type=workbook"
-                  class="px-5 py-2.5 bg-white text-black"
+                <a href="/bundles/explore?type=workbook" class="px-5 py-2.5 bg-white text-black"
                   >Shop Workbook Bundles</a
                 >
               </div>
@@ -73,17 +72,32 @@ onMounted(async () => {
           </div>
         </div>
         <benefits-banner />
-        <best-selling v-for="level in levels" :level="level" />
-      </div>
-      <!--            <div class="bg-theme-light py-10">-->
-      <!--                <div class="mx-10 flex flex-row">-->
-      <!--                    <div class="text-left flex-1"><h2>Shop bundles by subject</h2></div>-->
-      <!--                    <router-link class="text-theme-teal" to="/bundles/explore">Shop all bundles <chevron-icon right width="16px" height="16px" class="inline" /></router-link>-->
-      <!--                </div>-->
-      <!--                <subject-icon-links slug="/bundles/explore"/>-->
-      <!--            </div>-->
-      <div class="mt-10 mb-2">
-        <recommended-bundles />
+        <div class="mt-10 flex flex-row mx-4">
+          <div class="text-left flex-1">
+            <h2>Best-Selling GCSE Bundles</h2>
+          </div>
+          <router-link
+            :to="{ name: 'explore-resources', query: { level: 'gcse' } }"
+            class="text-theme-teal"
+            >Shop all GCSE Bundles <chevron-icon right width="16px" height="16px" class="inline"
+          /></router-link>
+        </div>
+
+        <PopularBundlesV2 class="pt-0" :count="10" levelSlug="gcse" />
+        <div class="mt-10 flex flex-row mx-4">
+          <div class="text-left flex-1">
+            <h2>Best-Selling AS and A level Bundles</h2>
+          </div>
+          <router-link
+            :to="{ name: 'explore-resources', query: { level: 'gcse' } }"
+            class="text-theme-teal"
+          >
+            Shop all AS and A level Bundles
+            <chevron-icon right width="16px" height="16px" class="inline"
+          /></router-link>
+        </div>
+
+        <PopularBundlesV2 :count="10" levelSlug="a-level" />
       </div>
       <BundlesBannerV2 />
       <BundleTypesV2 />

@@ -1,9 +1,8 @@
 <script setup>
 import LayoutV2 from '@/views/shared/LayoutV2.vue';
 import Breadcrumbs from '@/components/Breadcrumbs.vue';
-import RecommendedBundles from '@/views/shared/RecommendedBundles.vue';
-//import PopularProducts from '@/views/shared/PopularProducts.vue';
-import SubjectGrid from '@/views/shared/SubjectGrid.vue';
+import PopularBundlesV2 from '@/views/shared/PopularBundlesV2.vue';
+import SubjectGridV2 from '@/views/shared/SubjectGridV2.vue';
 </script>
 <template>
   <LayoutV2>
@@ -16,9 +15,8 @@ import SubjectGrid from '@/views/shared/SubjectGrid.vue';
         </div>
       </div>
       <div class="bg-theme-white py-10">
-        <subject-grid stub="a-level" />
-        <recommended-bundles />
-        <!-- <popular-products/> -->
+        <SubjectGridV2 stub="a-level" />
+        <PopularBundlesV2 title="Popular Bundles" :count="6" levelSlug="a-level" />
       </div>
     </div>
   </LayoutV2>

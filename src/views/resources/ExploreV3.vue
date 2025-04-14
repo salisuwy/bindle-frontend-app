@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import { ref, computed, watch, nextTick, toRef } from 'vue';
+import { ref, computed, watch } from 'vue';
 
 import ExploreLayout from './ExploreLayout.vue';
 import Pagination from '@/components/Pagination.vue';
-import ExploreSingleFilter from './ExploreSingleFilter.vue';
 import ExploreSingleFilterV2 from './ExploreSingleFilterV2.vue';
 import ExploreMultiFilter from './ExploreMultiFilter.vue';
 
@@ -19,10 +18,9 @@ import {
   usePaginatedProducts,
   useTitleFilter,
 } from '@/composables/useResourceFilters';
-import { useRoute } from 'vue-router';
 
 interface Props {
-  exploreMode: boolean;
+  mode: 'all' | 'level-subject' | 'bundles';
 }
 const props = defineProps<Props>();
 
@@ -33,7 +31,7 @@ const {
   selectedOptions: subjectSelectedOptions,
   bookMatchesFilter: subjectFilter,
   initialised: subjectsInitialised,
-} = useSubjectsFilter(toRef(props, 'exploreMode'));
+} = useSubjectsFilter(computed(() => ['all', 'bundles'].includes(props.mode)));
 const subjectsOpen = ref(false);
 
 const {
@@ -42,7 +40,7 @@ const {
   singleSelectedSlug: levelSelectedSlug,
   bookMatchesFilter: levelFilter,
   initialised: levelsInitialised,
-} = useLevelFilter(toRef(props, 'exploreMode'));
+} = useLevelFilter(computed(() => ['all', 'bundles'].includes(props.mode)));
 const levelsOpen = ref(false);
 
 const {
@@ -60,7 +58,7 @@ const {
   bookMatchesFilter: resourceTypeFilter,
   isBundleOnly,
   initialised: resourceTypesInitialised,
-} = useResourceTypeFilter();
+} = useResourceTypeFilter(computed(() => props.mode == 'bundles'));
 const resourceTypesOpen = ref(false);
 
 const {
@@ -98,11 +96,6 @@ watch(filtersLoaded, () => {
     openIfSelected();
   }
 });
-/*const route = useRoute();
-watch([() => route.query, () => route.params], async () => {
-  await nextTick();
-  openIfSelected();
-});*/
 
 const resetFilters = () => {
   subjectSelectedSlugs.value = [];
@@ -171,11 +164,12 @@ watch(
   }
 );
 
-const pageTitle = computed(() =>
-  subjectSelectedOptions.value.length == 0
-    ? 'Resources'
-    : `${subjectSelectedOptions.value[0].name} Resources`
-);
+const pageTitle = computed(() => {
+  const suffix = props.mode == 'bundles' ? 'Bundles' : 'Resources';
+  return subjectSelectedOptions.value.length == 0
+    ? suffix
+    : `${subjectSelectedOptions.value[0].name} ${suffix}`;
+});
 
 const scrollToTop = () => {
   setTimeout(() => {
@@ -191,7 +185,7 @@ const scrollToTop = () => {
     :products="products"
   >
     <template #filters>
-      <template v-if="exploreMode">
+      <template v-if="['all', 'bundles'].includes(mode)">
         <div class="quick-select hidden md:block">
           <h3 class="md:text-sm lg:text-base">BROWSE ALL RESOURCES BY</h3>
           <div
@@ -214,7 +208,7 @@ const scrollToTop = () => {
       <ExploreSingleFilterV2
         title="EXAM SUBJECT"
         name="subject"
-        :showAll="exploreMode"
+        :showAll="['all', 'bundles'].includes(mode)"
         :options="subjectOptions"
         v-model="subjectSelectedSlug"
         v-model:open="subjectsOpen"
@@ -231,7 +225,7 @@ const scrollToTop = () => {
       />
       <hr class="mb-2" />
       <ExploreMultiFilter
-        v-if="exploreMode"
+        v-if="['all', 'bundles'].includes(mode)"
         title="QUALIFICATION LEVEL"
         name="level"
         :options="levelOptions"
