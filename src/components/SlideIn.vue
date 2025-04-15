@@ -33,7 +33,6 @@ onMounted(() => {
     throw 'SlideIn : please provide a single direction only';
   }
   if (props.trigger) {
-    //console.log('trigger!')
     open.value = true;
   }
 });

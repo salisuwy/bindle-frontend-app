@@ -18,6 +18,7 @@ import { addToCart, setUuid, getOrderCart } from '@/store/cart-api';
 import SpinnerIcon from '../../components/icons/SpinnerIcon.vue';
 import AddToCartErrorNotification from './components/AddToCartErrorNotification.vue';
 import { useHead } from '@unhead/vue';
+import { consoleLog } from '@/components/helpers/tsUtils';
 
 const queryClient = useQueryClient();
 
@@ -81,14 +82,14 @@ const getTypesList = computed(() => {
 const { isPending, mutate } = useMutation({
   mutationFn: addToCart,
   onMutate: () => {
-    console.log('mutating');
+    consoleLog('mutating');
   },
   onError: (error) => {
     console.error('mutation error', error);
     toast(AddToCartErrorNotification);
   },
   onSuccess: ({ data }) => {
-    console.log('mutation success', data);
+    consoleLog('mutation success', data);
     setUuid(data?.order?.uuid);
     toast(AddToCartNotification);
   },
@@ -142,7 +143,7 @@ onMounted(async () => {
 
   // Track page view
   // TODO: Add subject, level and examboard
-  // console.log(">>> BOOK: ", book.value);
+  // consoleLog(">>> BOOK: ", book.value);
   trackEvent('viewContent', {
     item_id: book.value?.id,
     item_type: 'book',

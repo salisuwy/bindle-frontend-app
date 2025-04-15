@@ -5,6 +5,7 @@ import axios from 'axios';
 import { useRouter } from 'vue-router';
 import { useLocalStorage } from '@/store/useLocalStorage';
 import { useAuthStore } from '@/store/useAuthStore';
+import { consoleLog } from '@/components/helpers/tsUtils';
 
 const API_ENDPOINT = import.meta.env.VITE_API_ENDPOINT || 'https://service.bindle.co.uk/api/';
 
@@ -57,7 +58,7 @@ export const useCoursesStore = defineStore('courses', () => {
         },
       })
       .then((data, status) => {
-        console.log('Attached data', data);
+        consoleLog('Attached data', data);
       })
       .catch((error) => {
         console.error('Error fetching courses:', error);

@@ -5,6 +5,7 @@ import Accordion from '@/components/Accordion.vue';
 import ChevronIcon from '@/components/icons/ChevronIcon.vue';
 
 import type { FilterOption } from '@/composables/useResourceFilters';
+import { consoleLog } from '@/components/helpers/tsUtils';
 
 interface Props {
   title: string;
@@ -23,7 +24,7 @@ const emit = defineEmits<{
 const innerModel = computed({
   get: () => props.modelValue && props.modelValue[0],
   set: (val?: string) => {
-    console.log('innerModel.set', val);
+    consoleLog('innerModel.set', val);
     emit('update:modelValue', val ? [val] : []);
   },
 });

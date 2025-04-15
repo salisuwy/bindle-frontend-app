@@ -5,6 +5,7 @@ import { useRouter, useRoute } from 'vue-router';
 import { AsyncQueue } from '@/components/helpers/AsyncQueue';
 
 import { isEqual } from 'lodash-es';
+import { consoleLog } from '@/components/helpers/tsUtils';
 
 const queryParamUpdateQueue = new AsyncQueue();
 
@@ -19,9 +20,9 @@ export const useSyncQueryParam = (
 
   const updateFromQueryParam = async () => {
     const currentParamVal = route.query[key];
-    //console.log('updateFromQueryParam', key, 'existing query = ', route.query);
-    //console.log('updateFromQueryParam (currentParamValue)', key, currentParamVal);
-    //console.log('updateFromQueryParam (paramRef)', paramRef.value);
+    //consoleLog('updateFromQueryParam', key, 'existing query = ', route.query);
+    //consoleLog('updateFromQueryParam (currentParamValue)', key, currentParamVal);
+    //consoleLog('updateFromQueryParam (paramRef)', paramRef.value);
     if (typeof currentParamVal == 'string') {
       const validParamVals = currentParamVal.split(',').filter(validate);
       if (validParamVals.length > 0) {
@@ -32,21 +33,21 @@ export const useSyncQueryParam = (
       paramRef.value = [];
     }
     await router.replace({ query: { ...route.query, [key]: undefined } });
-    //console.log('updateFromQueryParam', key, 'new query = ', route.query);
+    //consoleLog('updateFromQueryParam', key, 'new query = ', route.query);
   };
 
   const updateFromRef = async () => {
-    //console.log('updateFromRef', key, 'existing query = ', route.query);
-    //console.log('updateFromRef', key, paramRef.value);
+    //consoleLog('updateFromRef', key, 'existing query = ', route.query);
+    //consoleLog('updateFromRef', key, paramRef.value);
 
     await router.replace({ query: { ...route.query, [key]: paramRef.value?.join(',') } });
-    //console.log('updateFromRef', key, 'new query = ', route.query);
+    //consoleLog('updateFromRef', key, 'new query = ', route.query);
   };
 
   const initialised = ref(false);
   const initialise = async () => {
     if (disable.value) return;
-    console.log('useSyncQueryParam: set initialise to false');
+    consoleLog('useSyncQueryParam: set initialise to false');
     initialised.value = false;
     await queryParamUpdateQueue.enqueue(updateFromQueryParam);
     initialised.value = true;

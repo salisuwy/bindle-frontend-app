@@ -4,6 +4,7 @@ import { computed, reactive, onBeforeMount } from 'vue';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
 import { useLocalStorage } from '@/store/useLocalStorage';
+import { consoleLog } from '@/components/helpers/tsUtils';
 
 const API_ENDPOINT = import.meta.env.VITE_API_ENDPOINT || 'https://service.bindle.co.uk/api/';
 
@@ -78,7 +79,7 @@ export const useAuthStore = defineStore('auth', () => {
         state.error = null;
       })
       .catch((error, status) => {
-        console.log('Error', error);
+        consoleLog('Error', error);
         state.isLoading = false;
         state.isError = true;
         const errorsList = error.response.data.errors;
@@ -103,7 +104,7 @@ export const useAuthStore = defineStore('auth', () => {
         state.error = null;
       })
       .catch((error, status) => {
-        console.log('Error', error);
+        consoleLog('Error', error);
         state.isLoading = false;
         state.isError = true;
         state.error = error.response.data.message;
@@ -147,7 +148,7 @@ export const useAuthStore = defineStore('auth', () => {
         state.error = null;
       })
       .catch((error) => {
-        console.log('Error', error);
+        consoleLog('Error', error);
         state.isLoading = false;
         state.isError = true;
         const message = error.response.data.message;
@@ -158,13 +159,13 @@ export const useAuthStore = defineStore('auth', () => {
 
   const signupWithGoogle = async (params) => {
     return axios.get(`${API_ENDPOINT}auth/google/redirect`).then((data) => {
-      console.log('signupWithGoogle', data.data);
+      consoleLog('signupWithGoogle', data.data);
       return data.data.url;
     });
   };
 
   const getProfile = async (params) => {
-    console.log('getProfile', accessToken.value);
+    consoleLog('getProfile', accessToken.value);
     await axios
       .get(`${API_ENDPOINT}profile/me`, {
         headers: {
@@ -185,7 +186,7 @@ export const useAuthStore = defineStore('auth', () => {
   };
 
   const updateUser = async (params) => {
-    console.log('updateUser', params);
+    consoleLog('updateUser', params);
     state.updateUserError = null;
     state.updateUserLoading = true;
     await axios
@@ -196,7 +197,7 @@ export const useAuthStore = defineStore('auth', () => {
         },
       })
       .then((data, status) => {
-        console.log('updateUser then', data, status);
+        consoleLog('updateUser then', data, status);
         state.user = data.data.user;
         setStorage('auth/user', JSON.stringify(state.user));
         state.updateUserLoading = false;
@@ -209,7 +210,7 @@ export const useAuthStore = defineStore('auth', () => {
   };
 
   const changePassword = async (params) => {
-    console.log('changePassword', params);
+    consoleLog('changePassword', params);
     state.changePasswordError = null;
     state.changePasswordLoading = true;
     await axios
@@ -220,14 +221,14 @@ export const useAuthStore = defineStore('auth', () => {
         },
       })
       .then((data) => {
-        console.log('changePassword', data);
+        consoleLog('changePassword', data);
         state.token = data.data.token;
         setStorage('auth/token', JSON.stringify(state.token));
         state.changePasswordLoading = false;
       })
       .catch((error) => {
         state.changePasswordLoading = false;
-        console.log('changePassword error', error);
+        consoleLog('changePassword error', error);
         const message = error.response.data.message;
         const errorsList = error.response.data.errors;
         state.changePasswordError = message ? message : errorsList[Object.keys(errorsList)[0]][0];
@@ -258,7 +259,7 @@ export const useAuthStore = defineStore('auth', () => {
       })
       .catch((error) => {
         state.deleteUserLoading = false;
-        console.log('deleteUser error', error);
+        consoleLog('deleteUser error', error);
         state.deleteUserError = error.response.data.error;
       });
   };
@@ -274,12 +275,12 @@ export const useAuthStore = defineStore('auth', () => {
         },
       })
       .then((data) => {
-        console.log('fetchAllOrders', data);
+        consoleLog('fetchAllOrders', data);
         state.allOrders = data.data.data;
         state.allOrdersLoading = false;
       })
       .catch((error) => {
-        console.log('fetchAllOrders', error);
+        consoleLog('fetchAllOrders', error);
         state.allOrdersLoading = false;
         state.allOrdersError = error.response.data.error;
       });
@@ -295,12 +296,12 @@ export const useAuthStore = defineStore('auth', () => {
         },
       })
       .then((data) => {
-        console.log('fetchOrderById', data);
+        consoleLog('fetchOrderById', data);
         state.currentOrder = data.data;
         state.currentOrderLoading = false;
       })
       .catch((error) => {
-        console.log('fetchOrderById', error);
+        consoleLog('fetchOrderById', error);
         state.currentOrderLoading = false;
         state.currentOrderError = error.response.data.error;
       });
@@ -315,16 +316,16 @@ export const useAuthStore = defineStore('auth', () => {
         },
       })
       .then((data) => {
-        console.log('fetchOrderInvoiceById', data);
+        consoleLog('fetchOrderInvoiceById', data);
         state.currentOrderInvoice = data.data.url;
       })
       .catch((error) => {
-        console.log('fetchOrderInvoiceById', error);
+        consoleLog('fetchOrderInvoiceById', error);
       });
   };
 
   const resetCurrentOrder = () => {
-    console.log('resetCurrentOrder', state);
+    consoleLog('resetCurrentOrder', state);
     state.currentOrder = null;
     state.currentOrderLoading = false;
     state.currentOrderError = null;
@@ -340,19 +341,19 @@ export const useAuthStore = defineStore('auth', () => {
         },
       })
       .then((data) => {
-        console.log('fetchAddresses', data.data);
+        consoleLog('fetchAddresses', data.data);
         state.allAddresses = data.data;
         state.allAddressesLoading = false;
       })
       .catch((error) => {
         state.allAddressesLoading = false;
-        console.log('fetchAddresses', error);
+        consoleLog('fetchAddresses', error);
         state.allAddressesError = error.response.data.error;
       });
   };
 
   const setDefaultAddress = (params) => {
-    console.log('setDefaultAddress', params);
+    consoleLog('setDefaultAddress', params);
     axios
       .patch(`${API_ENDPOINT}profile/addresses/${params.id}/set-default`, params.params, {
         headers: {
@@ -361,14 +362,14 @@ export const useAuthStore = defineStore('auth', () => {
         },
       })
       .then((data) => {
-        console.log('fetchAddresses', data.data);
+        consoleLog('fetchAddresses', data.data);
         fetchAddresses();
       })
       .catch((error) => {});
   };
 
   // const removeDefaultAddress = (params) => {
-  //   console.log("removeDefaultAddress", params);
+  //   consoleLog("removeDefaultAddress", params);
   //   axios
   //     .patch(
   //       `${API_ENDPOINT}profile/addresses/${params.id}/set-default`,
@@ -381,7 +382,7 @@ export const useAuthStore = defineStore('auth', () => {
   //       }
   //     )
   //     .then((data) => {
-  //       console.log("fetchAddresses", data.data);
+  //       consoleLog("fetchAddresses", data.data);
   //       fetchAddresses();
   //     })
   //     .catch((error) => {});
@@ -417,14 +418,14 @@ export const useAuthStore = defineStore('auth', () => {
         },
       })
       .then((data) => {
-        console.log('createAddress', data.data);
+        consoleLog('createAddress', data.data);
         router.push(`/user/${state.user.id}/addresses`);
         state.currentAddress = null;
         state.createAddressLoading = false;
       })
       .catch((error) => {
-        console.log(error);
-        console.log('createAddress', error.response.data.error);
+        consoleLog(error);
+        consoleLog('createAddress', error.response.data.error);
         state.createAddressError = error.response.data.error;
         state.createAddressLoading = false;
       });
@@ -440,14 +441,14 @@ export const useAuthStore = defineStore('auth', () => {
         },
       })
       .then((data) => {
-        console.log('updateAddress', data.data);
+        consoleLog('updateAddress', data.data);
         router.push(`/user/${state.user.id}/addresses`);
         state.currentAddress = null;
         state.updateAddressLoading = false;
       })
       .catch((error) => {
-        console.log(error);
-        console.log('updateAddress', error.response.data.error);
+        consoleLog(error);
+        consoleLog('updateAddress', error.response.data.error);
         state.updateAddressError = error.response.data.error;
         state.updateAddressLoading = false;
       });
@@ -463,13 +464,13 @@ export const useAuthStore = defineStore('auth', () => {
         },
       })
       .then((data) => {
-        console.log('deleteAddress', data.data);
+        consoleLog('deleteAddress', data.data);
         state.deleteAddressLoading = false;
         fetchAddresses();
       })
       .catch((error) => {
-        console.log(error);
-        console.log('deleteAddress', error.response.data.error);
+        consoleLog(error);
+        consoleLog('deleteAddress', error.response.data.error);
         state.deleteAddressError = error.response.data.error;
         state.deleteAddressLoading = false;
       });

@@ -25,6 +25,7 @@ import { useHead } from '@unhead/vue';
 import { toast } from 'vue3-toastify';
 import { useMutation, useQueryClient } from '@tanstack/vue-query';
 import { addToCart, setUuid } from '@/store/cart-api';
+import { consoleLog } from '@/components/helpers/tsUtils';
 
 const route = useRoute();
 const { bundle, isError, isLoading } = useBundle(computed(() => route.params['bundle'] as string));
@@ -48,14 +49,14 @@ const queryClient = useQueryClient();
 const { isPending: isAddToBasketPending, mutate } = useMutation({
   mutationFn: addToCart,
   onMutate: () => {
-    console.log('mutating');
+    consoleLog('mutating');
   },
   onError: (error) => {
     console.error('mutation error', error);
     toast(AddToCartErrorNotification);
   },
   onSuccess: ({ data }) => {
-    console.log('mutation success', data);
+    consoleLog('mutation success', data);
     setUuid(data?.order?.uuid);
     toast(AddToCartNotification);
   },

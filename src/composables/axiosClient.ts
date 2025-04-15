@@ -22,7 +22,6 @@ apiClient.interceptors.request.use((config) => {
       if (token) {
         customConfig.headers = customConfig.headers || {};
         customConfig.headers['Authorization'] = `Bearer ${token}`;
-        //console.log('added ', token, 'to headers for request', config);
       }
     } catch {
       return customConfig;

@@ -270,6 +270,7 @@ import UserProfileTabLayout from '@/views/shared/UserProfileTabLayout.vue';
 
 import { useAuthStore } from '@/store/useAuthStore';
 import { watch } from 'vue';
+import { consoleLog } from '@/components/helpers/tsUtils';
 
 const router = useRouter();
 const route = useRoute();
@@ -401,9 +402,9 @@ onBeforeMount(() => {
 });
 
 onMounted(() => {
-  console.log('onMounted UserProfile', route.params.userId);
+  consoleLog('onMounted UserProfile', route.params.userId);
   if (route.params.userId === 'undefined') {
-    console.log('onMounted UserProfile inside if', route.params.userId);
+    consoleLog('onMounted UserProfile inside if', route.params.userId);
     router.push(`/user/${authStore.user.id}`);
   }
 

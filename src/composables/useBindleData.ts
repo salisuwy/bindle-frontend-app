@@ -6,6 +6,7 @@ import { useQuery, useQueryClient } from '@tanstack/vue-query';
 import { apiClient } from './axiosClient';
 import { Util } from '@/components/helpers/Util.js';
 import { keyBy } from 'lodash-es';
+import { consoleLog } from '@/components/helpers/tsUtils';
 
 const useCategoryQuery = <T>(key: string, endpoint: string) => {
   return useQuery<T[]>({
@@ -216,13 +217,13 @@ export type JoinedBundle<
 > = Bundle & Joins;
 
 export const usePopularBooks = (nBooks: number) => {
-  console.log('usePopularBooks() called');
+  consoleLog('usePopularBooks() called');
 
   const { data } = useQuery({
     queryKey: ['books', 'popular', nBooks],
     staleTime: 1 * 60 * 60 * 1000,
     queryFn: async () => {
-      console.log('usePopularBooks: queryFn called');
+      consoleLog('usePopularBooks: queryFn called');
       const resp = await apiClient.get<{
         data: JoinedBook<{ level: Level; subject: Subject; types: ResourceType[] }>[];
       }>(`v2/books?per_page=${nBooks}&sort=-view_count&include=level,subject,types`);
@@ -239,7 +240,7 @@ export const usePopularBundles = (
   nBundles: number,
   levelSlug?: Ref<string | undefined> | string | undefined
 ) => {
-  console.log('usePopularBundles() called');
+  consoleLog('usePopularBundles() called');
 
   const _levelSlug = toRef(levelSlug);
 
@@ -247,7 +248,7 @@ export const usePopularBundles = (
     queryKey: ['bundles', 'popular', nBundles],
     staleTime: 1 * 60 * 60 * 1000,
     queryFn: async () => {
-      console.log('usePopularBundles: queryFn called');
+      consoleLog('usePopularBundles: queryFn called');
       const resp = await apiClient.get<{
         data: Bundle[];
       }>(`v2/bindles?per_page=${nBundles}&sort=-view_count`);
@@ -332,7 +333,7 @@ export const useUpdateBookStock = () => {
         const dataCopy = structuredClone(oldData);
         Object.entries(bookStock).forEach(([id, newStock]) => {
           if (id in dataCopy) {
-            console.log(`udpating stock of ${id} to ${newStock}`);
+            consoleLog(`udpating stock of ${id} to ${newStock}`);
             dataCopy[id].quantity_in_stock = newStock;
           }
         });
@@ -345,13 +346,13 @@ export const useUpdateBookStock = () => {
 };
 
 export const useBooks = () => {
-  console.log('useBooks() called');
+  consoleLog('useBooks() called');
 
   const { data, isLoading } = useQuery({
     queryKey: ['books', 'all'],
     staleTime: Infinity,
     queryFn: async () => {
-      console.log('useBooks() queryFn');
+      consoleLog('useBooks() queryFn');
       const resp = await apiClient.get<{
         data: Book[];
       }>(`v2/books?per_page=999999`);
@@ -365,13 +366,13 @@ export const useBooks = () => {
 };
 
 export const useBundles = () => {
-  console.log('useBundles() called');
+  consoleLog('useBundles() called');
 
   const { data, isLoading } = useQuery({
     queryKey: ['bundles', 'all'],
     staleTime: Infinity,
     queryFn: async () => {
-      console.log('useBundles() queryFn');
+      consoleLog('useBundles() queryFn');
       const resp = await apiClient.get<{
         data: Bundle[];
       }>(`v2/bindles?per_page=999999`);

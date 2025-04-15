@@ -7,6 +7,7 @@ import { useRouter } from 'vue-router';
 import { loadStripe } from '@stripe/stripe-js';
 import SpinnerIcon from '@/components/icons/SpinnerIcon.vue';
 import { getAnonIdAndUuid, getOrderMode, STRIPE_PUBLIC_KEY } from '../../../store/cart-api';
+import { consoleLog } from '@/components/helpers/tsUtils';
 
 const router = useRouter();
 const props = defineProps({
@@ -93,13 +94,13 @@ async function handlePaymentPreConfirm(paymentIntent) {
     await preConfirmPayment({ payment_intent: paymentIntent });
     return true;
   } catch (error) {
-    console.log('Error encountered while pre-confirming payment', error);
+    consoleLog('Error encountered while pre-confirming payment', error);
     return false;
   }
 }
 
 watch(transition, async (_) => {
-  console.log('starting payment');
+  consoleLog('starting payment');
 
   emit('startTransition');
 
@@ -124,17 +125,17 @@ watch(transition, async (_) => {
 
   await makePayment();
 
-  console.log('payment done');
+  consoleLog('payment done');
   emit('stopTransition');
 });
 
 onMounted(async () => {
-  console.log('mounted');
+  consoleLog('mounted');
 
   const ORDER_MODE = await getOrderMode();
   const SELECTED_STRIPE_KEY = STRIPE_PUBLIC_KEY;
   const TEN_CHARS = (SELECTED_STRIPE_KEY ? String(SELECTED_STRIPE_KEY) : '').substring(0, 15);
-  console.log(`>>> STRIPE - mode: ${ORDER_MODE} | pk: ${TEN_CHARS}`);
+  consoleLog(`>>> STRIPE - mode: ${ORDER_MODE} | pk: ${TEN_CHARS}`);
 
   stripe = await loadStripe(SELECTED_STRIPE_KEY);
 
@@ -218,16 +219,16 @@ async function makePayment() {
         throw new Error('An unexpected error is encountered while making payment');
       }
     } else {
-      console.log('success payment', paymentIntent);
+      consoleLog('success payment', paymentIntent);
       const payConfirm = await handlePaymentPreConfirm(paymentIntent);
       if (!payConfirm) {
         throw new Error('An error is encountered while confirming payment');
       }
 
       const anonUuid = { ...getAnonIdAndUuid() };
-      console.log('anonUuid', anonUuid);
+      consoleLog('anonUuid', anonUuid);
 
-      console.log('next page is: /invoice');
+      consoleLog('next page is: /invoice');
       localStorage.removeItem('uuid');
       queryClient.setQueryData({ queryKey: ['cartItems'] }, {});
       router.push(`/invoice/${anonUuid.anonid}/${anonUuid.uuid}`);
@@ -235,7 +236,7 @@ async function makePayment() {
   } catch (error) {
     const errMsg =
       error?.message || 'An error is encountered while processing payment. Please try again';
-    console.log('[Catch] error', errMsg);
+    consoleLog('[Catch] error', errMsg);
     otherErrors.value = errMsg;
     emit('stopTransition');
   }

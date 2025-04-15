@@ -31,7 +31,6 @@ const rangeItems = computed(() => {
     }
   }
   for (let pageIdx = startIdx; pageIdx <= endIdx; pageIdx++) {
-    //console.log(pageIdx);
     items.push(pageIdx);
   }
   if (endIdx < highestIdx.value) {

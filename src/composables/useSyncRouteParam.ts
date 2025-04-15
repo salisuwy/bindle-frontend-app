@@ -5,6 +5,7 @@ import { useRouter, useRoute } from 'vue-router';
 import { AsyncQueue } from '@/components/helpers/AsyncQueue';
 
 import { isEqual } from 'lodash-es';
+import { consoleLog } from '@/components/helpers/tsUtils';
 
 const routeParamUpdateQueue = new AsyncQueue();
 
@@ -18,7 +19,7 @@ export const useSyncRouteParam = (
   const route = useRoute();
 
   const updateFromRouteParam = async () => {
-    //console.log('updateFromRouteParam', key, route.params);
+    //consoleLog('updateFromRouteParam', key, route.params);
     const currentParamVal = route.params[key];
     if (typeof currentParamVal == 'string' && validate(currentParamVal)) {
       paramRef.value = currentParamVal;
@@ -29,7 +30,7 @@ export const useSyncRouteParam = (
   };
 
   const updateFromRef = async () => {
-    //console.log('updateFromRef', key, paramRef.value);
+    //consoleLog('updateFromRef', key, paramRef.value);
     await router.replace({ params: { ...route.params, [key]: paramRef.value } });
   };
 
@@ -37,7 +38,7 @@ export const useSyncRouteParam = (
   const initialise = async () => {
     if (disable.value) return;
     initialised.value = false;
-    //console.log('useSyncRouteParam: set initialise to false');
+    //consoleLog('useSyncRouteParam: set initialise to false');
     await routeParamUpdateQueue.enqueue(updateFromRouteParam);
     initialised.value = true;
   };
@@ -45,7 +46,7 @@ export const useSyncRouteParam = (
   watch(paramRef, (newVal, oldVal) => {
     if (disable.value) return;
     if (!isEqual(newVal, oldVal)) {
-      //console.log('enqueue updateFromRef', key, paramRef.value);
+      //consoleLog('enqueue updateFromRef', key, paramRef.value);
       routeParamUpdateQueue.enqueue(updateFromRef);
     }
   });
@@ -54,7 +55,7 @@ export const useSyncRouteParam = (
     (newVal, oldVal) => {
       if (disable.value) return;
       if (!isEqual(newVal, oldVal)) {
-        //console.log('enqueue updateFromRouteParam', key, route.params[key]);
+        //consoleLog('enqueue updateFromRouteParam', key, route.params[key]);
         routeParamUpdateQueue.enqueue(updateFromRouteParam);
       }
     }

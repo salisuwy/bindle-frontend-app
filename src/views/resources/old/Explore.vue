@@ -17,6 +17,7 @@ import { trackEvent } from '../../components/helpers/analytics';
 import { useHead } from '@unhead/vue';
 
 import { useSubjectsFilter } from '@/composables/useResourceFilters';
+import { consoleLog } from '@/components/helpers/tsUtils';
 
 const route = useRoute();
 const router = useRouter();
@@ -389,13 +390,12 @@ async function prepPageTitleText() {
   );
   const title = findSubject ? findSubject?.name : '';
   filterSubjectName.value = title;
-  // console.log("prepPageTitleText() XX: ", title);
 }
 
 watch(
   () => route.query,
   (newQuery, oldQuery) => {
-    console.log('QPC:', newQuery);
+    consoleLog('QPC:', newQuery);
     prepPageTitleText();
   },
   { deep: true, immediate: true }
@@ -414,7 +414,7 @@ watch([filterSubject, filterLevel, filterType, formats, filterExamboard], () => 
     bindle_examboards: filterExamboard.value?.join(', '),
   };
 
-  //console.log(">>>applyFilter", filterParams);
+  //consoleLog(">>>applyFilter", filterParams);
   trackEvent('applyFilter', filterParams);
 });
 

@@ -19,7 +19,7 @@ import {
 } from '@/composables/useAddressForm';
 import type { Address } from '@/composables/useAddressForm';
 
-import { DeferredPromise } from '@/components/helpers/tsUtils';
+import { DeferredPromise, consoleLog } from '@/components/helpers/tsUtils';
 
 const breadcrumbs = [
   { text: 'Home', path: '/' },
@@ -97,16 +97,14 @@ const unwatch = watch(
 const paymentInProgress = ref(false);
 const triggerPayment = ref(0);
 let paymentProcessingPromise = new DeferredPromise<void>();
-const handleStartPayment = () => {
-  //console.log('handleStartPayment');
-};
+const handleStartPayment = () => {};
 const handleEndPayment = () => {
-  console.log('handleStartPayment');
+  consoleLog('handleStartPayment');
   paymentProcessingPromise.resolve();
 };
 
 const handleClick = async () => {
-  console.log('Button clicked!');
+  consoleLog('Button clicked!');
   const deliveryAddressFinal = deliveryAddress.value;
   const billingAddressFinal = billingAddress.value;
 
@@ -117,13 +115,13 @@ const handleClick = async () => {
     showBillingAddressErrors.value = true;
     document.getElementById('billing-address')?.scrollIntoView({ behavior: 'smooth' });
   } else {
-    //console.log('We can place the order!');
+    //consoleLog('We can place the order!');
     paymentInProgress.value = true;
     paymentProcessingPromise = new DeferredPromise<void>();
     triggerPayment.value += 1;
     await paymentProcessingPromise.promise;
     paymentInProgress.value = false;
-    //console.log('Payment flow finished');
+    //consoleLog('Payment flow finished');
   }
 };
 </script>
