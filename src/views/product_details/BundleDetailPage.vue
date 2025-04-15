@@ -262,7 +262,7 @@ watch(
           />
         </template>
 
-        <PopularBundlesV2 title="You may also like" />
+        <PopularBundlesV2 :count="8" title="You may also like" />
         <FeaturedBooksV2 title="Recommended Resources" />
       </div>
     </div>
