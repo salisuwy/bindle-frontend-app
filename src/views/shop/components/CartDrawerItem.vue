@@ -1,12 +1,13 @@
 <script setup>
-import { defineProps, ref, toRefs, computed } from "vue";
-import { toast } from "vue3-toastify";
-import AddToCartNotification from "./AddToCartNotification.vue";
-import AddToCartErrorNotification from "./AddToCartErrorNotification.vue";
-import SpinnerIcon from "../../../components/icons/SpinnerIcon.vue";
-import { addToCart, removeFromCart, setUuid } from "@/store/cart-api";
-import { useMutation, useQueryClient } from "@tanstack/vue-query";
-import { trackEvent } from "../../../components/helpers/analytics";
+import { defineProps, ref, toRefs, computed } from 'vue';
+import { toast } from 'vue3-toastify';
+import AddToCartNotification from './AddToCartNotification.vue';
+import AddToCartErrorNotification from './AddToCartErrorNotification.vue';
+import SpinnerIcon from '../../../components/icons/SpinnerIcon.vue';
+import { addToCart, removeFromCart, setUuid } from '@/store/cart-api';
+import { useMutation, useQueryClient } from '@tanstack/vue-query';
+import { trackEvent } from '../../../components/helpers/analytics';
+import { consoleLog } from '@/components/helpers/tsUtils';
 
 const queryClient = useQueryClient();
 
@@ -32,53 +33,45 @@ const { item } = toRefs(props);
 
 const itemsInStock = computed(() => {
   let count = 0;
-  if (item.value.item_type === "book") {
-    count =
-      item.value.item_id in props.bookStock
-        ? props.bookStock[item.value.item_id]
-        : 0;
+  if (item.value.item_type === 'book') {
+    count = item.value.item_id in props.bookStock ? props.bookStock[item.value.item_id] : 0;
   } else {
-    count =
-      item.value.item_id in props.bundleStock
-        ? props.bundleStock[item.value.item_id]
-        : 0;
+    count = item.value.item_id in props.bundleStock ? props.bundleStock[item.value.item_id] : 0;
   }
   return count;
 });
 
 const { isPending, mutate } = useMutation({
-  mutationFn: (args) =>
-    args.operation === "add" ? addToCart(args) : removeFromCart(args),
+  mutationFn: (args) => (args.operation === 'add' ? addToCart(args) : removeFromCart(args)),
   onMutate: (args) => {},
   onError: (error) => {
-    console.error("mutation error", error);
+    console.error('mutation error', error);
     toast(AddToCartErrorNotification);
   },
   onSuccess: ({ data }) => {
-    console.log("mutation success", data);
+    consoleLog('mutation success', data);
     setUuid(data?.order?.uuid);
     // toast(AddToCartNotification);
   },
   onSettled: () => {
-    queryClient.invalidateQueries(["cartItems"]);
+    queryClient.invalidateQueries({ queryKey: ['cartItems'] });
   },
 });
 
 function increaseQuantity() {
   if (itemsInStock.value > 0) {
-    
-    trackEvent("addToBasket", {
+    trackEvent('addToBasket', {
       item_id: item.value.item_id,
       item_type: item.value.item_type,
       item_name: item.value?.title,
       value: item.value?.discounted_price,
-      currency: "GBP",
+      currency: 'GBP',
     });
 
     // optimistic update
     item.value.quantity = item.value.quantity + 1;
     mutate({
-      operation: "add",
+      operation: 'add',
       item_type: item.value.item_type,
       item_id: item.value.item_id,
       is_ebook: item.value.is_ebook,
@@ -91,7 +84,7 @@ function decreaseQuantity() {
     // optimistic update
     item.value.quantity = item.value.quantity - 1;
     mutate({
-      operation: "remove",
+      operation: 'remove',
       item_type: item.value.item_type,
       item_id: item.value.item_id,
       is_ebook: item.value.is_ebook,
@@ -133,11 +126,9 @@ function decreaseQuantity() {
             :class="{ 'text-gray-500': item.quantity_in_stock === 0 }"
           >
             <!-- {{ item.item_type }} -->
-            {{ item.is_ebook ? "E-BOOK" : "PAPERBACK" }}
+            {{ item.is_ebook ? 'E-BOOK' : 'PAPERBACK' }}
           </span>
-          <span class="text-zinc-95 text-[16px] ml-5"
-            >Quantity: {{ item.quantity }}</span
-          >
+          <span class="text-zinc-95 text-[16px] ml-5">Quantity: {{ item.quantity }}</span>
           <span
             v-show="!item.is_ebook && item.quantity_in_stock === 0"
             class="py-1 my-2 font-medium leading-6 text-rose-500"
@@ -145,20 +136,13 @@ function decreaseQuantity() {
           >
         </div>
         <div class="flex gap-4 self-start mt-1 font-medium">
-          <div
-            class="flex gap-2 text-sm sm:text-xl leading-7 justify-start items-center"
-          >
+          <div class="flex gap-2 text-sm sm:text-xl leading-7 justify-start items-center">
             <span class="text-zinc-950">&#163;{{ item.discounted_price }}</span>
-            <span
-              v-if="item.price !== item.discounted_price"
-              class="text-zinc-400 line-through"
+            <span v-if="item.price !== item.discounted_price" class="text-zinc-400 line-through"
               >&#163;{{ item.price }}</span
             >
           </div>
-          <span
-            v-if="item.discount > 0"
-            class="text-sm sm:text-lg leading-6 text-rose-500"
-          >
+          <span v-if="item.discount > 0" class="text-sm sm:text-lg leading-6 text-rose-500">
             ({{ Math.floor(item.discount) }}% OFF)
           </span>
         </div>

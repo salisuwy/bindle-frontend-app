@@ -2,9 +2,9 @@
 const props = defineProps({
   class: { type: [String, Array, Object], default: null },
   style: { type: [String, Object], default: null },
-  width: { type: String, default: "24" },
-  height: { type: String, default: "24" },
-  colour: { type: String, default: "currentColor" },
+  width: { type: String, default: '24' },
+  height: { type: String, default: '24' },
+  colour: { type: String, default: 'currentColor' },
 });
 </script>
 

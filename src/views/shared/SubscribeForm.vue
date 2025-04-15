@@ -1,10 +1,10 @@
 <script setup>
-import { Util } from "@/components/helpers/Util.js";
-import { computed, onMounted, ref } from "vue";
-import { useBindleApiStore } from "@/store/bindle-api.js";
-import InfoIcon from "@/components/icons/InfoIcon.vue";
-import TickIcon from "@/components/icons/TickIcon.vue";
-import { trackEvent } from "../../components/helpers/analytics";
+import { Util } from '@/components/helpers/Util.js';
+import { computed, onMounted, ref } from 'vue';
+import { useBindleApiStore } from '@/store/bindle-api.js';
+import InfoIcon from '@/components/icons/InfoIcon.vue';
+import TickIcon from '@/components/icons/TickIcon.vue';
+import { trackEvent } from '../../components/helpers/analytics';
 
 const inputRef = ref();
 const emailValid = ref(false);
@@ -19,18 +19,16 @@ const bindleApiStore = useBindleApiStore();
 
 const inputContentChanged = () => {
   emailValid.value =
-    inputRef.value &&
-    inputRef.value.value.length > 0 &&
-    Util.validateEmail(inputRef.value.value);
+    inputRef.value && inputRef.value.value.length > 0 && Util.validateEmail(inputRef.value.value);
 };
 const subscribe = () => {
   if (inputRef.value) {
-    trackEvent("contact", {
-      contact_method: "email",
-      message_subject: "Subscribing to Updates",
+    trackEvent('contact', {
+      contact_method: 'email',
+      message_subject: 'Subscribing to Updates',
     });
-    trackEvent("lead", {
-      lead_type: "subscription",
+    trackEvent('lead', {
+      lead_type: 'subscription',
       value: 0,
     });
 
@@ -51,9 +49,7 @@ const submitButtonDisabled = computed(() => {
 </script>
 <template>
   <div class="bg-theme-teal px-4 pt-10 pb-16">
-    <h5 class="text-theme-white text-xs">
-      <span class="hidden sm:inline">JOIN </span>NEWSLETTER
-    </h5>
+    <h5 class="text-theme-white text-xs"><span class="hidden sm:inline">JOIN </span>NEWSLETTER</h5>
     <h2 class="text-theme-white mt-6 mb-12 text-4xl">
       Stay up to date with all our latest products and deals
     </h2>
@@ -64,19 +60,13 @@ const submitButtonDisabled = computed(() => {
       <input
         ref="inputRef"
         type="email"
-        :class="
-          'px-6 h-11 rounded-sm' +
-          (emailValid ? ' text-theme-black' : ' text-gray-600')
-        "
+        :class="'px-6 h-11 rounded-sm' + (emailValid ? ' text-theme-black' : ' text-gray-600')"
         @keyup="inputContentChanged"
         placeholder="Subscribe for updates"
         autocomplete="off"
       />
       <button
-        :class="
-          'bg-theme-darkblue rounded-sm' +
-          (makingRequest ? ' working-spinner' : '')
-        "
+        :class="'bg-theme-darkblue rounded-sm' + (makingRequest ? ' working-spinner' : '')"
         :disabled="submitButtonDisabled"
         @click="subscribe"
       >

@@ -4,9 +4,7 @@
     <h2 class="self-center mt-3 text-2xl font-medium leading-8 text-slate-800">
       Nothing to see here
     </h2>
-    <p
-      class="mt-1 w-full text-xl font-light tracking-tighter leading-7 text-center text-zinc-500"
-    >
+    <p class="mt-1 w-full text-xl font-light tracking-tighter leading-7 text-center text-zinc-500">
       There's nothing in your bag, Let's add some items
     </p>
     <button
@@ -19,10 +17,10 @@
 </template>
 
 <script setup>
-import { useRouter } from "vue-router";
+import { useRouter } from 'vue-router';
 const router = useRouter();
 
 function exploreShop() {
-  router.push("/resources");
+  router.push('/resources');
 }
 </script>

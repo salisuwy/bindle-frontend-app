@@ -1,22 +1,17 @@
-<script setup>
-import {useBindleApiStore} from "@/store/bindle-api.js";
-import PageNotFound from "@/views/PageNotFound.vue";
-import { VueQueryDevtools } from "@tanstack/vue-query-devtools";
-import { event } from 'vue-gtag'
+<script setup lang="ts">
+import { VueQueryDevtools } from '@tanstack/vue-query-devtools';
+import { event } from 'vue-gtag';
 
-event('Salisu - Trigger Event', { method: 'Google' })
+//import { useBooks, useBundles } from '@/composables/useBindleData';
 
-const bindleApiStore = useBindleApiStore();
+event('Salisu - Trigger Event', { method: 'Google' });
 
+//useBooks();
+//useBundles();
 </script>
 <template>
-  <page-not-found v-if="bindleApiStore.routingFailed" />
-  <router-view v-else></router-view>
-
+  <RouterView></RouterView>
   <VueQueryDevtools />
 </template>
 
-<style scoped>
-@import '@/style.css';
-@import '@/font-awesome.css';
-</style>
+<style scoped></style>
