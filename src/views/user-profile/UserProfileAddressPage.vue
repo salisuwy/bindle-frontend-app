@@ -16,6 +16,7 @@ import {
   isAddressValid,
 } from '@/composables/useAddressForm';
 import type { Address } from '@/composables/useAddressForm';
+import { consoleLog } from '@/components/helpers/tsUtils';
 
 const route = useRoute();
 const authStore = useAuthStore();
@@ -60,10 +61,10 @@ const handleClick = () => {
   const innerAddress = address.value;
   if (isAddressValid(innerAddress)) {
     if (isNew.value) {
-      console.log('add a new address:', innerAddress);
+      consoleLog('add a new address:', innerAddress);
       createAddress(innerAddress);
     } else {
-      console.log('update an existing address', innerAddress);
+      consoleLog('update an existing address', innerAddress);
       updateAddress(innerAddress);
     }
   } else {

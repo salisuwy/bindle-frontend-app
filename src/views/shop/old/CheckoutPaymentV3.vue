@@ -19,6 +19,7 @@ import { useValidatedObject } from '@/composables/useValidatedObject';
 import { EMPTY_ADDRESS, type Address } from '@/composables/useAddressForm';
 import { DeferredPromise } from '@/components/helpers/tsUtils';
 import type { OrderCartResponse } from '@/store/cart-api';
+import { consoleLog } from '@/components/helpers/tsUtils';
 
 const breadcrumbs = [
   { text: 'Home', path: '/' },
@@ -33,9 +34,9 @@ const useObjectSync = <T,>(
   label?: string
 ) => {
   watch(syncObject, () => {
-    console.log(label, 'syncObject has changed');
+    consoleLog(label, 'syncObject has changed');
     if (!isEqual(syncObject.value, object.value)) {
-      console.log(
+      consoleLog(
         label,
         'synching object with syncObject',
         { ...syncObject.value },
@@ -47,7 +48,7 @@ const useObjectSync = <T,>(
 
   watch(object, () => {
     if (!isEqual(object.value, syncObject.value)) {
-      console.log(label, 'calling onUpdate with object');
+      consoleLog(label, 'calling onUpdate with object');
       onUpdate(object.value);
     }
   });
@@ -89,7 +90,7 @@ useObjectSync(
   _deliveryAddress,
   deliveryAddress,
   (newAddress: Address) => {
-    console.log('useObjectSync: setPartialDeliveryAddress', newAddress);
+    consoleLog('useObjectSync: setPartialDeliveryAddress', newAddress);
     setPartialDeliveryAddress(newAddress, useDeliveryForBilling.value);
   },
   'delivery address'
@@ -114,7 +115,7 @@ useObjectSync(
   _billingAddress,
   billingAddress,
   (newAddress: Address) => {
-    console.log('useObjectSync: setPartialBillingAddress', newAddress);
+    consoleLog('useObjectSync: setPartialBillingAddress', newAddress);
     setPartialBillingAddress(newAddress);
   },
   'billing address'
@@ -140,10 +141,10 @@ const paymentInProgress = ref(false);
 const triggerPayment = ref(0);
 let paymentProcessingPromise = new DeferredPromise<void>();
 const handleStartPayment = () => {
-  console.log('handleStartPayment');
+  consoleLog('handleStartPayment');
 };
 const handleEndPayment = () => {
-  console.log('handleStartPayment');
+  consoleLog('handleStartPayment');
   paymentProcessingPromise.resolve();
 };
 
@@ -154,7 +155,7 @@ Therefore, it's important that the form validation remains synchronous. Any asyn
 functions in the chain will break this guarantee.
 */
 const handleClick = async () => {
-  console.log('Button clicked!');
+  consoleLog('Button clicked!');
   if (!isDeliveryAddressValid.value) {
     showDeliveryAddressErrors.value = true;
     document.getElementById('delivery_address')?.scrollIntoView({ behavior: 'smooth' });
@@ -162,13 +163,13 @@ const handleClick = async () => {
     showBillingAddressErrors.value = true;
     document.getElementById('billing_address')?.scrollIntoView({ behavior: 'smooth' });
   } else {
-    console.log('We can place the order!');
+    consoleLog('We can place the order!');
     paymentInProgress.value = true;
     paymentProcessingPromise = new DeferredPromise<void>();
     triggerPayment.value += 1;
     await paymentProcessingPromise.promise;
     paymentInProgress.value = false;
-    console.log('Payment flow finished');
+    consoleLog('Payment flow finished');
   }
 };
 </script>

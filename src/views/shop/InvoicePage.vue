@@ -13,6 +13,7 @@ import SpinnerIcon from '../../components/icons/SpinnerIcon.vue';
 import OrderNotFound from './components/OrderNotFound.vue';
 import { useRoute } from 'vue-router';
 import FormAddressConfirmation from './components/FormAddressConfirmation.vue';
+import { consoleLog } from '@/components/helpers/tsUtils';
 
 const breadcrumbs = ref([
   { text: 'Home', path: '/' },
@@ -24,8 +25,8 @@ const queryClient = useQueryClient();
 const route = useRoute();
 const anonId = route.path.split('/').slice(-2)[0];
 const orderId = route.path.split('/').slice(-1)[0];
-console.log('Anon:', anonId);
-console.log('Invoice:', orderId);
+consoleLog('Anon:', anonId);
+consoleLog('Invoice:', orderId);
 const isGuest = ref(false);
 const processing = ref(false);
 const transition = new Date().getTime().toString();

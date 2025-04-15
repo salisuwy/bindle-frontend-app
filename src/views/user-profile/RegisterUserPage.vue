@@ -94,7 +94,6 @@ function debounce(func, wait) {
 }
 
 const performSearch = () => {
-  // console.log("fetchCourses", coursesStore.fetchCourses)
   coursesStore.fetchCourses({
     keyword: searchText.value,
     limit: 8,
@@ -108,15 +107,12 @@ const debouncedPerformSearch = debounce(() => {
 }, 300);
 
 const selectCourse = (course) => {
-  // console.log("selectedCourse", course);
   selectedCourses.value.push(course);
-  // console.log("selectedCourses", selectedCourses.value, course, "hello");
   coursesStore.resetCourses();
   searchText.value = '';
 };
 
 const onAttachCourses = async () => {
-  // console.log("onAttachCourses", selectedCourses.value, "helllo");
   const courseIds = selectedCourses.value.map((course) => course.id);
   await coursesStore.attachMultipleCourses({
     course_ids: courseIds,

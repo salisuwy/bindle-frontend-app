@@ -25,6 +25,7 @@ import { addToCart, setUuid, getOrderCart } from '@/store/cart-api';
 import { useHead } from '@unhead/vue';
 import { useWindowSize } from '@vueuse/core';
 import CarouselNav from '../shared/CarouselNav.vue';
+import { consoleLog } from '@/components/helpers/tsUtils';
 
 const { width } = useWindowSize();
 
@@ -200,14 +201,14 @@ const bundleImages = computed(() => {
 const { isPending, mutate } = useMutation({
   mutationFn: addToCart,
   onMutate: () => {
-    console.log('mutating');
+    consoleLog('mutating');
   },
   onError: (error) => {
     console.error('mutation error', error);
     toast(AddToCartErrorNotification);
   },
   onSuccess: ({ data }) => {
-    console.log('mutation success', data);
+    consoleLog('mutation success', data);
     setUuid(data?.order?.uuid);
     toast(AddToCartNotification);
   },
@@ -259,7 +260,7 @@ onMounted(async () => {
   // Track page view
   // TODO: Add subject, level and examboard
   // TODO: hide additional subjects (left bar, buttons (gcse/aqa))
-  // console.log(">>> BUNDLE: ", bundle.value);
+  // consoleLog(">>> BUNDLE: ", bundle.value);
   trackEvent('viewContent', {
     item_id: bundle.value?.id,
     item_type: 'bundle',

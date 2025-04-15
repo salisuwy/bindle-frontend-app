@@ -4,6 +4,7 @@ import CouponItem from './CouponItem.vue';
 import SpinnerIcon from '../../../components/icons/SpinnerIcon.vue';
 import { addCoupon as serverAddCoupon, removeCoupon as serverRemoveCoupon } from '@/store/cart-api';
 import { useMutation, useQueryClient, useQuery } from '@tanstack/vue-query';
+import { consoleLog } from '@/components/helpers/tsUtils';
 
 const props = defineProps({
   coupons: Array,
@@ -16,7 +17,7 @@ const isAddCouponError = ref(false);
 const isRemoveCouponError = ref(false);
 
 function hideModal() {
-  console.log('hideModal');
+  consoleLog('hideModal');
   emits('hide');
 }
 
@@ -49,7 +50,7 @@ const { isPending, mutate } = useMutation({
     console.error('coupon mutation error', args);
   },
   onSuccess: ({ data }) => {
-    console.log('coupon mutation success', data);
+    consoleLog('coupon mutation success', data);
   },
   onSettled: () => {
     queryClient.invalidateQueries({ queryKey: ['cartItems'] });

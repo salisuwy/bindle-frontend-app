@@ -14,7 +14,7 @@ import type {
 
 import { useOverrideBookStock, useOverrideBundleStock } from './useBindleData';
 
-import { typedKeys } from '@/components/helpers/tsUtils';
+import { typedKeys, consoleLog } from '@/components/helpers/tsUtils';
 
 export const convertToDeliveryAddress = (address: Partial<Address>): OrderDeliveryAddress =>
   typedKeys(address).reduce((deliveryAddress, key) => {
@@ -34,11 +34,11 @@ export const useCurrentOrder = () => {
     queryFn: async () => {
       try {
         const data = await getOrderCart();
-        console.log('useCurrentOrder[cartItems]: queryFn', data);
+        consoleLog('useCurrentOrder[cartItems]: queryFn', data);
         return data;
       } catch (err: any) {
         if (err?.response?.status == 404) {
-          console.log('useCurrentOrder[cartItems]: queryFn: 404', err);
+          consoleLog('useCurrentOrder[cartItems]: queryFn: 404', err);
           return null;
         } else {
           throw err;

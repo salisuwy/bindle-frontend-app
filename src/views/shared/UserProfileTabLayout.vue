@@ -70,6 +70,8 @@ import UserProfileLayout from '@/views/shared/UserProfileLayout.vue';
 import { useAuthStore } from '@/store/useAuthStore';
 import { watch } from 'vue';
 
+import { consoleLog } from '@/components/helpers/tsUtils';
+
 const router = useRouter();
 const route = useRoute();
 const errors = ref({});
@@ -197,7 +199,7 @@ const onSetDefaultAddress = (id) => {
 
 onBeforeMount(() => {
   authStore.fetchAddresses();
-  console.log('onBeforeMount', route);
+  consoleLog('onBeforeMount', route);
   if (route.fullPath.includes('addresses')) {
     selectedTab.value = tabs.find((t) => t.id === 'addresses');
   } else {

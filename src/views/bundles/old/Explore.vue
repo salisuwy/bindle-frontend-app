@@ -11,6 +11,7 @@ import BundleV2 from '@/views/shared/BundleV2.vue';
 import Pagination from '@/components/Pagination.vue';
 import { useHead } from '@unhead/vue';
 import { trackEvent } from '../../components/helpers/analytics';
+import { consoleLog } from '@/components/helpers/tsUtils';
 
 const route = useRoute();
 const router = useRouter();
@@ -59,7 +60,6 @@ async function prepPageTitleText() {
   );
   const title = findSubject ? findSubject?.name : '';
   filterSubjectName.value = title;
-  // console.log("prepPageTitleText() XX: ", title);
 }
 
 const filterLevel = computed({
@@ -288,7 +288,7 @@ const resizeWindow = () => {
 watch(
   () => route.query,
   (newQuery, oldQuery) => {
-    console.log('Query parameters changed:', newQuery);
+    consoleLog('Query parameters changed:', newQuery);
     prepPageTitleText();
   },
   { deep: true, immediate: true }
@@ -307,7 +307,6 @@ watch([filterSubject, filterLevel, filterType, formats, filterExamboard], () => 
     bindle_examboards: filterExamboard.value?.join(', '),
   };
 
-  // console.log("applyFilter", filterParams);
   trackEvent('applyFilter', filterParams);
 });
 

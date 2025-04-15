@@ -1,5 +1,6 @@
 <script setup>
 import { computed, onBeforeMount } from 'vue';
+import { consoleLog } from '@/components/helpers/tsUtils';
 
 const props = defineProps({
   class: { type: [String, Array, Object], default: null },
@@ -15,7 +16,7 @@ const props = defineProps({
 
 onBeforeMount(() => {
   if (!props.left && !props.right && !props.up && !props.down) {
-    console.log("You should specify 'up', 'down', 'left' or 'right'");
+    consoleLog("You should specify 'up', 'down', 'left' or 'right'");
   }
 });
 

@@ -6,6 +6,7 @@ import * as yup from 'yup';
 import { useMutation, useQueryClient } from '@tanstack/vue-query';
 import { setOrderAddress, setOrderAddressPartial, setUuid } from '@/store/cart-api';
 import { trackEvent } from '../../../components/helpers/analytics';
+import { consoleLog } from '@/components/helpers/tsUtils';
 
 const props = defineProps({
   order: {
@@ -27,7 +28,7 @@ const { isPending, mutate } = useMutation({
     }
   },
   onMutate: () => {
-    console.log('mutating');
+    consoleLog('mutating');
   },
   onError: (error, variables) => {
     console.error('mutation error', error);
@@ -36,8 +37,8 @@ const { isPending, mutate } = useMutation({
     }
   },
   onSuccess: ({ data }, variables) => {
-    // console.log("mutation success", data);
-    console.log('mutation success - payload', variables);
+    // consoleLog("mutation success", data);
+    consoleLog('mutation success - payload', variables);
     setUuid(data?.order?.uuid);
     if (!Object.keys(variables).includes('partial')) {
       emit('setValidity', { key: 'address', value: true });
@@ -135,7 +136,7 @@ async function updateOnBlur() {
     await mutate(newValues);
     await schema.validate(values, { abortEarly: false });
   } catch (err) {
-    console.log('Partial validation fail', err);
+    consoleLog('Partial validation fail', err);
   }
 }
 

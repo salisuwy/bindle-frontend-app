@@ -9,7 +9,7 @@ import FormRowContainer from './FormRowContainer.vue';
 import { useAddressForm } from '@/composables/useAddressForm';
 import type { Address } from '@/composables/useAddressForm';
 
-import { typedKeys } from '../helpers/tsUtils';
+import { typedKeys, consoleLog } from '../helpers/tsUtils';
 
 interface Props {
   id: string;
@@ -68,7 +68,7 @@ watch(
   () => props.address,
   (newVal, oldVal) => {
     key += 1;
-    console.log(key, props.id, 'ADDRESS CHANGED FROM ', oldVal, ' TO ', newVal);
+    consoleLog(key, props.id, 'ADDRESS CHANGED FROM ', oldVal, ' TO ', newVal);
     if (typedKeys(props.address).every((k) => props.address[k] === undefined)) {
       resetForm();
     }

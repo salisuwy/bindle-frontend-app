@@ -18,6 +18,7 @@ import AddToCartNotification from '@/views/shop/components/AddToCartNotification
 import { useMutation, useQueryClient } from '@tanstack/vue-query';
 import { addToCart, setUuid } from '@/store/cart-api';
 import AddToCartErrorNotification from '@/views/shop/components/AddToCartErrorNotification.vue';
+import { consoleLog } from '@/components/helpers/tsUtils';
 
 const route = useRoute();
 const router = useRouter();
@@ -72,14 +73,14 @@ const queryClient = useQueryClient();
 const { isPending, mutate } = useMutation({
   mutationFn: addToCart,
   onMutate: () => {
-    console.log('mutating');
+    consoleLog('mutating');
   },
   onError: (error) => {
     console.error('mutation error', error);
     toast(AddToCartErrorNotification);
   },
   onSuccess: ({ data }) => {
-    console.log('mutation success', data);
+    consoleLog('mutation success', data);
     setUuid(data?.order?.uuid);
     toast(AddToCartNotification);
   },

@@ -362,7 +362,6 @@ watch([filterSubject, filterLevel, filterType, formats, filterExamboard], () => 
     bindle_examboards: filterExamboard.value?.join(', '),
   };
 
-  // console.log("applyFilter", filterParams);
   trackEvent('applyFilter', filterParams);
 });
 

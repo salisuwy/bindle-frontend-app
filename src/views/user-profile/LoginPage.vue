@@ -101,6 +101,7 @@ import { useRouter } from 'vue-router';
 
 import MinimalLayout from '@/views/shared/MinimalLayout.vue';
 import { useAuthStore } from '@/store/useAuthStore';
+import { consoleLog } from '@/components/helpers/tsUtils';
 
 const router = useRouter();
 const authStore = useAuthStore();
@@ -133,7 +134,7 @@ const onSignupWithGoogle = async () => {
   const interval = setInterval(() => {
     const token = localStorage.getItem('authToken');
     if (token) {
-      console.log('Token received from localStorage:', token);
+      consoleLog('Token received from localStorage:', token);
       authStore.setAccessToken(token);
 
       // Cleanup

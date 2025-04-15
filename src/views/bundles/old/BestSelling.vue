@@ -30,7 +30,6 @@ const bundles = ref([]);
 onMounted(async () => {
   await apiBindleStore.getBundles();
   bundles.value = await apiBindleStore.getBestsellingBundles(props.level.slug);
-  //console.log(bundles.value);
 });
 </script>
 <template>

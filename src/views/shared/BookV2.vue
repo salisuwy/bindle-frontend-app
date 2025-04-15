@@ -11,6 +11,7 @@ import AddToCartNotification from '../shop/components/AddToCartNotification.vue'
 import SpinnerIcon from '../../components/icons/SpinnerIcon.vue';
 
 import { useBookDetails } from '@/composables/useBindleData';
+import { consoleLog } from '@/components/helpers/tsUtils';
 
 const props = defineProps({
   product: { type: Object },
@@ -26,14 +27,14 @@ const queryClient = useQueryClient();
 const { isPending, mutate } = useMutation({
   mutationFn: addToCart,
   onMutate: () => {
-    console.log('mutating');
+    consoleLog('mutating');
   },
   onError: (error) => {
     console.error('mutation error', error);
     toast(AddToCartErrorNotification);
   },
   onSuccess: ({ data }) => {
-    console.log('mutation success', data);
+    consoleLog('mutation success', data);
     setUuid(data?.order?.uuid);
     toast(AddToCartNotification);
   },

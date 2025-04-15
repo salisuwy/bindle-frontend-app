@@ -8,6 +8,7 @@ import * as yup from 'yup';
 import { saveMessage } from '@/store/cart-api';
 import SpinnerIcon from '@/components/icons/SpinnerIcon.vue';
 import { trackEvent } from '../../components/helpers/analytics';
+import { consoleLog } from '@/components/helpers/tsUtils';
 
 const showForm = ref(true);
 const isProcessing = ref(false);
@@ -38,7 +39,7 @@ async function sendMessage() {
     await schema.validate(values, { abortEarly: false });
     await saveMessage(values);
     showForm.value = false;
-    console.log('form submitted');
+    consoleLog('form submitted');
   } catch (err) {
     err.inner.forEach((error) => {
       setFieldError(error.path, error.message);

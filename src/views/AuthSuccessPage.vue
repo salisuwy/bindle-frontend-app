@@ -1,8 +1,9 @@
 <script setup>
 import { onMounted } from 'vue';
+import { consoleLog } from '@/components/helpers/tsUtils';
 
 onMounted(() => {
-  console.log('Mounted', window.location.href);
+  consoleLog('Mounted', window.location.href);
   const checkForTokenInUrl = () => {
     const successUrls = [
       'http://localhost:5173/auth/success', // Local dev URL
@@ -13,7 +14,7 @@ onMounted(() => {
     if (successUrls.some((url) => window.location.href.startsWith(url))) {
       const urlParams = new URLSearchParams(window.location.search);
       const token = urlParams.get('token');
-      console.log(
+      consoleLog(
         'Token received from URL:',
         token,
         successUrls.some((url) => window.location.href.startsWith(url))

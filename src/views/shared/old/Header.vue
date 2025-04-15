@@ -53,22 +53,18 @@ onBeforeMount(() => {
     subjects.value = bindleApiStore.subjects;
     //navSubjects.value = subjects.value;
     // navSubjects.value = subjects.value.filter(subject => subject.show_on_nav);
-    //console.log('subjects', subjects.value);
     loadCount.value++;
   });
   bindleApiStore.getTypes().then(() => {
     types.value = bindleApiStore.types;
-    //console.log('types', types.value);
     loadCount.value++;
   });
   bindleApiStore.getLevels().then(() => {
     levels.value = bindleApiStore.levels;
-    //console.log('levels', levels.value);
     loadCount.value++;
   });
   bindleApiStore.getBooks().then(() => {
     books.value = bindleApiStore.books;
-    //console.log('books', books.value);
     loadCount.value++;
   });
 
@@ -131,7 +127,6 @@ const performSearch = () => {
     search_category: 'resources',
   };
 
-  //console.log(">>>search", searchParams);
   trackEvent('search', searchParams);
 
   router.push('/resources/explore?q=' + encodeURIComponent(searchText.value));

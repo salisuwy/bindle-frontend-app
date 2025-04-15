@@ -1,8 +1,10 @@
 import { defineStore } from 'pinia';
-import { computed, ref } from 'vue';
+import { ref } from 'vue';
 import { AsyncOperationManager } from '@/components/helpers/AsyncOperationManager.js';
 import { Util } from '@/components/helpers/Util.js';
 import axios from 'axios';
+
+import { consoleLog } from '@/components/helpers/tsUtils';
 
 /**
  * @see https://pinia.vuejs.org/core-concepts/#Setup-Stores
@@ -214,7 +216,7 @@ export const useBindleApiStore = defineStore('bindleApi', () => {
           }
         });
         bundles.value = buildBundles;
-        //console.log('bundles', bundles.value);
+        //consoleLog('bundles', bundles.value);
         await precalculateBundlesIndexes(bundles.value);
       }
       return bundles.value;
@@ -466,18 +468,18 @@ export const useBindleApiStore = defineStore('bindleApi', () => {
       throw 'not yet supported!';
     }
     if (!(level_slug in levelIdBySlugIndex)) {
-      //console.log(levelIdBySlugIndex);
+      //consoleLog(levelIdBySlugIndex);
       console.error('Failed to find level id for level slug=' + level_slug);
       return [];
     }
     const buildBundles = [];
     const level_id = levelIdBySlugIndex[level_slug];
     //const level = levels.value[level_id];
-    //console.log(bundleIdByLevelIndex[level_id]);
+    //consoleLog(bundleIdByLevelIndex[level_id]);
     bundleIdByLevelIndex[level_id].forEach((bundleId) => {
       buildBundles.push(bundles.value[bundleId]);
     });
-    //console.log(buildBundles);
+    //consoleLog(buildBundles);
     return buildBundles;
   };
 
@@ -489,7 +491,7 @@ export const useBindleApiStore = defineStore('bindleApi', () => {
   ) => {
     await getBundles();
 
-    //console.log('bundles',bundles.value);
+    //consoleLog('bundles',bundles.value);
     let bundlesArray;
     if (is_core === null && level_slug === null && subject_slug === null) {
       bundlesArray = Object.values(bundles.value);
@@ -519,9 +521,9 @@ export const useBindleApiStore = defineStore('bindleApi', () => {
         return true;
       });
     }
-    //console.log('bundlesArray', bundlesArray);
+    //consoleLog('bundlesArray', bundlesArray);
     if (bundlesArray.length < count) {
-      //console.log('whoops!');
+      //consoleLog('whoops!');
       return bundlesArray; // whoops
     }
     return Util.getRandom(bundlesArray, count);
