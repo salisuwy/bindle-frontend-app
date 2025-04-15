@@ -29,12 +29,21 @@ export const convertToBillingAddress = (address: Partial<Address>): OrderBilling
   }, {} as Partial<OrderBillingAddress>) as OrderBillingAddress;
 
 export const useCurrentOrder = () => {
-  const { data, isLoading } = useQuery<OrderCartResponse>({
+  const { data, isLoading } = useQuery<OrderCartResponse | null>({
     queryKey: ['cartItems'],
     queryFn: async () => {
-      const data = await getOrderCart();
-      console.log('useCurrentOrder[cartItems]: queryFn', data);
-      return data;
+      try {
+        const data = await getOrderCart();
+        console.log('useCurrentOrder[cartItems]: queryFn', data);
+        return data;
+      } catch (err: any) {
+        if (err?.response?.status == 404) {
+          console.log('useCurrentOrder[cartItems]: queryFn: 404', err);
+          return null;
+        } else {
+          throw err;
+        }
+      }
     },
   });
 
