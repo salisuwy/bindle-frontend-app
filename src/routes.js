@@ -26,7 +26,7 @@ import ForgotPasswordPage from '@/views/user-profile/ForgotPasswordPage.vue';
 import RegisterUserPage from '@/views/user-profile/RegisterUserPage.vue';
 import UserProfilePage from '@/views/user-profile/UserProfilePage.vue';
 import UserProfileOrdersPage from '@/views/user-profile/UserProfileOrdersPage.vue';
-import UserProfileBuddyPage from '@/views/user-profile/UserProfileBuddyPage.vue';
+import UserProfileComingSoonPage from '@/views/user-profile/UserProfileComingSoonPage.vue';
 import UserProfileOrderPage from '@/views/user-profile/UserProfileOrderPage.vue';
 import UserProfileAddressesPage from '@/views/user-profile/UserProfileAddressesPage.vue';
 import UserProfileAddressPage from '@/views/user-profile/UserProfileAddressPage.vue';
@@ -198,12 +198,28 @@ const routes = [
   {
     name: 'user-profile-buddy',
     path: '/user/:userId/buddy',
-    component: UserProfileBuddyPage,
+    component: UserProfileComingSoonPage,
+  },
+  {
+    name: 'user-profile-e-reader',
+    path: '/user/:userId/e-reader',
+    component: UserProfileComingSoonPage,
+  },
+  {
+    name: 'user-profile-study-plan',
+    path: '/user/:userId/study-plan',
+    component: UserProfileComingSoonPage,
   },
   {
     name: 'user-profile-addresses',
     path: '/user/:userId/addresses',
     component: UserProfileAddressesPage,
+  },
+  {
+    name: 'user-profile-address-page-new',
+    path: '/user/:userId/addresses/new',
+    component: UserProfileAddressPage,
+    props: { isNew: true },
   },
   {
     name: 'user-profile-address-page',
