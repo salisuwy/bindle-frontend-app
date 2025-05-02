@@ -85,7 +85,7 @@ import { useRouter, useRoute } from 'vue-router';
 
 import { useAuthStore } from '@/store/useAuthStore';
 
-import LayoutHeader from './Header.vue';
+import LayoutHeader from './HeaderV2.vue';
 import LayoutFooter from './Footer.vue';
 
 const slots = useSlots();

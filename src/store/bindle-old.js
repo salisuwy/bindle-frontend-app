@@ -1,6 +1,8 @@
 import { defineStore } from 'pinia';
 import { ref } from 'vue';
 
+import { consoleLog } from '@/components/helpers/tsUtils';
+
 //https://pinia.vuejs.org/core-concepts/#Setup-Stores
 export const useBindleOldStore = defineStore('bindle', () => {
   const CACHE_TIME_SECS = 86400; // 1 day in seconds
@@ -64,11 +66,11 @@ export const useBindleOldStore = defineStore('bindle', () => {
       if (response.ok) {
         return await response.json();
       } else {
-        console.log('bad response code=' + response.status);
+        consoleLog('bad response code=' + response.status);
         return 'There was a problem processing your request';
       }
     } catch (exc) {
-      console.log('fetch error', exc);
+      consoleLog('fetch error', exc);
       return 'There was a problem processing your request';
     }
   };

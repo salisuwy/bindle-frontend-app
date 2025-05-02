@@ -19,7 +19,7 @@ import {
 import type { Address } from '@/composables/useAddressForm';
 import { useValidatedObject } from '@/composables/useValidatedObject';
 
-import { DeferredPromise } from '@/components/helpers/tsUtils';
+import { DeferredPromise, consoleLog } from '@/components/helpers/tsUtils';
 
 const breadcrumbs = [
   { text: 'Home', path: '/' },
@@ -54,7 +54,7 @@ const { isValid: isDeliveryValid, handleUpdated: handleDeliveryUpdated } =
   useValidatedObject(deliveryAddress);
 watch(deliveryAddress, () => {
   if (!isAddressEqual(deliveryAddress.value, orderDeliveryAddress.value)) {
-    console.log('updating delivery address to:', deliveryAddress.value);
+    consoleLog('updating delivery address to:', deliveryAddress.value);
     setPartialDeliveryAddress(deliveryAddress.value, billingSameAsDelivery.value);
   }
 });
@@ -74,7 +74,7 @@ const { isValid: isBillingValid, handleUpdated: handleBillingUpdated } =
   useValidatedObject(billingAddress);
 watch(billingAddress, () => {
   if (!isAddressEqual(billingAddress.value, orderBillingAddress.value)) {
-    console.log('updating billing address to:', billingAddress.value);
+    consoleLog('updating billing address to:', billingAddress.value);
     setPartialBillingAddress(billingAddress.value);
   }
 });
@@ -101,10 +101,10 @@ const paymentInProgress = ref(false);
 const triggerPayment = ref(0);
 let paymentProcessingPromise = new DeferredPromise<void>();
 const handleStartPayment = () => {
-  //console.log('handleStartPayment');
+  //consoleLog('handleStartPayment');
 };
 const handleEndPayment = () => {
-  console.log('handleStartPayment');
+  consoleLog('handleStartPayment');
   paymentProcessingPromise.resolve();
 };
 
@@ -115,7 +115,7 @@ Therefore, it's important that the form validation remains synchronous. Any asyn
 functions in the chain will break this guarantee.
 */
 const handleClick = async () => {
-  console.log('Button clicked!');
+  consoleLog('Button clicked!');
   if (!isDeliveryValid.value) {
     showDeliveryAddressErrors.value = true;
     document.getElementById('delivery-address')?.scrollIntoView({ behavior: 'smooth' });
@@ -123,13 +123,13 @@ const handleClick = async () => {
     showBillingAddressErrors.value = true;
     document.getElementById('billing-address')?.scrollIntoView({ behavior: 'smooth' });
   } else {
-    //console.log('We can place the order!');
+    //consoleLog('We can place the order!');
     paymentInProgress.value = true;
     paymentProcessingPromise = new DeferredPromise<void>();
     triggerPayment.value += 1;
     await paymentProcessingPromise.promise;
     paymentInProgress.value = false;
-    //console.log('Payment flow finished');
+    //consoleLog('Payment flow finished');
   }
 };
 </script>

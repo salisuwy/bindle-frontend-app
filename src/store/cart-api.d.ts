@@ -119,4 +119,6 @@ declare module '@/store/cart-api' {
 
   // POST /api/orders/cart/payment/pre-confirm
   export function preConfirmPayment(arg: { payment_intent: PaymentIntent }): Promise<void>;
+
+  export function addToCart(data: any): Promise<any>;
 }

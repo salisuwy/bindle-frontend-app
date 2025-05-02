@@ -1,9 +1,10 @@
-import { computed, ref } from 'vue';
+import { computed, watch } from 'vue';
 
 import { useQuery, useQueryClient, useMutation } from '@tanstack/vue-query';
-import { getOrderCart, setOrderAddressPartial, setOrderAddress, setUuid } from '@/store/cart-api';
 
 import { EMPTY_ADDRESS, type Address } from './useAddressForm';
+
+import { getOrderCart, setOrderAddressPartial, setOrderAddress, setUuid } from '@/store/cart-api';
 import type {
   OrderCartResponse,
   OrderDeliveryAddress,
@@ -11,7 +12,9 @@ import type {
   OrderAddressArg,
 } from '@/store/cart-api';
 
-import { typedKeys } from '@/components/helpers/tsUtils';
+import { useOverrideBookStock, useOverrideBundleStock } from './useBindleData';
+
+import { typedKeys, consoleLog } from '@/components/helpers/tsUtils';
 
 export const convertToDeliveryAddress = (address: Partial<Address>): OrderDeliveryAddress =>
   typedKeys(address).reduce((deliveryAddress, key) => {
@@ -25,21 +28,22 @@ export const convertToBillingAddress = (address: Partial<Address>): OrderBilling
     return billingAddress;
   }, {} as Partial<OrderBillingAddress>) as OrderBillingAddress;
 
-export const useCurrentOrder = ({
-  onFirstCall,
-}: { onFirstCall?: (data: OrderCartResponse) => void } = {}) => {
-  let firstCallPerformed = false;
-
-  const { data, isLoading } = useQuery<OrderCartResponse>({
+export const useCurrentOrder = () => {
+  const { data, isLoading } = useQuery<OrderCartResponse | null>({
     queryKey: ['cartItems'],
     queryFn: async () => {
-      console.log('useCurrentOrder: queryFn');
-      const data = await getOrderCart();
-      if (!firstCallPerformed && onFirstCall) {
-        onFirstCall(data);
+      try {
+        const data = await getOrderCart();
+        consoleLog('useCurrentOrder[cartItems]: queryFn', data);
+        return data;
+      } catch (err: any) {
+        if (err?.response?.status == 404) {
+          consoleLog('useCurrentOrder[cartItems]: queryFn: 404', err);
+          return null;
+        } else {
+          throw err;
+        }
       }
-      firstCallPerformed = true;
-      return data;
     },
   });
 
@@ -51,16 +55,34 @@ export const useCurrentOrder = ({
     return data.value?.order?.book_stock ?? {};
   });
 
+  const { setBookStockOverride } = useOverrideBookStock();
+  watch(bookStock, () => {
+    setBookStockOverride(bookStock.value);
+  });
+
   const bundleStock = computed(() => {
     return data.value?.order?.bundle_stock ?? {};
+  });
+
+  const { setBundleStockOverride } = useOverrideBundleStock();
+  watch(bundleStock, () => {
+    setBundleStockOverride(bundleStock.value);
   });
 
   const cartItems = computed(() => {
     return data.value?.order?.items ?? [];
   });
 
+  const cartItemsCount = computed(() => {
+    return cartItems.value.reduce((total, item) => item.quantity + total, 0);
+  });
+
   const coupons = computed(() => {
     return data.value?.order?.coupons ?? [];
+  });
+
+  const orderTotalPlusShipping = computed(() => {
+    return data.value?.order?.order_final ?? 0;
   });
 
   const deliveryAddress = computed<Partial<Address>>(() => {
@@ -168,7 +190,9 @@ export const useCurrentOrder = ({
     bookStock,
     bundleStock,
     cartItems,
+    cartItemsCount,
     coupons,
+    orderTotalPlusShipping,
     deliveryAddress,
     billingAddress,
     setPartialDeliveryAddress,

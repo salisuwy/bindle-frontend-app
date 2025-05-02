@@ -17,9 +17,6 @@ const eventMapping = {
 };
 
 export function trackEvent(event, params = {}) {
-  // console.log("Tracking event: " + event);
-  // console.log(params);
-
   // Check if the event exists in the mapping
   const mappedEvent = eventMapping[event];
 

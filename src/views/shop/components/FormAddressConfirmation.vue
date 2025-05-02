@@ -1,6 +1,7 @@
 <script setup>
 import { watch, computed, defineProps, defineEmits } from 'vue';
 import { countries } from '@/components/helpers/countries';
+import { consoleLog } from '@/components/helpers/tsUtils';
 
 const props = defineProps({
   order: {
@@ -20,7 +21,7 @@ const transition = computed(() => {
 });
 
 function gotoAddressForm() {
-  console.log('Go to address form');
+  consoleLog('Go to address form');
 }
 </script>
 

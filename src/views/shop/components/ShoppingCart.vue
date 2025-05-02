@@ -4,6 +4,7 @@ import CartItem from './CartItem.vue';
 import { defineProps, defineEmits } from 'vue';
 import clsx from 'clsx';
 import { PerfectScrollbar } from 'vue3-perfect-scrollbar';
+import { consoleLog } from '@/components/helpers/tsUtils';
 
 const props = defineProps({
   items: Array,
@@ -26,12 +27,12 @@ const cartItemsCount = computed(() => {
 });
 
 const mergedCssClass = computed(() => {
-  console.log('props.cssClasses', props.cssClasses);
+  consoleLog('props.cssClasses', props.cssClasses);
   const merged = clsx(
     'flex flex-col px-6 py-8 w-full bg-white rounded-md border border-solid border-zinc-200 max-md:px-5 max-md:mt-9 max-md:max-w-full',
     props.cssClasses
   );
-  console.log('merged', merged);
+  consoleLog('merged', merged);
   return merged;
 });
 </script>

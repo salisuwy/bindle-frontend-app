@@ -12,6 +12,7 @@ import { computed, onMounted, ref, watch } from 'vue';
 import { setUuid } from '../../store/cart-api';
 import SpinnerIcon from '../../components/icons/SpinnerIcon.vue';
 import { useRouter } from 'vue-router';
+import { consoleLog } from '@/components/helpers/tsUtils';
 
 const router = useRouter();
 
@@ -33,7 +34,7 @@ const isCardValidTransition = ref('');
 
 watch(isAddressValidTransition, async (_) => {
   if (isAddressValid.value) {
-    console.log('Address is valid, starting payment');
+    consoleLog('Address is valid, starting payment');
     performTransition('payment');
   }
 });
@@ -74,25 +75,25 @@ watch(order, (newOrder) => {
 function performTransition(field) {
   if (field === 'address') {
     transitionAddress.value = new Date().getTime().toString();
-    console.log('performTransition [address]', transitionAddress.value);
+    consoleLog('performTransition [address]', transitionAddress.value);
   } else if (field === 'payment') {
     transitionPayment.value = new Date().getTime().toString();
-    console.log('performTransition [payment]', transitionAddress.value);
+    consoleLog('performTransition [payment]', transitionAddress.value);
   }
 }
 
 function startTransition() {
-  console.log('startTransition');
+  consoleLog('startTransition');
   isTransitioning.value = true;
 }
 
 function stopTransition() {
-  console.log('stopTransition');
+  consoleLog('stopTransition');
   isTransitioning.value = false;
 }
 
 function setValidity(obj) {
-  console.log('setValidity', obj);
+  consoleLog('setValidity', obj);
   isTransitioning.value = false;
   if (obj?.key === 'address') {
     isAddressValid.value = obj?.value;

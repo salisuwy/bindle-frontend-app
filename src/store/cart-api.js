@@ -1,6 +1,9 @@
 import axios from 'axios';
 import uniqid from 'uniqid';
 
+import { apiClient } from '@/composables/axiosClient';
+import { consoleLog } from '@/components/helpers/tsUtils';
+
 export const API_ENDPOINT = import.meta.env.VITE_API_ENDPOINT;
 export const STRIPE_PUBLIC_KEY = import.meta.env.VITE_STRIPE_PUBLIC_KEY;
 
@@ -20,7 +23,7 @@ export function getUuid() {
 
 export function setUuid(uuid) {
   if (uuid !== undefined && typeof uuid == 'string') {
-    console.log(`cart-api: setUuid(${uuid})`);
+    consoleLog(`cart-api.setUuid(${uuid})`);
     localStorage.setItem('uuid', uuid);
   }
 }
@@ -33,8 +36,6 @@ export function getAnonIdAndUuid() {
   if (getUuid()) {
     data.uuid = getUuid();
   }
-
-  console.log('getAnonIdAndUuid()', data);
   return data;
 }
 
@@ -44,7 +45,7 @@ export async function addToCart(data) {
     ...getAnonIdAndUuid(),
   };
 
-  console.log('addToCart', data);
+  consoleLog('addToCart', data);
 
   return axios.post(`${API_ENDPOINT}orders/cart/add`, newData, {
     headers: {
@@ -59,7 +60,7 @@ export async function removeFromCart(data) {
     ...getAnonIdAndUuid(),
   };
 
-  console.log('removeFromCart', data);
+  consoleLog('removeFromCart', data);
 
   return axios.post(`${API_ENDPOINT}orders/cart/remove`, newData, {
     headers: {
@@ -71,10 +72,10 @@ export async function removeFromCart(data) {
 export async function getOrderCart() {
   const data = getAnonIdAndUuid();
   const urlParams = new URLSearchParams(data);
+  consoleLog(`cart-api.getOrderCart: ${urlParams}`);
 
-  console.log('getOrderCart', data);
-
-  const resp = await axios.get(`${API_ENDPOINT}orders/cart?${urlParams}`);
+  //const resp = await axios.get(`${API_ENDPOINT}orders/cart?${urlParams}`);
+  const resp = await apiClient.get(`orders/cart?${urlParams}`);
   setUuid(resp?.data?.order?.uuid);
   return resp.data;
 }
@@ -82,7 +83,7 @@ export async function getOrderCart() {
 export async function getOrderCompleted(anonid, uuid) {
   const data = { ...getAnonIdAndUuid(), anonid, uuid };
 
-  console.log('getOrderCompleted: ', data);
+  consoleLog('getOrderCompleted: ', data);
 
   const urlParams = new URLSearchParams(data);
   const resp = await axios.get(`${API_ENDPOINT}orders/cart/completed?${urlParams}`);
@@ -92,7 +93,7 @@ export async function getOrderCompleted(anonid, uuid) {
 export async function getOrderInvoice(anonid, uuid) {
   const data = { ...getAnonIdAndUuid(), anonid, uuid };
 
-  console.log('getOrderInvoice: ', data);
+  consoleLog('getOrderInvoice: ', data);
 
   const urlParams = new URLSearchParams(data);
   const resp = await axios.get(`${API_ENDPOINT}orders/cart/completed/invoice?${urlParams}`);
@@ -105,7 +106,7 @@ export async function setOrderAddress(data) {
     ...getAnonIdAndUuid(),
   };
 
-  console.log('setOrderAddress', data);
+  consoleLog('setOrderAddress', data);
 
   const resp = await axios.post(`${API_ENDPOINT}orders/cart/address`, newData, {
     headers: {
@@ -121,7 +122,7 @@ export async function setOrderAddressPartial(data) {
     ...getAnonIdAndUuid(),
   };
 
-  console.log('setOrderAddressPartial', data);
+  consoleLog('setOrderAddressPartial', data);
 
   const resp = await axios.post(`${API_ENDPOINT}orders/cart/address-partial`, newData, {
     headers: {
@@ -137,7 +138,7 @@ export async function createPaymentIntent(data) {
     ...getAnonIdAndUuid(),
   };
 
-  console.log('createPaymentIntent', data);
+  consoleLog('createPaymentIntent', data);
 
   return axios.post(`${API_ENDPOINT}orders/cart/payment`, newData, {
     headers: {
@@ -152,7 +153,7 @@ export async function preConfirmPayment(data) {
     ...getAnonIdAndUuid(),
   };
 
-  console.log('preConfirmPayment', data);
+  consoleLog('preConfirmPayment', data);
 
   return axios.post(`${API_ENDPOINT}orders/cart/payment/pre-confirm`, newData, {
     headers: {
@@ -167,7 +168,7 @@ export async function addCoupon(data) {
     ...getAnonIdAndUuid(),
   };
 
-  console.log('addCoupon', data);
+  consoleLog('addCoupon', data);
 
   return axios.post(`${API_ENDPOINT}orders/coupon/add`, newData, {
     headers: {
@@ -182,7 +183,7 @@ export async function removeCoupon(data) {
     ...getAnonIdAndUuid(),
   };
 
-  console.log('removeCoupon', data);
+  consoleLog('removeCoupon', data);
 
   return axios.post(`${API_ENDPOINT}orders/coupon/remove`, newData, {
     headers: {
@@ -192,7 +193,7 @@ export async function removeCoupon(data) {
 }
 
 export async function getOrderMode() {
-  console.log('getOrderMode');
+  consoleLog('getOrderMode');
 
   const resp = await axios.get(`${API_ENDPOINT}env-mode`);
   return resp?.data?.mode;
@@ -204,7 +205,7 @@ export async function saveMessage(data) {
     ...getAnonIdAndUuid(),
   };
 
-  console.log('Save Message', data);
+  consoleLog('Save Message', data);
 
   return axios.post(`${API_ENDPOINT}message`, newData, {
     headers: {

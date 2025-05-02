@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import Layout from '@/views/shared/Layout.vue';
+import LayoutV2 from '@/views/shared/LayoutV2.vue';
 import BreadcrumbsContent from '@/components/BreadcrumbsContent.vue';
 
 interface Props {
@@ -9,7 +9,7 @@ defineProps<Props>();
 </script>
 
 <template>
-  <Layout>
+  <LayoutV2>
     <div class="bg-theme-white py-10 relative">
       <div class="mx-auto max-w-8xl w-full px-6 text-left mb-16">
         <BreadcrumbsContent
@@ -42,7 +42,7 @@ defineProps<Props>();
         </div>
       </div>
     </div>
-  </Layout>
+  </LayoutV2>
 </template>
 
 <style scoped></style>

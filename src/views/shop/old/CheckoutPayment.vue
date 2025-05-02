@@ -13,6 +13,7 @@ import { computed, onMounted, ref, watch } from 'vue';
 import { setUuid } from '../../store/cart-api';
 import SpinnerIcon from '../../components/icons/SpinnerIcon.vue';
 import { useRouter } from 'vue-router';
+import { consoleLog } from '@/components/helpers/tsUtils';
 
 const router = useRouter();
 
@@ -67,11 +68,11 @@ watch(order, (newOrder) => {
 function performTransition() {
   isTransitioning.value = true;
   transition.value = new Date().getTime().toString();
-  console.log('performTransition', transition.value);
+  consoleLog('performTransition', transition.value);
 }
 
 function setCurrentStage(stage) {
-  console.log('setCurrentStage', stage);
+  consoleLog('setCurrentStage', stage);
   isTransitioning.value = false;
   if (currentStage.value !== stage) {
     const nextRoute = stagesRoute[stage];

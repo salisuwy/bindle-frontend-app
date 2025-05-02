@@ -212,6 +212,7 @@ import { useAuthStore } from '@/store/useAuthStore';
 import { countries } from '@/components/helpers/countries';
 import { onBeforeUnmount } from 'vue';
 import { onMounted } from 'vue';
+import { consoleLog } from '@/components/helpers/tsUtils';
 
 const router = useRouter();
 const route = useRoute();
@@ -279,7 +280,7 @@ watch(
 watch(
   () => route.params.addressId,
   (newId, oldId) => {
-    console.log('watch', newId, oldId);
+    consoleLog('watch', newId, oldId);
     resetAddressFields();
     if (newId !== 'new') {
       authStore.getAddressById({

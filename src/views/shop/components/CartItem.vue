@@ -98,6 +98,7 @@ import SpinnerIcon from '../../../components/icons/SpinnerIcon.vue';
 import { addToCart, removeFromCart, setUuid } from '@/store/cart-api';
 import { useMutation, useQueryClient } from '@tanstack/vue-query';
 import { trackEvent } from '../../../components/helpers/analytics';
+import { consoleLog } from '@/components/helpers/tsUtils';
 
 const queryClient = useQueryClient();
 
@@ -140,12 +141,12 @@ const { isPending, mutate } = useMutation({
     toast(AddToCartErrorNotification);
   },
   onSuccess: ({ data }) => {
-    console.log('mutation success', data);
+    consoleLog('mutation success', data);
     setUuid(data?.order?.uuid);
     // toast(AddToCartNotification);
   },
   onSettled: () => {
-    queryClient.invalidateQueries(['cartItems']);
+    queryClient.invalidateQueries({ queryKey: ['cartItems'] });
   },
 });
 
