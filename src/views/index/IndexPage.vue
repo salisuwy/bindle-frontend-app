@@ -14,7 +14,7 @@ import BundleTypesV2 from '@/views/index/BundleTypesV2.vue';
   <LayoutV2>
     <BannerCarouselV2 />
     <BenefitsBanner />
-    <PopularBundlesV2 :count="4" />
+    <PopularBundlesV2 title="Popular Bundles" :count="4" />
     <PopularBooksV2 :count="4" />
     <PartnersBanner />
     <SmartSavingsBanner />
