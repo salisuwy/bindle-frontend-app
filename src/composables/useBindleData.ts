@@ -380,7 +380,8 @@ export const useBundles = () => {
     },
   });
 
-  const bundles = computed(() => Object.values(data.value || {}));
+  const { applyBundleStockOverrides } = useOverrideBundleStock();
+  const bundles = computed(() => applyBundleStockOverrides(Object.values(data.value || {})));
   return { bundles, isLoading };
 };
 

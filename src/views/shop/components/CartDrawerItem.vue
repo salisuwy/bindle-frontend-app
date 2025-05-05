@@ -1,9 +1,11 @@
 <script setup>
-import { defineProps, ref, toRefs, computed } from 'vue';
+import { defineProps, toRefs, computed } from 'vue';
 import { toast } from 'vue3-toastify';
-import AddToCartNotification from './AddToCartNotification.vue';
+
+import CartItemImage from './CartItemImage.vue';
 import AddToCartErrorNotification from './AddToCartErrorNotification.vue';
 import SpinnerIcon from '../../../components/icons/SpinnerIcon.vue';
+
 import { addToCart, removeFromCart, setUuid } from '@/store/cart-api';
 import { useMutation, useQueryClient } from '@tanstack/vue-query';
 import { trackEvent } from '../../../components/helpers/analytics';
@@ -18,11 +20,11 @@ const props = defineProps({
   },
   bookStock: {
     type: Object,
-    default: {},
+    default: () => {},
   },
   bundleStock: {
     type: Object,
-    default: {},
+    default: () => {},
   },
   editable: {
     type: Boolean,
@@ -51,7 +53,6 @@ const { isPending, mutate } = useMutation({
   onSuccess: ({ data }) => {
     consoleLog('mutation success', data);
     setUuid(data?.order?.uuid);
-    // toast(AddToCartNotification);
   },
   onSettled: () => {
     queryClient.invalidateQueries({ queryKey: ['cartItems'] });
@@ -96,36 +97,31 @@ function decreaseQuantity() {
 <template>
   <div class="flex gap-5 justify-between my-6 w-full flex-wrap max-w-full">
     <div class="flex gap-4">
-      <img
-        :src="item.images[0]"
-        :alt="item.title"
-        class="shrink-0 object-contain object-center aspect-auto w-[100px] h-full"
-        :class="{
-          'opacity-75 mix-blend-multiply': item.quantity_in_stock === 0,
-        }"
+      <CartItemImage
+        class="w-[100px] h-full aspect-auto"
+        :itemType="item.item_type"
+        :title="item.title"
+        :slug="item.slug"
+        :outOfStock="item.quantity_in_stock === 0"
       />
       <div class="flex flex-col items-start justify-between max-md:max-w-full">
         <span
           class="text-xs font-bold text-cyan-800 uppercase max-md:max-w-full"
           :class="{ 'text-gray-500': item.quantity_in_stock === 0 }"
         >
-          <!-- {{ item.type ? item.type : "MIXED" }} -->
           {{ item.item_type }}
         </span>
         <h2
           class="mt-0 text-sm sm:text-base text-zinc-950 max-w-full text-wrap text-left"
           :class="{ 'text-gray-500': item.quantity_in_stock === 0 }"
         >
-          <!-- <router-link :to="'/bundles/'+item.slug" > -->
           {{ item.title }}
-          <!-- </router-link> -->
         </h2>
         <div class="flex gap-2 items-center">
           <span
             class="justify-center self-start px-2.5 py-2 mt-2 text-xs text-gray-600 whitespace-nowrap bg-gray-200 rounded-sm uppercase"
             :class="{ 'text-gray-500': item.quantity_in_stock === 0 }"
           >
-            <!-- {{ item.item_type }} -->
             {{ item.is_ebook ? 'E-BOOK' : 'PAPERBACK' }}
           </span>
           <span class="text-zinc-95 text-[16px] ml-5">Quantity: {{ item.quantity }}</span>
