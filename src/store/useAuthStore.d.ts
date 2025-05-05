@@ -36,9 +36,21 @@ declare module '@/store/useAuthStore' {
     createAddressLoading: boolean;
   }
 
+  export type User = {
+    id: number;
+    name: string;
+    email: string;
+    phone: string | null;
+    is_active: boolean;
+    user_type: string;
+    updated_at: string;
+    created_at: string;
+  };
+
   export interface AuthStore {
     state: AuthState;
     isGuest: ComputedRef<boolean>;
+    user: User | null;
     fetchAddresses: () => Promise<void>;
     getAddressById: ({ id: string }) => void;
     updateAddress: (address: UpdatedAddress) => void;

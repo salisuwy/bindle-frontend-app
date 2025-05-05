@@ -18,6 +18,11 @@ import {
 import type { Address } from '@/composables/useAddressForm';
 import { consoleLog } from '@/components/helpers/tsUtils';
 
+interface Props {
+  isNew?: boolean
+}
+const props = defineProps<Props>()
+
 const route = useRoute();
 const authStore = useAuthStore();
 
@@ -31,6 +36,17 @@ const initialAddress = ref<Partial<Address>>({ ...EMPTY_ADDRESS });
 const address = ref<Partial<Address>>({ ...EMPTY_ADDRESS });
 const showAddressErrors = ref(false);
 
+onMounted(async () => {
+  if (!props.isNew) {
+    authStore.getAddressById({
+      id: route.params.addressId,
+    });
+  } else {
+    loading.value = false;
+  }
+});
+
+/*
 const isNew = computed(() => route.params.addressId == 'new');
 onMounted(async () => {
   if (route.params.addressId != 'new') {
@@ -40,7 +56,7 @@ onMounted(async () => {
   } else {
     loading.value = false;
   }
-});
+});*/
 
 watch(
   () => authStore.state.currentAddressLoading,
@@ -60,7 +76,7 @@ const hasChanged = computed(() => !isAddressEqual(initialAddress.value, address.
 const handleClick = () => {
   const innerAddress = address.value;
   if (isAddressValid(innerAddress)) {
-    if (isNew.value) {
+    if (props.isNew) {
       consoleLog('add a new address:', innerAddress);
       createAddress(innerAddress);
     } else {
@@ -113,21 +129,10 @@ const createAddress = (a: Address) => {
 <template>
   <UserProfileTabLayout>
     <FormContainer hideHeader>
-      <AddressForm
-        id="profile_address"
-        v-model="address"
-        :loading="loading"
-        :disabled="disableForm"
-        :showAllErrors="showAddressErrors"
-      />
-      <BindleButton
-        @click="handleClick"
-        :disabled="!hasChanged"
-        :loading="saving"
-        class="min-w-[12rem] max-md:w-full"
-        type="primary"
-        >{{ isNew ? 'Save' : 'Update' }}</BindleButton
-      >
+      <AddressForm id="profile_address" v-model="address" :loading="loading" :disabled="disableForm"
+        :showAllErrors="showAddressErrors" />
+      <BindleButton @click="handleClick" :disabled="!hasChanged" :loading="saving" class="min-w-[12rem] max-md:w-full"
+        type="primary">{{ isNew ? 'Save' : 'Update' }}</BindleButton>
     </FormContainer>
   </UserProfileTabLayout>
 </template>

@@ -1,37 +1,31 @@
 <template>
   <div class="flex gap-5 justify-between my-6 w-full max-sm:flex-wrap max-sm:max-w-full">
     <div class="flex gap-4 max-md:flex-wrap">
-      <img
-        :src="item.images[0]"
-        :alt="item.title"
-        class="shrink-0 w-[55%] object-contain object-center sm:aspect-[0.72] sm:w-[78px]"
-        :class="{
-          'opacity-75 mix-blend-multiply': itemsInStock === 0,
-        }"
+      <CartItemImage
+        class="w-[55%] sm:aspect-[0.72] sm:w-[78px]"
+        :itemType="item.item_type"
+        :title="item.title"
+        :slug="item.slug"
+        :outOfStock="itemsInStock === 0"
       />
       <div class="flex flex-col justify-start max-md:max-w-full">
         <span
           class="text-xs font-bold text-cyan-800 uppercase max-md:max-w-full"
           :class="{ 'text-gray-500': itemsInStock === 0 }"
         >
-          <!-- {{ item.type ? item.type : "MIXED" }} -->
           {{ item.item_type }}
         </span>
         <h2
           class="mt-2 text-base text-zinc-950 max-md:max-w-full"
           :class="{ 'text-gray-500': itemsInStock === 0 }"
         >
-          <!-- <router-link :to="'/bundles/'+item.slug" > -->
           {{ item.title }}
-          <!-- <span class="text-red-600">({{ item.quantity_in_stock }} / ^{{itemsInStock}})</span> -->
-          <!-- </router-link> -->
         </h2>
         <div class="flex gap-2 items-center">
           <span
             class="justify-center self-start px-2.5 py-2 mt-2 text-xs text-gray-600 whitespace-nowrap bg-gray-200 rounded-sm uppercase"
             :class="{ 'text-gray-500': itemsInStock === 0 }"
           >
-            <!-- {{ item.item_type }} -->
             {{ item.is_ebook ? 'E-BOOK' : 'PAPERBACK' }}
           </span>
           <span
@@ -90,11 +84,13 @@
 </template>
 
 <script setup>
-import { defineProps, ref, toRefs, computed } from 'vue';
+import { defineProps, toRefs, computed } from 'vue';
 import { toast } from 'vue3-toastify';
-import AddToCartNotification from './AddToCartNotification.vue';
+
 import AddToCartErrorNotification from './AddToCartErrorNotification.vue';
 import SpinnerIcon from '../../../components/icons/SpinnerIcon.vue';
+import CartItemImage from './CartItemImage.vue';
+
 import { addToCart, removeFromCart, setUuid } from '@/store/cart-api';
 import { useMutation, useQueryClient } from '@tanstack/vue-query';
 import { trackEvent } from '../../../components/helpers/analytics';
@@ -109,11 +105,11 @@ const props = defineProps({
   },
   bookStock: {
     type: Object,
-    default: {},
+    default: () => {},
   },
   bundleStock: {
     type: Object,
-    default: {},
+    default: () => {},
   },
   editable: {
     type: Boolean,
@@ -143,7 +139,6 @@ const { isPending, mutate } = useMutation({
   onSuccess: ({ data }) => {
     consoleLog('mutation success', data);
     setUuid(data?.order?.uuid);
-    // toast(AddToCartNotification);
   },
   onSettled: () => {
     queryClient.invalidateQueries({ queryKey: ['cartItems'] });

@@ -148,7 +148,7 @@ watch(
 );
 
 const pageTitle = computed(() => {
-  const suffix = props.mode == 'bundles' ? 'Bundles' : 'Resources';
+  const suffix = props.mode == 'bundles' ? 'Bundles' : '';
   return subjectSelectedOptions.value.length == 0
     ? `All ${suffix}`
     : `${subjectSelectedOptions.value[0].name} ${suffix}`;
