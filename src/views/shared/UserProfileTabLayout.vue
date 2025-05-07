@@ -5,7 +5,7 @@
 
       <div class="profile-tabs flex flex-wrap mb-8">
         <button
-          class="px-4 py-2"
+          class="px-4 py-2 w-[136px]"
           :class="{
             ' bg-teal-950 text-white hover:bg-teal-800': isCurrentTab('profile'),
             'bg-theme-pale text-gray-400 hover:text-gray-600 focus:outline-none':
@@ -16,7 +16,7 @@
           Profile Details
         </button>
         <button
-          class="px-4 py-2 ml-4 mt-2 md:mt-0"
+          class="px-4 py-2 ml-4 mt-2 md:mt-0 w-[136px]"
           :class="{
             ' bg-teal-950 text-white hover:bg-teal-800': isCurrentTab('addresses'),
             ' bg-theme-pale text-gray-400 hover:text-gray-600 focus:outline-none':

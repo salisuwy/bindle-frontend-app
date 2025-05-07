@@ -59,7 +59,7 @@
             <div class="flex flex-col md:flex-row gap-5 mt-6 text-base tracking-tighter leading-6">
               <div class="flex flex-col flex-1">
                 <label for="profile_phone" class="font-medium text-neutral-600 text-left"
-                  >Phone number *</label
+                  >Phone number</label
                 >
                 <Field
                   type="tel"
@@ -72,11 +72,7 @@
                     'border-zinc-200': !errors.phone,
                     'border-red-500 bg-red-50': errors.phone,
                   }"
-                  @blur="checkErrors('phone', $event)"
                 />
-                <span v-if="errors.phone" class="text-red-400 text-sm text-left"
-                  >Phone number should not be empty!</span
-                >
               </div>
               <div class="flex flex-col flex-1">
                 <label for="profile_email" class="font-medium text-neutral-600 text-left"
@@ -344,57 +340,6 @@ const onChangePassword = () => {
 
 const onDeleteUser = () => {
   authStore.deleteUser();
-};
-
-const tabs = [
-  {
-    title: 'My Profile',
-    id: 'profile',
-  },
-  {
-    title: 'Addresses',
-    id: 'addresses',
-  },
-];
-
-const selectedTab = ref({
-  title: 'My Profile',
-  id: 'profile',
-});
-
-const isCurrentTab = (tab) => {
-  if (selectedTab.value.id === tab) return true;
-  return false;
-};
-
-const changeTab = (tab) => {
-  if (tab) {
-    selectedTab.value = tabs.find((t) => t.id === tab);
-    if (tab === 'addresses') {
-      router.push(`/user/${authStore.user.id}/addresses`);
-    } else {
-      router.push(`/user/${authStore.user.id}`);
-    }
-  }
-};
-
-const capitalize = (str) => {
-  if (!str) return '';
-  return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-};
-
-const onDeleteAddress = (id) => {
-  authStore.deleteAddress(id);
-};
-
-const onSetDefaultAddress = (id) => {
-  authStore.setDefaultAddress({
-    params: {
-      type: 'delivery',
-      default: true,
-    },
-    id,
-  });
 };
 
 onBeforeMount(() => {

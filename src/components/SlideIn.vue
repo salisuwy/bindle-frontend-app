@@ -242,7 +242,7 @@ defineExpose({ triggerOpen, triggerClose, isOpen });
 
 .transition-modal-close-button {
   position: absolute;
-  top: 10px;
+  top: 24px;
   right: 50px;
   cursor: pointer;
 }
