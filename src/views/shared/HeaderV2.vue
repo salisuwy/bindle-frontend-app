@@ -172,7 +172,7 @@ const handleUserAction = (action) => {
     </div>
     <horizontal-menu-bar
       ref="menuBar"
-      class="mt-2 child-w-screen block lg:visible mr-4 lg:mr-0"
+      class="mt-2 child-w-screen block lg:visible mr-4 lg:mr-0 z-20"
       list-class="gap-10 invisible lg:visible"
       link-class="h-full block"
       submenu-class="bg-white border-t border-theme-gray shadow-md"
