@@ -10,7 +10,7 @@ of the same API data in authStore should be considered deprecated.
 export const useOrders = () => {
   const authStore = useAuthStore();
 
-  const { data, isPending, isLoading, isError } = useQuery<any[] | undefined>({
+  const { data, isPending, isLoading, isError } = useQuery<any[] | null>({
     queryKey: ['profile', authStore.user?.id, 'orders'],
     staleTime: Infinity,
     queryFn: async () => {
@@ -18,7 +18,7 @@ export const useOrders = () => {
         const resp = await apiClient.get(`profile/orders?per_page=999999`);
         return resp.data.data;
       } else {
-        return undefined;
+        return null;
       }
     },
   });
