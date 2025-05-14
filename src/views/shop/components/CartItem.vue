@@ -121,9 +121,9 @@ const { item } = toRefs(props);
 
 const itemsInStock = computed(() => {
   let count = 0;
-  if (item.value.item_type === 'book') {
+  if (item.value.item_type === 'book' && props.bookStock !== undefined) {
     count = item.value.item_id in props.bookStock ? props.bookStock[item.value.item_id] : 0;
-  } else {
+  } else if (props.bundleStock !== undefined) {
     count = item.value.item_id in props.bundleStock ? props.bundleStock[item.value.item_id] : 0;
   }
   return count;

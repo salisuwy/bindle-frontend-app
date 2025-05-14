@@ -32,6 +32,7 @@
 </template>
 
 <script setup>
+import SpinnerIcon from '@/components/icons/SpinnerIcon.vue';
 import { defineProps, defineEmits } from 'vue';
 const props = defineProps({
   code: {

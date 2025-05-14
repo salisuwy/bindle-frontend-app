@@ -35,6 +35,14 @@ declare module '@/store/cart-api' {
     type: string;
   };
 
+  export type NewOrderItem = {
+    item_type: 'book' | 'bundle';
+    item_id: number;
+    is_ebook: boolean;
+    anonid: string | null;
+    uuid: string | null;
+  };
+
   export type OrderDeliveryAddress = {
     delivery_first_name: string;
     delivery_last_name: string;
@@ -89,20 +97,27 @@ declare module '@/store/cart-api' {
     user_id: null;
   };
 
+  export type OrderItems = { items: OrderItem[] };
+
   export type OrderDetailsExtended = {
     book_stock: Record<string, number>;
     bundle_stock: Record<string, number>;
-    coupons: any[];
-    items: OrderItem[];
+    coupons: {
+      coupon_code: string;
+      coupon_amount: string;
+    }[];
     order_subtotal: number;
   };
 
-  export type OrderAddressResponse = {
+  /*export type OrderAddressResponse = {
     order: OrderIdentifiers & OrderDetailsBasic & OrderDeliveryAddress & OrderBillingAddress;
-  };
+  };*/
 
   // POST /api/orders/cart/address-partial
   export type OrderAddressArg = OrderDeliveryAddress & OrderBillingAddress;
+  export type OrderAddressResponse = {
+    order: OrderIdentifiers & OrderDetailsBasic & OrderDeliveryAddress & OrderBillingAddress;
+  };
   export function setOrderAddressPartial(
     arg: Partial<OrderAddressArg>
   ): Promise<OrderAddressResponse>;
@@ -112,7 +127,14 @@ declare module '@/store/cart-api' {
   export function setOrderAddress(arg: OrderAddressArg): Promise<OrderAddressResponse>;
 
   // GET /api/orders/cart
-  export type OrderCartResponse = OrderAddressResponse & { order: OrderDetailsExtended };
+  export type OrderCartResponse = {
+    order: OrderIdentifiers &
+      OrderDetailsBasic &
+      OrderDetailsExtended &
+      OrderItems &
+      OrderDeliveryAddress &
+      OrderBillingAddress;
+  };
   export function getOrderCart(): Promise<OrderCartResponse>;
 
   export function setUuid(uuid: string): string;
@@ -120,5 +142,13 @@ declare module '@/store/cart-api' {
   // POST /api/orders/cart/payment/pre-confirm
   export function preConfirmPayment(arg: { payment_intent: PaymentIntent }): Promise<void>;
 
-  export function addToCart(data: any): Promise<any>;
+  export type AddToCartResponse = {
+    order: OrderIdentifiers &
+      OrderDetailsBasic &
+      OrderItems &
+      OrderDeliveryAddress &
+      OrderBillingAddress;
+    orderItem: OrderItem;
+  };
+  export function addToCart(data: NewOrderItem): Promise<AddToCartResponse>;
 }

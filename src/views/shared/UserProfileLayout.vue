@@ -2,6 +2,7 @@
   <div class="w-full max-w-full border-b border-theme-gray">
     <layout-header class="max-w-8xl mx-auto"></layout-header>
   </div>
+  <WelcomeCoupon />
   <main class="w-full">
     <div class="flex flex-col md:flex-row px-4 md:px-8 mt-6 max-w-18xl overflow-hidden max-w-8xl mx-auto">
       <nav aria-label="breadcrumb" class="text-left w-full col-start-1 md:col-span-4 grow">
@@ -77,6 +78,7 @@ import { useAuthStore } from '@/store/useAuthStore';
 
 import LayoutHeader from './HeaderV2.vue';
 import LayoutFooter from './Footer.vue';
+import WelcomeCoupon from '@/components/WelcomeCoupon.vue';
 
 const router = useRouter();
 const route = useRoute();
