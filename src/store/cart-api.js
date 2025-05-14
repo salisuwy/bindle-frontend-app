@@ -28,10 +28,11 @@ export function setUuid(uuid) {
   }
 }
 
-export function setAnonid(anonid) {
-  if (anonid !== undefined && typeof anonid == 'string') {
-    consoleLog(`cart-api.setAnonid(${anonid})`);
-    localStorage.setItem('anonid', anonid);
+
+export function setAnonId(anonId) {
+  if (anonId !== undefined && typeof anonId == 'string') {
+    consoleLog(`cart-api.setAnonId(${anonId})`);
+    localStorage.setItem('anonid', anonId);
   }
 }
 
@@ -87,7 +88,7 @@ export async function getOrderCart() {
   //const resp = await axios.get(`${API_ENDPOINT}orders/cart?${urlParams}`);
   const resp = await apiClient.get(`orders/cart?${urlParams}`);
   setUuid(resp?.data?.order?.uuid);
-  setAnonid(resp?.data?.order?.anonId);
+  setAnonId(resp?.data?.order?.anonid);
   return resp.data;
 }
 
