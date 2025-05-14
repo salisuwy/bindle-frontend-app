@@ -1,7 +1,8 @@
 <script setup>
+import { defineProps, defineEmits, computed } from 'vue';
 import CartDrawerItem from './CartDrawerItem.vue';
-import { defineProps, defineEmits, ref, computed } from 'vue';
 import { useRoute } from 'vue-router';
+import { useWelcomeCoupon } from '@/composables/useCoupons';
 
 const emits = defineEmits(['checkoutLinkClicked']);
 const route = useRoute();
@@ -23,6 +24,8 @@ const props = defineProps({
 const gotoCheckout = () => {
   emits('checkoutLinkClicked');
 };
+
+const { couponStatus } = useWelcomeCoupon();
 </script>
 
 <template>
@@ -72,6 +75,9 @@ const gotoCheckout = () => {
           :editable="editable"
         />
       </section>
+      <p v-if="couponStatus == 'applied_single_item'" class="text-theme-teal">
+        Add another item to qualify for your welcome discount!
+      </p>
     </main>
   </div>
 </template>
