@@ -71,8 +71,8 @@ const { couponStatus } = useWelcomeCoupon();
         :bundleStock="props.bundleStock"
         :editable="editable"
       />
-      <p v-if="couponStatus == 'applied_single_item'" class="text-theme-teal text-center">
-        Add another item to qualify for your welcome discount!
+      <p v-if="couponStatus == 'applied_not_active'" class="text-theme-teal text-center">
+        Add at least 2 items to qualify for your welcome discount!
       </p>
     </template>
   </div>
