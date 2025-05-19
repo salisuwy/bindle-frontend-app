@@ -180,6 +180,16 @@ export async function preConfirmPayment(data) {
   return apiClient.post(`orders/cart/payment/pre-confirm`, newData);
 }
 
+export async function preConfirmFailed(data) {
+  const newData = {
+    ...data,
+    ...getAnonIdAndUuid(),
+  };
+
+  consoleLog('preConfirmFailed');
+  return apiClient.post(`orders/cart/payment/pre-confirm-failed`, newData);
+}
+
 export async function addCoupon(data) {
   const newData = {
     ...data,

@@ -1,11 +1,10 @@
 <script setup>
-import { ref, watch, computed, defineProps, defineEmits, onMounted } from 'vue';
-import { useMutation, useQueryClient } from '@tanstack/vue-query';
-import { preConfirmPayment, createPaymentIntent } from '@/store/cart-api';
+import { computed, defineEmits, defineProps, onMounted, ref, watch } from 'vue';
+import { useQueryClient } from '@tanstack/vue-query';
+import { createPaymentIntent, preConfirmFailed, preConfirmPayment } from '@/store/cart-api';
 import { trackEvent } from '../../../components/helpers/analytics';
 import { useRouter } from 'vue-router';
 import { loadStripe } from '@stripe/stripe-js';
-import SpinnerIcon from '@/components/icons/SpinnerIcon.vue';
 import { getAnonIdAndUuid, getOrderMode, STRIPE_PUBLIC_KEY } from '../../../store/cart-api';
 import { consoleLog } from '@/components/helpers/tsUtils';
 
@@ -239,6 +238,15 @@ async function makePayment() {
       error?.message || 'An error is encountered while processing payment. Please try again';
     consoleLog('[Catch] error', errMsg);
     otherErrors.value = errMsg;
+
+    // Attempt pre-confirmation of failed payment
+    try {
+      const errToken = error?.response?.data?.token ?? null;
+      await preConfirmFailed({ token: errToken });
+    } catch (preConfirmErr) {
+      consoleLog('[PreConfirm Error] Failed to pre-confirm payment:', preConfirmErr);
+    }
+
     emit('stopTransition');
   }
 }

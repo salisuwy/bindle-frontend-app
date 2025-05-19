@@ -142,6 +142,9 @@ declare module '@/store/cart-api' {
   // POST /api/orders/cart/payment/pre-confirm
   export function preConfirmPayment(arg: { payment_intent: PaymentIntent }): Promise<void>;
 
+  // POST /api/orders/cart/payment/pre-confirm-failed
+  export function preConfirmFailed(arg: { token: string | null }): Promise<void>;
+
   export type AddToCartResponse = {
     order: OrderIdentifiers &
       OrderDetailsBasic &
