@@ -7,7 +7,7 @@ const { couponStatus } = useWelcomeCoupon();
 
 <template>
   <div
-    v-if="couponStatus !== 'pending'"
+    v-if="['not_signed_in', 'available'].includes(couponStatus)"
     class="w-full p-4 sticky top-0 z-10 flex justify-center items-center gap-6 border-b border-theme-gray bg-white"
   >
     <div
@@ -22,8 +22,7 @@ const { couponStatus } = useWelcomeCoupon();
     <span v-else class="text-gray-700 font-medium"
       >Make an order and get 50% off your first book</span
     >
-    <span class="text-gray-700">{{ couponStatus }}</span>
-    <!--<button class="font-medium">Claim Offer</button>-->
+    <!--<span class="text-gray-700">{{ couponStatus }}</span>-->
   </div>
 </template>
 

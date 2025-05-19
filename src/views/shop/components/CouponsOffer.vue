@@ -1,12 +1,14 @@
 <script setup>
-import { ref, defineEmits, defineProps } from 'vue';
+import { ref, watch, defineEmits, defineProps } from 'vue';
 import CouponItem from './CouponItem.vue';
-import SpinnerIcon from '../../../components/icons/SpinnerIcon.vue';
+import SpinnerIcon from '@/components/icons/SpinnerIcon.vue';
+import ErrorToastNotification from '@/components/ErrorToastNotification.vue';
 import { addCoupon as serverAddCoupon, removeCoupon as serverRemoveCoupon } from '@/store/cart-api';
-import { useMutation, useQueryClient, useQuery } from '@tanstack/vue-query';
+import { useMutation, useQueryClient } from '@tanstack/vue-query';
 import { consoleLog } from '@/components/helpers/tsUtils';
+import { toast } from 'vue3-toastify';
 
-const props = defineProps({
+defineProps({
   coupons: Array,
 });
 const emits = defineEmits(['hide']);
@@ -14,6 +16,11 @@ const queryClient = useQueryClient();
 
 const userInput = ref('');
 const isAddCouponError = ref(false);
+const addCouponErrorMessage = ref(undefined);
+watch(userInput, () => {
+  isAddCouponError.value = false;
+  addCouponErrorMessage.value = undefined;
+});
 const isRemoveCouponError = ref(false);
 
 function hideModal() {
@@ -42,12 +49,19 @@ const { isPending, mutate } = useMutation({
     }
   },
   onError: (error, args) => {
+    console.error('coupon mutation error', error, args);
     if (args.operation === 'add') {
       isAddCouponError.value = true;
+      addCouponErrorMessage.value = error?.response?.data?.message;
     } else {
       isRemoveCouponError.value = true;
+      toast(ErrorToastNotification, {
+        expand: true,
+        data: {
+          message: 'There was an error removing your coupon. Please try again later.',
+        },
+      });
     }
-    console.error('coupon mutation error', args);
   },
   onSuccess: ({ data }) => {
     consoleLog('coupon mutation success', data);
@@ -107,35 +121,26 @@ const { isPending, mutate } = useMutation({
             <span v-else>Apply</span>
           </button>
         </form>
+        <p class="text-red-500 text-center mt-2" v-if="addCouponErrorMessage !== undefined">
+          {{ addCouponErrorMessage }}
+        </p>
       </template>
 
       <section
         class="flex flex-col p-4 mt-6 w-full bg-white rounded-sm border border-solid border-zinc-200 max-w-[362px]"
       >
-        <template v-for="coupon in coupons">
+        <template v-for="coupon in coupons" :key="coupon.coupon_code">
           <CouponItem
-            :code="coupon.coupon_code"
-            :savings="coupon.coupon_amount + '%'"
-            :description="coupon.coupon_amount + '% off your purchase'"
+            :coupon="coupon"
             :isPending="isPending"
-            isRemoveCouponError="isRemoveCouponError"
+            :isRemoveCouponError="isRemoveCouponError"
             isApplied
             @onRemoveCoupon="removeCoupon"
           />
         </template>
-
-        <!-- centered div with message no coupon code -->
         <div v-if="coupons.length == 0" class="flex justify-center items-center my-4">
           <p class="text-sm text-neutral-400 uppercase">No coupon code applied</p>
         </div>
-
-        <!-- <CouponItem
-          code="BOOKSREWARD"
-          savings="£63.88"
-          description="20% off on minimum purchase of £63.88"
-          expiryDate="3th July 2024 11:59 PM"
-          :isApplied="false"
-        /> -->
       </section>
     </div>
   </section>

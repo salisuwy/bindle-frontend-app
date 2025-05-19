@@ -99,13 +99,16 @@ declare module '@/store/cart-api' {
 
   export type OrderItems = { items: OrderItem[] };
 
+  export type CouponItem = {
+    coupon_code: string;
+    coupon_amount: string;
+    coupon_description: null | string;
+  };
+
   export type OrderDetailsExtended = {
     book_stock: Record<string, number>;
     bundle_stock: Record<string, number>;
-    coupons: {
-      coupon_code: string;
-      coupon_amount: string;
-    }[];
+    coupons: CouponItem[];
     order_subtotal: number;
   };
 
