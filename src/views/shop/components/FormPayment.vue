@@ -230,6 +230,7 @@ async function makePayment() {
       consoleLog('next page is: /invoice');
       localStorage.removeItem('uuid');
       queryClient.setQueryData({ queryKey: ['cartItems'] }, {});
+      queryClient.invalidateQueries({ queryKey: ['profile', 'orders'] });
       router.push(`/invoice/${anonUuid.anonid}/${anonUuid.uuid}`);
     }
   } catch (error) {

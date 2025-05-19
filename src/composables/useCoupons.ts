@@ -10,17 +10,18 @@ export const useWelcomeCoupon = () => {
   const couponStatus = computed(() => {
     if (isPending.value) {
       return 'pending';
-    }
-    if (data.value === undefined || data.value === null) {
+    } else if (isApplied.value && cartItemsCount.value > 1) {
+      return 'applied_active';
+    } else if (isApplied.value && cartItemsCount.value == 1) {
+      return 'applied_not_active';
+    } else if (isApplied.value && cartItemsCount.value == 0) {
+      return 'applied_no_order';
+    } else if (data.value === undefined || data.value === null) {
       return 'not_signed_in';
     } else if (data.value.length > 0) {
       return 'not_available';
-    } else if (!isApplied.value) {
-      return 'available';
-    } else if (cartItemsCount.value > 1) {
-      return 'applied';
     } else {
-      return 'applied_single_item';
+      return 'available';
     }
   });
 
