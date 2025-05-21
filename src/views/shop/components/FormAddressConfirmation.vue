@@ -27,10 +27,10 @@ function gotoAddressForm() {
 
 <template>
   <section
-    class="flex flex-col items-start px-6 py-8 mt-4 w-full bg-white rounded-md border border-solid border-zinc-200 max-md:px-5 max-md:max-w-full"
+    class="flex flex-col items-start px-6 py-8 w-full bg-white rounded-md border border-solid border-zinc-200 max-lg:px-5 max-lg:max-w-full"
   >
     <header
-      class="flex gap-4 justify-between items-center self-stretch max-md:flex-wrap max-md:max-w-full"
+      class="flex gap-4 justify-between items-center self-stretch max-lg:flex-wrap max-lg:max-w-full"
     >
       <h2 class="pt-2 pb-0.5 my-auto text-xl font-medium leading-7 text-gray-700">
         Delivery Address
@@ -62,10 +62,10 @@ function gotoAddressForm() {
   </section>
 
   <section
-    class="flex flex-col items-start px-6 py-8 mt-6 w-full bg-white rounded-md border border-solid border-zinc-200 max-md:px-5 max-md:max-w-full"
+    class="flex flex-col items-start px-6 py-8 mt-6 w-full bg-white rounded-md border border-solid border-zinc-200 max-lg:px-5 max-lg:max-w-full"
   >
     <header
-      class="flex gap-4 justify-between items-center self-stretch max-md:flex-wrap max-md:max-w-full"
+      class="flex gap-4 justify-between items-center self-stretch max-lg:flex-wrap max-lg:max-w-full"
     >
       <h2 class="pt-2 pb-0.5 my-auto text-xl font-medium leading-7 text-gray-700">
         Billing Details
@@ -97,9 +97,9 @@ function gotoAddressForm() {
   </section>
   <section
     v-if="order?.payment_last4"
-    class="flex flex-col items-start px-6 py-8 mt-6 w-full bg-white rounded-md border border-solid border-zinc-200 max-md:px-5 max-md:max-w-full"
+    class="flex flex-col items-start px-6 py-8 mt-6 w-full bg-white rounded-md border border-solid border-zinc-200 max-lg:px-5 max-lg:max-w-full"
   >
-    <header class="flex gap-4 justify-between self-stretch max-md:flex-wrap max-md:max-w-full">
+    <header class="flex gap-4 justify-between self-stretch max-lg:flex-wrap max-lg:max-w-full">
       <h2 class="pt-2 pb-0.5 my-auto text-xl font-medium leading-7 text-gray-700">
         Payment Details
       </h2>

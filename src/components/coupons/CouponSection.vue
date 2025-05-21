@@ -1,6 +1,6 @@
 <script setup>
 import { ref, watch, defineProps } from 'vue';
-import CouponItem from '@/views/shop/components/CouponItem.vue';
+import CouponItem from './CouponItem.vue';
 import SpinnerIcon from '@/components/icons/SpinnerIcon.vue';
 import ErrorToastNotification from '@/components/ErrorToastNotification.vue';
 import { addCoupon as serverAddCoupon, removeCoupon as serverRemoveCoupon } from '@/store/cart-api';

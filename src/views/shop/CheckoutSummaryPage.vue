@@ -1,109 +1,49 @@
-<script setup>
-import { computed, ref } from 'vue';
-
-import LayoutV2 from '@/views/shared/LayoutV2.vue';
-import EmptyCart from './components/EmptyCart.vue';
+<script setup lang="ts">
+import CheckoutLayout from './CheckoutLayout.vue';
 import ShoppingCart from './components/ShoppingCart.vue';
-import CouponSection from './components/CouponSection.vue';
 import PriceDetails from './components/PriceDetails.vue';
-import SpinnerIcon from '@/components/icons/SpinnerIcon.vue';
+import CouponSection from '@/components/coupons/CouponSection.vue';
+import EmptyCart from './components/EmptyCart.vue';
+import SectionFrame from './components/SectionFrame.vue';
 
-import { useRouter } from 'vue-router';
 import { useCurrentOrder } from '@/composables/useCurrentOrder';
 
-const router = useRouter();
-
-const { order, bookStock, bundleStock, cartItems, coupons } = useCurrentOrder();
-
-const breadcrumbs = ref([
+const breadcrumbs = [
   { text: 'Home', path: '/' },
   { text: 'Shop Resources', path: '/resources' },
-  { text: 'Your Cart', path: '' },
-]);
+  { text: 'Your Cart', path: '/checkout' },
+];
 
-const isGuest = ref(false);
-const transition = ref('');
-const isTransitioning = ref(false);
-
-const showLoginLink = computed(() => {
-  return isGuest.value && false;
-});
-
-function performTransition() {
-  isTransitioning.value = true;
-  const nextRoute = '/checkout-payment';
-  router.push(nextRoute);
-}
+const { order, bookStock, bundleStock, cartItems, coupons } = useCurrentOrder();
 </script>
+
 <template>
-  <LayoutV2>
-    <div class="bg-theme-white py-10 relative">
-      <div class="mx-auto max-w-8xl w-full px-6 text-left mb-16">
-        <div class="flex flex-col md:flex-row">
-          <nav aria-label="breadcrumb" class="text-left w-full col-start-1 md:col-span-4 grow mb-8">
-            <ol class="breadcrumbs flex flex-row flex-wrap gap-2 sm:gap-4">
-              <li
-                v-for="(breadcrumb, index) in breadcrumbs"
-                :key="index"
-                class="breadcrumb-item inline text-sm"
-              >
-                <span v-if="index > 0" class="mr-3">/</span>
-                <router-link v-if="breadcrumb.path !== ''" :to="breadcrumb.path">{{
-                  breadcrumb.text
-                }}</router-link>
-                <span v-else class="text-theme-darkgray">{{ breadcrumb.text }}</span>
-              </li>
-            </ol>
-          </nav>
-        </div>
+  <CheckoutLayout :breadcrumbs="breadcrumbs" :showEmptyState="cartItems.length === 0">
+    <template #empty>
+      <EmptyCart />
+    </template>
+    <template #form>
+      <ShoppingCart
+        :items="cartItems"
+        :bookStock="bookStock"
+        :bundleStock="bundleStock"
+        :editable="true"
+      />
+    </template>
+    <template #order>
+      <SectionFrame>
+        <CouponSection :coupons="coupons" />
+        <PriceDetails :order="order" :showDivider="false" />
 
-        <EmptyCart v-if="cartItems.length === 0" />
-
-        <div v-if="cartItems.length > 0" class="flex gap-5 max-md:flex-col max-md:gap-0">
-          <section class="flex flex-col w-[68%] max-md:ml-0 max-md:w-full">
-            <div
-              v-if="showLoginLink"
-              class="justify-end items-start px-6 pt-5 pb-6 text-base font-light tracking-normal leading-4 text-teal-500 bg-teal-50 rounded-md max-md:px-5 max-md:max-w-full md:mb-6"
-            >
-              Already have an account?
-              <span class="font-medium text-teal-500">Log in</span>
-            </div>
-
-            <ShoppingCart
-              :items="cartItems"
-              :bookStock="bookStock"
-              :bundleStock="bundleStock"
-              :transition="transition"
-              :editable="true"
-            />
-          </section>
-
-          <aside class="flex flex-col ml-5 w-[32%] max-md:ml-0 max-md:w-full h-fit">
-            <div
-              class="relative flex flex-col grow px-4 py-6 mx-auto w-full bg-white rounded-md border border-solid border-zinc-200 max-md:mt-9"
-            >
-              <CouponSection :coupons="coupons" />
-              <PriceDetails :order="order" :showDivider="false" />
-
-              <button
-                class="flex justify-center items-center px-3.5 py-2.5 mt-8 text-sm font-semibold text-white bg-theme-teal rounded-sm max-md:px-5"
-                @click="performTransition"
-                :disabled="isTransitioning"
-              >
-                <SpinnerIcon v-if="isTransitioning" class="w-5 h-5 mr-2 animate-spin" />
-                <span v-if="!isTransitioning"> Proceed to Checkout </span>
-              </button>
-            </div>
-            <p class="text-[16px] text-gray-400 font-light">
-              Your personal data will be used to process your order, support your experience
-              throughout this website, and for other purposes described in our
-              <router-link to="/privacy-policy" class="underline text-theme-teal"
-                >privacy policy.</router-link
-              >
-            </p>
-          </aside>
-        </div>
-      </div>
-    </div>
-  </LayoutV2>
+        <button
+          class="flex justify-center items-center px-3.5 py-2.5 mt-8 text-sm font-semibold text-white bg-theme-teal rounded-sm max-md:px-5"
+          @click="$router.push({ name: 'checkout-payment' })"
+        >
+          <span> Proceed to Checkout </span>
+        </button>
+      </SectionFrame>
+    </template>
+  </CheckoutLayout>
 </template>
+
+<style scoped></style>

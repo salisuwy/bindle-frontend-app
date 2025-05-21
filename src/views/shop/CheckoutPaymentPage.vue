@@ -8,8 +8,8 @@ import ShoppingCart from './components/ShoppingCart.vue';
 import PriceDetails from './components/PriceDetails.vue';
 import FormPayment from './components/FormPayment.vue';
 import BindleCheckbox from '@/components/BindleCheckbox.vue';
-//import CouponSection from './components/CouponSection.vue';
-import CouponOfferV2 from '@/components/coupons/CouponOfferV2.vue';
+import CouponSection from '@/components/coupons/CouponSection.vue';
+import SectionFrame from './components/SectionFrame.vue';
 
 import { useAuthStore } from '@/store/useAuthStore';
 import { useCurrentOrder } from '@/composables/useCurrentOrder';
@@ -130,71 +130,67 @@ const handleClick = async () => {
 </script>
 
 <template>
-  <CheckoutLayout :breadcrumbs="breadcrumbs">
+  <CheckoutLayout :breadcrumbs="breadcrumbs" :loading="!isInitialised">
     <template #form>
-      <template v-if="!isInitialised">
-        <p>Loading</p>
-      </template>
-      <template v-else>
-        <AddressManager
-          id="delivery-address"
-          title="Delivery Address"
-          :disabled="paymentInProgress"
-          v-model="deliveryAddress"
-          :savedAddresses="savedAddresses"
-          :showAllFormErrors="showDeliveryAddressErrors"
-          @blur="handleDeliveryUpdated"
-        />
-        <AddressManager
-          id="billing-address"
-          title="Billing Address"
-          :disabled="paymentInProgress"
-          v-model="billingAddress"
-          :savedAddresses="savedAddresses"
-          :showAllFormErrors="showBillingAddressErrors"
-          :hideForm="billingSameAsDelivery"
-          @blur="handleBillingUpdated"
-          ><template #header-control>
-            <BindleCheckbox v-model="billingSameAsDelivery" :disabled="paymentInProgress"
-              >Same as Delivery Address</BindleCheckbox
-            >
-          </template>
-        </AddressManager>
-        <FormPayment
-          class="!my-0"
-          :order="order || {}"
-          :transition="String(triggerPayment)"
-          @startTransition="handleStartPayment"
-          @stopTransition="handleEndPayment"
-        />
-        <div
-          class="flex flex-col justify-center items-center rounded-md border border-solid border-zinc-200 p-5 mt-0 max-md:max-w-full"
-        >
-          <BindleButton
-            type="primary"
-            block
-            @click="handleClick"
-            :disabled="isLoading"
-            :loading="paymentInProgress"
-            >Place Order</BindleButton
+      <AddressManager
+        id="delivery-address"
+        title="Delivery Address"
+        :disabled="paymentInProgress"
+        v-model="deliveryAddress"
+        :savedAddresses="savedAddresses"
+        :showAllFormErrors="showDeliveryAddressErrors"
+        @blur="handleDeliveryUpdated"
+      />
+      <AddressManager
+        id="billing-address"
+        title="Billing Address"
+        :disabled="paymentInProgress"
+        v-model="billingAddress"
+        :savedAddresses="savedAddresses"
+        :showAllFormErrors="showBillingAddressErrors"
+        :hideForm="billingSameAsDelivery"
+        @blur="handleBillingUpdated"
+        ><template #header-control>
+          <BindleCheckbox v-model="billingSameAsDelivery" :disabled="paymentInProgress"
+            >Same as Delivery Address</BindleCheckbox
           >
-        </div>
-      </template>
+        </template>
+      </AddressManager>
+      <FormPayment
+        class="!my-0"
+        :order="order || {}"
+        :transition="String(triggerPayment)"
+        @startTransition="handleStartPayment"
+        @stopTransition="handleEndPayment"
+      />
+      <div
+        class="flex flex-col justify-center items-center rounded-md border border-solid border-zinc-200 p-5 mt-0 max-md:max-w-full"
+      >
+        <BindleButton
+          type="primary"
+          block
+          @click="handleClick"
+          :disabled="isLoading"
+          :loading="paymentInProgress"
+          >Place Order</BindleButton
+        >
+      </div>
     </template>
     <template #order>
-      <CouponOfferV2 :coupons="coupons" />
-      <!--<CouponSection :coupons="coupons" />-->
-      <ShoppingCart
-        :items="cartItems"
-        :bookStock="bookStock"
-        :bundleStock="bundleStock"
-        :editable="false"
-        :showTotalItemsCount="true"
-        title="Order Summary"
-        :showScrollBar="true"
-        cssClasses="border-none !px-0 !py-0"
-      />
-      <PriceDetails class="mt-5" :order="order" :showDivider="false" :showAsAccordion="true" />
+      <SectionFrame>
+        <CouponSection :coupons="coupons" />
+        <ShoppingCart
+          :items="cartItems"
+          :bookStock="bookStock"
+          :bundleStock="bundleStock"
+          :editable="false"
+          :showTotalItemsCount="true"
+          title="Order Summary"
+          :showScrollBar="true"
+          cssClasses="border-none !px-0 !py-0"
+        />
+        <PriceDetails class="mt-5" :order="order" :showDivider="false" :showAsAccordion="true" />
+      </SectionFrame>
     </template>
   </CheckoutLayout>
 </template>
