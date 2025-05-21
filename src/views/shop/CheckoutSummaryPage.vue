@@ -2,7 +2,9 @@
 import CheckoutLayout from './CheckoutLayout.vue';
 import ShoppingCart from './components/ShoppingCart.vue';
 import PriceDetails from './components/PriceDetails.vue';
-import CouponOfferV2 from '@/components/coupons/CouponOfferV2.vue';
+import CouponSection from '@/components/coupons/CouponSection.vue';
+import EmptyCart from './components/EmptyCart.vue';
+import SectionFrame from './components/SectionFrame.vue';
 
 import { useCurrentOrder } from '@/composables/useCurrentOrder';
 
@@ -17,6 +19,9 @@ const { order, bookStock, bundleStock, cartItems, coupons } = useCurrentOrder();
 
 <template>
   <CheckoutLayout :breadcrumbs="breadcrumbs" :showEmptyState="cartItems.length === 0">
+    <template #empty>
+      <EmptyCart />
+    </template>
     <template #form>
       <ShoppingCart
         :items="cartItems"
@@ -26,15 +31,17 @@ const { order, bookStock, bundleStock, cartItems, coupons } = useCurrentOrder();
       />
     </template>
     <template #order>
-      <CouponOfferV2 :coupons="coupons" />
-      <PriceDetails :order="order" :showDivider="false" />
+      <SectionFrame>
+        <CouponSection :coupons="coupons" />
+        <PriceDetails :order="order" :showDivider="false" />
 
-      <button
-        class="flex justify-center items-center px-3.5 py-2.5 mt-8 text-sm font-semibold text-white bg-theme-teal rounded-sm max-md:px-5"
-        @click="$router.push({ name: 'checkout-payment' })"
-      >
-        <span> Proceed to Checkout </span>
-      </button>
+        <button
+          class="flex justify-center items-center px-3.5 py-2.5 mt-8 text-sm font-semibold text-white bg-theme-teal rounded-sm max-md:px-5"
+          @click="$router.push({ name: 'checkout-payment' })"
+        >
+          <span> Proceed to Checkout </span>
+        </button>
+      </SectionFrame>
     </template>
   </CheckoutLayout>
 </template>
