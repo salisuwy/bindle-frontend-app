@@ -112,10 +112,6 @@ declare module '@/store/cart-api' {
     order_subtotal: number;
   };
 
-  /*export type OrderAddressResponse = {
-    order: OrderIdentifiers & OrderDetailsBasic & OrderDeliveryAddress & OrderBillingAddress;
-  };*/
-
   // POST /api/orders/cart/address-partial
   export type OrderAddressArg = OrderDeliveryAddress & OrderBillingAddress;
   export type OrderAddressResponse = {
@@ -157,4 +153,7 @@ declare module '@/store/cart-api' {
     orderItem: OrderItem;
   };
   export function addToCart(data: NewOrderItem): Promise<AddToCartResponse>;
+
+  export function getOrderCompleted(anonId: string, orderId: string): Promise<any>;
+  export function getOrderInvoice(anonId: string, orderId: string): Promise<any>;
 }
