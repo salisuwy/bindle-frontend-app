@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import LayoutV2 from '@/views/shared/LayoutV2.vue';
+import EmptyCart from './components/EmptyCart.vue';
 import BreadcrumbsContent from '@/components/BreadcrumbsContent.vue';
 
 interface Props {
   breadcrumbs: { text: string; path: string }[];
+  showEmptyState?: boolean;
 }
 defineProps<Props>();
 </script>
@@ -17,7 +19,8 @@ defineProps<Props>();
           :breadcrumbs="breadcrumbs"
           :currentPath="$route.path"
         />
-        <div class="flex gap-5 max-lg:flex-col max-lg:gap-9">
+        <EmptyCart v-if="showEmptyState" />
+        <div v-else class="flex gap-5 max-lg:flex-col max-lg:gap-9">
           <section
             class="flex flex-col w-[68%] max-lg:ml-0 max-lg:w-full order-2 lg:order-1 max-lg:gap-9 gap-8"
           >
@@ -31,7 +34,7 @@ defineProps<Props>();
             </p>
           </section>
           <aside
-            class="lg:sticky lg:top-0 flex flex-col ml-5 w-[32%] min-w-[400px] max-lg:ml-0 max-lg:w-full h-fit order-1 lg:order-2"
+            class="lg:sticky lg:top-0 flex flex-col ml-5 w-[32%] min-w-[350px] max-lg:ml-0 max-lg:w-full h-fit order-1 lg:order-2"
           >
             <div
               class="flex flex-col grow px-4 py-6 mx-auto w-full bg-white rounded-md border border-solid border-zinc-200 max-lg:mt-9"

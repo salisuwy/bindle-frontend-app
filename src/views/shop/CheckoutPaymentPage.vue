@@ -8,7 +8,6 @@ import ShoppingCart from './components/ShoppingCart.vue';
 import PriceDetails from './components/PriceDetails.vue';
 import FormPayment from './components/FormPayment.vue';
 import BindleCheckbox from '@/components/BindleCheckbox.vue';
-//import CouponSection from './components/CouponSection.vue';
 import CouponOfferV2 from '@/components/coupons/CouponOfferV2.vue';
 
 import { useAuthStore } from '@/store/useAuthStore';
@@ -183,7 +182,6 @@ const handleClick = async () => {
     </template>
     <template #order>
       <CouponOfferV2 :coupons="coupons" />
-      <!--<CouponSection :coupons="coupons" />-->
       <ShoppingCart
         :items="cartItems"
         :bookStock="bookStock"
