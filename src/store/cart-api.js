@@ -28,6 +28,7 @@ export function setUuid(uuid) {
   }
 }
 
+
 export function setAnonId(anonId) {
   if (anonId !== undefined && typeof anonId == 'string') {
     consoleLog(`cart-api.setAnonId(${anonId})`);
@@ -54,11 +55,13 @@ export async function addToCart(data) {
 
   consoleLog('addToCart', data);
 
-  return axios.post(`${API_ENDPOINT}orders/cart/add`, newData, {
+  /*return axios.post(`${API_ENDPOINT}orders/cart/add`, newData, {
     headers: {
       'Content-Type': 'application/json',
     },
-  });
+  });*/
+  const resp = await apiClient.post(`${API_ENDPOINT}orders/cart/add`, newData);
+  return resp.data;
 }
 
 export async function removeFromCart(data) {
@@ -69,11 +72,12 @@ export async function removeFromCart(data) {
 
   consoleLog('removeFromCart', data);
 
-  return axios.post(`${API_ENDPOINT}orders/cart/remove`, newData, {
+  return apiClient.post(`${API_ENDPOINT}orders/cart/remove`, newData);
+  /*return axios.post(`${API_ENDPOINT}orders/cart/remove`, newData, {
     headers: {
       'Content-Type': 'application/json',
     },
-  });
+  });*/
 }
 
 export async function getOrderCart() {
@@ -94,7 +98,8 @@ export async function getOrderCompleted(anonid, uuid) {
   consoleLog('getOrderCompleted: ', data);
 
   const urlParams = new URLSearchParams(data);
-  const resp = await axios.get(`${API_ENDPOINT}orders/cart/completed?${urlParams}`);
+  const resp = await apiClient.get(`orders/cart/completed?${urlParams}`);
+  //const resp = await axios.get(`${API_ENDPOINT}orders/cart/completed?${urlParams}`);
   return resp.data;
 }
 
@@ -104,7 +109,8 @@ export async function getOrderInvoice(anonid, uuid) {
   consoleLog('getOrderInvoice: ', data);
 
   const urlParams = new URLSearchParams(data);
-  const resp = await axios.get(`${API_ENDPOINT}orders/cart/completed/invoice?${urlParams}`);
+  // const resp = await axios.get(`${API_ENDPOINT}orders/cart/completed/invoice?${urlParams}`);
+  const resp = await apiClient.get(`orders/cart/completed/invoice?${urlParams}`);
   return resp.data;
 }
 
@@ -116,11 +122,12 @@ export async function setOrderAddress(data) {
 
   consoleLog('setOrderAddress', data);
 
-  const resp = await axios.post(`${API_ENDPOINT}orders/cart/address`, newData, {
+  /*const resp = await axios.post(`${API_ENDPOINT}orders/cart/address`, newData, {
     headers: {
       'Content-Type': 'application/json',
     },
-  });
+  });*/
+  const resp = await apiClient.post(`orders/cart/address`, newData);
   return resp.data;
 }
 
@@ -132,11 +139,12 @@ export async function setOrderAddressPartial(data) {
 
   consoleLog('setOrderAddressPartial', data);
 
-  const resp = await axios.post(`${API_ENDPOINT}orders/cart/address-partial`, newData, {
+  /*const resp = await axios.post(`${API_ENDPOINT}orders/cart/address-partial`, newData, {
     headers: {
       'Content-Type': 'application/json',
     },
-  });
+  });*/
+  const resp = await apiClient.post(`orders/cart/address-partial`, newData);
   return resp.data;
 }
 
@@ -148,11 +156,12 @@ export async function createPaymentIntent(data) {
 
   consoleLog('createPaymentIntent', data);
 
-  return axios.post(`${API_ENDPOINT}orders/cart/payment`, newData, {
+  /*return axios.post(`${API_ENDPOINT}orders/cart/payment`, newData, {
     headers: {
       'Content-Type': 'application/json',
     },
-  });
+  });*/
+  return apiClient.post(`orders/cart/payment`, newData);
 }
 
 export async function preConfirmPayment(data) {
@@ -163,11 +172,22 @@ export async function preConfirmPayment(data) {
 
   consoleLog('preConfirmPayment', data);
 
-  return axios.post(`${API_ENDPOINT}orders/cart/payment/pre-confirm`, newData, {
+  /*return axios.post(`${API_ENDPOINT}orders/cart/payment/pre-confirm`, newData, {
     headers: {
       'Content-Type': 'application/json',
     },
-  });
+  });*/
+  return apiClient.post(`orders/cart/payment/pre-confirm`, newData);
+}
+
+export async function preConfirmFailed(data) {
+  const newData = {
+    ...data,
+    ...getAnonIdAndUuid(),
+  };
+
+  consoleLog('preConfirmFailed');
+  return apiClient.post(`orders/cart/payment/pre-confirm-failed`, newData);
 }
 
 export async function addCoupon(data) {
@@ -178,11 +198,12 @@ export async function addCoupon(data) {
 
   consoleLog('addCoupon', data);
 
-  return axios.post(`${API_ENDPOINT}orders/coupon/add`, newData, {
+  /*return axios.post(`${API_ENDPOINT}orders/coupon/add`, newData, {
     headers: {
       'Content-Type': 'application/json',
     },
-  });
+  });*/
+  return apiClient.post(`orders/coupon/add`, newData);
 }
 
 export async function removeCoupon(data) {
@@ -193,17 +214,19 @@ export async function removeCoupon(data) {
 
   consoleLog('removeCoupon', data);
 
-  return axios.post(`${API_ENDPOINT}orders/coupon/remove`, newData, {
+  /*return axios.post(`${API_ENDPOINT}orders/coupon/remove`, newData, {
     headers: {
       'Content-Type': 'application/json',
     },
-  });
+  });*/
+  return apiClient.post(`orders/coupon/remove`, newData);
 }
 
 export async function getOrderMode() {
   consoleLog('getOrderMode');
 
-  const resp = await axios.get(`${API_ENDPOINT}env-mode`);
+  //const resp = await axios.get(`${API_ENDPOINT}env-mode`);
+  const resp = await apiClient.get(`env-mode`);
   return resp?.data?.mode;
 }
 
@@ -215,9 +238,10 @@ export async function saveMessage(data) {
 
   consoleLog('Save Message', data);
 
-  return axios.post(`${API_ENDPOINT}message`, newData, {
+  /*return axios.post(`${API_ENDPOINT}message`, newData, {
     headers: {
       'Content-Type': 'application/json',
     },
-  });
+  });*/
+  return axios.post(`message`, newData);
 }

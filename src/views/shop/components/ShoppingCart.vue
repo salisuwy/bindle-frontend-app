@@ -1,10 +1,10 @@
 <script setup>
-import { computed, watch } from 'vue';
+import { computed } from 'vue';
 import CartItem from './CartItem.vue';
-import { defineProps, defineEmits } from 'vue';
+import { defineProps } from 'vue';
 import clsx from 'clsx';
 import { PerfectScrollbar } from 'vue3-perfect-scrollbar';
-import { consoleLog } from '@/components/helpers/tsUtils';
+import { useWelcomeCoupon } from '@/composables/useCoupons';
 
 const props = defineProps({
   items: Array,
@@ -26,15 +26,7 @@ const cartItemsCount = computed(() => {
   return items.reduce((acc, item) => acc + item.quantity, 0);
 });
 
-const mergedCssClass = computed(() => {
-  consoleLog('props.cssClasses', props.cssClasses);
-  const merged = clsx(
-    'flex flex-col px-6 py-8 w-full bg-white rounded-md border border-solid border-zinc-200 max-md:px-5 max-md:mt-9 max-md:max-w-full',
-    props.cssClasses
-  );
-  consoleLog('merged', merged);
-  return merged;
-});
+const { couponStatus } = useWelcomeCoupon();
 </script>
 
 <template>
@@ -79,6 +71,9 @@ const mergedCssClass = computed(() => {
         :bundleStock="props.bundleStock"
         :editable="editable"
       />
+      <p v-if="couponStatus == 'applied_not_active'" class="text-theme-teal text-center">
+        Add at least 2 items to qualify for your welcome discount!
+      </p>
     </template>
   </div>
 </template>

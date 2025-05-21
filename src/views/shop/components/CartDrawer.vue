@@ -1,6 +1,6 @@
 <script setup>
+import { defineProps, defineEmits, computed } from 'vue';
 import CartDrawerItem from './CartDrawerItem.vue';
-import { defineProps, defineEmits, ref, computed } from 'vue';
 import { useRoute } from 'vue-router';
 
 const emits = defineEmits(['checkoutLinkClicked']);
