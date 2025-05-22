@@ -22,6 +22,13 @@ const { couponStatus } = useWelcomeCoupon();
     <span v-else class="text-gray-700 font-medium"
       >Make an order and get 50% off your first book</span
     >
+    <button
+      v-if="couponStatus === 'not_signed_in'"
+      class="rounded-full"
+      @click="$router.push({ name: 'user-profile-signup' })"
+    >
+      Claim Offer
+    </button>
     <!--<span class="text-gray-700">{{ couponStatus }}</span>-->
   </div>
 </template>
